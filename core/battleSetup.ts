@@ -3,12 +3,15 @@ import { UnitInstance, UnitType, UNIT_MAP } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle, isParticipantAlive } from './battle'
-import { doRaceBuff, Race } from './races/race'
+import { getRaceBattleEffects, Race } from './races/race'
+import { BattleEffect } from './battleEffects'
 
 // export enum BattleType {
 // space = 'space',
 // ground = 'ground',
 // }
+
+type UnitEffect = (p: UnitInstance) => UnitInstance
 
 export interface Battle {
   left: Participant
@@ -20,6 +23,7 @@ export interface Participant {
   units: {
     [key in UnitType]: number
   }
+  battleEffects: BattleEffect[]
 }
 
 export interface BattleInstance {
@@ -31,6 +35,9 @@ export interface ParticipantInstance {
   side: 'left' | 'right'
   race: Race
   units: UnitInstance[]
+
+  firstRoundEffects: UnitEffect[]
+
   hitsToAssign: number
 }
 
@@ -41,6 +48,8 @@ export enum BattleResult {
 }
 
 export function setupBattle(battle: Battle): BattleResult {
+  battle = _cloneDeep(battle)
+  // TODO fix so createBattleInstance is only called once and then cloned, not 1000 times
   const battleInstance = createBattleInstance(battle)
   doBattle(battleInstance)
 
@@ -55,14 +64,15 @@ export function setupBattle(battle: Battle): BattleResult {
 
 function createBattleInstance(battle: Battle): BattleInstance {
   return {
-    left: createParticipantInstance(battle.left, 'left'),
-    right: createParticipantInstance(battle.right, 'right'),
+    left: createParticipantInstance(battle.left, 'left', battle.right),
+    right: createParticipantInstance(battle.right, 'right', battle.left),
   }
 }
 
 function createParticipantInstance(
   participant: Participant,
   side: 'left' | 'right',
+  otherParticipant: Participant,
 ): ParticipantInstance {
   const units = objectEntries(participant.units)
     .map<UnitInstance[]>(([unitType, number]) => {
@@ -78,13 +88,37 @@ function createParticipantInstance(
     })
     .flat()
 
-  const participantInstance = {
+  const participantInstance: ParticipantInstance = {
     side,
     race: participant.race,
     units,
+    firstRoundEffects: [],
+
     hitsToAssign: 0,
   }
-  doRaceBuff(participantInstance)
+
+  participant.battleEffects.push(...getRaceBattleEffects(participant))
+
+  participant.battleEffects.forEach((battleEffect) => {
+    if (battleEffect.transformUnit) {
+      if (battleEffect.onlyFirstRound) {
+        participantInstance.firstRoundEffects.push(battleEffect.transformUnit)
+      } else {
+        participantInstance.units.forEach(battleEffect.transformUnit)
+      }
+    }
+  })
+
+  otherParticipant.battleEffects.forEach((battleEffect) => {
+    if (battleEffect.transformEnemyUnit) {
+      if (battleEffect.onlyFirstRound) {
+        participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
+      } else {
+        participantInstance.units.forEach(battleEffect.transformEnemyUnit)
+      }
+    }
+  })
+
   return participantInstance
 }
 
@@ -95,5 +129,6 @@ export function createParticipant(): Participant {
       cruiser: 0,
       destroyer: 10,
     },
+    battleEffects: [],
   }
 }

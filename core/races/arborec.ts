@@ -1,3 +1,3 @@
-import { RaceProp } from './race'
+import { BattleEffect } from '../battleEffects'
 
-export const arborec: RaceProp = {}
+export const arborec: BattleEffect[] = []

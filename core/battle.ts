@@ -6,9 +6,11 @@ export function doBattle(battleInstance: BattleInstance) {
   doPds(battleInstance)
   resolveHits(battleInstance)
 
+  let isFirstRound = true
   while (isParticipantAlive(battleInstance.left) && isParticipantAlive(battleInstance.right)) {
-    doBattleRolls(battleInstance)
+    doBattleRolls(battleInstance, isFirstRound)
     resolveHits(battleInstance)
+    isFirstRound = false
   }
 }
 
@@ -26,14 +28,24 @@ function getPdsHits(p: ParticipantInstance) {
   }, 0)
 }
 
-function doBattleRolls(battleInstance: BattleInstance) {
-  doParticipantBattleRolls(battleInstance.left, battleInstance.right)
-  doParticipantBattleRolls(battleInstance.right, battleInstance.left)
+function doBattleRolls(battleInstance: BattleInstance, isFirstRound: boolean) {
+  doParticipantBattleRolls(battleInstance.left, battleInstance.right, isFirstRound)
+  doParticipantBattleRolls(battleInstance.right, battleInstance.left, isFirstRound)
 }
 
-function doParticipantBattleRolls(p: ParticipantInstance, otherParticipant: ParticipantInstance) {
+function doParticipantBattleRolls(
+  p: ParticipantInstance,
+  otherParticipant: ParticipantInstance,
+  isFirstRound: boolean,
+) {
   const hits = p.units
     .map((unit) => {
+      if (isFirstRound) {
+        p.firstRoundEffects.forEach((effect) => {
+          unit = effect(unit)
+        })
+      }
+
       return unit.combat ? getHits(unit.combat) : 0
     })
     .reduce((a, b) => {
@@ -62,6 +74,9 @@ function resolveParticipantHits(p: ParticipantInstance) {
       }
     }
     p.hitsToAssign -= 1
+
+    // TODO can we remove them directly and remove isDestroyed flag?
+    p.units = p.units.filter((u) => !u.isDestroyed)
   }
 }
 
@@ -107,6 +122,12 @@ function getUnitsWithSustain(p: ParticipantInstance) {
 // TODO build test for this
 function getHits(roll: Roll): number {
   return _times(roll.count, () => {
-    return Math.random() * 10 > roll.hit
+    let reroll = roll.reroll
+    let result = false
+    while (!result && reroll >= 0) {
+      result = Math.random() * 10 + 1 > roll.hit
+      reroll -= 1
+    }
+    return result
   }).filter((r) => r).length
 }

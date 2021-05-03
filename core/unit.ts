@@ -34,6 +34,7 @@ export interface UnitInstance extends Unit {
 export interface Roll {
   hit: number
   count: number
+  reroll: number
 }
 
 const cruiser: Readonly<Unit> = {
@@ -42,6 +43,7 @@ const cruiser: Readonly<Unit> = {
   combat: {
     hit: 7,
     count: 1,
+    reroll: 0,
   },
 
   sustainDamage: false,
@@ -59,11 +61,13 @@ const destroyer: Readonly<Unit> = {
   combat: {
     hit: 9,
     count: 1,
+    reroll: 0,
   },
 
   afb: {
     hit: 9,
     count: 2,
+    reroll: 0,
   },
 
   sustainDamage: false,

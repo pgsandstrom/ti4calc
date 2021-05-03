@@ -1,5 +1,5 @@
-import { ParticipantInstance } from '../battleSetup'
-import { UnitInstance } from '../unit'
+import { BattleEffect } from '../battleEffects'
+import { Participant } from '../battleSetup'
 import { arborec } from './arborec'
 import { argentFlight } from './argentFlight'
 
@@ -8,19 +8,11 @@ export enum Race {
   argent_flight = 'argent flight',
 }
 
-export interface RaceProp {
-  debuffEnemy?: (unit: UnitInstance) => void
-  buff?: (unit: UnitInstance) => void
-}
-
-export const RACE_MAP: Record<Race, RaceProp> = {
+export const RACE_MAP: Record<Race, BattleEffect[]> = {
   arborec: arborec,
   'argent flight': argentFlight,
 }
 
-export function doRaceBuff(p: ParticipantInstance) {
-  const race = RACE_MAP[p.race]
-  if (race.buff) {
-    p.units.forEach(race.buff)
-  }
+export function getRaceBattleEffects(p: Participant) {
+  return RACE_MAP[p.race]
 }
