@@ -1,10 +1,11 @@
-export enum UnitTypes {
+export enum UnitType {
   // pds = 'pds',
   cruiser = 'cruiser',
   destroyer = 'destroyer',
 }
 
 export interface Unit {
+  type: UnitType
   // cost: number
   combat?: Roll
   // move: number
@@ -31,11 +32,13 @@ export interface UnitInstance extends Unit {
 }
 
 export interface Roll {
-  hit: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  hit: number
   count: number
 }
 
 const cruiser: Readonly<Unit> = {
+  type: UnitType.cruiser,
+
   combat: {
     hit: 7,
     count: 1,
@@ -51,6 +54,8 @@ const cruiser: Readonly<Unit> = {
 }
 
 const destroyer: Readonly<Unit> = {
+  type: UnitType.destroyer,
+
   combat: {
     hit: 9,
     count: 1,
@@ -83,7 +88,7 @@ const destroyer: Readonly<Unit> = {
 //   isShip: false,
 // }
 
-export const UNIT_MAP: Record<UnitTypes, Readonly<Unit>> = {
+export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   cruiser,
   destroyer,
   // pds,

@@ -7,15 +7,9 @@ export function doBattle(battleInstance: BattleInstance) {
   resolveHits(battleInstance)
 
   while (isParticipantAlive(battleInstance.left) && isParticipantAlive(battleInstance.right)) {
-    console.log('doBattleRolls')
     doBattleRolls(battleInstance)
     resolveHits(battleInstance)
   }
-  console.log(
-    `fight end: ${isParticipantAlive(battleInstance.left)}, ${isParticipantAlive(
-      battleInstance.right,
-    )}`,
-  )
 }
 
 function doPds(battleInstance: BattleInstance) {
@@ -46,11 +40,6 @@ function doParticipantBattleRolls(p: ParticipantInstance, otherParticipant: Part
       return a + b
     }, 0)
 
-  if (hits) {
-    console.log(`hits for ${p.side}: ${hits}`)
-  } else {
-    console.log(`${p.side} misses`)
-  }
   otherParticipant.hitsToAssign += hits
 }
 

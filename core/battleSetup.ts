@@ -1,8 +1,9 @@
 import { objectEntries } from '../util/util-object'
-import { UnitInstance, UnitTypes, UNIT_MAP } from './unit'
+import { UnitInstance, UnitType, UNIT_MAP } from './unit'
 import _times from 'lodash/times'
+import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle, isParticipantAlive } from './battle'
-import { Race } from './races/race'
+import { doRaceBuff, Race } from './races/race'
 
 // export enum BattleType {
 // space = 'space',
@@ -17,7 +18,7 @@ export interface Battle {
 export interface Participant {
   race: Race
   units: {
-    [key in UnitTypes]: number
+    [key in UnitType]: number
   }
 }
 
@@ -28,7 +29,7 @@ export interface BattleInstance {
 
 export interface ParticipantInstance {
   side: 'left' | 'right'
-  race: string
+  race: Race
   units: UnitInstance[]
   hitsToAssign: number
 }
@@ -66,7 +67,7 @@ function createParticipantInstance(
   const units = objectEntries(participant.units)
     .map<UnitInstance[]>(([unitType, number]) => {
       return _times(number, () => {
-        const unit = UNIT_MAP[unitType]
+        const unit = _cloneDeep(UNIT_MAP[unitType])
         const unitInstance: UnitInstance = {
           ...unit,
           takenDamage: false,
@@ -77,10 +78,12 @@ function createParticipantInstance(
     })
     .flat()
 
-  return {
+  const participantInstance = {
     side,
     race: participant.race,
     units,
     hitsToAssign: 0,
   }
+  doRaceBuff(participantInstance)
+  return participantInstance
 }

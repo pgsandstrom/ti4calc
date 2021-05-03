@@ -8,7 +8,7 @@ export default function core() {
       race: Race.arborec,
       units: {
         cruiser: 0,
-        destroyer: 10,
+        destroyer: 5,
         // pds: 1,
       },
     },
@@ -16,7 +16,7 @@ export default function core() {
       race: Race.argent_flight,
       units: {
         cruiser: 0,
-        destroyer: 10,
+        destroyer: 5,
         // pds: 1,
       },
     },
