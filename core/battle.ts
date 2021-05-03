@@ -120,7 +120,7 @@ function getUnitsWithSustain(p: ParticipantInstance) {
 }
 
 // TODO build test for this
-function getHits(roll: Roll): number {
+export function getHits(roll: Roll): number {
   return _times(roll.count, () => {
     let reroll = roll.reroll
     let result = false
