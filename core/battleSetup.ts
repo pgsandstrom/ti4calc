@@ -87,3 +87,13 @@ function createParticipantInstance(
   doRaceBuff(participantInstance)
   return participantInstance
 }
+
+export function createParticipant(): Participant {
+  return {
+    race: Race.arborec,
+    units: {
+      cruiser: 0,
+      destroyer: 10,
+    },
+  }
+}

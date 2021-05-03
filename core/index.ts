@@ -1,28 +1,19 @@
 import _times from 'lodash/times'
-import { Battle, BattleResult, setupBattle } from './battleSetup'
-import { Race } from './races/race'
+import { Battle, BattleResult, Participant, setupBattle } from './battleSetup'
 
-export default function core() {
+export interface BattleReport {
+  left: number
+  draw: number
+  right: number
+}
+
+export default function doEverything(left: Participant, right: Participant): BattleReport {
   const battle: Battle = {
-    left: {
-      race: Race.arborec,
-      units: {
-        cruiser: 0,
-        destroyer: 5,
-        // pds: 1,
-      },
-    },
-    right: {
-      race: Race.argent_flight,
-      units: {
-        cruiser: 0,
-        destroyer: 5,
-        // pds: 1,
-      },
-    },
+    left,
+    right,
   }
 
-  const data = {
+  const data: BattleReport = {
     left: 0,
     draw: 0,
     right: 0,
