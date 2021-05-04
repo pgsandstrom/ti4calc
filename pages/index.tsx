@@ -2,6 +2,12 @@ import Head from 'next/head'
 import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
+import {
+  BattleEffect,
+  getAllBattleEffects,
+  isBattleEffectRelevant,
+  isBattleEffectRelevantForSome,
+} from '../core/battleEffects'
 import { createParticipant, Participant } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
@@ -54,14 +60,22 @@ export default function Home() {
 
       <StyledMain>
         <h1>ti4 calc</h1>
-        <div style={{ display: 'flex' }}>
-          <ParticipantView participant={participantLeft} onChange={setParticipantLeft} />
-          <StyledDiv>
-            <div>race</div>
-            <div>cruiser</div>
-            <div>destroyer</div>
-          </StyledDiv>
-          <ParticipantView participant={participantRight} onChange={setParticipantRight} />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex' }}>
+            <ParticipantView participant={participantLeft} onChange={setParticipantLeft} />
+            <StyledDiv>
+              <div>race</div>
+              <div>cruiser</div>
+              <div>destroyer</div>
+            </StyledDiv>
+            <ParticipantView participant={participantRight} onChange={setParticipantRight} />
+          </div>
+          <OptionsView
+            left={participantLeft}
+            leftOnChange={setParticipantLeft}
+            right={participantRight}
+            rightOnChange={setParticipantRight}
+          />
         </div>
         <button onClick={launch}>roll</button>
         {battleReport && (
@@ -96,7 +110,6 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
   return (
     <StyledDiv>
       <select
-        name="pets"
         onChange={(e) => {
           const race = e.target.value as 'arborec' //  TODO ugly enum type hack
           const newParticipant: Participant = {
@@ -133,5 +146,76 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
         }}
       />
     </StyledDiv>
+  )
+}
+
+interface OptionsProps {
+  left: Participant
+  leftOnChange: (participant: Participant) => void
+  right: Participant
+  rightOnChange: (participant: Participant) => void
+}
+
+const OptionsDiv = styled.div`
+  display: flex;
+  > * {
+    flex: 1 0 0;
+  }
+`
+
+function OptionsView({ left, leftOnChange, right, rightOnChange }: OptionsProps) {
+  const battleEffects = getAllBattleEffects()
+  const relevantBattleEffects = battleEffects.filter((effect) => {
+    return isBattleEffectRelevantForSome(effect, [left, right])
+  })
+
+  return (
+    <div>
+      {relevantBattleEffects.map((effect) => {
+        const leftView = getBattleEffectCheckbox(effect, left, leftOnChange)
+        const rightView = getBattleEffectCheckbox(effect, right, rightOnChange)
+
+        return (
+          <OptionsDiv key={effect.name}>
+            {leftView}
+            <span>{effect.name}</span>
+            {rightView}
+          </OptionsDiv>
+        )
+      })}
+    </div>
+  )
+}
+
+const getBattleEffectCheckbox = (
+  effect: BattleEffect,
+  participant: Participant,
+  onChange: (participant: Participant) => void,
+) => {
+  if (!isBattleEffectRelevant(effect, participant)) {
+    return <span />
+  }
+
+  return (
+    <input
+      type="checkbox"
+      name="scales"
+      checked={participant.battleEffects.some((e) => e.name === effect.name)}
+      onChange={(e) => {
+        if (e.target.checked) {
+          const newParticipant: Participant = {
+            ...participant,
+            battleEffects: [...participant.battleEffects, effect],
+          }
+          onChange(newParticipant)
+        } else {
+          const newParticipant: Participant = {
+            ...participant,
+            battleEffects: participant.battleEffects.filter((e) => e.name !== effect.name),
+          }
+          onChange(newParticipant)
+        }
+      }}
+    />
   )
 }
