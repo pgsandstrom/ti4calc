@@ -31,6 +31,7 @@ export interface Unit {
 
 export interface UnitInstance extends Unit {
   takenDamage: boolean
+  takenDamageRound?: number
   isDestroyed: boolean
 }
 

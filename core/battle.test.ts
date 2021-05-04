@@ -19,5 +19,3 @@ describe('battle', () => {
     console.log(`expected 3000, got ${hits}`)
   })
 })
-
-export {}

@@ -6,6 +6,7 @@ export function doBattle(battleInstance: BattleInstance) {
   doPds(battleInstance)
   resolveHits(battleInstance)
 
+  // TODO remove isFirstRound
   let isFirstRound = true
   while (
     isParticipantAlive(battleInstance.attacker) &&
@@ -13,7 +14,15 @@ export function doBattle(battleInstance: BattleInstance) {
   ) {
     doBattleRolls(battleInstance, isFirstRound)
     resolveHits(battleInstance)
+    doRepairStep(battleInstance)
+
     isFirstRound = false
+    battleInstance.roundNumber += 1
+
+    if (battleInstance.roundNumber === 1000) {
+      // TODO handle it nicer
+      throw new Error('infinite fight')
+    }
   }
 }
 
@@ -60,33 +69,62 @@ function doParticipantBattleRolls(
 
 function resolveHits(battleInstance: BattleInstance) {
   while (battleInstance.attacker.hitsToAssign > 0 || battleInstance.defender.hitsToAssign > 0) {
-    resolveParticipantHits(battleInstance.attacker)
-    resolveParticipantHits(battleInstance.defender)
+    resolveParticipantHits(battleInstance, battleInstance.attacker)
+    resolveParticipantHits(battleInstance, battleInstance.defender)
   }
 }
 
-function resolveParticipantHits(p: ParticipantInstance) {
+function resolveParticipantHits(battleInstance: BattleInstance, p: ParticipantInstance) {
   // TODO maybe make this prettier, so we only sustain on one row
   while (p.hitsToAssign > 0) {
     const bestSustainUnit = getBestSustainUnit(p)
     if (p.riskDirectHit && bestSustainUnit) {
       bestSustainUnit.takenDamage = true
-      p.onSustainEffect.forEach((sustainEffect) => sustainEffect(bestSustainUnit, p))
+      bestSustainUnit.takenDamageRound = battleInstance.roundNumber
+      p.hitsToAssign -= 1
+      p.onSustainEffect.forEach((sustainEffect) =>
+        sustainEffect(bestSustainUnit, p, battleInstance),
+      )
     } else {
       const bestDieUnit = getBestDieUnit(p)
       if (bestDieUnit) {
         if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
           bestDieUnit.takenDamage = true
-          p.onSustainEffect.forEach((sustainEffect) => sustainEffect(bestDieUnit, p))
+          bestDieUnit.takenDamageRound = battleInstance.roundNumber
+          p.hitsToAssign -= 1
+          p.onSustainEffect.forEach((sustainEffect) =>
+            sustainEffect(bestDieUnit, p, battleInstance),
+          )
         } else {
           bestDieUnit.isDestroyed = true
+          p.hitsToAssign -= 1
         }
+      } else {
+        // redundant hit
+        p.hitsToAssign -= 1
       }
     }
-    p.hitsToAssign -= 1
 
     // TODO can we remove them directly and remove isDestroyed flag?
     p.units = p.units.filter((u) => !u.isDestroyed)
+  }
+}
+
+function doRepairStep(battleInstance: BattleInstance) {
+  doRepairStepForParticipant(battleInstance, battleInstance.attacker)
+  doRepairStepForParticipant(battleInstance, battleInstance.defender)
+}
+
+function doRepairStepForParticipant(
+  battleInstance: BattleInstance,
+  participant: ParticipantInstance,
+) {
+  if (participant.onRepairEffect.length > 0) {
+    participant.units.forEach((unit) => {
+      participant.onRepairEffect.forEach((repairEffect) =>
+        repairEffect(unit, participant, battleInstance),
+      )
+    })
   }
 }
 
@@ -96,6 +134,9 @@ function getBestDieUnit(p: ParticipantInstance) {
     return undefined
   } else {
     return units.reduce((a, b) => {
+      if (a.diePriority === b.diePriority && a.takenDamage !== b.takenDamage) {
+        return a.takenDamage ? b : a
+      }
       return a.diePriority! > b.diePriority! ? a : b
     })
   }
@@ -129,7 +170,6 @@ function getUnitsWithSustain(p: ParticipantInstance) {
   })
 }
 
-// TODO build test for this
 export function getHits(roll: Roll): number {
   return _times(roll.count, () => {
     let reroll = roll.reroll

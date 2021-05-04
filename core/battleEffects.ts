@@ -1,4 +1,11 @@
-import { Participant, ParticipantInstance, Side } from './battleSetup'
+import {
+  BattleInstance,
+  Participant,
+  ParticipantInstance,
+  Side,
+  UnitBattleEffect,
+  UnitEffect,
+} from './battleSetup'
 import { Race } from './races/race'
 import { UnitInstance } from './unit'
 
@@ -7,9 +14,10 @@ export interface BattleEffect {
   type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech'
   race?: Race
   side?: Side
-  transformUnit?: (unit: UnitInstance) => UnitInstance
-  transformEnemyUnit?: (unit: UnitInstance) => UnitInstance
-  onSustain?: (unit: UnitInstance, participant: ParticipantInstance) => void
+  transformUnit?: UnitEffect
+  transformEnemyUnit?: UnitEffect
+  onSustain?: UnitBattleEffect
+  onRepair?: UnitBattleEffect
   // TODO make optional
   onlyFirstRound: boolean
 }
@@ -21,8 +29,6 @@ export interface PromissaryNotes {
 export const warfunding: BattleEffect = {
   name: 'warfunding',
   type: 'promissary',
-  race: undefined,
-  side: undefined,
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
       return {
@@ -42,7 +48,6 @@ export const warfunding: BattleEffect = {
 export const defendingInNebula: BattleEffect = {
   name: 'Defending in nebula',
   type: 'general',
-  race: undefined,
   side: Side.defender,
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
@@ -64,17 +69,27 @@ export const nonEuclideanShielding: BattleEffect = {
   name: 'Non-Euclidean Shielding',
   type: 'race-tech',
   race: Race.barony_of_letnev,
-  side: undefined,
-  onSustain: (_unit: UnitInstance, participant: ParticipantInstance) => {
+  onSustain: (_unit: UnitInstance, participant: ParticipantInstance, _battle: BattleInstance) => {
     if (participant.hitsToAssign > 0) {
       participant.hitsToAssign -= 1
     }
   },
-  onlyFirstRound: true,
+  onlyFirstRound: false,
+}
+
+export const duraniumArmor: BattleEffect = {
+  name: 'Duranium Armor',
+  type: 'tech',
+  onRepair: (unit: UnitInstance, _participant: ParticipantInstance, battle: BattleInstance) => {
+    if (unit.takenDamage && unit.takenDamageRound !== battle.roundNumber) {
+      unit.takenDamage = false
+    }
+  },
+  onlyFirstRound: false,
 }
 
 export function getAllBattleEffects(): BattleEffect[] {
-  return [warfunding, defendingInNebula, nonEuclideanShielding]
+  return [warfunding, defendingInNebula, nonEuclideanShielding, duraniumArmor]
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {

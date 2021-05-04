@@ -16,9 +16,15 @@ export enum Side {
   defender = 'defender',
 }
 
-type UnitEffect = (p: UnitInstance) => UnitInstance
+// this returns a new unit
+export type UnitEffect = (p: UnitInstance) => UnitInstance
 
-type ParticipantEffect = (unit: UnitInstance, participant: ParticipantInstance) => void
+// this modifies existing objects
+export type UnitBattleEffect = (
+  p: UnitInstance,
+  participant: ParticipantInstance,
+  battle: BattleInstance,
+) => void
 
 export interface Battle {
   attacker: Participant
@@ -39,6 +45,7 @@ export interface Participant {
 export interface BattleInstance {
   attacker: ParticipantInstance
   defender: ParticipantInstance
+  roundNumber: number
 }
 
 export interface ParticipantInstance {
@@ -47,7 +54,8 @@ export interface ParticipantInstance {
   units: UnitInstance[]
 
   firstRoundEffects: UnitEffect[]
-  onSustainEffect: ParticipantEffect[]
+  onSustainEffect: UnitBattleEffect[]
+  onRepairEffect: UnitBattleEffect[]
 
   riskDirectHit: boolean
 
@@ -79,6 +87,7 @@ function createBattleInstance(battle: Battle): BattleInstance {
   return {
     attacker: createParticipantInstance(battle.attacker, Side.attacker, battle.defender),
     defender: createParticipantInstance(battle.defender, Side.defender, battle.attacker),
+    roundNumber: 1,
   }
 }
 
@@ -107,6 +116,7 @@ function createParticipantInstance(
     units,
     firstRoundEffects: [],
     onSustainEffect: [],
+    onRepairEffect: [],
 
     riskDirectHit: participant.riskDirectHit,
 
@@ -118,6 +128,9 @@ function createParticipantInstance(
   participant.battleEffects.forEach((battleEffect) => {
     if (battleEffect.onSustain) {
       participantInstance.onSustainEffect.push(battleEffect.onSustain)
+    }
+    if (battleEffect.onRepair) {
+      participantInstance.onRepairEffect.push(battleEffect.onRepair)
     }
     if (battleEffect.transformUnit) {
       if (battleEffect.onlyFirstRound) {
@@ -142,22 +155,31 @@ function createParticipantInstance(
 }
 
 export function createParticipant(side: Side): Participant {
-  return {
-    race: Race.arborec,
+  const participant = {
+    race: Race.barony_of_letnev,
     side,
-    units: {
-      flagship: 0,
-      warsun: 0,
-      dreadnought: 0,
-      carrier: 0,
-      cruiser: 0,
-      destroyer: 10,
-      fighter: 0,
-      mech: 0,
-      infantry: 0,
-      pds: 0,
-    },
+    units: getUnitMap(),
     battleEffects: [],
     riskDirectHit: false,
   }
+  participant.units.destroyer = 2
+  return participant
+}
+
+export const getUnitMap = () => {
+  const unitMap: {
+    [key in UnitType]: number
+  } = {
+    flagship: 0,
+    warsun: 0,
+    dreadnought: 0,
+    carrier: 0,
+    cruiser: 0,
+    destroyer: 0,
+    fighter: 0,
+    mech: 0,
+    infantry: 0,
+    pds: 0,
+  }
+  return unitMap
 }
