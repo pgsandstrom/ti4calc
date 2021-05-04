@@ -2,12 +2,7 @@ import Head from 'next/head'
 import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
-import {
-  BattleEffect,
-  getAllBattleEffects,
-  isBattleEffectRelevant,
-  isBattleEffectRelevantForSome,
-} from '../core/battleEffects'
+import { BattleEffect, getAllBattleEffects, isBattleEffectRelevant } from '../core/battleEffects'
 import { createParticipant, Participant, Side } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
@@ -245,9 +240,10 @@ const OptionsDiv = styled.div`
 
 function OptionsView({ attacker, attackerOnChange, defender, defenderOnChange }: OptionsProps) {
   const battleEffects = getAllBattleEffects()
-  const relevantBattleEffects = battleEffects.filter((effect) => {
-    return isBattleEffectRelevantForSome(effect, [attacker, defender])
-  })
+  const relevantBattleEffects = battleEffects
+  // .filter((effect) => {
+  //   return isBattleEffectRelevantForSome(effect, [attacker, defender])
+  // })
 
   return (
     <div>

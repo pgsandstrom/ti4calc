@@ -66,15 +66,18 @@ function resolveHits(battleInstance: BattleInstance) {
 }
 
 function resolveParticipantHits(p: ParticipantInstance) {
+  // TODO maybe make this prettier, so we only sustain on one row
   while (p.hitsToAssign > 0) {
     const bestSustainUnit = getBestSustainUnit(p)
     if (p.riskDirectHit && bestSustainUnit) {
       bestSustainUnit.takenDamage = true
+      p.onSustainEffect.forEach((sustainEffect) => sustainEffect(bestSustainUnit, p))
     } else {
       const bestDieUnit = getBestDieUnit(p)
       if (bestDieUnit) {
         if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
           bestDieUnit.takenDamage = true
+          p.onSustainEffect.forEach((sustainEffect) => sustainEffect(bestDieUnit, p))
         } else {
           bestDieUnit.isDestroyed = true
         }

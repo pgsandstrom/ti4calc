@@ -1,4 +1,4 @@
-import { Participant, Side } from './battleSetup'
+import { Participant, ParticipantInstance, Side } from './battleSetup'
 import { Race } from './races/race'
 import { UnitInstance } from './unit'
 
@@ -7,8 +7,10 @@ export interface BattleEffect {
   type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech'
   race?: Race
   side?: Side
-  transformUnit?: (u: UnitInstance) => UnitInstance
-  transformEnemyUnit?: (u: UnitInstance) => UnitInstance
+  transformUnit?: (unit: UnitInstance) => UnitInstance
+  transformEnemyUnit?: (unit: UnitInstance) => UnitInstance
+  onSustain?: (unit: UnitInstance, participant: ParticipantInstance) => void
+  // TODO make optional
   onlyFirstRound: boolean
 }
 
@@ -55,11 +57,24 @@ export const defendingInNebula: BattleEffect = {
       return unit
     }
   },
+  onlyFirstRound: false,
+}
+
+export const nonEuclideanShielding: BattleEffect = {
+  name: 'Non-Euclidean Shielding',
+  type: 'race-tech',
+  race: Race.barony_of_letnev,
+  side: undefined,
+  onSustain: (_unit: UnitInstance, participant: ParticipantInstance) => {
+    if (participant.hitsToAssign > 0) {
+      participant.hitsToAssign -= 1
+    }
+  },
   onlyFirstRound: true,
 }
 
 export function getAllBattleEffects(): BattleEffect[] {
-  return [warfunding, defendingInNebula]
+  return [warfunding, defendingInNebula, nonEuclideanShielding]
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {

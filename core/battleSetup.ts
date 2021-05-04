@@ -18,6 +18,8 @@ export enum Side {
 
 type UnitEffect = (p: UnitInstance) => UnitInstance
 
+type ParticipantEffect = (unit: UnitInstance, participant: ParticipantInstance) => void
+
 export interface Battle {
   attacker: Participant
   defender: Participant
@@ -45,6 +47,7 @@ export interface ParticipantInstance {
   units: UnitInstance[]
 
   firstRoundEffects: UnitEffect[]
+  onSustainEffect: ParticipantEffect[]
 
   riskDirectHit: boolean
 
@@ -103,6 +106,7 @@ function createParticipantInstance(
     race: participant.race,
     units,
     firstRoundEffects: [],
+    onSustainEffect: [],
 
     riskDirectHit: participant.riskDirectHit,
 
@@ -112,6 +116,9 @@ function createParticipantInstance(
   participant.battleEffects.push(...getRaceBattleEffects(participant))
 
   participant.battleEffects.forEach((battleEffect) => {
+    if (battleEffect.onSustain) {
+      participantInstance.onSustainEffect.push(battleEffect.onSustain)
+    }
     if (battleEffect.transformUnit) {
       if (battleEffect.onlyFirstRound) {
         participantInstance.firstRoundEffects.push(battleEffect.transformUnit)
