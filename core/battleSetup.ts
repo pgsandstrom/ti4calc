@@ -116,7 +116,7 @@ function createParticipantInstance(
       if (battleEffect.onlyFirstRound) {
         participantInstance.firstRoundEffects.push(battleEffect.transformUnit)
       } else {
-        participantInstance.units.forEach(battleEffect.transformUnit)
+        participantInstance.units = participantInstance.units.map(battleEffect.transformUnit)
       }
     }
   })
@@ -126,7 +126,7 @@ function createParticipantInstance(
       if (battleEffect.onlyFirstRound) {
         participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
       } else {
-        participantInstance.units.forEach(battleEffect.transformEnemyUnit)
+        participantInstance.units = participantInstance.units.map(battleEffect.transformEnemyUnit)
       }
     }
   })
