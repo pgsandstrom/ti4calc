@@ -11,6 +11,11 @@ import { BattleEffect } from './battleEffects'
 // ground = 'ground',
 // }
 
+export enum Side {
+  attacker = 'attacker',
+  defender = 'defender',
+}
+
 type UnitEffect = (p: UnitInstance) => UnitInstance
 
 export interface Battle {
@@ -20,6 +25,7 @@ export interface Battle {
 
 export interface Participant {
   race: Race
+  side: Side
   units: {
     [key in UnitType]: number
   }
@@ -34,7 +40,7 @@ export interface BattleInstance {
 }
 
 export interface ParticipantInstance {
-  side: 'attacker' | 'defender'
+  side: Side
   race: Race
   units: UnitInstance[]
 
@@ -68,14 +74,14 @@ export function setupBattle(battle: Battle): BattleResult {
 
 function createBattleInstance(battle: Battle): BattleInstance {
   return {
-    attacker: createParticipantInstance(battle.attacker, 'attacker', battle.defender),
-    defender: createParticipantInstance(battle.defender, 'defender', battle.attacker),
+    attacker: createParticipantInstance(battle.attacker, Side.attacker, battle.defender),
+    defender: createParticipantInstance(battle.defender, Side.defender, battle.attacker),
   }
 }
 
 function createParticipantInstance(
   participant: Participant,
-  side: 'attacker' | 'defender',
+  side: Side,
   otherParticipant: Participant,
 ): ParticipantInstance {
   const units = objectEntries(participant.units)
@@ -128,9 +134,10 @@ function createParticipantInstance(
   return participantInstance
 }
 
-export function createParticipant(): Participant {
+export function createParticipant(side: Side): Participant {
   return {
     race: Race.arborec,
+    side,
     units: {
       flagship: 0,
       warsun: 0,

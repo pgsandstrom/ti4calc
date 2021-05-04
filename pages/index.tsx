@@ -8,7 +8,7 @@ import {
   isBattleEffectRelevant,
   isBattleEffectRelevantForSome,
 } from '../core/battleEffects'
-import { createParticipant, Participant } from '../core/battleSetup'
+import { createParticipant, Participant, Side } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
 import { objectKeys } from '../util/util-object'
@@ -41,8 +41,8 @@ const BattleReportDiv = styled.div`
 `
 
 export default function Home() {
-  const [attacker, setAttacker] = useState<Participant>(createParticipant())
-  const [defender, setDefender] = useState<Participant>(createParticipant())
+  const [attacker, setAttacker] = useState<Participant>(createParticipant(Side.attacker))
+  const [defender, setDefender] = useState<Participant>(createParticipant(Side.defender))
   const [battleReport, setBattleReport] = useState<BattleReport>()
 
   const launch = () => {
@@ -297,10 +297,6 @@ const getBattleEffectCheckbox = (
   participant: Participant,
   onChange: (participant: Participant) => void,
 ) => {
-  if (!isBattleEffectRelevant(effect, participant)) {
-    return <span />
-  }
-
   return (
     <input
       type="checkbox"
@@ -321,6 +317,7 @@ const getBattleEffectCheckbox = (
           onChange(newParticipant)
         }
       }}
+      disabled={!isBattleEffectRelevant(effect, participant)}
     />
   )
 }
