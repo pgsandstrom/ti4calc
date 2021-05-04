@@ -126,8 +126,16 @@ export function createParticipant(): Participant {
   return {
     race: Race.arborec,
     units: {
+      flagship: 0,
+      warsun: 0,
+      dreadnought: 0,
+      carrier: 0,
       cruiser: 0,
       destroyer: 10,
+      fighter: 0,
+      mech: 0,
+      infantry: 0,
+      pds: 0,
     },
     battleEffects: [],
   }

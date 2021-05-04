@@ -8,7 +8,7 @@ export enum Race {
   argent_flight = 'argent flight',
 }
 
-export const RACE_MAP: Record<Race, BattleEffect[]> = {
+const RACE_MAP: Record<Race, BattleEffect[]> = {
   arborec: arborec,
   'argent flight': argentFlight,
 }

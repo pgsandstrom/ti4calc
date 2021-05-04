@@ -65,8 +65,16 @@ export default function Home() {
             <ParticipantView participant={participantLeft} onChange={setParticipantLeft} />
             <StyledDiv>
               <div>race</div>
+              <div>flagship</div>
+              <div>warsun</div>
+              <div>dreadnought</div>
+              <div>carrier</div>
               <div>cruiser</div>
               <div>destroyer</div>
+              <div>fighter</div>
+              <div>mech</div>
+              <div>infantry</div>
+              <div>pds</div>
             </StyledDiv>
             <ParticipantView participant={participantRight} onChange={setParticipantRight} />
           </div>
@@ -131,6 +139,42 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
         type="number"
         min="0"
         max="100"
+        value={participant.units.flagship}
+        onChange={(e) => {
+          updateUnitCount(UnitType.flagship, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.warsun}
+        onChange={(e) => {
+          updateUnitCount(UnitType.warsun, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.dreadnought}
+        onChange={(e) => {
+          updateUnitCount(UnitType.dreadnought, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.carrier}
+        onChange={(e) => {
+          updateUnitCount(UnitType.carrier, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
         value={participant.units.cruiser}
         onChange={(e) => {
           updateUnitCount(UnitType.cruiser, e)
@@ -143,6 +187,42 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
         value={participant.units.destroyer}
         onChange={(e) => {
           updateUnitCount(UnitType.destroyer, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.fighter}
+        onChange={(e) => {
+          updateUnitCount(UnitType.fighter, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.mech}
+        onChange={(e) => {
+          updateUnitCount(UnitType.mech, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.infantry}
+        onChange={(e) => {
+          updateUnitCount(UnitType.infantry, e)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units.pds}
+        onChange={(e) => {
+          updateUnitCount(UnitType.pds, e)
         }}
       />
     </StyledDiv>

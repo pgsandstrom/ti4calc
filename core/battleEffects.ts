@@ -4,7 +4,7 @@ import { UnitInstance } from './unit'
 
 export interface BattleEffect {
   name: string
-  type: 'promissary' | 'tech' | 'race' | 'race-tech'
+  type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech'
   race?: Race
   transformUnit?: (u: UnitInstance) => UnitInstance
   transformEnemyUnit?: (u: UnitInstance) => UnitInstance

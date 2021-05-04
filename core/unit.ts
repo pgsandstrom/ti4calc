@@ -1,15 +1,19 @@
 export enum UnitType {
-  // pds = 'pds',
   cruiser = 'cruiser',
+  carrier = 'carrier',
   destroyer = 'destroyer',
+  dreadnought = 'dreadnought',
+  fighter = 'fighter',
+  flagship = 'flagship',
+  infantry = 'infantry',
+  mech = 'mech',
+  pds = 'pds',
+  warsun = 'warsun',
 }
 
 export interface Unit {
   type: UnitType
-  // cost: number
   combat?: Roll
-  // move: number
-  // capacity: number
 
   bombardment?: Roll
   afb?: Roll
@@ -17,7 +21,6 @@ export interface Unit {
 
   sustainDamage: boolean
   planetaryShield: boolean
-  // production:number
 
   isShip: boolean
   isGroundForce: boolean
@@ -37,6 +40,24 @@ export interface Roll {
   reroll: number
 }
 
+const carrier: Readonly<Unit> = {
+  type: UnitType.carrier,
+
+  combat: {
+    hit: 9,
+    count: 1,
+    reroll: 0,
+  },
+
+  sustainDamage: false,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: true,
+
+  diePriority: 40,
+}
+
 const cruiser: Readonly<Unit> = {
   type: UnitType.cruiser,
 
@@ -52,7 +73,7 @@ const cruiser: Readonly<Unit> = {
   isGroundForce: false,
   isShip: true,
 
-  diePriority: 50,
+  diePriority: 70,
 }
 
 const destroyer: Readonly<Unit> = {
@@ -76,24 +97,152 @@ const destroyer: Readonly<Unit> = {
   isGroundForce: false,
   isShip: true,
 
-  diePriority: 50,
+  diePriority: 80,
 }
 
-// const pds: Readonly<Unit> = {
-//   spaceCannon: {
-//     hit: 6,
-//     count: 1,
-//   },
+const dreadnought: Readonly<Unit> = {
+  type: UnitType.dreadnought,
 
-//   sustainDamage: false,
-//   planetaryShield: true,
+  combat: {
+    hit: 5,
+    count: 1,
+    reroll: 0,
+  },
 
-//   isGroundForce: false,
-//   isShip: false,
-// }
+  bombardment: {
+    hit: 5,
+    count: 1,
+    reroll: 0,
+  },
+
+  sustainDamage: true,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: true,
+
+  useSustainDamagePriority: 100,
+  diePriority: 40,
+}
+
+const fighter: Readonly<Unit> = {
+  type: UnitType.fighter,
+
+  combat: {
+    hit: 9,
+    count: 1,
+    reroll: 0,
+  },
+
+  sustainDamage: false,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: true,
+
+  diePriority: 100,
+}
+
+// flagship has minimal data, the factions modify it.
+const flagship: Readonly<Unit> = {
+  type: UnitType.flagship,
+
+  sustainDamage: true,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: true,
+
+  diePriority: 20,
+}
+
+const infantry: Readonly<Unit> = {
+  type: UnitType.infantry,
+
+  combat: {
+    hit: 8,
+    count: 1,
+    reroll: 0,
+  },
+
+  sustainDamage: false,
+  planetaryShield: false,
+
+  isGroundForce: true,
+  isShip: false,
+
+  diePriority: 80,
+}
+
+const mech: Readonly<Unit> = {
+  type: UnitType.infantry,
+
+  combat: {
+    hit: 6,
+    count: 1,
+    reroll: 0,
+  },
+
+  sustainDamage: true,
+  planetaryShield: false,
+
+  isGroundForce: true,
+  isShip: false,
+
+  diePriority: 50,
+  useSustainDamagePriority: 50,
+}
+
+const pds: Readonly<Unit> = {
+  type: UnitType.pds,
+
+  spaceCannon: {
+    hit: 6,
+    count: 1,
+    reroll: 0,
+  },
+
+  sustainDamage: false,
+  planetaryShield: true,
+
+  isGroundForce: false,
+  isShip: false,
+}
+
+const warsun: Readonly<Unit> = {
+  // TODO warsun should disable planetary shield somehow
+  type: UnitType.warsun,
+
+  combat: {
+    hit: 3,
+    count: 3,
+    reroll: 0,
+  },
+
+  bombardment: {
+    hit: 3,
+    count: 3,
+    reroll: 0,
+  },
+
+  sustainDamage: true,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: true,
+
+  diePriority: 10,
+}
 
 export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
+  carrier,
   cruiser,
   destroyer,
-  // pds,
+  dreadnought,
+  fighter,
+  flagship,
+  infantry,
+  mech,
+  pds,
+  warsun,
 }
