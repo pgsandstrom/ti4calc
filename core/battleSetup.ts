@@ -24,6 +24,8 @@ export interface Participant {
     [key in UnitType]: number
   }
   battleEffects: BattleEffect[]
+
+  riskDirectHit: boolean
 }
 
 export interface BattleInstance {
@@ -37,6 +39,8 @@ export interface ParticipantInstance {
   units: UnitInstance[]
 
   firstRoundEffects: UnitEffect[]
+
+  riskDirectHit: boolean
 
   hitsToAssign: number
 }
@@ -94,6 +98,8 @@ function createParticipantInstance(
     units,
     firstRoundEffects: [],
 
+    riskDirectHit: participant.riskDirectHit,
+
     hitsToAssign: 0,
   }
 
@@ -138,5 +144,6 @@ export function createParticipant(): Participant {
       pds: 0,
     },
     battleEffects: [],
+    riskDirectHit: false,
   }
 }

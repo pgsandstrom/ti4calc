@@ -65,12 +65,16 @@ function resolveHits(battleInstance: BattleInstance) {
 function resolveParticipantHits(p: ParticipantInstance) {
   while (p.hitsToAssign > 0) {
     const bestSustainUnit = getBestSustainUnit(p)
-    if (bestSustainUnit) {
+    if (p.riskDirectHit && bestSustainUnit) {
       bestSustainUnit.takenDamage = true
     } else {
       const bestDieUnit = getBestDieUnit(p)
       if (bestDieUnit) {
-        bestDieUnit.isDestroyed = true
+        if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
+          bestDieUnit.takenDamage = true
+        } else {
+          bestDieUnit.isDestroyed = true
+        }
       }
     }
     p.hitsToAssign -= 1

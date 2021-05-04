@@ -251,6 +251,11 @@ function OptionsView({ left, leftOnChange, right, rightOnChange }: OptionsProps)
 
   return (
     <div>
+      <OptionsDiv>
+        {getDirectHitCheckbox(left, leftOnChange)}
+        <span>Risk direct hit</span>
+        {getDirectHitCheckbox(right, rightOnChange)}
+      </OptionsDiv>
       {relevantBattleEffects.map((effect) => {
         const leftView = getBattleEffectCheckbox(effect, left, leftOnChange)
         const rightView = getBattleEffectCheckbox(effect, right, rightOnChange)
@@ -264,6 +269,26 @@ function OptionsView({ left, leftOnChange, right, rightOnChange }: OptionsProps)
         )
       })}
     </div>
+  )
+}
+
+const getDirectHitCheckbox = (
+  participant: Participant,
+  onChange: (participant: Participant) => void,
+) => {
+  return (
+    <input
+      type="checkbox"
+      name="scales"
+      checked={participant.riskDirectHit}
+      onChange={() => {
+        const newParticipant: Participant = {
+          ...participant,
+          riskDirectHit: !participant.riskDirectHit,
+        }
+        onChange(newParticipant)
+      }}
+    />
   )
 }
 
