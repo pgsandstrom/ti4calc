@@ -7,7 +7,10 @@ export function doBattle(battleInstance: BattleInstance) {
   resolveHits(battleInstance)
 
   let isFirstRound = true
-  while (isParticipantAlive(battleInstance.left) && isParticipantAlive(battleInstance.right)) {
+  while (
+    isParticipantAlive(battleInstance.attacker) &&
+    isParticipantAlive(battleInstance.defender)
+  ) {
     doBattleRolls(battleInstance, isFirstRound)
     resolveHits(battleInstance)
     isFirstRound = false
@@ -15,10 +18,10 @@ export function doBattle(battleInstance: BattleInstance) {
 }
 
 function doPds(battleInstance: BattleInstance) {
-  const leftPdsHits = getPdsHits(battleInstance.left)
-  battleInstance.right.hitsToAssign += leftPdsHits
-  const rightPdsHits = getPdsHits(battleInstance.right)
-  battleInstance.left.hitsToAssign += rightPdsHits
+  const attackerPdsHits = getPdsHits(battleInstance.attacker)
+  battleInstance.defender.hitsToAssign += attackerPdsHits
+  const defenderPdsHits = getPdsHits(battleInstance.defender)
+  battleInstance.attacker.hitsToAssign += defenderPdsHits
 }
 
 function getPdsHits(p: ParticipantInstance) {
@@ -29,8 +32,8 @@ function getPdsHits(p: ParticipantInstance) {
 }
 
 function doBattleRolls(battleInstance: BattleInstance, isFirstRound: boolean) {
-  doParticipantBattleRolls(battleInstance.left, battleInstance.right, isFirstRound)
-  doParticipantBattleRolls(battleInstance.right, battleInstance.left, isFirstRound)
+  doParticipantBattleRolls(battleInstance.attacker, battleInstance.defender, isFirstRound)
+  doParticipantBattleRolls(battleInstance.defender, battleInstance.attacker, isFirstRound)
 }
 
 function doParticipantBattleRolls(
@@ -56,9 +59,9 @@ function doParticipantBattleRolls(
 }
 
 function resolveHits(battleInstance: BattleInstance) {
-  while (battleInstance.left.hitsToAssign > 0 || battleInstance.right.hitsToAssign > 0) {
-    resolveParticipantHits(battleInstance.left)
-    resolveParticipantHits(battleInstance.right)
+  while (battleInstance.attacker.hitsToAssign > 0 || battleInstance.defender.hitsToAssign > 0) {
+    resolveParticipantHits(battleInstance.attacker)
+    resolveParticipantHits(battleInstance.defender)
   }
 }
 

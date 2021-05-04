@@ -2,34 +2,34 @@ import _times from 'lodash/times'
 import { Battle, BattleResult, Participant, setupBattle } from './battleSetup'
 
 export interface BattleReport {
-  left: number
+  attacker: number
   draw: number
-  right: number
+  defender: number
 }
 
-export default function doEverything(left: Participant, right: Participant): BattleReport {
+export default function doEverything(attacker: Participant, defender: Participant): BattleReport {
   const battle: Battle = {
-    left,
-    right,
+    attacker,
+    defender,
   }
 
   const data: BattleReport = {
-    left: 0,
+    attacker: 0,
     draw: 0,
-    right: 0,
+    defender: 0,
   }
 
   _times(100, () => {
     const result = setupBattle(battle)
     switch (result) {
-      case BattleResult.left:
-        data.left += 1
+      case BattleResult.attacker:
+        data.attacker += 1
         break
       case BattleResult.draw:
         data.draw += 1
         break
-      case BattleResult.right:
-        data.right += 1
+      case BattleResult.defender:
+        data.defender += 1
         break
     }
   })

@@ -41,12 +41,12 @@ const BattleReportDiv = styled.div`
 `
 
 export default function Home() {
-  const [participantLeft, setParticipantLeft] = useState<Participant>(createParticipant())
-  const [participantRight, setParticipantRight] = useState<Participant>(createParticipant())
+  const [attacker, setAttacker] = useState<Participant>(createParticipant())
+  const [defender, setDefender] = useState<Participant>(createParticipant())
   const [battleReport, setBattleReport] = useState<BattleReport>()
 
   const launch = () => {
-    const br = getBattleReport(participantLeft, participantRight)
+    const br = getBattleReport(attacker, defender)
     setBattleReport(br)
   }
 
@@ -62,7 +62,7 @@ export default function Home() {
         <h1>ti4 calc</h1>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ display: 'flex' }}>
-            <ParticipantView participant={participantLeft} onChange={setParticipantLeft} />
+            <ParticipantView participant={attacker} onChange={setAttacker} />
             <StyledDiv>
               <div>race</div>
               <div>flagship</div>
@@ -76,21 +76,21 @@ export default function Home() {
               <div>infantry</div>
               <div>pds</div>
             </StyledDiv>
-            <ParticipantView participant={participantRight} onChange={setParticipantRight} />
+            <ParticipantView participant={defender} onChange={setDefender} />
           </div>
           <OptionsView
-            left={participantLeft}
-            leftOnChange={setParticipantLeft}
-            right={participantRight}
-            rightOnChange={setParticipantRight}
+            attacker={attacker}
+            attackerOnChange={setAttacker}
+            defender={defender}
+            defenderOnChange={setDefender}
           />
         </div>
         <button onClick={launch}>roll</button>
         {battleReport && (
           <BattleReportDiv>
-            <div>{battleReport.left}</div>
+            <div>{battleReport.attacker}</div>
             <div>{battleReport.draw}</div>
-            <div>{battleReport.right}</div>
+            <div>{battleReport.defender}</div>
           </BattleReportDiv>
         )}
       </StyledMain>
@@ -230,10 +230,10 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
 }
 
 interface OptionsProps {
-  left: Participant
-  leftOnChange: (participant: Participant) => void
-  right: Participant
-  rightOnChange: (participant: Participant) => void
+  attacker: Participant
+  attackerOnChange: (participant: Participant) => void
+  defender: Participant
+  defenderOnChange: (participant: Participant) => void
 }
 
 const OptionsDiv = styled.div`
@@ -243,28 +243,28 @@ const OptionsDiv = styled.div`
   }
 `
 
-function OptionsView({ left, leftOnChange, right, rightOnChange }: OptionsProps) {
+function OptionsView({ attacker, attackerOnChange, defender, defenderOnChange }: OptionsProps) {
   const battleEffects = getAllBattleEffects()
   const relevantBattleEffects = battleEffects.filter((effect) => {
-    return isBattleEffectRelevantForSome(effect, [left, right])
+    return isBattleEffectRelevantForSome(effect, [attacker, defender])
   })
 
   return (
     <div>
       <OptionsDiv>
-        {getDirectHitCheckbox(left, leftOnChange)}
+        {getDirectHitCheckbox(attacker, attackerOnChange)}
         <span>Risk direct hit</span>
-        {getDirectHitCheckbox(right, rightOnChange)}
+        {getDirectHitCheckbox(defender, defenderOnChange)}
       </OptionsDiv>
       {relevantBattleEffects.map((effect) => {
-        const leftView = getBattleEffectCheckbox(effect, left, leftOnChange)
-        const rightView = getBattleEffectCheckbox(effect, right, rightOnChange)
+        const attackerView = getBattleEffectCheckbox(effect, attacker, attackerOnChange)
+        const defenderView = getBattleEffectCheckbox(effect, defender, defenderOnChange)
 
         return (
           <OptionsDiv key={effect.name}>
-            {leftView}
+            {attackerView}
             <span>{effect.name}</span>
-            {rightView}
+            {defenderView}
           </OptionsDiv>
         )
       })}

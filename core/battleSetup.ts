@@ -14,8 +14,8 @@ import { BattleEffect } from './battleEffects'
 type UnitEffect = (p: UnitInstance) => UnitInstance
 
 export interface Battle {
-  left: Participant
-  right: Participant
+  attacker: Participant
+  defender: Participant
 }
 
 export interface Participant {
@@ -29,12 +29,12 @@ export interface Participant {
 }
 
 export interface BattleInstance {
-  left: ParticipantInstance
-  right: ParticipantInstance
+  attacker: ParticipantInstance
+  defender: ParticipantInstance
 }
 
 export interface ParticipantInstance {
-  side: 'left' | 'right'
+  side: 'attacker' | 'defender'
   race: Race
   units: UnitInstance[]
 
@@ -46,9 +46,9 @@ export interface ParticipantInstance {
 }
 
 export enum BattleResult {
-  left = 'left',
+  attacker = 'attacker',
   draw = 'draw',
-  right = 'right',
+  defender = 'defender',
 }
 
 export function setupBattle(battle: Battle): BattleResult {
@@ -57,10 +57,10 @@ export function setupBattle(battle: Battle): BattleResult {
   const battleInstance = createBattleInstance(battle)
   doBattle(battleInstance)
 
-  if (isParticipantAlive(battleInstance.left)) {
-    return BattleResult.left
-  } else if (isParticipantAlive(battleInstance.right)) {
-    return BattleResult.right
+  if (isParticipantAlive(battleInstance.attacker)) {
+    return BattleResult.attacker
+  } else if (isParticipantAlive(battleInstance.defender)) {
+    return BattleResult.defender
   } else {
     return BattleResult.draw
   }
@@ -68,14 +68,14 @@ export function setupBattle(battle: Battle): BattleResult {
 
 function createBattleInstance(battle: Battle): BattleInstance {
   return {
-    left: createParticipantInstance(battle.left, 'left', battle.right),
-    right: createParticipantInstance(battle.right, 'right', battle.left),
+    attacker: createParticipantInstance(battle.attacker, 'attacker', battle.defender),
+    defender: createParticipantInstance(battle.defender, 'defender', battle.attacker),
   }
 }
 
 function createParticipantInstance(
   participant: Participant,
-  side: 'left' | 'right',
+  side: 'attacker' | 'defender',
   otherParticipant: Participant,
 ): ParticipantInstance {
   const units = objectEntries(participant.units)
