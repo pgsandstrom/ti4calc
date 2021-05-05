@@ -21,8 +21,7 @@ export interface BattleEffect {
   transformEnemyUnit?: UnitEffect
   onSustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
-  // TODO make optional
-  onlyFirstRound: boolean
+  onlyFirstRound?: boolean // default false
 }
 
 export const warfunding: BattleEffect = {
@@ -61,7 +60,6 @@ export const defendingInNebula: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 export const nonEuclideanShielding: BattleEffect = {
@@ -73,7 +71,6 @@ export const nonEuclideanShielding: BattleEffect = {
       participant.hitsToAssign -= 1
     }
   },
-  onlyFirstRound: false,
 }
 
 export const duraniumArmor: BattleEffect = {
@@ -84,7 +81,6 @@ export const duraniumArmor: BattleEffect = {
       unit.takenDamage = false
     }
   },
-  onlyFirstRound: false,
 }
 
 export function getAllBattleEffects(): BattleEffect[] {

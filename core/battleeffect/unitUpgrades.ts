@@ -24,7 +24,6 @@ const destroyer: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 const cruiser: BattleEffect = {
@@ -44,7 +43,6 @@ const cruiser: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 const carrier: BattleEffect = {
@@ -54,7 +52,6 @@ const carrier: BattleEffect = {
   transformUnit: (unit: UnitInstance) => {
     return unit
   },
-  onlyFirstRound: false,
 }
 
 const dreadnought: BattleEffect = {
@@ -71,7 +68,6 @@ const dreadnought: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 const fighter: BattleEffect = {
@@ -91,7 +87,6 @@ const fighter: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 const infantry: BattleEffect = {
@@ -111,7 +106,6 @@ const infantry: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 const pds: BattleEffect = {
@@ -131,7 +125,6 @@ const pds: BattleEffect = {
       return unit
     }
   },
-  onlyFirstRound: false,
 }
 
 export const getAllUnitUpgrades = () => [
