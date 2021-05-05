@@ -11,7 +11,6 @@ import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
 import { createParticipant, Participant, Side } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
-import { objectKeys } from '../util/util-object'
 
 const StyledMain = styled.main`
   display: flex;
@@ -108,18 +107,19 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
     <StyledDiv>
       <select
         onChange={(e) => {
-          const race = e.target.value as 'arborec' //  TODO ugly enum type hack
+          const race = e.target.value as Race
           const newParticipant: Participant = {
             ...participant,
-            race: Race[race],
+            race,
           }
           onChange(newParticipant)
         }}
+        value={participant.race}
       >
-        {objectKeys(Race).map((race) => {
+        {Object.values(Race).map((race) => {
           return (
             <option key={race} value={race}>
-              {Race[race]}
+              {race}
             </option>
           )
         })}

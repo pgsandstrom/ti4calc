@@ -59,6 +59,7 @@ export interface ParticipantInstance {
   race: Race
   units: UnitInstance[]
 
+  // firstRoundEffects only works for changing attack currently
   firstRoundEffects: UnitEffect[]
   onSustainEffect: UnitBattleEffect[]
   onRepairEffect: UnitBattleEffect[]
@@ -151,7 +152,7 @@ function createParticipantInstance(
       participantInstance.onRepairEffect.push(battleEffect.onRepair)
     }
     if (battleEffect.transformUnit) {
-      if (battleEffect.onlyFirstRound) {
+      if (battleEffect.onlyFirstRound === true) {
         participantInstance.firstRoundEffects.push(battleEffect.transformUnit)
       } else {
         participantInstance.units = participantInstance.units.map(battleEffect.transformUnit)
@@ -161,7 +162,7 @@ function createParticipantInstance(
 
   otherParticipant.battleEffects.forEach((battleEffect) => {
     if (battleEffect.transformEnemyUnit) {
-      if (battleEffect.onlyFirstRound) {
+      if (battleEffect.onlyFirstRound === true) {
         participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
       } else {
         participantInstance.units = participantInstance.units.map(battleEffect.transformEnemyUnit)

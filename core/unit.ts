@@ -48,7 +48,7 @@ export interface Roll {
   rerollBonus: number
 }
 
-const defaultRoll: Roll = {
+export const defaultRoll: Roll = {
   hit: 0,
   hitBonus: 0,
   count: 1,

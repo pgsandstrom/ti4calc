@@ -12,7 +12,7 @@ import { getAllUnitUpgrades } from './unitUpgrades'
 
 export interface BattleEffect {
   name: string
-  type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech' | 'unit-upgrade'
+  type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech' | 'unit-upgrade' | 'other'
   race?: Race
   side?: Side
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui

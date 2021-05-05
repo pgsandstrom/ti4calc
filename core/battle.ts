@@ -21,6 +21,8 @@ export function doBattle(battleInstance: BattleInstance) {
       throw new Error('infinite fight')
     }
   }
+
+  // console.log(`battle resolved after ${battleInstance.roundNumber - 1} rounds`)
 }
 
 function doPds(battleInstance: BattleInstance) {
@@ -47,6 +49,20 @@ function doParticipantBattleRolls(
   p: ParticipantInstance,
   otherParticipant: ParticipantInstance,
 ) {
+  const unitTransformEffects = p.units
+    .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
+    .map((unit) => unit.battleEffect!)
+    .flat()
+    .filter((effect) => effect.transformUnit)
+    .map((effect) => effect.transformUnit!)
+
+  const enemyUnitTransformEffects = p.units
+    .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
+    .map((unit) => unit.battleEffect!)
+    .flat()
+    .filter((effect) => effect.transformEnemyUnit)
+    .map((effect) => effect.transformEnemyUnit!)
+
   const hits = p.units
     .map((unit) => {
       if (battleInstance.roundNumber === 1) {
@@ -54,6 +70,20 @@ function doParticipantBattleRolls(
           unit = effect(unit)
         })
       }
+
+      unitTransformEffects.forEach((transformUnit) => {
+        unit = transformUnit(unit)
+      })
+
+      enemyUnitTransformEffects.forEach((transformUnit) => {
+        unit = transformUnit(unit)
+      })
+
+      // if (unit.combat) {
+      //   console.log(
+      //     `${p.side} shoots with ${unit.type} at ${unit.combat.hit - unit.combat.hitBonus}`,
+      //   )
+      // }
 
       return unit.combat ? getHits(unit.combat) : 0
     })
