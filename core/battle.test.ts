@@ -17,9 +17,7 @@ describe('battle', () => {
       const result = getHits(roll)
       hits += result
     })
-    expect(hits).toBeLessThanOrEqual(3100)
-    expect(hits).toBeGreaterThanOrEqual(2900)
-    console.log(`expected 3000, got ${hits}`)
+    checkResult(hits, 3000)
   })
 
   it('should calculate hit bonus correctly', () => {
@@ -36,10 +34,80 @@ describe('battle', () => {
       const result = getHits(roll)
       hits += result
     })
-    expect(hits).toBeLessThanOrEqual(5100)
-    expect(hits).toBeGreaterThanOrEqual(4900)
-    console.log(`expected 5000, got ${hits}`)
+    checkResult(hits, 5000)
   })
 
-  // TODO add test for reroll, rerollBonus, count, countBonus
+  it('should calculate count correctly', () => {
+    const roll: Roll = {
+      count: 2,
+      countBonus: 0,
+      hit: 6,
+      hitBonus: 0,
+      reroll: 0,
+      rerollBonus: 0,
+    }
+    let hits = 0
+    _.times(10000, () => {
+      const result = getHits(roll)
+      hits += result
+    })
+    checkResult(hits, 10000)
+  })
+
+  it('should calculate count bonus correctly', () => {
+    const roll: Roll = {
+      count: 2,
+      countBonus: 1,
+      hit: 6,
+      hitBonus: 0,
+      reroll: 0,
+      rerollBonus: 0,
+    }
+    let hits = 0
+    _.times(10000, () => {
+      const result = getHits(roll)
+      hits += result
+    })
+    checkResult(hits, 15000)
+  })
+
+  it('should calculate reroll correctly', () => {
+    const roll: Roll = {
+      count: 1,
+      countBonus: 0,
+      hit: 6,
+      hitBonus: 0,
+      reroll: 1,
+      rerollBonus: 0,
+    }
+    let hits = 0
+    _.times(10000, () => {
+      const result = getHits(roll)
+      hits += result
+    })
+    checkResult(hits, 7500)
+  })
+
+  it('should calculate reroll bonus correctly', () => {
+    const roll: Roll = {
+      count: 1,
+      countBonus: 0,
+      hit: 6,
+      hitBonus: 0,
+      reroll: 1,
+      rerollBonus: 1,
+    }
+    let hits = 0
+    _.times(10000, () => {
+      const result = getHits(roll)
+      hits += result
+    })
+    checkResult(hits, 8750)
+  })
+
+  function checkResult(result: number, expected: number, allowedErrorPercentage = 0.04) {
+    expect(result).toBeLessThanOrEqual(expected + expected * allowedErrorPercentage)
+    expect(result).toBeGreaterThanOrEqual(expected - expected * allowedErrorPercentage)
+    // console.log(`expected ${expected}, got ${result}`)
+  }
 })

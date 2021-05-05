@@ -6,17 +6,14 @@ export function doBattle(battleInstance: BattleInstance) {
   doPds(battleInstance)
   resolveHits(battleInstance)
 
-  // TODO remove isFirstRound
-  let isFirstRound = true
   while (
     isParticipantAlive(battleInstance.attacker) &&
     isParticipantAlive(battleInstance.defender)
   ) {
-    doBattleRolls(battleInstance, isFirstRound)
+    doBattleRolls(battleInstance)
     resolveHits(battleInstance)
     doRepairStep(battleInstance)
 
-    isFirstRound = false
     battleInstance.roundNumber += 1
 
     if (battleInstance.roundNumber === 1000) {
@@ -40,19 +37,19 @@ function getPdsHits(p: ParticipantInstance) {
   }, 0)
 }
 
-function doBattleRolls(battleInstance: BattleInstance, isFirstRound: boolean) {
-  doParticipantBattleRolls(battleInstance.attacker, battleInstance.defender, isFirstRound)
-  doParticipantBattleRolls(battleInstance.defender, battleInstance.attacker, isFirstRound)
+function doBattleRolls(battleInstance: BattleInstance) {
+  doParticipantBattleRolls(battleInstance, battleInstance.attacker, battleInstance.defender)
+  doParticipantBattleRolls(battleInstance, battleInstance.defender, battleInstance.attacker)
 }
 
 function doParticipantBattleRolls(
+  battleInstance: BattleInstance,
   p: ParticipantInstance,
   otherParticipant: ParticipantInstance,
-  isFirstRound: boolean,
 ) {
   const hits = p.units
     .map((unit) => {
-      if (isFirstRound) {
+      if (battleInstance.roundNumber === 1) {
         p.firstRoundEffects.forEach((effect) => {
           unit = effect(unit)
         })
@@ -175,7 +172,7 @@ export function getHits(roll: Roll): number {
   const hit = roll.hit - roll.hitBonus
 
   return _times(count, () => {
-    let reroll = roll.reroll - roll.rerollBonus
+    let reroll = roll.reroll + roll.rerollBonus
     let result = false
     while (!result && reroll >= 0) {
       result = Math.random() * 10 + 1 > hit
