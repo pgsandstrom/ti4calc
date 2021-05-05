@@ -1,4 +1,4 @@
-import { BattleEffect } from '../battleEffects'
+import { BattleEffect } from '../battleeffect/battleEffects'
 import { Participant } from '../battleSetup'
 import { arborec } from './arborec'
 import { argentFlight } from './argentFlight'

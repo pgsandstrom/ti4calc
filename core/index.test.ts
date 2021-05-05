@@ -1,5 +1,5 @@
 import doEverything from '.'
-import { duraniumArmor, nonEuclideanShielding } from './battleEffects'
+import { duraniumArmor, nonEuclideanShielding } from './battleeffect/battleEffects'
 import { getUnitMap, Participant, Side } from './battleSetup'
 import { Race } from './races/race'
 
@@ -8,6 +8,7 @@ describe('core', () => {
     const attacker: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),
+      unitUpgrades: {},
       riskDirectHit: false,
       side: Side.attacker,
       battleEffects: [nonEuclideanShielding, duraniumArmor],
@@ -15,6 +16,7 @@ describe('core', () => {
     const defender: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),
+      unitUpgrades: {},
       riskDirectHit: false,
       side: Side.attacker,
       battleEffects: [],

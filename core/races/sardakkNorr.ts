@@ -1,4 +1,4 @@
-import { BattleEffect } from '../battleEffects'
+import { BattleEffect } from '../battleeffect/battleEffects'
 import { UnitInstance } from '../unit'
 
 export const sardarkkNorr: BattleEffect[] = [

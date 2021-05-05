@@ -5,15 +5,18 @@ import {
   Side,
   UnitBattleEffect,
   UnitEffect,
-} from './battleSetup'
-import { Race } from './races/race'
-import { UnitInstance } from './unit'
+} from '../battleSetup'
+import { Race } from '../races/race'
+import { UnitInstance, UnitType } from '../unit'
+import { getAllUnitUpgrades } from './unitUpgrades'
 
 export interface BattleEffect {
   name: string
-  type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech'
+  type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech' | 'unit-upgrade'
   race?: Race
   side?: Side
+  // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
+  unit?: UnitType
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
   onSustain?: UnitBattleEffect
@@ -89,7 +92,9 @@ export const duraniumArmor: BattleEffect = {
 }
 
 export function getAllBattleEffects(): BattleEffect[] {
-  return [warfunding, defendingInNebula, nonEuclideanShielding, duraniumArmor]
+  const normal = [warfunding, defendingInNebula, nonEuclideanShielding, duraniumArmor]
+  const unitUpgrades = getAllUnitUpgrades()
+  return [...normal, ...unitUpgrades]
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {

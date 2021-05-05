@@ -4,7 +4,9 @@ import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle, isParticipantAlive } from './battle'
 import { getRaceBattleEffects, Race } from './races/race'
-import { BattleEffect } from './battleEffects'
+import { BattleEffect } from './battleeffect/battleEffects'
+import { PartialRecord } from '../util/util-types'
+import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 
 // export enum BattleType {
 // space = 'space',
@@ -37,6 +39,10 @@ export interface Participant {
   units: {
     [key in UnitType]: number
   }
+  // unit upgrades needs to be a map like this, since race techs might replace unit upgrades
+  // this creates weird bugs if we attach battle effects that should be replaced when switching races
+  // TODO actually, maybe we should do this with all battle effects...
+  unitUpgrades: PartialRecord<UnitType, boolean>
   battleEffects: BattleEffect[]
 
   riskDirectHit: boolean
@@ -123,7 +129,19 @@ function createParticipantInstance(
     hitsToAssign: 0,
   }
 
+  // TODO I guess here we should filter out battle effects that are not applicable
+  // Say I select baron, choose their race tech, then switch to arborec. That needs to be handled.
+
   participant.battleEffects.push(...getRaceBattleEffects(participant))
+
+  objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
+    if (upgraded) {
+      const unitUpgrade = getUnitUpgrade(participant.race, unitType)
+      if (unitUpgrade) {
+        participant.battleEffects.push(unitUpgrade)
+      }
+    }
+  })
 
   participant.battleEffects.forEach((battleEffect) => {
     if (battleEffect.onSustain) {
@@ -155,10 +173,11 @@ function createParticipantInstance(
 }
 
 export function createParticipant(side: Side): Participant {
-  const participant = {
+  const participant: Participant = {
     race: Race.barony_of_letnev,
     side,
     units: getUnitMap(),
+    unitUpgrades: {},
     battleEffects: [],
     riskDirectHit: false,
   }

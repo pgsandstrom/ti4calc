@@ -1,3 +1,3 @@
-import { BattleEffect } from '../battleEffects'
+import { BattleEffect } from '../battleeffect/battleEffects'
 
 export const arborec: BattleEffect[] = []

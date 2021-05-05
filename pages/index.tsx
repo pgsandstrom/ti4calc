@@ -2,7 +2,12 @@ import Head from 'next/head'
 import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
-import { BattleEffect, getAllBattleEffects, isBattleEffectRelevant } from '../core/battleEffects'
+import {
+  BattleEffect,
+  getAllBattleEffects,
+  isBattleEffectRelevant,
+} from '../core/battleeffect/battleEffects'
+import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
 import { createParticipant, Participant, Side } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
@@ -99,17 +104,6 @@ interface ParticipantProps {
 }
 
 function ParticipantView({ participant, onChange }: ParticipantProps) {
-  const updateUnitCount = (unitType: UnitType, e: ChangeEvent<HTMLInputElement>) => {
-    const newParticipant: Participant = {
-      ...participant,
-      units: {
-        ...participant.units,
-        [unitType]: parseInt(e.target.value, 10),
-      },
-    }
-    onChange(newParticipant)
-  }
-
   return (
     <StyledDiv>
       <select
@@ -130,97 +124,68 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
           )
         })}
       </select>
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.flagship}
-        onChange={(e) => {
-          updateUnitCount(UnitType.flagship, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.warsun}
-        onChange={(e) => {
-          updateUnitCount(UnitType.warsun, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.dreadnought}
-        onChange={(e) => {
-          updateUnitCount(UnitType.dreadnought, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.carrier}
-        onChange={(e) => {
-          updateUnitCount(UnitType.carrier, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.cruiser}
-        onChange={(e) => {
-          updateUnitCount(UnitType.cruiser, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.destroyer}
-        onChange={(e) => {
-          updateUnitCount(UnitType.destroyer, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.fighter}
-        onChange={(e) => {
-          updateUnitCount(UnitType.fighter, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.mech}
-        onChange={(e) => {
-          updateUnitCount(UnitType.mech, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.infantry}
-        onChange={(e) => {
-          updateUnitCount(UnitType.infantry, e)
-        }}
-      />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={participant.units.pds}
-        onChange={(e) => {
-          updateUnitCount(UnitType.pds, e)
-        }}
-      />
+      <UnitInput participant={participant} unitType={UnitType.flagship} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.warsun} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.dreadnought} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.carrier} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.cruiser} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.destroyer} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.fighter} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.mech} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.infantry} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.pds} onChange={onChange} />
     </StyledDiv>
+  )
+}
+
+interface UnitInputProps {
+  participant: Participant
+  unitType: UnitType
+  onChange: (participant: Participant) => void
+}
+
+function UnitInput({ participant, unitType, onChange }: UnitInputProps) {
+  const unitUpgrade = getUnitUpgrade(participant.race, unitType)
+
+  const updateUnitCount = (e: ChangeEvent<HTMLInputElement>) => {
+    const newParticipant: Participant = {
+      ...participant,
+      units: {
+        ...participant.units,
+        [unitType]: parseInt(e.target.value, 10),
+      },
+    }
+    onChange(newParticipant)
+  }
+
+  // TODO if we switch race... do we keep potential race techs?
+  const hasUpgrade = participant.unitUpgrades[unitType] ?? false
+
+  return (
+    <div style={{ display: 'flex' }}>
+      <input
+        type="checkbox"
+        disabled={!unitUpgrade}
+        checked={hasUpgrade}
+        onChange={() => {
+          const newParticipant: Participant = {
+            ...participant,
+            unitUpgrades: {
+              ...participant.unitUpgrades,
+              [unitType]: !hasUpgrade,
+            },
+          }
+          onChange(newParticipant)
+        }}
+      />
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={participant.units[unitType]}
+        onChange={updateUnitCount}
+      />
+    </div>
   )
 }
 
@@ -240,7 +205,7 @@ const OptionsDiv = styled.div`
 
 function OptionsView({ attacker, attackerOnChange, defender, defenderOnChange }: OptionsProps) {
   const battleEffects = getAllBattleEffects()
-  const relevantBattleEffects = battleEffects
+  const relevantBattleEffects = battleEffects.filter((effect) => effect.type !== 'unit-upgrade')
   // .filter((effect) => {
   //   return isBattleEffectRelevantForSome(effect, [attacker, defender])
   // })
@@ -275,7 +240,6 @@ const getDirectHitCheckbox = (
   return (
     <input
       type="checkbox"
-      name="scales"
       checked={participant.riskDirectHit}
       onChange={() => {
         const newParticipant: Participant = {
