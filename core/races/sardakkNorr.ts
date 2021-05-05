@@ -8,7 +8,7 @@ export const sardarkkNorr: BattleEffect[] = [
     onlyFirstRound: false,
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
-        unit.combat.hit -= 1
+        unit.combat.hitBonus += 1
       }
       return unit
     },

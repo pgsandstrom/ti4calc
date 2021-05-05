@@ -1,3 +1,5 @@
+import { BattleEffect } from './battleeffect/battleEffects'
+
 export enum UnitType {
   cruiser = 'cruiser',
   carrier = 'carrier',
@@ -27,6 +29,8 @@ export interface Unit {
 
   useSustainDamagePriority?: number
   diePriority?: number
+
+  battleEffect?: BattleEffect[]
 }
 
 export interface UnitInstance extends Unit {
@@ -37,17 +41,28 @@ export interface UnitInstance extends Unit {
 
 export interface Roll {
   hit: number
+  hitBonus: number
   count: number
+  countBonus: number
   reroll: number
+  rerollBonus: number
+}
+
+const defaultRoll: Roll = {
+  hit: 0,
+  hitBonus: 0,
+  count: 1,
+  countBonus: 0,
+  reroll: 0,
+  rerollBonus: 0,
 }
 
 const carrier: Readonly<Unit> = {
   type: UnitType.carrier,
 
   combat: {
+    ...defaultRoll,
     hit: 9,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: false,
@@ -63,9 +78,8 @@ const cruiser: Readonly<Unit> = {
   type: UnitType.cruiser,
 
   combat: {
+    ...defaultRoll,
     hit: 7,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: false,
@@ -81,15 +95,14 @@ const destroyer: Readonly<Unit> = {
   type: UnitType.destroyer,
 
   combat: {
+    ...defaultRoll,
     hit: 9,
-    count: 1,
-    reroll: 0,
   },
 
   afb: {
+    ...defaultRoll,
     hit: 9,
     count: 2,
-    reroll: 0,
   },
 
   sustainDamage: false,
@@ -105,15 +118,13 @@ const dreadnought: Readonly<Unit> = {
   type: UnitType.dreadnought,
 
   combat: {
+    ...defaultRoll,
     hit: 5,
-    count: 1,
-    reroll: 0,
   },
 
   bombardment: {
+    ...defaultRoll,
     hit: 5,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: true,
@@ -130,9 +141,8 @@ const fighter: Readonly<Unit> = {
   type: UnitType.fighter,
 
   combat: {
+    ...defaultRoll,
     hit: 9,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: false,
@@ -161,9 +171,8 @@ const infantry: Readonly<Unit> = {
   type: UnitType.infantry,
 
   combat: {
+    ...defaultRoll,
     hit: 8,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: false,
@@ -179,9 +188,8 @@ const mech: Readonly<Unit> = {
   type: UnitType.infantry,
 
   combat: {
+    ...defaultRoll,
     hit: 6,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: true,
@@ -198,9 +206,8 @@ const pds: Readonly<Unit> = {
   type: UnitType.pds,
 
   spaceCannon: {
+    ...defaultRoll,
     hit: 6,
-    count: 1,
-    reroll: 0,
   },
 
   sustainDamage: false,
@@ -215,15 +222,15 @@ const warsun: Readonly<Unit> = {
   type: UnitType.warsun,
 
   combat: {
+    ...defaultRoll,
     hit: 3,
     count: 3,
-    reroll: 0,
   },
 
   bombardment: {
+    ...defaultRoll,
     hit: 3,
     count: 3,
-    reroll: 0,
   },
 
   sustainDamage: true,

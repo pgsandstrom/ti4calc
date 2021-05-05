@@ -171,11 +171,14 @@ function getUnitsWithSustain(p: ParticipantInstance) {
 }
 
 export function getHits(roll: Roll): number {
-  return _times(roll.count, () => {
-    let reroll = roll.reroll
+  const count = roll.count + roll.countBonus
+  const hit = roll.hit - roll.hitBonus
+
+  return _times(count, () => {
+    let reroll = roll.reroll - roll.rerollBonus
     let result = false
     while (!result && reroll >= 0) {
-      result = Math.random() * 10 + 1 > roll.hit
+      result = Math.random() * 10 + 1 > hit
       reroll -= 1
     }
     return result

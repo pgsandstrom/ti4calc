@@ -12,12 +12,12 @@ const destroyer: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat!,
-          hit: unit.combat!.hit - 1,
+          hit: 8,
         },
         afb: {
           ...unit.afb!,
-          hit: unit.afb!.hit - 3,
-          count: unit.afb!.count + 1,
+          hit: 6,
+          count: 3,
         },
       }
     } else {
@@ -37,7 +37,7 @@ const cruiser: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat!,
-          hit: unit.combat!.hit - 1,
+          hit: 6,
         },
       }
     } else {
@@ -84,7 +84,7 @@ const fighter: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat!,
-          hit: unit.combat!.hit - 1,
+          hit: 8,
         },
       }
     } else {
@@ -104,7 +104,7 @@ const infantry: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat!,
-          hit: unit.combat!.hit - 1,
+          hit: 8,
         },
       }
     } else {
@@ -124,7 +124,7 @@ const pds: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat!,
-          hit: unit.combat!.hit - 1,
+          hit: 5,
         },
       }
     } else {

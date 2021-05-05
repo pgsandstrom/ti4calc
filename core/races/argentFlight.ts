@@ -8,7 +8,7 @@ export const argentFlight: BattleEffect[] = [
     onlyFirstRound: false,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
-        unit.combat!.hit -= 1
+        unit.combat!.hit = 8
       }
       return unit
     },

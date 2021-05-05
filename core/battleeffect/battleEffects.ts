@@ -25,10 +25,6 @@ export interface BattleEffect {
   onlyFirstRound: boolean
 }
 
-export interface PromissaryNotes {
-  warfunding: boolean
-}
-
 export const warfunding: BattleEffect = {
   name: 'warfunding',
   type: 'promissary',
@@ -38,7 +34,7 @@ export const warfunding: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat,
-          reroll: unit.combat.reroll + 1,
+          rerollBonus: unit.combat.rerollBonus + 1,
         },
       }
     } else {
@@ -58,7 +54,7 @@ export const defendingInNebula: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat,
-          hit: unit.combat.hit - 1,
+          hitBonus: unit.combat.hitBonus + 1,
         },
       }
     } else {
