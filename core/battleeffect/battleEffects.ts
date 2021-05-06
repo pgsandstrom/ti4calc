@@ -1,11 +1,11 @@
 import {
+  Side,
+  UnitEffect,
+  UnitBattleEffect,
+  ParticipantInstance,
   BattleInstance,
   Participant,
-  ParticipantInstance,
-  Side,
-  UnitBattleEffect,
-  UnitEffect,
-} from '../battleSetup'
+} from '../battle-types'
 import { Race } from '../races/race'
 import { UnitInstance, UnitType } from '../unit'
 import { getAllUnitUpgrades } from './unitUpgrades'

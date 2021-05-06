@@ -1,5 +1,6 @@
 import _times from 'lodash/times'
-import { Battle, BattleResult, Participant, setupBattle } from './battleSetup'
+import { Participant, Battle, BattleResult } from './battle-types'
+import { setupBattle } from './battleSetup'
 
 export interface BattleReport {
   attacker: number

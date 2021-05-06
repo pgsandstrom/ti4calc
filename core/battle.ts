@@ -1,5 +1,5 @@
+import { BattleInstance, ParticipantInstance } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
-import { BattleInstance, ParticipantInstance } from './battleSetup'
 import { getHits } from './roll'
 
 export function doBattle(battleInstance: BattleInstance) {

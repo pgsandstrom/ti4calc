@@ -1,8 +1,9 @@
 import getBattleReport from '.'
 import { checkResult } from '../util/util-test'
-import { getUnitMap, Participant, Side } from './battleSetup'
+import { getUnitMap } from './battleSetup'
 import { duraniumArmor, nonEuclideanShielding } from './battleeffect/battleEffects'
 import { Race } from './races/race'
+import { Participant, Side } from './battle-types'
 
 const DO_BATTLE_X_TIMES = 10000
 
@@ -60,7 +61,7 @@ describe('core', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.18)
   })
 
-  it('dreadnaught with duranium', () => {
+  it('5v5 dreadnaught with duranium', () => {
     const attacker: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),
@@ -83,7 +84,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167, 0.2)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
   })
 })

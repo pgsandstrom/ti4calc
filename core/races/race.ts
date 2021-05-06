@@ -1,5 +1,5 @@
+import { Participant } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Participant } from '../battleSetup'
 import { arborec } from './arborec'
 import { argentFlight } from './argentFlight'
 import { baronyOfLetnev } from './baronyOfLetnev'

@@ -2,13 +2,14 @@ import Head from 'next/head'
 import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
+import { Participant, Side } from '../core/battle-types'
 import {
   BattleEffect,
   getAllBattleEffects,
   isBattleEffectRelevant,
 } from '../core/battleeffect/battleEffects'
 import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
-import { createParticipant, Participant, Side } from '../core/battleSetup'
+import { createParticipant } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
 
