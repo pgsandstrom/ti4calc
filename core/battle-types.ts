@@ -11,10 +11,7 @@ import { BattleEffect } from './battleeffect/battleEffects'
 import { Race } from './races/race'
 import { UnitInstance, UnitType } from './unit'
 
-export enum Side {
-  attacker = 'attacker',
-  defender = 'defender',
-}
+export type Side = 'attacker' | 'defender'
 
 // this returns a new unit
 export type UnitEffect = (u: UnitInstance, p: ParticipantInstance) => UnitInstance

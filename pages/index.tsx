@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
-import { Participant, Side } from '../core/battle-types'
+import { Participant } from '../core/battle-types'
 import {
   BattleEffect,
   getAllBattleEffects,
@@ -44,8 +44,8 @@ const BattleReportDiv = styled.div`
 `
 
 export default function Home() {
-  const [attacker, setAttacker] = useState<Participant>(createParticipant(Side.attacker))
-  const [defender, setDefender] = useState<Participant>(createParticipant(Side.defender))
+  const [attacker, setAttacker] = useState<Participant>(createParticipant('attacker'))
+  const [defender, setDefender] = useState<Participant>(createParticipant('defender'))
   const [battleReport, setBattleReport] = useState<BattleReport>()
 
   const launch = () => {

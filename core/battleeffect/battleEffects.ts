@@ -51,7 +51,7 @@ export const warfunding: BattleEffect = {
 export const defendingInNebula: BattleEffect = {
   name: 'Defending in nebula',
   type: 'general',
-  side: Side.defender,
+  side: 'defender',
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
       return {

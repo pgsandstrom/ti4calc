@@ -3,7 +3,7 @@ import { checkResult } from '../util/util-test'
 import { getUnitMap } from './battleSetup'
 import { duraniumArmor, nonEuclideanShielding } from './battleeffect/battleEffects'
 import { Race } from './races/race'
-import { Participant, Side } from './battle-types'
+import { Participant } from './battle-types'
 
 const DO_BATTLE_X_TIMES = 10000
 
@@ -14,7 +14,7 @@ describe('core', () => {
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
-      side: Side.attacker,
+      side: 'attacker',
       battleEffects: [nonEuclideanShielding, duraniumArmor],
     }
     const defender: Participant = {
@@ -22,7 +22,7 @@ describe('core', () => {
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
-      side: Side.defender,
+      side: 'defender',
       battleEffects: [],
     }
     attacker.units.dreadnought = 2
@@ -40,7 +40,7 @@ describe('core', () => {
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
-      side: Side.attacker,
+      side: 'attacker',
       battleEffects: [],
     }
     const defender: Participant = {
@@ -48,7 +48,7 @@ describe('core', () => {
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
-      side: Side.defender,
+      side: 'defender',
       battleEffects: [],
     }
     attacker.units.flagship = 1
@@ -67,7 +67,7 @@ describe('core', () => {
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
-      side: Side.attacker,
+      side: 'attacker',
       battleEffects: [duraniumArmor],
     }
     const defender: Participant = {
@@ -75,7 +75,7 @@ describe('core', () => {
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
-      side: Side.defender,
+      side: 'defender',
       battleEffects: [],
     }
     attacker.units.dreadnought = 5

@@ -31,8 +31,8 @@ export function setupBattle(battle: Battle): BattleResult {
 
 function createBattleInstance(battle: Battle): BattleInstance {
   return {
-    attacker: createParticipantInstance(battle.attacker, Side.attacker, battle.defender),
-    defender: createParticipantInstance(battle.defender, Side.defender, battle.attacker),
+    attacker: createParticipantInstance(battle.attacker, 'attacker', battle.defender),
+    defender: createParticipantInstance(battle.defender, 'defender', battle.attacker),
     roundNumber: 1,
   }
 }
