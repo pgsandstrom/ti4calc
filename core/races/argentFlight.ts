@@ -1,5 +1,8 @@
+import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import _times from 'lodash/times'
+import { getBestSustainUnit } from '../battle'
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -29,6 +32,19 @@ export const argentFlight: BattleEffect[] = [
         unit.combat!.hit = 8
       }
       return unit
+    },
+    afterAfb: (
+      _p: ParticipantInstance,
+      _battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      _times(otherParticipant.hitsToAssign, () => {
+        const bestSustainUnit = getBestSustainUnit(otherParticipant)
+        if (bestSustainUnit) {
+          bestSustainUnit.takenDamage = true
+          bestSustainUnit.takenDamageRound = 0
+        }
+      })
     },
   },
 ]

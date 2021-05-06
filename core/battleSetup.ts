@@ -64,6 +64,7 @@ function createParticipantInstance(
     onStartEffect: [],
     onSustainEffect: [],
     onRepairEffect: [],
+    afterAfbEffect: [],
 
     riskDirectHit: participant.riskDirectHit,
 
@@ -96,6 +97,9 @@ function createParticipantInstance(
     }
     if (battleEffect.onRepair) {
       participantInstance.onRepairEffect.push(battleEffect)
+    }
+    if (battleEffect.afterAfb) {
+      participantInstance.afterAfbEffect.push(battleEffect)
     }
     if (battleEffect.transformUnit) {
       if (battleEffect.onlyFirstRound === true) {

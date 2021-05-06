@@ -23,6 +23,7 @@ export interface BattleEffect {
   onStart?: ParticipantEffect
   onSustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
+  afterAfb?: ParticipantEffect
   onlyFirstRound?: boolean // default false
 
   timesPerRound?: number

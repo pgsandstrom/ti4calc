@@ -23,7 +23,11 @@ export type UnitBattleEffect = (
   battle: BattleInstance,
 ) => void
 
-export type ParticipantEffect = (participant: ParticipantInstance, battle: BattleInstance) => void
+export type ParticipantEffect = (
+  participant: ParticipantInstance,
+  battle: BattleInstance,
+  otherParticipant: ParticipantInstance,
+) => void
 
 export interface Battle {
   attacker: Participant
@@ -62,6 +66,7 @@ export interface ParticipantInstance {
   onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
+  afterAfbEffect: BattleEffect[]
 
   riskDirectHit: boolean
 

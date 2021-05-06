@@ -87,4 +87,6 @@ describe('core', () => {
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167, 0.2)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
   })
+
+  // TODO add a test where argent flight destroyers fudge up sustain armor
 })

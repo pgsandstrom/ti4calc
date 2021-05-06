@@ -1,17 +1,20 @@
 import { BattleInstance, ParticipantInstance } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { getHits } from './roll'
+import { UnitType } from './unit'
 
 export function doBattle(battleInstance: BattleInstance) {
+  battleInstance.attacker.onStartEffect.forEach((effect) => {
+    effect.onStart!(battleInstance.attacker, battleInstance, battleInstance.defender)
+  })
+  battleInstance.defender.onStartEffect.forEach((effect) => {
+    effect.onStart!(battleInstance.defender, battleInstance, battleInstance.attacker)
+  })
+
   doPds(battleInstance)
   resolveHits(battleInstance)
 
-  battleInstance.attacker.onStartEffect.forEach((effect) => {
-    effect.onStart!(battleInstance.attacker, battleInstance)
-  })
-  battleInstance.defender.onStartEffect.forEach((effect) => {
-    effect.onStart!(battleInstance.defender, battleInstance)
-  })
+  doAfb(battleInstance)
 
   while (
     isParticipantAlive(battleInstance.attacker) &&
@@ -47,6 +50,45 @@ function getPdsHits(p: ParticipantInstance) {
   return hits.reduce((a, b) => {
     return a + b
   }, 0)
+}
+
+function doAfb(battle: BattleInstance) {
+  const attackerPdsHits = getAfbHits(battle.attacker)
+  battle.defender.hitsToAssign += attackerPdsHits
+  const defenderPdsHits = getAfbHits(battle.defender)
+  battle.attacker.hitsToAssign += defenderPdsHits
+
+  resolveAfbHits(battle.attacker)
+  resolveAfbHits(battle.defender)
+
+  battle.attacker.afterAfbEffect.forEach((effect) => {
+    effect.afterAfb!(battle.attacker, battle, battle.defender)
+  })
+  battle.defender.afterAfbEffect.forEach((effect) => {
+    effect.afterAfb!(battle.defender, battle, battle.attacker)
+  })
+
+  battle.attacker.hitsToAssign = 0
+  battle.defender.hitsToAssign = 0
+}
+
+function getAfbHits(p: ParticipantInstance) {
+  const hits = p.units.map((u) => (u.afb ? getHits(u.afb) : 0))
+  return hits.reduce((a, b) => {
+    return a + b
+  }, 0)
+}
+
+function resolveAfbHits(p: ParticipantInstance) {
+  while (p.hitsToAssign > 0) {
+    const aliveFighter = p.units.find((u) => u.type === UnitType.fighter && !u.isDestroyed)
+    if (aliveFighter) {
+      aliveFighter.isDestroyed = true
+      p.hitsToAssign -= 1
+    } else {
+      break
+    }
+  }
 }
 
 function doBattleRolls(battleInstance: BattleInstance) {
@@ -197,7 +239,7 @@ function getAliveUnits(p: ParticipantInstance) {
   })
 }
 
-function getBestSustainUnit(p: ParticipantInstance) {
+export function getBestSustainUnit(p: ParticipantInstance) {
   const units = getUnitsWithSustain(p)
   if (units.length === 0) {
     return undefined
