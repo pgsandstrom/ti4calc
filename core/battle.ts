@@ -1,3 +1,4 @@
+import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { BattleInstance, ParticipantInstance } from './battleSetup'
 import { getHits } from './roll'
 
@@ -14,6 +15,9 @@ export function doBattle(battleInstance: BattleInstance) {
     doRepairStep(battleInstance)
 
     battleInstance.roundNumber += 1
+
+    battleInstance.attacker.roundActionTracker = {}
+    battleInstance.defender.roundActionTracker = {}
 
     if (battleInstance.roundNumber === 1000) {
       // TODO handle it nicer
@@ -53,29 +57,31 @@ function doParticipantBattleRolls(
     .map((unit) => unit.battleEffect!)
     .flat()
     .filter((effect) => effect.transformUnit)
-    .map((effect) => effect.transformUnit!)
 
   const enemyUnitTransformEffects = p.units
     .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
     .map((unit) => unit.battleEffect!)
     .flat()
     .filter((effect) => effect.transformEnemyUnit)
-    .map((effect) => effect.transformEnemyUnit!)
 
   const hits = p.units
     .map((unit) => {
       if (battleInstance.roundNumber === 1) {
         p.firstRoundEffects.forEach((effect) => {
-          unit = effect(unit)
+          unit = effect(unit, p)
         })
       }
 
-      unitTransformEffects.forEach((transformUnit) => {
-        unit = transformUnit(unit)
+      unitTransformEffects.forEach((effect) => {
+        if (canBattleEffectBeUsed(effect, p)) {
+          unit = effect.transformUnit!(unit, p)
+        }
       })
 
-      enemyUnitTransformEffects.forEach((transformUnit) => {
-        unit = transformUnit(unit)
+      enemyUnitTransformEffects.forEach((effect) => {
+        if (canBattleEffectBeUsed(effect, p)) {
+          unit = effect.transformEnemyUnit!(unit, p)
+        }
       })
 
       // if (unit.combat) {
@@ -108,9 +114,11 @@ function resolveParticipantHits(battleInstance: BattleInstance, p: ParticipantIn
       bestSustainUnit.takenDamage = true
       bestSustainUnit.takenDamageRound = battleInstance.roundNumber
       p.hitsToAssign -= 1
-      p.onSustainEffect.forEach((sustainEffect) =>
-        sustainEffect(bestSustainUnit, p, battleInstance),
-      )
+      p.onSustainEffect.forEach((effect) => {
+        if (canBattleEffectBeUsed(effect, p)) {
+          effect.onSustain!(bestSustainUnit, p, battleInstance)
+        }
+      })
     } else {
       const bestDieUnit = getBestDieUnit(p)
       if (bestDieUnit) {
@@ -118,9 +126,11 @@ function resolveParticipantHits(battleInstance: BattleInstance, p: ParticipantIn
           bestDieUnit.takenDamage = true
           bestDieUnit.takenDamageRound = battleInstance.roundNumber
           p.hitsToAssign -= 1
-          p.onSustainEffect.forEach((sustainEffect) =>
-            sustainEffect(bestDieUnit, p, battleInstance),
-          )
+          p.onSustainEffect.forEach((effect) => {
+            if (canBattleEffectBeUsed(effect, p)) {
+              effect.onSustain!(bestDieUnit, p, battleInstance)
+            }
+          })
         } else {
           bestDieUnit.isDestroyed = true
           p.hitsToAssign -= 1
@@ -147,9 +157,11 @@ function doRepairStepForParticipant(
 ) {
   if (participant.onRepairEffect.length > 0) {
     participant.units.forEach((unit) => {
-      participant.onRepairEffect.forEach((repairEffect) =>
-        repairEffect(unit, participant, battleInstance),
-      )
+      participant.onRepairEffect.forEach((effect) => {
+        if (canBattleEffectBeUsed(effect, participant)) {
+          effect.onRepair!(unit, participant, battleInstance)
+        }
+      })
     })
   }
 }

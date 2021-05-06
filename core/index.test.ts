@@ -1,7 +1,7 @@
-import doEverything from '.'
+import getBattleReport from '.'
 import { checkResult } from '../util/util-test'
-import { duraniumArmor, nonEuclideanShielding } from './battleeffect/battleEffects'
 import { getUnitMap, Participant, Side } from './battleSetup'
+import { duraniumArmor, nonEuclideanShielding } from './battleeffect/battleEffects'
 import { Race } from './races/race'
 
 const DO_BATTLE_X_TIMES = 10000
@@ -27,7 +27,7 @@ describe('core', () => {
     attacker.units.dreadnought = 2
     defender.units.dreadnought = 2
 
-    const result = doEverything(attacker, defender, 100)
+    const result = getBattleReport(attacker, defender, 100)
 
     expect(result.draw).toEqual(0)
     expect(result.defender).toEqual(0)
@@ -53,10 +53,37 @@ describe('core', () => {
     attacker.units.flagship = 1
     defender.units.flagship = 1
 
-    const result = doEverything(attacker, defender, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.56)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.26)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.18)
+  })
+
+  it('dreadnaught with duranium', () => {
+    const attacker: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: Side.attacker,
+      battleEffects: [duraniumArmor],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: Side.defender,
+      battleEffects: [],
+    }
+    attacker.units.dreadnought = 5
+    defender.units.dreadnought = 5
+
+    const result = getBattleReport(attacker, defender, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
   })
 })

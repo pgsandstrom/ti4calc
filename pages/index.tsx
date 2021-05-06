@@ -12,6 +12,9 @@ import { createParticipant, Participant, Side } from '../core/battleSetup'
 import { Race } from '../core/races/race'
 import { UnitType } from '../core/unit'
 
+// TODO input field should revert to zero when you empty them
+// TODO shit input should revert to earlier number i guess
+
 const StyledMain = styled.main`
   display: flex;
   flex-direction: column;

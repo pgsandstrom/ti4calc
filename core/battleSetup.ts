@@ -19,7 +19,7 @@ export enum Side {
 }
 
 // this returns a new unit
-export type UnitEffect = (p: UnitInstance) => UnitInstance
+export type UnitEffect = (u: UnitInstance, p: ParticipantInstance) => UnitInstance
 
 // this modifies existing objects
 export type UnitBattleEffect = (
@@ -60,13 +60,19 @@ export interface ParticipantInstance {
   units: UnitInstance[]
 
   // firstRoundEffects only works for changing attack currently
+  // TODO refactor this to battleeffect as well
   firstRoundEffects: UnitEffect[]
-  onSustainEffect: UnitBattleEffect[]
-  onRepairEffect: UnitBattleEffect[]
+  onSustainEffect: BattleEffect[]
+  onRepairEffect: BattleEffect[]
 
   riskDirectHit: boolean
 
   hitsToAssign: number
+
+  // used to track stuff that can only happen a limited number of times per turn
+  roundActionTracker: PartialRecord<string, number>
+  // used to track stuff that can only happen a limited number of times per fight
+  fightActionTracker: PartialRecord<string, number>
 }
 
 export enum BattleResult {
@@ -128,6 +134,9 @@ function createParticipantInstance(
     riskDirectHit: participant.riskDirectHit,
 
     hitsToAssign: 0,
+
+    roundActionTracker: {},
+    fightActionTracker: {},
   }
 
   // TODO I guess here we should filter out battle effects that are not applicable
@@ -146,16 +155,18 @@ function createParticipantInstance(
 
   participant.battleEffects.forEach((battleEffect) => {
     if (battleEffect.onSustain) {
-      participantInstance.onSustainEffect.push(battleEffect.onSustain)
+      participantInstance.onSustainEffect.push(battleEffect)
     }
     if (battleEffect.onRepair) {
-      participantInstance.onRepairEffect.push(battleEffect.onRepair)
+      participantInstance.onRepairEffect.push(battleEffect)
     }
     if (battleEffect.transformUnit) {
       if (battleEffect.onlyFirstRound === true) {
         participantInstance.firstRoundEffects.push(battleEffect.transformUnit)
       } else {
-        participantInstance.units = participantInstance.units.map(battleEffect.transformUnit)
+        participantInstance.units = participantInstance.units.map((u) =>
+          battleEffect.transformUnit!(u, participantInstance),
+        )
       }
     }
   })
@@ -165,7 +176,9 @@ function createParticipantInstance(
       if (battleEffect.onlyFirstRound === true) {
         participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
       } else {
-        participantInstance.units = participantInstance.units.map(battleEffect.transformEnemyUnit)
+        participantInstance.units = participantInstance.units.map((u) =>
+          battleEffect.transformEnemyUnit!(u, participantInstance),
+        )
       }
     }
   })

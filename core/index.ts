@@ -7,7 +7,7 @@ export interface BattleReport {
   defender: number
 }
 
-export default function doEverything(
+export default function getBattleReport(
   attacker: Participant,
   defender: Participant,
   times = 1000,

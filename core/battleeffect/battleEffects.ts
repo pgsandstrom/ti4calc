@@ -22,6 +22,9 @@ export interface BattleEffect {
   onSustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
   onlyFirstRound?: boolean // default false
+
+  timesPerRound?: number
+  timesPerFight?: number
 }
 
 export const warfunding: BattleEffect = {
@@ -76,11 +79,14 @@ export const nonEuclideanShielding: BattleEffect = {
 export const duraniumArmor: BattleEffect = {
   name: 'Duranium Armor',
   type: 'tech',
-  onRepair: (unit: UnitInstance, _participant: ParticipantInstance, battle: BattleInstance) => {
+  onRepair: (unit: UnitInstance, participant: ParticipantInstance, battle: BattleInstance) => {
     if (unit.takenDamage && unit.takenDamageRound !== battle.roundNumber) {
       unit.takenDamage = false
+      registerUse(duraniumArmor, participant)
+      // console.log(`${participant.side} used duranium armor in round ${battle.roundNumber}`)
     }
   },
+  timesPerRound: 1,
 }
 
 export function getAllBattleEffects(): BattleEffect[] {
@@ -104,5 +110,28 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
       return false
     }
   }
+  return true
+}
+
+function registerUse(effect: BattleEffect, p: ParticipantInstance) {
+  p.roundActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
+  p.fightActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
+}
+
+export function canBattleEffectBeUsed(effect: BattleEffect, participant: ParticipantInstance) {
+  if (effect.timesPerFight !== undefined) {
+    const timesUsedThisFight = participant.fightActionTracker[effect.name]
+    if (timesUsedThisFight !== undefined && timesUsedThisFight >= effect.timesPerFight) {
+      return false
+    }
+  }
+
+  if (effect.timesPerRound !== undefined) {
+    const timesUsedThisRound = participant.roundActionTracker[effect.name]
+    if (timesUsedThisRound !== undefined && timesUsedThisRound >= effect.timesPerRound) {
+      return false
+    }
+  }
+
   return true
 }
