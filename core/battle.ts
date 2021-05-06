@@ -6,6 +6,13 @@ export function doBattle(battleInstance: BattleInstance) {
   doPds(battleInstance)
   resolveHits(battleInstance)
 
+  battleInstance.attacker.onStartEffect.forEach((effect) => {
+    effect.onStart!(battleInstance.attacker, battleInstance)
+  })
+  battleInstance.defender.onStartEffect.forEach((effect) => {
+    effect.onStart!(battleInstance.defender, battleInstance)
+  })
+
   while (
     isParticipantAlive(battleInstance.attacker) &&
     isParticipantAlive(battleInstance.defender)

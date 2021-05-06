@@ -4,7 +4,7 @@ import { defaultRoll, UnitInstance, UnitType } from '../unit'
 export const arborec: BattleEffect[] = [
   {
     type: 'race',
-    name: 'Arborec Flight flagship',
+    name: 'Arborec flagship',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {

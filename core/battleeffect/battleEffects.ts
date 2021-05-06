@@ -5,9 +5,10 @@ import {
   ParticipantInstance,
   BattleInstance,
   Participant,
+  ParticipantEffect,
 } from '../battle-types'
 import { Race } from '../races/race'
-import { UnitInstance, UnitType } from '../unit'
+import { defaultRoll, getWorstNonFighter, UnitInstance, UnitType } from '../unit'
 import { getAllUnitUpgrades } from './unitUpgrades'
 
 export interface BattleEffect {
@@ -19,6 +20,7 @@ export interface BattleEffect {
   unit?: UnitType
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
+  onStart?: ParticipantEffect
   onSustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
   onlyFirstRound?: boolean // default false
@@ -89,8 +91,59 @@ export const duraniumArmor: BattleEffect = {
   timesPerRound: 1,
 }
 
+export const memoria1: BattleEffect = {
+  name: 'Memoria I',
+  type: 'promissary',
+  onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
+    const worstNonFighterShip = getWorstNonFighter(participant)
+    if (!worstNonFighterShip) {
+      return
+    }
+    worstNonFighterShip.combat = {
+      ...defaultRoll,
+      hit: 7,
+      countBonus: 2,
+    }
+    worstNonFighterShip.afb = {
+      ...defaultRoll,
+      hit: 5,
+      countBonus: 3,
+    }
+    worstNonFighterShip.sustainDamage = true
+  },
+}
+
+export const memoria2: BattleEffect = {
+  name: 'Memoria II',
+  type: 'promissary',
+  onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
+    const worstNonFighterShip = getWorstNonFighter(participant)
+    if (!worstNonFighterShip) {
+      return
+    }
+    worstNonFighterShip.combat = {
+      ...defaultRoll,
+      hit: 5,
+      countBonus: 2,
+    }
+    worstNonFighterShip.afb = {
+      ...defaultRoll,
+      hit: 5,
+      countBonus: 3,
+    }
+    worstNonFighterShip.sustainDamage = true
+  },
+}
+
 export function getAllBattleEffects(): BattleEffect[] {
-  const normal = [warfunding, defendingInNebula, nonEuclideanShielding, duraniumArmor]
+  const normal = [
+    warfunding,
+    defendingInNebula,
+    nonEuclideanShielding,
+    duraniumArmor,
+    memoria1,
+    memoria2,
+  ]
   const unitUpgrades = getAllUnitUpgrades()
   return [...normal, ...unitUpgrades]
 }

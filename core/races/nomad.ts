@@ -1,23 +1,22 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
-export const baronyOfLetnev: BattleEffect[] = [
+export const nomad: BattleEffect[] = [
   {
     type: 'race',
-    name: 'Barony of Letnev flagship',
+    name: 'Nomad flagship',
     transformUnit: (unit: UnitInstance) => {
-      // TODO add repair and disable planetary shield
       if (unit.type === UnitType.flagship) {
         return {
           ...unit,
           combat: {
             ...defaultRoll,
-            hit: 5,
+            hit: 7,
             count: 2,
           },
-          bombardment: {
+          afb: {
             ...defaultRoll,
-            hit: 5,
+            hit: 8,
             count: 3,
           },
         }

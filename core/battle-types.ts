@@ -26,6 +26,8 @@ export type UnitBattleEffect = (
   battle: BattleInstance,
 ) => void
 
+export type ParticipantEffect = (participant: ParticipantInstance, battle: BattleInstance) => void
+
 export interface Battle {
   attacker: Participant
   defender: Participant
@@ -58,8 +60,9 @@ export interface ParticipantInstance {
   units: UnitInstance[]
 
   // firstRoundEffects only works for changing attack currently
-  // TODO refactor this to battleeffect as well
+  // TODO refactor this to battleeffect as well maybe
   firstRoundEffects: UnitEffect[]
+  onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
 

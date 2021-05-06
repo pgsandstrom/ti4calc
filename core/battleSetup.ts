@@ -61,6 +61,7 @@ function createParticipantInstance(
     race: participant.race,
     units,
     firstRoundEffects: [],
+    onStartEffect: [],
     onSustainEffect: [],
     onRepairEffect: [],
 
@@ -87,6 +88,9 @@ function createParticipantInstance(
   })
 
   participant.battleEffects.forEach((battleEffect) => {
+    if (battleEffect.onStart) {
+      participantInstance.onStartEffect.push(battleEffect)
+    }
     if (battleEffect.onSustain) {
       participantInstance.onSustainEffect.push(battleEffect)
     }

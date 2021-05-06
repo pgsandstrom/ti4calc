@@ -1,3 +1,4 @@
+import { ParticipantInstance } from './battle-types'
 import { BattleEffect } from './battleeffect/battleEffects'
 
 export enum UnitType {
@@ -253,4 +254,27 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   mech,
   pds,
   warsun,
+}
+
+const NON_FIGHTER_SHIP_BY_USELESSNESS = [carrier, destroyer, cruiser, dreadnought, flagship, warsun]
+
+export function getWorstNonFighter(p: ParticipantInstance) {
+  if (p.units.length === 0) {
+    return undefined
+  }
+  return p.units.reduce((a, b) => {
+    const aIndex = NON_FIGHTER_SHIP_BY_USELESSNESS.findIndex((u) => u.type === a.type)
+    const bIndex = NON_FIGHTER_SHIP_BY_USELESSNESS.findIndex((u) => u.type === b.type)
+    if (aIndex === -1) {
+      return b
+    }
+    if (bIndex === -1) {
+      return a
+    }
+    if (a < b) {
+      return a
+    } else {
+      return b
+    }
+  })
 }
