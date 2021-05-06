@@ -7,7 +7,11 @@ export interface BattleReport {
   defender: number
 }
 
-export default function doEverything(attacker: Participant, defender: Participant): BattleReport {
+export default function doEverything(
+  attacker: Participant,
+  defender: Participant,
+  times = 1000,
+): BattleReport {
   const battle: Battle = {
     attacker,
     defender,
@@ -19,7 +23,7 @@ export default function doEverything(attacker: Participant, defender: Participan
     defender: 0,
   }
 
-  _times(100, () => {
+  _times(times, () => {
     const result = setupBattle(battle)
     switch (result) {
       case BattleResult.attacker:

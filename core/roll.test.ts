@@ -1,5 +1,6 @@
 import _ from 'lodash'
-import { getHits } from './battle'
+import { checkResult } from '../util/util-test'
+import { getHits } from './roll'
 import { Roll } from './unit'
 
 describe('battle', () => {
@@ -104,10 +105,4 @@ describe('battle', () => {
     })
     checkResult(hits, 8750)
   })
-
-  function checkResult(result: number, expected: number, allowedErrorPercentage = 0.04) {
-    expect(result).toBeLessThanOrEqual(expected + expected * allowedErrorPercentage)
-    expect(result).toBeGreaterThanOrEqual(expected - expected * allowedErrorPercentage)
-    // console.log(`expected ${expected}, got ${result}`)
-  }
 })
