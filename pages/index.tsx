@@ -49,8 +49,10 @@ export default function Home() {
   const [battleReport, setBattleReport] = useState<BattleReport>()
 
   const launch = () => {
+    // const timer = startDebugTimer('simulate')
     const br = getBattleReport(attacker, defender)
     setBattleReport(br)
+    // timer.end()
   }
 
   return (

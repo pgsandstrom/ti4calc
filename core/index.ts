@@ -1,6 +1,7 @@
 import _times from 'lodash/times'
+import _cloneDeep from 'lodash/cloneDeep'
 import { Participant, Battle, BattleResult } from './battle-types'
-import { setupBattle } from './battleSetup'
+import { setupBattle, startBattle } from './battleSetup'
 
 export interface BattleReport {
   attacker: number
@@ -24,8 +25,10 @@ export default function getBattleReport(
     defender: 0,
   }
 
+  const battleInstance = setupBattle(battle)
   _times(times, () => {
-    const result = setupBattle(battle)
+    const tmp = _cloneDeep(battleInstance)
+    const result = startBattle(tmp)
     switch (result) {
       case BattleResult.attacker:
         data.attacker += 1

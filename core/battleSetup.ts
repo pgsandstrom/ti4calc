@@ -14,10 +14,12 @@ import {
   ParticipantInstance,
 } from './battle-types'
 
-export function setupBattle(battle: Battle): BattleResult {
+export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
-  // TODO fix so createBattleInstance is only called once and then cloned, not 1000 times
-  const battleInstance = createBattleInstance(battle)
+  return createBattleInstance(battle)
+}
+
+export function startBattle(battleInstance: BattleInstance) {
   doBattle(battleInstance)
 
   if (isParticipantAlive(battleInstance.attacker)) {
