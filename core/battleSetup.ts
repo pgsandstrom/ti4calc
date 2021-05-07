@@ -115,6 +115,7 @@ function createParticipantInstance(
     onStartEffect: [],
     onSustainEffect: [],
     onRepairEffect: [],
+    onCombatRoundEnd: [],
     afterAfbEffect: [],
 
     riskDirectHit: participant.riskDirectHit,
@@ -170,6 +171,9 @@ function applyBattleEffects(
     }
     if (battleEffect.onRepair) {
       participantInstance.onRepairEffect.push(battleEffect)
+    }
+    if (battleEffect.onCombatRoundEnd) {
+      participantInstance.onCombatRoundEnd.push(battleEffect)
     }
     if (battleEffect.afterAfb) {
       participantInstance.afterAfbEffect.push(battleEffect)

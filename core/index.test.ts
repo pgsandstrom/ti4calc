@@ -239,4 +239,32 @@ describe('core', () => {
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.028, 0.2)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
   })
+
+  it('ground combat with l1z1x harrow ability', () => {
+    const attacker: Participant = {
+      race: Race.l1z1x,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.dreadnought = 3
+    attacker.units.infantry = 5
+    defender.units.infantry = 8
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.803)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.063, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132)
+  })
 })

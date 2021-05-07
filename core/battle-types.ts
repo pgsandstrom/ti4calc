@@ -68,6 +68,7 @@ export interface ParticipantInstance {
   onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
+  onCombatRoundEnd: BattleEffect[]
   afterAfbEffect: BattleEffect[]
 
   riskDirectHit: boolean

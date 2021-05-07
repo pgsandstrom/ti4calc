@@ -4,6 +4,7 @@ export enum Race {
   arborec = 'Arborec',
   argent_flight = 'Argent flight',
   barony_of_letnev = 'Barony of Letnev',
+  l1z1x = 'L1z1x',
   nomad = 'Nomad',
   sardakk_norr = 'Sardakk Norr',
 }

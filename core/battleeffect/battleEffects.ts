@@ -24,6 +24,7 @@ export interface BattleEffect {
   onStart?: ParticipantEffect
   onSustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
+  onCombatRoundEnd?: ParticipantEffect
   afterAfb?: ParticipantEffect
   onlyFirstRound?: boolean // default false
 

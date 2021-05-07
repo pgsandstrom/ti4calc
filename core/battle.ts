@@ -16,17 +16,12 @@ export function doBattle(battle: BattleInstance) {
     effect.onStart!(battle.defender, battle, battle.attacker)
   })
 
-  if (battle.place === Place.ground) {
-    doBombardment(battle)
-    resolveHits(battle)
-  }
+  doBombardment(battle)
 
   doPds(battle)
   resolveHits(battle)
 
-  if (battle.place === Place.space) {
-    doAfb(battle)
-  }
+  doAfb(battle)
 
   while (
     isParticipantAlive(battle.attacker, battle.place) &&
@@ -35,6 +30,13 @@ export function doBattle(battle: BattleInstance) {
     doBattleRolls(battle)
     resolveHits(battle)
     doRepairStep(battle)
+
+    battle.attacker.onCombatRoundEnd.forEach((effect) => {
+      effect.onCombatRoundEnd!(battle.attacker, battle, battle.defender)
+    })
+    battle.defender.afterAfbEffect.forEach((effect) => {
+      effect.afterAfb!(battle.defender, battle, battle.attacker)
+    })
 
     battle.roundNumber += 1
 
@@ -52,7 +54,11 @@ export function doBattle(battle: BattleInstance) {
   }
 }
 
-function doBombardment(battle: BattleInstance) {
+export function doBombardment(battle: BattleInstance) {
+  if (battle.place !== Place.ground) {
+    return
+  }
+
   if (battle.defender.units.some((u) => u.planetaryShield)) {
     return
   }
@@ -65,7 +71,7 @@ function doBombardment(battle: BattleInstance) {
     console.log(`bombardment produced ${result} hits.`)
   }
   battle.defender.hitsToAssign += result
-  return result
+  resolveHits(battle)
 }
 
 function doPds(battle: BattleInstance) {
@@ -85,6 +91,10 @@ function getPdsHits(p: ParticipantInstance) {
 }
 
 function doAfb(battle: BattleInstance) {
+  if (battle.place !== Place.space) {
+    return
+  }
+
   const attackerPdsHits = getAfbHits(battle.attacker)
   battle.defender.hitsToAssign += attackerPdsHits
   const defenderPdsHits = getAfbHits(battle.defender)

@@ -4,6 +4,7 @@ import { Race } from '../enums'
 import { arborec } from './arborec'
 import { argentFlight } from './argentFlight'
 import { baronyOfLetnev } from './baronyOfLetnev'
+import { l1z1x } from './l1z1x'
 import { nomad } from './nomad'
 import { sardarkkNorr } from './sardakkNorr'
 
@@ -11,6 +12,7 @@ const RACE_MAP: Record<Race, BattleEffect[]> = {
   Arborec: arborec,
   'Argent flight': argentFlight,
   'Barony of Letnev': baronyOfLetnev,
+  L1z1x: l1z1x,
   Nomad: nomad,
   'Sardakk Norr': sardarkkNorr,
 }
