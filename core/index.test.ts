@@ -179,7 +179,7 @@ describe('core', () => {
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.2)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081, 0.1)
   })
 
   it('ground combat with bombardment but also planetary shield', () => {

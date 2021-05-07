@@ -7,6 +7,7 @@ import { baronyOfLetnev } from './baronyOfLetnev'
 import { l1z1x } from './l1z1x'
 import { nomad } from './nomad'
 import { sardarkkNorr } from './sardakkNorr'
+import { titansOfUl } from './titansOfUl'
 
 const RACE_MAP: Record<Race, BattleEffect[]> = {
   Arborec: arborec,
@@ -15,6 +16,7 @@ const RACE_MAP: Record<Race, BattleEffect[]> = {
   L1z1x: l1z1x,
   Nomad: nomad,
   'Sardakk Norr': sardarkkNorr,
+  'Titans of Ul': titansOfUl,
 }
 
 export function getRaceBattleEffects(p: Participant | Race) {

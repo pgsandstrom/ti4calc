@@ -3,6 +3,7 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { getBestSustainUnit } from '../battle'
+import { Race } from '../enums'
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -50,6 +51,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Argent Flight destroyers upgrade',
+    race: Race.argent_flight,
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {

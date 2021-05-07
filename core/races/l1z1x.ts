@@ -1,6 +1,7 @@
 import { doBombardment } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const l1z1x: BattleEffect[] = [
@@ -39,13 +40,20 @@ export const l1z1x: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'L1z1x dreadnaught upgrade',
+    race: Race.l1z1x,
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
-      // TODO test this
       if (unit.type === UnitType.dreadnought) {
-        unit.combat!.hit = 4
+        return {
+          ...unit,
+          combat: {
+            ...unit.combat!,
+            hit: 4,
+          },
+        }
+      } else {
+        return unit
       }
-      return unit
     },
   },
 ]
