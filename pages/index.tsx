@@ -10,7 +10,7 @@ import {
 } from '../core/battleeffect/battleEffects'
 import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
 import { createParticipant } from '../core/battleSetup'
-import { Race } from '../core/races/race'
+import { Race } from '../core/enums'
 import { UnitType } from '../core/unit'
 
 // TODO input field should revert to zero when you empty them

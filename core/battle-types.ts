@@ -8,7 +8,7 @@
 
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
-import { Race } from './races/race'
+import { Race } from './enums'
 import { UnitInstance, UnitType } from './unit'
 
 export type Side = 'attacker' | 'defender'

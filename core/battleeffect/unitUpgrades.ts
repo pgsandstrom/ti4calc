@@ -1,4 +1,5 @@
-import { Race } from '../races/race'
+import { Race } from '../enums'
+import { getRaceBattleEffects } from '../races/race'
 import { UnitInstance, UnitType } from '../unit'
 import { BattleEffect } from './battleEffects'
 
@@ -138,12 +139,11 @@ export const getAllUnitUpgrades = () => [
 ]
 
 export function getUnitUpgrade(race: Race, unitType: UnitType) {
-  // TODO this should include race techs... it currently dont :(
-  const raceSpecific = getAllUnitUpgrades().find(
-    (unitUpgrade) => unitUpgrade.race === race && unitUpgrade.unit === unitType,
-  )
-  if (raceSpecific) {
-    return raceSpecific
+  const raceTechs = getRaceBattleEffects(race).filter((effect) => effect.type === 'race-tech')
+
+  const raceTech = raceTechs.find((tech) => tech.unit === unitType)
+  if (raceTech) {
+    return raceTech
   } else {
     return getAllUnitUpgrades().find((unitUpgrade) => unitUpgrade.unit === unitType)
   }

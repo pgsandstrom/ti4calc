@@ -7,9 +7,9 @@ import {
   Participant,
   ParticipantEffect,
 } from '../battle-types'
-import { Race } from '../races/race'
+import { Race } from '../enums'
+import { getRaceTechsNonUnit } from '../races/race'
 import { defaultRoll, getWorstNonFighter, UnitInstance, UnitType } from '../unit'
-import { getAllUnitUpgrades } from './unitUpgrades'
 
 export interface BattleEffect {
   name: string
@@ -64,17 +64,6 @@ export const defendingInNebula: BattleEffect = {
       }
     } else {
       return unit
-    }
-  },
-}
-
-export const nonEuclideanShielding: BattleEffect = {
-  name: 'Non-Euclidean Shielding',
-  type: 'race-tech',
-  race: Race.barony_of_letnev,
-  onSustain: (_unit: UnitInstance, participant: ParticipantInstance, _battle: BattleInstance) => {
-    if (participant.hitsToAssign > 0) {
-      participant.hitsToAssign -= 1
     }
   },
 }
@@ -137,16 +126,10 @@ export const memoria2: BattleEffect = {
 }
 
 export function getAllBattleEffects(): BattleEffect[] {
-  const normal = [
-    warfunding,
-    defendingInNebula,
-    nonEuclideanShielding,
-    duraniumArmor,
-    memoria1,
-    memoria2,
-  ]
-  const unitUpgrades = getAllUnitUpgrades()
-  return [...normal, ...unitUpgrades]
+  const normal = [warfunding, defendingInNebula, duraniumArmor, memoria1, memoria2]
+  // const unitUpgrades = getAllUnitUpgrades()
+  const raceTechs = getRaceTechsNonUnit()
+  return [...normal, ...raceTechs]
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {

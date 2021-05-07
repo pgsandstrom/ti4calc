@@ -47,4 +47,28 @@ export const argentFlight: BattleEffect[] = [
       })
     },
   },
+  {
+    type: 'race-tech',
+    name: 'Argent Flight destroyers upgrade',
+    unit: UnitType.destroyer,
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.destroyer) {
+        unit.combat!.hit = 7
+      }
+      return unit
+    },
+    afterAfb: (
+      _p: ParticipantInstance,
+      _battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      _times(otherParticipant.hitsToAssign, () => {
+        const bestSustainUnit = getBestSustainUnit(otherParticipant)
+        if (bestSustainUnit) {
+          bestSustainUnit.takenDamage = true
+          bestSustainUnit.takenDamageRound = 0
+        }
+      })
+    },
+  },
 ]

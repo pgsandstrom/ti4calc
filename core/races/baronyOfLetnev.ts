@@ -1,4 +1,6 @@
+import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const baronyOfLetnev: BattleEffect[] = [
@@ -23,6 +25,16 @@ export const baronyOfLetnev: BattleEffect[] = [
         }
       } else {
         return unit
+      }
+    },
+  },
+  {
+    name: 'Non-Euclidean Shielding',
+    type: 'race-tech',
+    race: Race.barony_of_letnev,
+    onSustain: (_unit: UnitInstance, participant: ParticipantInstance, _battle: BattleInstance) => {
+      if (participant.hitsToAssign > 0) {
+        participant.hitsToAssign -= 1
       }
     },
   },

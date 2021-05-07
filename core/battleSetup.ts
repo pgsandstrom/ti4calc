@@ -3,7 +3,7 @@ import { UnitInstance, UnitType, UNIT_MAP } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle, isParticipantAlive } from './battle'
-import { getRaceBattleEffects, Race } from './races/race'
+import { getRaceBattleEffects } from './races/race'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import {
   Battle,
@@ -13,6 +13,7 @@ import {
   Participant,
   ParticipantInstance,
 } from './battle-types'
+import { Race } from './enums'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -79,7 +80,8 @@ function createParticipantInstance(
   // TODO I guess here we should filter out battle effects that are not applicable
   // Say I select baron, choose their race tech, then switch to arborec. That needs to be handled.
 
-  participant.battleEffects.push(...getRaceBattleEffects(participant))
+  const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
+  participant.battleEffects.push(...raceAbilities)
 
   objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
     if (upgraded) {
