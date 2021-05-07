@@ -22,6 +22,7 @@ export interface Unit {
   afb?: Roll
   spaceCannon?: Roll
 
+  // TODO maybe make these optional as well
   sustainDamage: boolean
   planetaryShield: boolean
 
@@ -31,7 +32,12 @@ export interface Unit {
   useSustainDamagePriority?: number
   diePriority?: number
 
-  battleEffect?: BattleEffect[]
+  // this is an effect that is only present while the unit is alive (i.e. sardakk flagship)
+  // it only works for transforming friendly or enemy units
+  aura?: BattleEffect[]
+
+  // these work like any other battle effects
+  battleEffects?: BattleEffect[]
 }
 
 export interface UnitInstance extends Unit {
@@ -241,6 +247,19 @@ const warsun: Readonly<Unit> = {
   isShip: true,
 
   diePriority: 10,
+
+  battleEffects: [
+    {
+      name: 'warsun remove planetary shield',
+      type: 'other',
+      transformEnemyUnit: (u: UnitInstance) => {
+        return {
+          ...u,
+          planetaryShield: false,
+        }
+      },
+    },
+  ],
 }
 
 export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {

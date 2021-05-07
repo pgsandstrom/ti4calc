@@ -151,4 +151,92 @@ describe('core', () => {
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.017, 0.2)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.949)
   })
+
+  // TODO add test to ensure that sardakk flagship does not affect ground combat
+
+  it('ground combat with bombardment', () => {
+    const attacker: Participant = {
+      race: Race.argent_flight,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.infantry = 3
+    attacker.units.dreadnought = 3
+    defender.units.infantry = 3
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081)
+  })
+
+  it('ground combat with bombardment but also planetary shield', () => {
+    const attacker: Participant = {
+      race: Race.argent_flight,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.infantry = 3
+    attacker.units.dreadnought = 3
+    defender.units.infantry = 3
+    defender.units.pds = 1
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.316)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.646)
+  })
+
+  it('ground combat with bombardment but also planetary shield... but the planetary shield is DISABLED', () => {
+    const attacker: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.infantry = 3
+    attacker.units.flagship = 1
+    defender.units.infantry = 3
+    defender.units.pds = 1
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.82)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.028, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
+  })
 })

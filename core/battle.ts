@@ -16,6 +16,11 @@ export function doBattle(battle: BattleInstance) {
     effect.onStart!(battle.defender, battle, battle.attacker)
   })
 
+  if (battle.place === Place.ground) {
+    doBombardment(battle)
+    resolveHits(battle)
+  }
+
   doPds(battle)
   resolveHits(battle)
 
@@ -47,11 +52,29 @@ export function doBattle(battle: BattleInstance) {
   }
 }
 
-function doPds(battleInstance: BattleInstance) {
-  const attackerPdsHits = getPdsHits(battleInstance.attacker)
-  battleInstance.defender.hitsToAssign += attackerPdsHits
-  const defenderPdsHits = getPdsHits(battleInstance.defender)
-  battleInstance.attacker.hitsToAssign += defenderPdsHits
+function doBombardment(battle: BattleInstance) {
+  if (battle.defender.units.some((u) => u.planetaryShield)) {
+    return
+  }
+
+  const hits = battle.attacker.units.map((u) => (u.bombardment ? getHits(u.bombardment) : 0))
+  const result = hits.reduce((a, b) => {
+    return a + b
+  }, 0)
+  if (LOG) {
+    console.log(`bombardment produced ${result} hits.`)
+  }
+  battle.defender.hitsToAssign += result
+  return result
+}
+
+function doPds(battle: BattleInstance) {
+  if (battle.place === Place.space) {
+    const attackerPdsHits = getPdsHits(battle.attacker)
+    battle.defender.hitsToAssign += attackerPdsHits
+  }
+  const defenderPdsHits = getPdsHits(battle.defender)
+  battle.attacker.hitsToAssign += defenderPdsHits
 }
 
 function getPdsHits(p: ParticipantInstance) {
@@ -113,16 +136,16 @@ function doParticipantBattleRolls(
   const unitTransformEffects = p.units
     // this filter assumes the ships cannot use battle effects on ground forces
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
-    .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
-    .map((unit) => unit.battleEffect!)
+    .filter((unit) => unit.aura && unit.aura.length > 0)
+    .map((unit) => unit.aura!)
     .flat()
     .filter((effect) => effect.transformUnit)
 
   const enemyUnitTransformEffects = p.units
     // this filter assumes the ships cannot use battle effects on ground forces
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
-    .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
-    .map((unit) => unit.battleEffect!)
+    .filter((unit) => unit.aura && unit.aura.length > 0)
+    .map((unit) => unit.aura!)
     .flat()
     .filter((effect) => effect.transformEnemyUnit)
 

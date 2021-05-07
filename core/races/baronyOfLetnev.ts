@@ -8,7 +8,7 @@ export const baronyOfLetnev: BattleEffect[] = [
     type: 'race',
     name: 'Barony of Letnev flagship',
     transformUnit: (unit: UnitInstance) => {
-      // TODO add repair and disable planetary shield
+      // TODO add repair
       if (unit.type === UnitType.flagship) {
         return {
           ...unit,
@@ -22,6 +22,18 @@ export const baronyOfLetnev: BattleEffect[] = [
             hit: 5,
             count: 3,
           },
+          battleEffects: [
+            {
+              name: 'Barony flagship remove planetary shield',
+              type: 'other',
+              transformEnemyUnit: (u: UnitInstance) => {
+                return {
+                  ...u,
+                  planetaryShield: false,
+                }
+              },
+            },
+          ],
         }
       } else {
         return unit

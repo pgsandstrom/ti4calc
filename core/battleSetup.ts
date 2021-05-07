@@ -14,6 +14,7 @@ import {
   ParticipantInstance,
 } from './battle-types'
 import { Race } from './enums'
+import { BattleEffect } from './battleeffect/battleEffects'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -33,19 +34,31 @@ export function startBattle(battle: BattleInstance) {
 }
 
 function createBattleInstance(battle: Battle): BattleInstance {
+  // How we create and apply battle effects is a bit complicated, due to two reasons:
+  // First, one sides battle effects affect the other side, so we need to create both participants and then apply
+  // battle effects to the opponent
+  // Also, a battle effect (such as the flagships) can give units new battle effects. So unit battle effects needs
+  // to be applied after all other effects.
+  const attackerBattleEffects = getParticipantBattleEffects(battle.attacker)
+  const attacker = createParticipantInstance(battle.attacker, attackerBattleEffects, 'attacker')
+  const defenderBattleEffects = getParticipantBattleEffects(battle.defender)
+  const defender = createParticipantInstance(battle.defender, defenderBattleEffects, 'defender')
+
+  addOtherParticipantsBattleEffects(attacker, defenderBattleEffects)
+  addOtherParticipantsBattleEffects(defender, attackerBattleEffects)
+
+  fixUnitBattleEffects(attacker, defender)
+  fixUnitBattleEffects(defender, attacker)
+
   return {
     place: battle.place,
-    attacker: createParticipantInstance(battle.attacker, 'attacker', battle.defender),
-    defender: createParticipantInstance(battle.defender, 'defender', battle.attacker),
+    attacker,
+    defender,
     roundNumber: 1,
   }
 }
 
-function createParticipantInstance(
-  participant: Participant,
-  side: Side,
-  otherParticipant: Participant,
-): ParticipantInstance {
+function getParticipantUnits(participant: Participant) {
   const units = objectEntries(participant.units)
     .map<UnitInstance[]>(([unitType, number]) => {
       return _times(number, () => {
@@ -59,6 +72,40 @@ function createParticipantInstance(
       })
     })
     .flat()
+  return units
+}
+
+function getParticipantBattleEffects(participant: Participant) {
+  // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
+  const battleEffects = participant.battleEffects.filter((effect) => {
+    // TODO add exception for necro
+    if (effect.race && effect.race !== participant.race) {
+      return false
+    } else {
+      return true
+    }
+  })
+
+  const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
+  battleEffects.push(...raceAbilities)
+
+  objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
+    if (upgraded) {
+      const unitUpgrade = getUnitUpgrade(participant.race, unitType)
+      if (unitUpgrade) {
+        battleEffects.push(unitUpgrade)
+      }
+    }
+  })
+  return battleEffects
+}
+
+function createParticipantInstance(
+  participant: Participant,
+  battleEffects: BattleEffect[],
+  side: Side,
+): ParticipantInstance {
+  const units = getParticipantUnits(participant)
 
   const participantInstance: ParticipantInstance = {
     side,
@@ -78,29 +125,43 @@ function createParticipantInstance(
     fightActionTracker: {},
   }
 
-  // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
-  participant.battleEffects = participant.battleEffects.filter((effect) => {
-    // TODO add exception for necro
-    if (effect.race && effect.race !== participant.race) {
-      return false
-    } else {
-      return true
-    }
-  })
+  applyBattleEffects(participantInstance, battleEffects)
 
-  const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
-  participant.battleEffects.push(...raceAbilities)
+  return participantInstance
+}
 
-  objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
-    if (upgraded) {
-      const unitUpgrade = getUnitUpgrade(participant.race, unitType)
-      if (unitUpgrade) {
-        participant.battleEffects.push(unitUpgrade)
+function fixUnitBattleEffects(p: ParticipantInstance, other: ParticipantInstance) {
+  const attackerUnitBattleEffects = p.units
+    .filter((u) => u.battleEffects)
+    .map((u) => u.battleEffects!)
+    .flat()
+
+  applyBattleEffects(p, attackerUnitBattleEffects)
+  addOtherParticipantsBattleEffects(other, attackerUnitBattleEffects)
+}
+
+function addOtherParticipantsBattleEffects(
+  participantInstance: ParticipantInstance,
+  battleEffects: BattleEffect[],
+) {
+  battleEffects.forEach((battleEffect) => {
+    if (battleEffect.transformEnemyUnit) {
+      if (battleEffect.onlyFirstRound === true) {
+        participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
+      } else {
+        participantInstance.units = participantInstance.units.map((u) => {
+          return battleEffect.transformEnemyUnit!(u, participantInstance)
+        })
       }
     }
   })
+}
 
-  participant.battleEffects.forEach((battleEffect) => {
+function applyBattleEffects(
+  participantInstance: ParticipantInstance,
+  battleEffects: BattleEffect[],
+) {
+  battleEffects.forEach((battleEffect) => {
     if (battleEffect.onStart) {
       participantInstance.onStartEffect.push(battleEffect)
     }
@@ -123,20 +184,6 @@ function createParticipantInstance(
       }
     }
   })
-
-  otherParticipant.battleEffects.forEach((battleEffect) => {
-    if (battleEffect.transformEnemyUnit) {
-      if (battleEffect.onlyFirstRound === true) {
-        participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
-      } else {
-        participantInstance.units = participantInstance.units.map((u) =>
-          battleEffect.transformEnemyUnit!(u, participantInstance),
-        )
-      }
-    }
-  })
-
-  return participantInstance
 }
 
 export function createParticipant(side: Side): Participant {

@@ -34,7 +34,7 @@ export const sardarkkNorr: BattleEffect[] = [
             hit: 6,
             count: 2,
           },
-          battleEffect: [...(unit.battleEffect ? unit.battleEffect : []), flagshipBuff],
+          aura: [...(unit.aura ? unit.aura : []), flagshipBuff],
         }
       } else {
         return unit
