@@ -77,8 +77,15 @@ function createParticipantInstance(
     fightActionTracker: {},
   }
 
-  // TODO I guess here we should filter out battle effects that are not applicable
-  // Say I select baron, choose their race tech, then switch to arborec. That needs to be handled.
+  // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
+  participant.battleEffects = participant.battleEffects.filter((effect) => {
+    // TODO add exception for necro
+    if (effect.race && effect.race !== participant.race) {
+      return false
+    } else {
+      return true
+    }
+  })
 
   const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
   participant.battleEffects.push(...raceAbilities)
