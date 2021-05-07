@@ -164,19 +164,19 @@ function doParticipantBattleRolls(
     .map((unit) => {
       if (battle.roundNumber === 1) {
         p.firstRoundEffects.forEach((effect) => {
-          unit = effect(unit, p)
+          unit = effect(unit, p, battle.place)
         })
       }
 
       unitTransformEffects.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, p)) {
-          unit = effect.transformUnit!(unit, p)
+          unit = effect.transformUnit!(unit, p, battle.place)
         }
       })
 
       enemyUnitTransformEffects.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, p)) {
-          unit = effect.transformEnemyUnit!(unit, p)
+          unit = effect.transformEnemyUnit!(unit, p, battle.place)
         }
       })
 

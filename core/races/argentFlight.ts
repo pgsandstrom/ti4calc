@@ -3,14 +3,13 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { getBestSustainUnit } from '../battle'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 
 export const argentFlight: BattleEffect[] = [
   {
     type: 'race',
     name: 'Argent Flight flagship',
     transformUnit: (unit: UnitInstance) => {
-      // TODO should also prevent pds
       if (unit.type === UnitType.flagship) {
         return {
           ...unit,
@@ -19,6 +18,27 @@ export const argentFlight: BattleEffect[] = [
             hit: 7,
             count: 2,
           },
+          battleEffects: [
+            {
+              name: 'Argent Flight flagship preventing pds',
+              type: 'other',
+              transformEnemyUnit: (
+                unit: UnitInstance,
+                _participant: ParticipantInstance,
+                place: Place,
+              ) => {
+                if (place === Place.space) {
+                  // TODO Could this ever be a problem? In other battle effects we assume units have pds. Maybe we need a priority system?
+                  return {
+                    ...unit,
+                    spaceCannon: undefined,
+                  }
+                } else {
+                  return unit
+                }
+              },
+            },
+          ],
         }
       } else {
         return unit

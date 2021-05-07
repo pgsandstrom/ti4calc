@@ -123,6 +123,33 @@ describe('core', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.443)
   })
 
+  it('Argent flight flagship prevents pds fire in space', () => {
+    const attacker: Participant = {
+      race: Race.argent_flight,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.flagship = 1
+    attacker.units.destroyer = 2
+    defender.units.destroyer = 2
+    defender.units.pds = 10
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.99)
+  })
+
   it('basic ground combat', () => {
     const attacker: Participant = {
       race: Race.argent_flight,

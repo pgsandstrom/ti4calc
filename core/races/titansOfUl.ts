@@ -26,7 +26,6 @@ export const titansOfUl: BattleEffect[] = [
     name: 'Titans of Ul pds',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.pds) {
-        console.log(`fix titans pds`)
         return {
           ...unit,
           combat: {

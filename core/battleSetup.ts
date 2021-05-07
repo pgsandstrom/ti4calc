@@ -13,7 +13,7 @@ import {
   Participant,
   ParticipantInstance,
 } from './battle-types'
-import { Race } from './enums'
+import { Place, Race } from './enums'
 import { BattleEffect } from './battleeffect/battleEffects'
 
 export function setupBattle(battle: Battle): BattleInstance {
@@ -40,15 +40,25 @@ function createBattleInstance(battle: Battle): BattleInstance {
   // Also, a battle effect (such as the flagships) can give units new battle effects. So unit battle effects needs
   // to be applied after all other effects.
   const attackerBattleEffects = getParticipantBattleEffects(battle.attacker)
-  const attacker = createParticipantInstance(battle.attacker, attackerBattleEffects, 'attacker')
+  const attacker = createParticipantInstance(
+    battle.attacker,
+    attackerBattleEffects,
+    'attacker',
+    battle.place,
+  )
   const defenderBattleEffects = getParticipantBattleEffects(battle.defender)
-  const defender = createParticipantInstance(battle.defender, defenderBattleEffects, 'defender')
+  const defender = createParticipantInstance(
+    battle.defender,
+    defenderBattleEffects,
+    'defender',
+    battle.place,
+  )
 
-  addOtherParticipantsBattleEffects(attacker, defenderBattleEffects)
-  addOtherParticipantsBattleEffects(defender, attackerBattleEffects)
+  addOtherParticipantsBattleEffects(attacker, defenderBattleEffects, battle.place)
+  addOtherParticipantsBattleEffects(defender, attackerBattleEffects, battle.place)
 
-  fixUnitBattleEffects(attacker, defender)
-  fixUnitBattleEffects(defender, attacker)
+  fixUnitBattleEffects(attacker, defender, battle.place)
+  fixUnitBattleEffects(defender, attacker, battle.place)
 
   return {
     place: battle.place,
@@ -104,6 +114,7 @@ function createParticipantInstance(
   participant: Participant,
   battleEffects: BattleEffect[],
   side: Side,
+  place: Place,
 ): ParticipantInstance {
   const units = getParticipantUnits(participant)
 
@@ -126,24 +137,25 @@ function createParticipantInstance(
     fightActionTracker: {},
   }
 
-  applyBattleEffects(participantInstance, battleEffects)
+  applyBattleEffects(participantInstance, battleEffects, place)
 
   return participantInstance
 }
 
-function fixUnitBattleEffects(p: ParticipantInstance, other: ParticipantInstance) {
+function fixUnitBattleEffects(p: ParticipantInstance, other: ParticipantInstance, place: Place) {
   const attackerUnitBattleEffects = p.units
     .filter((u) => u.battleEffects)
     .map((u) => u.battleEffects!)
     .flat()
 
-  applyBattleEffects(p, attackerUnitBattleEffects)
-  addOtherParticipantsBattleEffects(other, attackerUnitBattleEffects)
+  applyBattleEffects(p, attackerUnitBattleEffects, place)
+  addOtherParticipantsBattleEffects(other, attackerUnitBattleEffects, place)
 }
 
 function addOtherParticipantsBattleEffects(
   participantInstance: ParticipantInstance,
   battleEffects: BattleEffect[],
+  place: Place,
 ) {
   battleEffects.forEach((battleEffect) => {
     if (battleEffect.transformEnemyUnit) {
@@ -151,7 +163,7 @@ function addOtherParticipantsBattleEffects(
         participantInstance.firstRoundEffects.push(battleEffect.transformEnemyUnit)
       } else {
         participantInstance.units = participantInstance.units.map((u) => {
-          return battleEffect.transformEnemyUnit!(u, participantInstance)
+          return battleEffect.transformEnemyUnit!(u, participantInstance, place)
         })
       }
     }
@@ -161,6 +173,7 @@ function addOtherParticipantsBattleEffects(
 function applyBattleEffects(
   participantInstance: ParticipantInstance,
   battleEffects: BattleEffect[],
+  place: Place,
 ) {
   battleEffects.forEach((battleEffect) => {
     if (battleEffect.onStart) {
@@ -183,7 +196,7 @@ function applyBattleEffects(
         participantInstance.firstRoundEffects.push(battleEffect.transformUnit)
       } else {
         participantInstance.units = participantInstance.units.map((u) =>
-          battleEffect.transformUnit!(u, participantInstance),
+          battleEffect.transformUnit!(u, participantInstance, place),
         )
       }
     }
