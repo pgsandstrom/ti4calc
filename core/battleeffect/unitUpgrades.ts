@@ -100,7 +100,7 @@ const infantry: BattleEffect = {
         ...unit,
         combat: {
           ...unit.combat!,
-          hit: 8,
+          hit: 7,
         },
       }
     } else {

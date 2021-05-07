@@ -1,4 +1,5 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const sardarkkNorr: BattleEffect[] = [
@@ -10,6 +11,7 @@ export const sardarkkNorr: BattleEffect[] = [
         const flagshipBuff: BattleEffect = {
           name: 'Sardakk Norr flagship buff',
           type: 'other',
+          place: Place.space,
           transformUnit: (unit: UnitInstance) => {
             if (unit.combat && unit.type !== UnitType.flagship) {
               return {

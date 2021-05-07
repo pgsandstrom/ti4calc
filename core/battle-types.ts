@@ -8,7 +8,7 @@
 
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
-import { Race } from './enums'
+import { Place, Race } from './enums'
 import { UnitInstance, UnitType } from './unit'
 
 export type Side = 'attacker' | 'defender'
@@ -30,6 +30,7 @@ export type ParticipantEffect = (
 ) => void
 
 export interface Battle {
+  place: Place
   attacker: Participant
   defender: Participant
 }
@@ -50,6 +51,7 @@ export interface Participant {
 }
 
 export interface BattleInstance {
+  place: Place
   attacker: ParticipantInstance
   defender: ParticipantInstance
   roundNumber: number

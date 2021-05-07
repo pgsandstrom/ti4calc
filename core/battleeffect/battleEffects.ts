@@ -7,7 +7,7 @@ import {
   Participant,
   ParticipantEffect,
 } from '../battle-types'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { getRaceTechsNonUnit } from '../races/race'
 import { defaultRoll, getWorstNonFighter, UnitInstance, UnitType } from '../unit'
 
@@ -16,6 +16,7 @@ export interface BattleEffect {
   type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech' | 'unit-upgrade' | 'other'
   race?: Race
   side?: Side
+  place?: Place
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
   transformUnit?: UnitEffect
@@ -33,6 +34,7 @@ export interface BattleEffect {
 export const warfunding: BattleEffect = {
   name: 'warfunding',
   type: 'promissary',
+  place: Place.space,
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
       return {
@@ -53,6 +55,7 @@ export const defendingInNebula: BattleEffect = {
   name: 'Defending in nebula',
   type: 'general',
   side: 'defender',
+  place: Place.space,
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
       return {
@@ -84,6 +87,7 @@ export const duraniumArmor: BattleEffect = {
 export const memoria1: BattleEffect = {
   name: 'Memoria I',
   type: 'promissary',
+  place: Place.space,
   onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
     const worstNonFighterShip = getWorstNonFighter(participant)
     if (!worstNonFighterShip) {
@@ -106,6 +110,7 @@ export const memoria1: BattleEffect = {
 export const memoria2: BattleEffect = {
   name: 'Memoria II',
   type: 'promissary',
+  place: Place.space,
   onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
     const worstNonFighterShip = getWorstNonFighter(participant)
     if (!worstNonFighterShip) {

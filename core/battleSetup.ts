@@ -20,12 +20,12 @@ export function setupBattle(battle: Battle): BattleInstance {
   return createBattleInstance(battle)
 }
 
-export function startBattle(battleInstance: BattleInstance) {
-  doBattle(battleInstance)
+export function startBattle(battle: BattleInstance) {
+  doBattle(battle)
 
-  if (isParticipantAlive(battleInstance.attacker)) {
+  if (isParticipantAlive(battle.attacker, battle.place)) {
     return BattleResult.attacker
-  } else if (isParticipantAlive(battleInstance.defender)) {
+  } else if (isParticipantAlive(battle.defender, battle.place)) {
     return BattleResult.defender
   } else {
     return BattleResult.draw
@@ -34,6 +34,7 @@ export function startBattle(battleInstance: BattleInstance) {
 
 function createBattleInstance(battle: Battle): BattleInstance {
   return {
+    place: battle.place,
     attacker: createParticipantInstance(battle.attacker, 'attacker', battle.defender),
     defender: createParticipantInstance(battle.defender, 'defender', battle.attacker),
     roundNumber: 1,

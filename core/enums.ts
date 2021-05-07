@@ -7,3 +7,8 @@ export enum Race {
   nomad = 'Nomad',
   sardakk_norr = 'Sardakk Norr',
 }
+
+export enum Place {
+  space = 'space',
+  ground = 'ground',
+}

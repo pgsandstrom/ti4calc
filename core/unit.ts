@@ -186,7 +186,7 @@ const infantry: Readonly<Unit> = {
 }
 
 const mech: Readonly<Unit> = {
-  type: UnitType.infantry,
+  type: UnitType.mech,
 
   combat: {
     ...defaultRoll,

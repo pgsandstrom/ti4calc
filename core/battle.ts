@@ -1,41 +1,50 @@
 import { BattleInstance, ParticipantInstance } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
+import { Place } from './enums'
 import { getHits } from './roll'
-import { UnitType } from './unit'
+import { UnitInstance, UnitType } from './unit'
 
-export function doBattle(battleInstance: BattleInstance) {
-  battleInstance.attacker.onStartEffect.forEach((effect) => {
-    effect.onStart!(battleInstance.attacker, battleInstance, battleInstance.defender)
+// constant is let just to avoid eslint getting confused...
+// eslint-disable-next-line
+let LOG = false
+
+export function doBattle(battle: BattleInstance) {
+  battle.attacker.onStartEffect.forEach((effect) => {
+    effect.onStart!(battle.attacker, battle, battle.defender)
   })
-  battleInstance.defender.onStartEffect.forEach((effect) => {
-    effect.onStart!(battleInstance.defender, battleInstance, battleInstance.attacker)
+  battle.defender.onStartEffect.forEach((effect) => {
+    effect.onStart!(battle.defender, battle, battle.attacker)
   })
 
-  doPds(battleInstance)
-  resolveHits(battleInstance)
+  doPds(battle)
+  resolveHits(battle)
 
-  doAfb(battleInstance)
+  if (battle.place === Place.space) {
+    doAfb(battle)
+  }
 
   while (
-    isParticipantAlive(battleInstance.attacker) &&
-    isParticipantAlive(battleInstance.defender)
+    isParticipantAlive(battle.attacker, battle.place) &&
+    isParticipantAlive(battle.defender, battle.place)
   ) {
-    doBattleRolls(battleInstance)
-    resolveHits(battleInstance)
-    doRepairStep(battleInstance)
+    doBattleRolls(battle)
+    resolveHits(battle)
+    doRepairStep(battle)
 
-    battleInstance.roundNumber += 1
+    battle.roundNumber += 1
 
-    battleInstance.attacker.roundActionTracker = {}
-    battleInstance.defender.roundActionTracker = {}
+    battle.attacker.roundActionTracker = {}
+    battle.defender.roundActionTracker = {}
 
-    if (battleInstance.roundNumber === 1000) {
+    if (battle.roundNumber === 1000) {
       // TODO handle it nicer
       throw new Error('infinite fight')
     }
   }
 
-  // console.log(`battle resolved after ${battleInstance.roundNumber - 1} rounds`)
+  if (LOG) {
+    console.log(`battle resolved after ${battle.roundNumber - 1} rounds`)
+  }
 }
 
 function doPds(battleInstance: BattleInstance) {
@@ -91,31 +100,36 @@ function resolveAfbHits(p: ParticipantInstance) {
   }
 }
 
-function doBattleRolls(battleInstance: BattleInstance) {
-  doParticipantBattleRolls(battleInstance, battleInstance.attacker, battleInstance.defender)
-  doParticipantBattleRolls(battleInstance, battleInstance.defender, battleInstance.attacker)
+function doBattleRolls(battle: BattleInstance) {
+  doParticipantBattleRolls(battle, battle.attacker, battle.defender)
+  doParticipantBattleRolls(battle, battle.defender, battle.attacker)
 }
 
 function doParticipantBattleRolls(
-  battleInstance: BattleInstance,
+  battle: BattleInstance,
   p: ParticipantInstance,
   otherParticipant: ParticipantInstance,
 ) {
   const unitTransformEffects = p.units
+    // this filter assumes the ships cannot use battle effects on ground forces
+    .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
     .map((unit) => unit.battleEffect!)
     .flat()
     .filter((effect) => effect.transformUnit)
 
   const enemyUnitTransformEffects = p.units
+    // this filter assumes the ships cannot use battle effects on ground forces
+    .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .filter((unit) => unit.battleEffect && unit.battleEffect.length > 0)
     .map((unit) => unit.battleEffect!)
     .flat()
     .filter((effect) => effect.transformEnemyUnit)
 
   const hits = p.units
+    .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .map((unit) => {
-      if (battleInstance.roundNumber === 1) {
+      if (battle.roundNumber === 1) {
         p.firstRoundEffects.forEach((effect) => {
           unit = effect(unit, p)
         })
@@ -133,11 +147,11 @@ function doParticipantBattleRolls(
         }
       })
 
-      // if (unit.combat) {
-      //   console.log(
-      //     `${p.side} shoots with ${unit.type} at ${unit.combat.hit - unit.combat.hitBonus}`,
-      //   )
-      // }
+      if (LOG && unit.combat) {
+        console.log(
+          `${p.side} shoots with ${unit.type} at ${unit.combat.hit - unit.combat.hitBonus}`,
+        )
+      }
 
       return unit.combat ? getHits(unit.combat) : 0
     })
@@ -148,38 +162,44 @@ function doParticipantBattleRolls(
   otherParticipant.hitsToAssign += hits
 }
 
-function resolveHits(battleInstance: BattleInstance) {
-  while (battleInstance.attacker.hitsToAssign > 0 || battleInstance.defender.hitsToAssign > 0) {
-    resolveParticipantHits(battleInstance, battleInstance.attacker)
-    resolveParticipantHits(battleInstance, battleInstance.defender)
+function resolveHits(battle: BattleInstance) {
+  while (battle.attacker.hitsToAssign > 0 || battle.defender.hitsToAssign > 0) {
+    resolveParticipantHits(battle, battle.attacker)
+    resolveParticipantHits(battle, battle.defender)
   }
 }
 
-function resolveParticipantHits(battleInstance: BattleInstance, p: ParticipantInstance) {
+function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
   // TODO maybe make this prettier, so we only sustain on one row
   while (p.hitsToAssign > 0) {
-    const bestSustainUnit = getBestSustainUnit(p)
+    const bestSustainUnit = getBestSustainUnit(p, battle.place)
     if (p.riskDirectHit && bestSustainUnit) {
       bestSustainUnit.takenDamage = true
-      bestSustainUnit.takenDamageRound = battleInstance.roundNumber
+      bestSustainUnit.takenDamageRound = battle.roundNumber
       p.hitsToAssign -= 1
       p.onSustainEffect.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, p)) {
-          effect.onSustain!(bestSustainUnit, p, battleInstance)
+          effect.onSustain!(bestSustainUnit, p, battle)
         }
       })
+      if (LOG) {
+        console.log(`${p.side} uses sustain on ${bestSustainUnit.type}`)
+      }
     } else {
-      const bestDieUnit = getBestDieUnit(p)
+      const bestDieUnit = getBestDieUnit(p, battle.place)
       if (bestDieUnit) {
         if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
           bestDieUnit.takenDamage = true
-          bestDieUnit.takenDamageRound = battleInstance.roundNumber
+          bestDieUnit.takenDamageRound = battle.roundNumber
           p.hitsToAssign -= 1
           p.onSustainEffect.forEach((effect) => {
             if (canBattleEffectBeUsed(effect, p)) {
-              effect.onSustain!(bestDieUnit, p, battleInstance)
+              effect.onSustain!(bestDieUnit, p, battle)
             }
           })
+          if (LOG) {
+            console.log(`${p.side} uses sustain on ${bestDieUnit.type}`)
+          }
         } else {
           bestDieUnit.isDestroyed = true
           p.hitsToAssign -= 1
@@ -195,28 +215,25 @@ function resolveParticipantHits(battleInstance: BattleInstance, p: ParticipantIn
   }
 }
 
-function doRepairStep(battleInstance: BattleInstance) {
-  doRepairStepForParticipant(battleInstance, battleInstance.attacker)
-  doRepairStepForParticipant(battleInstance, battleInstance.defender)
+function doRepairStep(battle: BattleInstance) {
+  doRepairStepForParticipant(battle, battle.attacker)
+  doRepairStepForParticipant(battle, battle.defender)
 }
 
-function doRepairStepForParticipant(
-  battleInstance: BattleInstance,
-  participant: ParticipantInstance,
-) {
+function doRepairStepForParticipant(battle: BattleInstance, participant: ParticipantInstance) {
   if (participant.onRepairEffect.length > 0) {
     participant.units.forEach((unit) => {
       participant.onRepairEffect.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, participant)) {
-          effect.onRepair!(unit, participant, battleInstance)
+          effect.onRepair!(unit, participant, battle)
         }
       })
     })
   }
 }
 
-function getBestDieUnit(p: ParticipantInstance) {
-  const units = getAliveUnits(p)
+function getBestDieUnit(p: ParticipantInstance, place: Place) {
+  const units = getAliveUnits(p, place)
   if (units.length === 0) {
     return undefined
   } else {
@@ -229,18 +246,26 @@ function getBestDieUnit(p: ParticipantInstance) {
   }
 }
 
-export function isParticipantAlive(p: ParticipantInstance) {
-  return p.units.some((u) => !u.isDestroyed)
-}
-
-function getAliveUnits(p: ParticipantInstance) {
-  return p.units.filter((u) => {
+export function isParticipantAlive(p: ParticipantInstance, place: Place) {
+  return p.units.some((u) => {
+    if (!doesUnitFitPlace(u, place)) {
+      return false
+    }
     return !u.isDestroyed
   })
 }
 
-export function getBestSustainUnit(p: ParticipantInstance) {
-  const units = getUnitsWithSustain(p)
+function getAliveUnits(p: ParticipantInstance, place: Place) {
+  return p.units.filter((u) => {
+    if (!doesUnitFitPlace(u, place)) {
+      return false
+    }
+    return !u.isDestroyed
+  })
+}
+
+export function getBestSustainUnit(p: ParticipantInstance, place: Place) {
+  const units = getUnitsWithSustain(p, place)
   if (units.length === 0) {
     return undefined
   } else {
@@ -251,8 +276,21 @@ export function getBestSustainUnit(p: ParticipantInstance) {
   }
 }
 
-function getUnitsWithSustain(p: ParticipantInstance) {
+function getUnitsWithSustain(p: ParticipantInstance, place: Place) {
   return p.units.filter((u) => {
+    if (!doesUnitFitPlace(u, place)) {
+      return false
+    }
     return u.sustainDamage && !u.takenDamage && !u.isDestroyed
   })
+}
+
+function doesUnitFitPlace(u: UnitInstance, place: Place) {
+  if (place === Place.space && !u.isShip) {
+    return false
+  }
+  if (place === Place.ground && !u.isGroundForce) {
+    return false
+  }
+  return true
 }

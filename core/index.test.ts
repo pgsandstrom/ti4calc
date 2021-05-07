@@ -3,7 +3,7 @@ import { checkResult } from '../util/util-test'
 import { getUnitMap } from './battleSetup'
 import { duraniumArmor } from './battleeffect/battleEffects'
 import { Participant } from './battle-types'
-import { Race } from './enums'
+import { Place, Race } from './enums'
 import { baronyOfLetnev } from './races/baronyOfLetnev'
 
 const DO_BATTLE_X_TIMES = 10000
@@ -32,7 +32,7 @@ describe('core', () => {
     attacker.units.dreadnought = 2
     defender.units.dreadnought = 2
 
-    const result = getBattleReport(attacker, defender, 100)
+    const result = getBattleReport(attacker, defender, Place.space, 100)
 
     expect(result.draw).toEqual(0)
     expect(result.defender).toEqual(0)
@@ -58,7 +58,7 @@ describe('core', () => {
     attacker.units.flagship = 1
     defender.units.flagship = 1
 
-    const result = getBattleReport(attacker, defender, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.56)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.26)
@@ -85,7 +85,7 @@ describe('core', () => {
     attacker.units.dreadnought = 5
     defender.units.dreadnought = 5
 
-    const result = getBattleReport(attacker, defender, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167, 0.2)
@@ -116,10 +116,39 @@ describe('core', () => {
     attacker.units.destroyer = 2
     defender.units.cruiser = 2
 
-    const result = getBattleReport(attacker, defender, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.443)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.113)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.443)
+  })
+
+  it('basic ground combat', () => {
+    const attacker: Participant = {
+      race: Race.argent_flight,
+      units: getUnitMap(),
+      unitUpgrades: {
+        infantry: true,
+      },
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.infantry = 2
+    defender.units.mech = 2
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.033, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.017, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.949)
   })
 })

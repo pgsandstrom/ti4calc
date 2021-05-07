@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
 import { Participant } from '../core/battle-types'
@@ -10,8 +10,11 @@ import {
 } from '../core/battleeffect/battleEffects'
 import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
 import { createParticipant } from '../core/battleSetup'
-import { Race } from '../core/enums'
+import { Place, Race } from '../core/enums'
 import { UnitType } from '../core/unit'
+import SwitchButton from '../component/switchButton'
+
+const NUMBER_OF_ROLLS = undefined
 
 // TODO input field should revert to zero when you empty them
 // TODO shit input should revert to earlier number i guess
@@ -47,10 +50,16 @@ export default function Home() {
   const [attacker, setAttacker] = useState<Participant>(createParticipant('attacker'))
   const [defender, setDefender] = useState<Participant>(createParticipant('defender'))
   const [battleReport, setBattleReport] = useState<BattleReport>()
+  const [spaceCombat, setSpaceCombat] = useState(true)
 
   const launch = () => {
     // const timer = startDebugTimer('simulate')
-    const br = getBattleReport(attacker, defender)
+    const br = getBattleReport(
+      attacker,
+      defender,
+      spaceCombat ? Place.space : Place.ground,
+      NUMBER_OF_ROLLS,
+    )
     setBattleReport(br)
     // timer.end()
   }
@@ -82,6 +91,22 @@ export default function Home() {
               <div>pds</div>
             </StyledDiv>
             <ParticipantView participant={defender} onChange={setDefender} />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
+              padding: '20px',
+            }}
+          >
+            <div>
+              <SwitchButton
+                isLeftSelected={spaceCombat}
+                onLeftClick={() => setSpaceCombat(true)}
+                onRightClick={() => setSpaceCombat(false)}
+              />
+            </div>
           </div>
           <OptionsView
             attacker={attacker}
@@ -164,7 +189,6 @@ function UnitInput({ participant, unitType, onChange }: UnitInputProps) {
     onChange(newParticipant)
   }
 
-  // TODO if we switch race... do we keep potential race techs?
   const hasUpgrade = participant.unitUpgrades[unitType] ?? false
 
   return (
