@@ -131,7 +131,10 @@ function createParticipantInstance(
 
     riskDirectHit: participant.riskDirectHit,
 
-    hitsToAssign: 0,
+    hitsToAssign: {
+      hits: 0,
+      hitsToNonFighters: 0,
+    },
 
     roundActionTracker: {},
     fightActionTracker: {},

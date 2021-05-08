@@ -59,8 +59,8 @@ export const argentFlight: BattleEffect[] = [
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
-      _times(otherParticipant.hitsToAssign, () => {
-        const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place)
+      _times(otherParticipant.hitsToAssign.hits, () => {
+        const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
           bestSustainUnit.takenDamage = true
           bestSustainUnit.takenDamageRound = 0
@@ -84,8 +84,8 @@ export const argentFlight: BattleEffect[] = [
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
-      _times(otherParticipant.hitsToAssign, () => {
-        const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place)
+      _times(otherParticipant.hitsToAssign.hits, () => {
+        const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
           bestSustainUnit.takenDamage = true
           bestSustainUnit.takenDamageRound = 0

@@ -10,7 +10,6 @@ export const l1z1x: BattleEffect[] = [
     name: 'L1z1x flagship',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
-        // TODO  add aura so it and dreadnaughts shots need to be applied to non-fighters
         return {
           ...unit,
           combat: {
@@ -18,6 +17,22 @@ export const l1z1x: BattleEffect[] = [
             hit: 5,
             count: 2,
           },
+
+          aura: [
+            {
+              name: 'L1z1x flagship forcing shots on non-fighters',
+              transformUnit: (unit: UnitInstance) => {
+                if (unit.type === UnitType.flagship || unit.type === UnitType.dreadnought) {
+                  return {
+                    ...unit,
+                    assignHitsToNonFighters: true,
+                  }
+                } else {
+                  return unit
+                }
+              },
+            },
+          ],
         }
       } else {
         return unit

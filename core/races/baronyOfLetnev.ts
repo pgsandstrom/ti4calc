@@ -45,8 +45,10 @@ export const baronyOfLetnev: BattleEffect[] = [
     type: 'race-tech',
     race: Race.barony_of_letnev,
     onSustain: (_unit: UnitInstance, participant: ParticipantInstance, _battle: BattleInstance) => {
-      if (participant.hitsToAssign > 0) {
-        participant.hitsToAssign -= 1
+      if (participant.hitsToAssign.hitsToNonFighters > 0) {
+        participant.hitsToAssign.hitsToNonFighters -= 1
+      } else if (participant.hitsToAssign.hits > 0) {
+        participant.hitsToAssign.hits -= 1
       }
     },
   },

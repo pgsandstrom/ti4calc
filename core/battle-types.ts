@@ -14,12 +14,7 @@ import { UnitInstance, UnitType } from './unit'
 export type Side = 'attacker' | 'defender'
 
 // UnitEffect and UnitAuraEffect returns a new unit instead of modify, since their changes can be temporary
-export type UnitEffect = (
-  u: UnitInstance,
-  p: ParticipantInstance,
-  place: Place,
-  other: ParticipantInstance,
-) => UnitInstance
+export type UnitEffect = (u: UnitInstance, p: ParticipantInstance, place: Place) => UnitInstance
 
 export type UnitAuraEffect = (
   p: UnitInstance,
@@ -84,12 +79,17 @@ export interface ParticipantInstance {
 
   riskDirectHit: boolean
 
-  hitsToAssign: number
+  hitsToAssign: HitsToAssign
 
   // used to track stuff that can only happen a limited number of times per turn
   roundActionTracker: PartialRecord<string, number>
   // used to track stuff that can only happen a limited number of times per fight
   fightActionTracker: PartialRecord<string, number>
+}
+
+export interface HitsToAssign {
+  hits: number
+  hitsToNonFighters: number
 }
 
 export enum BattleResult {

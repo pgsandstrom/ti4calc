@@ -150,6 +150,35 @@ describe('core', () => {
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.99)
   })
 
+  it('L1z1x flagship makes flagship and dreadnaughts target non-fighter ships', () => {
+    const attacker: Participant = {
+      race: Race.l1z1x,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [],
+    }
+    const defender: Participant = {
+      race: Race.arborec,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.flagship = 1
+    attacker.units.dreadnought = 4
+    defender.units.dreadnought = 5
+    defender.units.fighter = 3
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.296)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.021, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.682)
+  })
+
   it('basic ground combat', () => {
     const attacker: Participant = {
       race: Race.argent_flight,

@@ -1,4 +1,4 @@
-import { BattleInstance, ParticipantInstance } from './battle-types'
+import { BattleInstance, HitsToAssign, ParticipantInstance } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
 import { getHits } from './roll'
@@ -50,7 +50,14 @@ export function doBattle(battle: BattleInstance) {
   }
 
   if (LOG) {
-    console.log(`battle resolved after ${battle.roundNumber - 1} rounds`)
+    console.log(`Battle resolved after ${battle.roundNumber - 1} rounds`)
+    if (isParticipantAlive(battle.attacker, battle.place)) {
+      console.log('Attacker won')
+    } else if (isParticipantAlive(battle.defender, battle.place)) {
+      console.log('Defender won')
+    } else {
+      console.log('It ended in a draw')
+    }
   }
 }
 
@@ -70,17 +77,17 @@ export function doBombardment(battle: BattleInstance) {
   if (LOG) {
     console.log(`bombardment produced ${result} hits.`)
   }
-  battle.defender.hitsToAssign += result
+  battle.defender.hitsToAssign.hits += result
   resolveHits(battle)
 }
 
 function doPds(battle: BattleInstance) {
   if (battle.place === Place.space) {
     const attackerPdsHits = getPdsHits(battle.attacker)
-    battle.defender.hitsToAssign += attackerPdsHits
+    battle.defender.hitsToAssign.hits += attackerPdsHits
   }
   const defenderPdsHits = getPdsHits(battle.defender)
-  battle.attacker.hitsToAssign += defenderPdsHits
+  battle.attacker.hitsToAssign.hits += defenderPdsHits
 }
 
 function getPdsHits(p: ParticipantInstance) {
@@ -96,9 +103,9 @@ function doAfb(battle: BattleInstance) {
   }
 
   const attackerPdsHits = getAfbHits(battle.attacker)
-  battle.defender.hitsToAssign += attackerPdsHits
+  battle.defender.hitsToAssign.hits += attackerPdsHits
   const defenderPdsHits = getAfbHits(battle.defender)
-  battle.attacker.hitsToAssign += defenderPdsHits
+  battle.attacker.hitsToAssign.hits += defenderPdsHits
 
   resolveAfbHits(battle.attacker)
   resolveAfbHits(battle.defender)
@@ -110,8 +117,14 @@ function doAfb(battle: BattleInstance) {
     effect.afterAfb!(battle.defender, battle, battle.attacker)
   })
 
-  battle.attacker.hitsToAssign = 0
-  battle.defender.hitsToAssign = 0
+  battle.attacker.hitsToAssign = {
+    hits: 0,
+    hitsToNonFighters: 0,
+  }
+  battle.defender.hitsToAssign = {
+    hits: 0,
+    hitsToNonFighters: 0,
+  }
 }
 
 function getAfbHits(p: ParticipantInstance) {
@@ -122,11 +135,11 @@ function getAfbHits(p: ParticipantInstance) {
 }
 
 function resolveAfbHits(p: ParticipantInstance) {
-  while (p.hitsToAssign > 0) {
+  while (p.hitsToAssign.hits > 0) {
     const aliveFighter = p.units.find((u) => u.type === UnitType.fighter && !u.isDestroyed)
     if (aliveFighter) {
       aliveFighter.isDestroyed = true
-      p.hitsToAssign -= 1
+      p.hitsToAssign.hits -= 1
     } else {
       break
     }
@@ -164,7 +177,7 @@ function doParticipantBattleRolls(
     .map((unit) => {
       if (battle.roundNumber === 1) {
         p.firstRoundEffects.forEach((effect) => {
-          unit = effect(unit, p, battle.place, otherParticipant)
+          unit = effect(unit, p, battle.place)
         })
       }
 
@@ -186,65 +199,101 @@ function doParticipantBattleRolls(
         )
       }
 
-      return unit.combat ? getHits(unit.combat) : 0
+      const hits = unit.combat ? getHits(unit.combat) : 0
+      return {
+        hits: unit.assignHitsToNonFighters === true ? 0 : hits,
+        hitsToNonFighters: unit.assignHitsToNonFighters === true ? hits : 0,
+      }
     })
-    .reduce((a, b) => {
-      return a + b
-    }, 0)
+    .reduce<HitsToAssign>(
+      (a, b) => {
+        return {
+          hits: a.hits + b.hits,
+          hitsToNonFighters: a.hitsToNonFighters + b.hitsToNonFighters,
+        }
+      },
+      {
+        hits: 0,
+        hitsToNonFighters: 0,
+      },
+    )
 
-  otherParticipant.hitsToAssign += hits
+  if (LOG) {
+    console.log(
+      `${p.side} hits ${hits.hits} normal hits and ${hits.hitsToNonFighters} to non-fighters.`,
+    )
+  }
+  otherParticipant.hitsToAssign = hits
 }
 
 function resolveHits(battle: BattleInstance) {
-  while (battle.attacker.hitsToAssign > 0 || battle.defender.hitsToAssign > 0) {
+  while (hasHitToAssign(battle.attacker) || hasHitToAssign(battle.defender)) {
     resolveParticipantHits(battle, battle.attacker)
     resolveParticipantHits(battle, battle.defender)
   }
 }
 
+function hasHitToAssign(p: ParticipantInstance) {
+  return p.hitsToAssign.hits > 0 || p.hitsToAssign.hitsToNonFighters > 0
+}
+
 function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
-  // TODO maybe make this prettier, so we only sustain on one row
-  while (p.hitsToAssign > 0) {
-    const bestSustainUnit = getBestSustainUnit(p, battle.place)
-    if (p.riskDirectHit && bestSustainUnit) {
-      bestSustainUnit.takenDamage = true
-      bestSustainUnit.takenDamageRound = battle.roundNumber
-      p.hitsToAssign -= 1
-      p.onSustainEffect.forEach((effect) => {
-        if (canBattleEffectBeUsed(effect, p)) {
-          effect.onSustain!(bestSustainUnit, p, battle)
-        }
-      })
-      if (LOG) {
-        console.log(`${p.side} uses sustain on ${bestSustainUnit.type}`)
+  while (hasHitToAssign(p)) {
+    if (p.hitsToAssign.hitsToNonFighters > 0) {
+      const appliedHitToNonFighter = applyHit(battle, p, false)
+      if (!appliedHitToNonFighter) {
+        applyHit(battle, p, true)
       }
+      p.hitsToAssign.hitsToNonFighters -= 1
     } else {
-      const bestDieUnit = getBestDieUnit(p, battle.place)
-      if (bestDieUnit) {
-        if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
-          bestDieUnit.takenDamage = true
-          bestDieUnit.takenDamageRound = battle.roundNumber
-          p.hitsToAssign -= 1
-          p.onSustainEffect.forEach((effect) => {
-            if (canBattleEffectBeUsed(effect, p)) {
-              effect.onSustain!(bestDieUnit, p, battle)
-            }
-          })
-          if (LOG) {
-            console.log(`${p.side} uses sustain on ${bestDieUnit.type}`)
-          }
-        } else {
-          bestDieUnit.isDestroyed = true
-          p.hitsToAssign -= 1
-        }
-      } else {
-        // redundant hit
-        p.hitsToAssign -= 1
-      }
+      applyHit(battle, p, true)
+      p.hitsToAssign.hits -= 1
     }
 
     // TODO can we remove them directly and remove isDestroyed flag?
     p.units = p.units.filter((u) => !u.isDestroyed)
+  }
+}
+
+// returns if the hit was applied to a unit
+function applyHit(
+  battle: BattleInstance,
+  p: ParticipantInstance,
+  includeFighter: boolean,
+): boolean {
+  // Currently if we dont have riskDirectHit dreadnaughts will die before flagship sustains.
+  // I guess that is okay, even though it is most likely not how a human would play.
+  const bestSustainUnit = getBestSustainUnit(p, battle.place, includeFighter)
+  if (p.riskDirectHit && bestSustainUnit) {
+    doSustainDamage(battle, p, bestSustainUnit)
+    return true
+  } else {
+    const bestDieUnit = getBestDieUnit(p, battle.place, includeFighter)
+    if (bestDieUnit) {
+      if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
+        doSustainDamage(battle, p, bestDieUnit)
+      } else {
+        bestDieUnit.isDestroyed = true
+        if (LOG) {
+          console.log(`${p.side} loses ${bestDieUnit.type}`)
+        }
+      }
+      return true
+    }
+    return false
+  }
+}
+
+function doSustainDamage(battle: BattleInstance, p: ParticipantInstance, unit: UnitInstance) {
+  unit.takenDamage = true
+  unit.takenDamageRound = battle.roundNumber
+  p.onSustainEffect.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, p)) {
+      effect.onSustain!(unit, p, battle)
+    }
+  })
+  if (LOG) {
+    console.log(`${p.side} uses sustain on ${unit.type}`)
   }
 }
 
@@ -265,8 +314,8 @@ function doRepairStepForParticipant(battle: BattleInstance, participant: Partici
   }
 }
 
-function getBestDieUnit(p: ParticipantInstance, place: Place) {
-  const units = getAliveUnits(p, place)
+function getBestDieUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
+  const units = getAliveUnits(p, place, includeFighter)
   if (units.length === 0) {
     return undefined
   } else {
@@ -288,8 +337,11 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
   })
 }
 
-function getAliveUnits(p: ParticipantInstance, place: Place) {
+function getAliveUnits(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   return p.units.filter((u) => {
+    if (!includeFighter && u.type === UnitType.fighter) {
+      return false
+    }
     if (!doesUnitFitPlace(u, place)) {
       return false
     }
@@ -297,20 +349,25 @@ function getAliveUnits(p: ParticipantInstance, place: Place) {
   })
 }
 
-export function getBestSustainUnit(p: ParticipantInstance, place: Place) {
-  const units = getUnitsWithSustain(p, place)
+export function getBestSustainUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
+  const units = getUnitsWithSustain(p, place, includeFighter)
   if (units.length === 0) {
     return undefined
   } else {
-    return units.reduce((a, b) => {
-      // TODO
-      return a.useSustainDamagePriority! > b.useSustainDamagePriority! ? a : b
-    })
+    return units
+      .filter((u) => includeFighter || u.type !== UnitType.fighter)
+      .reduce((a, b) => {
+        // TODO could it work to just pre-sort this and then never sort again?
+        return a.useSustainDamagePriority! > b.useSustainDamagePriority! ? a : b
+      })
   }
 }
 
-function getUnitsWithSustain(p: ParticipantInstance, place: Place) {
+function getUnitsWithSustain(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   return p.units.filter((u) => {
+    if (!includeFighter && u.type === UnitType.fighter) {
+      return false
+    }
     if (!doesUnitFitPlace(u, place)) {
       return false
     }

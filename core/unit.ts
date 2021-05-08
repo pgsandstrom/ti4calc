@@ -25,6 +25,7 @@ export interface Unit {
   // TODO maybe make these optional as well
   sustainDamage: boolean
   planetaryShield: boolean
+  assignHitsToNonFighters?: boolean
 
   isShip: boolean
   isGroundForce: boolean
