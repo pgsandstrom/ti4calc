@@ -1,5 +1,5 @@
 import getBattleReport from '.'
-import { checkResult } from '../util/util-test'
+import { checkResult } from '../util/util.test'
 import { getUnitMap } from './battleSetup'
 import { duraniumArmor } from './battleeffect/battleEffects'
 import { Participant } from './battle-types'

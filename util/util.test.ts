@@ -3,3 +3,6 @@ export function checkResult(result: number, expected: number, allowedErrorPercen
   expect(result).toBeGreaterThanOrEqual(expected - expected * allowedErrorPercentage)
   // console.log(`expected ${expected}, got ${result}`)
 }
+
+// workaround for the "Your test suite must contain at least one test" error
+test.skip('Workaround', () => 1)

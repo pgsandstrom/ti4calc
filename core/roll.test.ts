@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { checkResult } from '../util/util-test'
+import { checkResult } from '../util/util.test'
 import { getHits } from './roll'
 import { Roll } from './unit'
 
