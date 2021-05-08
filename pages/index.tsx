@@ -53,6 +53,7 @@ export default function Home() {
   const [spaceCombat, setSpaceCombat] = useState(true)
 
   const launch = () => {
+    // TODO perhaps do this in a service thread?
     // const timer = startDebugTimer('simulate')
     const br = getBattleReport(
       attacker,
@@ -155,16 +156,16 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
           )
         })}
       </select>
-      <UnitInput participant={participant} unitType={UnitType.flagship} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.warsun} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.dreadnought} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.carrier} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.cruiser} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.destroyer} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.fighter} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.mech} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.infantry} onChange={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.pds} onChange={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.flagship} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.warsun} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.dreadnought} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.carrier} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.cruiser} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.destroyer} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.fighter} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.mech} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.infantry} onUpdate={onChange} />
+      <UnitInput participant={participant} unitType={UnitType.pds} onUpdate={onChange} />
     </StyledDiv>
   )
 }
@@ -172,21 +173,36 @@ function ParticipantView({ participant, onChange }: ParticipantProps) {
 interface UnitInputProps {
   participant: Participant
   unitType: UnitType
-  onChange: (participant: Participant) => void
+  onUpdate: (participant: Participant) => void
 }
 
-function UnitInput({ participant, unitType, onChange }: UnitInputProps) {
+function UnitInput({ participant, unitType, onUpdate }: UnitInputProps) {
+  const [val, setVal] = useState<string>(participant.units[unitType].toString())
+
   const unitUpgrade = getUnitUpgrade(participant.race, unitType)
 
-  const updateUnitCount = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setVal(e.target.value)
+    let newVal
+    if (e.target.value === '') {
+      newVal = 0
+    } else {
+      newVal = parseInt(e.target.value, 10)
+    }
+    if (Number.isFinite(newVal)) {
+      updateUnitCount(newVal)
+    }
+  }
+
+  const updateUnitCount = (newVal: number) => {
     const newParticipant: Participant = {
       ...participant,
       units: {
         ...participant.units,
-        [unitType]: parseInt(e.target.value, 10),
+        [unitType]: newVal,
       },
     }
-    onChange(newParticipant)
+    onUpdate(newParticipant)
   }
 
   const hasUpgrade = participant.unitUpgrades[unitType] ?? false
@@ -205,15 +221,23 @@ function UnitInput({ participant, unitType, onChange }: UnitInputProps) {
               [unitType]: !hasUpgrade,
             },
           }
-          onChange(newParticipant)
+          onUpdate(newParticipant)
         }}
       />
       <input
         type="number"
         min="0"
         max="100"
-        value={participant.units[unitType]}
-        onChange={updateUnitCount}
+        value={val}
+        // remember: input with type number dont trigger onChange on invalid input
+        onChange={onChange}
+        onBlur={() => {
+          const newVal = parseInt(val, 10)
+          if (!Number.isFinite(newVal)) {
+            setVal('0')
+            updateUnitCount(0)
+          }
+        }}
       />
     </div>
   )
