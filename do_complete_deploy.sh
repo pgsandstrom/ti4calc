@@ -18,4 +18,4 @@ mkdir -p /apps/ti4calc
 rsync -a . /apps/ti4calc
 
 # find a neat solution to not only restart pm2, but to add if it is not already there
-pm2 restart dice
+pm2 restart ti4calc
