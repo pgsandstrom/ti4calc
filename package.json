@@ -9,7 +9,7 @@
     "lint": "node ./node_modules/eslint/bin/eslint.js --ext .ts --ext .tsx --fix .",
     "pre-commit": "lint-staged",
     "pre-push": "npm run lint && cross-env CI=true npm run test && npm run typecheck",
-    "start": "next start",
+    "start": "next start -p 8200",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "prepare": "husky install"
