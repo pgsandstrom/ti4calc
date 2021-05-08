@@ -8,6 +8,7 @@ export enum Race {
   nomad = 'Nomad',
   sardakk_norr = 'Sardakk Norr',
   titans_of_ul = 'Titans of Ul',
+  winnu = 'Winnu',
 }
 
 export enum Place {

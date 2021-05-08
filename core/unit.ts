@@ -1,5 +1,5 @@
 import { ParticipantInstance } from './battle-types'
-import { BattleEffect } from './battleeffect/battleEffects'
+import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
 
 export enum UnitType {
   cruiser = 'cruiser',
@@ -33,8 +33,7 @@ export interface Unit {
   diePriority?: number
 
   // this is an effect that is only present while the unit is alive (i.e. sardakk flagship)
-  // it only works for transforming friendly or enemy units
-  aura?: BattleEffect[]
+  aura?: BattleAura[]
 
   // these work like any other battle effects
   battleEffects?: BattleEffect[]
@@ -277,7 +276,7 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
 
 const NON_FIGHTER_SHIP_BY_USELESSNESS = [carrier, destroyer, cruiser, dreadnought, flagship, warsun]
 
-export function getWorstNonFighter(p: ParticipantInstance) {
+export function getWorstNonFighterShip(p: ParticipantInstance) {
   if (p.units.length === 0) {
     return undefined
   }
@@ -296,4 +295,8 @@ export function getWorstNonFighter(p: ParticipantInstance) {
       return b
     }
   })
+}
+
+export function getNonFighterShips(p: ParticipantInstance) {
+  return p.units.filter((unit) => unit.isShip && unit.type !== UnitType.fighter)
 }

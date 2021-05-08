@@ -13,8 +13,19 @@ import { UnitInstance, UnitType } from './unit'
 
 export type Side = 'attacker' | 'defender'
 
-// this returns a new unit
-export type UnitEffect = (u: UnitInstance, p: ParticipantInstance, place: Place) => UnitInstance
+// UnitEffect and UnitAuraEffect returns a new unit instead of modify, since their changes can be temporary
+export type UnitEffect = (
+  u: UnitInstance,
+  p: ParticipantInstance,
+  place: Place,
+  other: ParticipantInstance,
+) => UnitInstance
+
+export type UnitAuraEffect = (
+  p: UnitInstance,
+  participant: ParticipantInstance,
+  battle: BattleInstance,
+) => UnitInstance
 
 // this modifies existing objects
 export type UnitBattleEffect = (

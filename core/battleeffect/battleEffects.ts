@@ -6,10 +6,11 @@ import {
   BattleInstance,
   Participant,
   ParticipantEffect,
+  UnitAuraEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
 import { getRaceTechsNonUnit } from '../races/race'
-import { defaultRoll, getWorstNonFighter, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, getWorstNonFighterShip, UnitInstance, UnitType } from '../unit'
 
 export interface BattleEffect {
   name: string
@@ -27,6 +28,16 @@ export interface BattleEffect {
   onCombatRoundEnd?: ParticipantEffect
   afterAfb?: ParticipantEffect
   onlyFirstRound?: boolean // default false
+
+  timesPerRound?: number
+  timesPerFight?: number
+}
+
+export interface BattleAura {
+  name: string
+  place?: Place
+  transformUnit?: UnitAuraEffect
+  transformEnemyUnit?: UnitAuraEffect
 
   timesPerRound?: number
   timesPerFight?: number
@@ -90,7 +101,7 @@ export const memoria1: BattleEffect = {
   type: 'promissary',
   place: Place.space,
   onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
-    const worstNonFighterShip = getWorstNonFighter(participant)
+    const worstNonFighterShip = getWorstNonFighterShip(participant)
     if (!worstNonFighterShip) {
       return
     }
@@ -113,7 +124,7 @@ export const memoria2: BattleEffect = {
   type: 'promissary',
   place: Place.space,
   onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
-    const worstNonFighterShip = getWorstNonFighter(participant)
+    const worstNonFighterShip = getWorstNonFighterShip(participant)
     if (!worstNonFighterShip) {
       return
     }
@@ -161,7 +172,10 @@ function registerUse(effect: BattleEffect, p: ParticipantInstance) {
   p.fightActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
 }
 
-export function canBattleEffectBeUsed(effect: BattleEffect, participant: ParticipantInstance) {
+export function canBattleEffectBeUsed(
+  effect: BattleEffect | BattleAura,
+  participant: ParticipantInstance,
+) {
   if (effect.timesPerFight !== undefined) {
     const timesUsedThisFight = participant.fightActionTracker[effect.name]
     if (timesUsedThisFight !== undefined && timesUsedThisFight >= effect.timesPerFight) {
