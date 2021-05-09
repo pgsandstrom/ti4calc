@@ -1,6 +1,6 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const baronyOfLetnev: BattleEffect[] = [
@@ -51,5 +51,24 @@ export const baronyOfLetnev: BattleEffect[] = [
         participant.hitsToAssign.hits -= 1
       }
     },
+  },
+  {
+    name: 'warfunding',
+    type: 'promissary',
+    place: Place.space,
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.combat) {
+        return {
+          ...unit,
+          combat: {
+            ...unit.combat,
+            rerollBonus: unit.combat.rerollBonus + 1,
+          },
+        }
+      } else {
+        return unit
+      }
+    },
+    onlyFirstRound: true,
   },
 ]

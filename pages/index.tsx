@@ -5,7 +5,7 @@ import getBattleReport, { BattleReport } from '../core'
 import { Participant } from '../core/battle-types'
 import {
   BattleEffect,
-  getAllBattleEffects,
+  getOtherBattleEffects,
   isBattleEffectRelevant,
 } from '../core/battleeffect/battleEffects'
 import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
@@ -13,6 +13,10 @@ import { createParticipant } from '../core/battleSetup'
 import { Place, Race } from '../core/enums'
 import { UnitType } from '../core/unit'
 import SwitchButton from '../component/switchButton'
+import { getAgent, getCommanders, getPromissary, getRaceTechsNonUnit } from '../core/races/race'
+import { getTechBattleEffects } from '../core/battleeffect/tech'
+import { getActioncards } from '../core/battleeffect/actioncard'
+import { getAgendas } from '../core/battleeffect/agenda'
 
 const NUMBER_OF_ROLLS = undefined
 
@@ -257,9 +261,16 @@ const OptionsDiv = styled.div`
   }
 `
 
-function OptionsView({ attacker, attackerOnChange, defender, defenderOnChange }: OptionsProps) {
-  const battleEffects = getAllBattleEffects()
-  const relevantBattleEffects = battleEffects.filter((effect) => effect.type !== 'unit-upgrade')
+function OptionsView(props: OptionsProps) {
+  const otherBattleEffects = getOtherBattleEffects()
+  const techs = getTechBattleEffects()
+  const raceTechs = getRaceTechsNonUnit()
+  const promissary = getPromissary()
+  const agents = getAgent()
+  const commanders = getCommanders()
+  const actioncards = getActioncards()
+  const agendas = getAgendas()
+  // const relevantBattleEffects = battleEffects.filter((effect) => effect.type !== 'unit-upgrade')
   // .filter((effect) => {
   //   return isBattleEffectRelevantForSome(effect, [attacker, defender])
   // })
@@ -267,11 +278,43 @@ function OptionsView({ attacker, attackerOnChange, defender, defenderOnChange }:
   return (
     <div>
       <OptionsDiv>
-        {getDirectHitCheckbox(attacker, attackerOnChange)}
+        {getDirectHitCheckbox(props.attacker, props.attackerOnChange)}
         <span>Risk direct hit</span>
-        {getDirectHitCheckbox(defender, defenderOnChange)}
+        {getDirectHitCheckbox(props.defender, props.defenderOnChange)}
       </OptionsDiv>
-      {relevantBattleEffects.map((effect) => {
+      <OptionsPartView battleEffects={otherBattleEffects} {...props} />
+      <OptionsPartView title="Techs" battleEffects={techs} {...props} />
+      <OptionsPartView title="Race techs" battleEffects={raceTechs} {...props} />
+      <OptionsPartView title="Promissary notes" battleEffects={promissary} {...props} />
+      <OptionsPartView title="Agents" battleEffects={agents} {...props} />
+      <OptionsPartView title="Commanders" battleEffects={commanders} {...props} />
+      <OptionsPartView title="Action cards" battleEffects={actioncards} {...props} />
+      <OptionsPartView title="Agendas" battleEffects={agendas} {...props} />
+    </div>
+  )
+}
+
+interface OptionsPartProps {
+  title?: string
+  battleEffects: BattleEffect[]
+  attacker: Participant
+  attackerOnChange: (participant: Participant) => void
+  defender: Participant
+  defenderOnChange: (participant: Participant) => void
+}
+
+function OptionsPartView({
+  title,
+  battleEffects,
+  attacker,
+  attackerOnChange,
+  defender,
+  defenderOnChange,
+}: OptionsPartProps) {
+  return (
+    <div>
+      {title !== undefined && <h3>{title}</h3>}
+      {battleEffects.map((effect) => {
         const attackerView = getBattleEffectCheckbox(effect, attacker, attackerOnChange)
         const defenderView = getBattleEffectCheckbox(effect, defender, defenderOnChange)
 

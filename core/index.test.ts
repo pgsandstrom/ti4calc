@@ -1,10 +1,10 @@
 import getBattleReport from '.'
 import { checkResult } from '../util/util.test'
 import { getUnitMap } from './battleSetup'
-import { duraniumArmor } from './battleeffect/battleEffects'
 import { Participant } from './battle-types'
 import { Place, Race } from './enums'
 import { baronyOfLetnev } from './races/baronyOfLetnev'
+import { duraniumArmor } from './battleeffect/tech'
 
 const DO_BATTLE_X_TIMES = 10000
 

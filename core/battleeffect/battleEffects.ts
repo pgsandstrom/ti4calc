@@ -9,12 +9,20 @@ import {
   UnitAuraEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
-import { getRaceTechsNonUnit } from '../races/race'
 import { defaultRoll, getWorstNonFighterShip, UnitInstance, UnitType } from '../unit'
 
 export interface BattleEffect {
   name: string
-  type: 'general' | 'promissary' | 'tech' | 'race' | 'race-tech' | 'unit-upgrade' | 'other'
+  type:
+    | 'general'
+    | 'promissary'
+    | 'commander'
+    | 'agent'
+    | 'tech'
+    | 'race'
+    | 'race-tech'
+    | 'unit-upgrade'
+    | 'other'
   race?: Race
   side?: Side
   place?: Place
@@ -43,26 +51,6 @@ export interface BattleAura {
   timesPerFight?: number
 }
 
-export const warfunding: BattleEffect = {
-  name: 'warfunding',
-  type: 'promissary',
-  place: Place.space,
-  transformUnit: (unit: UnitInstance) => {
-    if (unit.combat) {
-      return {
-        ...unit,
-        combat: {
-          ...unit.combat,
-          rerollBonus: unit.combat.rerollBonus + 1,
-        },
-      }
-    } else {
-      return unit
-    }
-  },
-  onlyFirstRound: true,
-}
-
 export const defendingInNebula: BattleEffect = {
   name: 'Defending in nebula',
   type: 'general',
@@ -81,19 +69,6 @@ export const defendingInNebula: BattleEffect = {
       return unit
     }
   },
-}
-
-export const duraniumArmor: BattleEffect = {
-  name: 'Duranium Armor',
-  type: 'tech',
-  onRepair: (unit: UnitInstance, participant: ParticipantInstance, battle: BattleInstance) => {
-    if (unit.takenDamage && unit.takenDamageRound !== battle.roundNumber) {
-      unit.takenDamage = false
-      registerUse(duraniumArmor, participant)
-      // console.log(`${participant.side} used duranium armor in round ${battle.roundNumber}`)
-    }
-  },
-  timesPerRound: 1,
 }
 
 export const memoria1: BattleEffect = {
@@ -142,11 +117,10 @@ export const memoria2: BattleEffect = {
   },
 }
 
-export function getAllBattleEffects(): BattleEffect[] {
-  const normal = [warfunding, defendingInNebula, duraniumArmor, memoria1, memoria2]
-  // const unitUpgrades = getAllUnitUpgrades()
-  const raceTechs = getRaceTechsNonUnit()
-  return [...normal, ...raceTechs]
+export function getOtherBattleEffects(): BattleEffect[] {
+  // TODO move out some of these
+  const normal = [defendingInNebula, memoria1, memoria2]
+  return normal
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {
@@ -167,7 +141,7 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
   return true
 }
 
-function registerUse(effect: BattleEffect, p: ParticipantInstance) {
+export function registerUse(effect: BattleEffect, p: ParticipantInstance) {
   p.roundActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
   p.fightActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
 }

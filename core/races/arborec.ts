@@ -20,4 +20,18 @@ export const arborec: BattleEffect[] = [
       }
     },
   },
+  {
+    type: 'race',
+    name: 'Arborec mech',
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.mech) {
+        return {
+          ...unit,
+          planetaryShield: true,
+        }
+      } else {
+        return unit
+      }
+    },
+  },
 ]

@@ -93,4 +93,6 @@ export const argentFlight: BattleEffect[] = [
       })
     },
   },
+  // TODO promissary note
+  // TODO commander
 ]

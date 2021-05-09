@@ -46,3 +46,30 @@ export function getRaceTechsNonUnit() {
     })
     .flat()
 }
+
+export function getPromissary() {
+  return Object.values(Race)
+    .map((raceName) => {
+      const race = RACE_MAP[raceName]
+      return race.filter((effect) => effect.type === 'promissary')
+    })
+    .flat()
+}
+
+export function getAgent() {
+  return Object.values(Race)
+    .map((raceName) => {
+      const race = RACE_MAP[raceName]
+      return race.filter((effect) => effect.type === 'agent')
+    })
+    .flat()
+}
+
+export function getCommanders() {
+  return Object.values(Race)
+    .map((raceName) => {
+      const race = RACE_MAP[raceName]
+      return race.filter((effect) => effect.type === 'commander')
+    })
+    .flat()
+}
