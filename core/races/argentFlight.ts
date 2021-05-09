@@ -3,7 +3,7 @@ import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { Place, Race } from '../enums'
-import { getBestSustainUnit, hasAttackType, isHighestHitUnit } from '../unitGet'
+import { getBestSustainUnit, getHighestHitUnit, hasAttackType, isHighestHitUnit } from '../unitGet'
 
 // TODO it is ugly to have it like this. Maybe transformUnit should take the effect name?
 
@@ -137,5 +137,31 @@ export const argentFlight: BattleEffect[] = [
     onlyFirstRound: true,
     timesPerFight: 1,
   },
-  // TODO commander
+  {
+    type: 'commander',
+    name: 'Argent Flight Commander',
+    onStart: (
+      participant: ParticipantInstance,
+      _battle: BattleInstance,
+      _otherParticipant: ParticipantInstance,
+    ) => {
+      // TODO This does have a theoretical weakness. We give one unit each a bonus on their unit ability.
+      // But if the unit ability is repeatable and the improved unit dies, then no other unit can use the ability.
+      // This is not a problem in TI4 POK, but could be a problem in homebrew factions. But Im unsure on how to solve it in a neat way.
+      // I would need to build some new stuff to fix this.
+
+      const bestBomber = getHighestHitUnit(participant, 'bombardment')
+      if (bestBomber) {
+        bestBomber.bombardment!.countBonus += 1
+      }
+      const bestAfb = getHighestHitUnit(participant, 'afb')
+      if (bestAfb) {
+        bestAfb.afb!.countBonus += 1
+      }
+      const bestSpacecannon = getHighestHitUnit(participant, 'spaceCannon')
+      if (bestSpacecannon) {
+        bestSpacecannon.spaceCannon!.countBonus += 1
+      }
+    },
+  },
 ]
