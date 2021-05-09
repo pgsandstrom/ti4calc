@@ -303,7 +303,7 @@ function doSustainDamage(battle: BattleInstance, p: ParticipantInstance, unit: U
   unit.takenDamageRound = battle.roundNumber
   p.onSustainEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
-      effect.onSustain!(unit, p, battle)
+      effect.onSustain!(unit, p, battle, effect.name)
     }
   })
   if (LOG) {
@@ -321,7 +321,7 @@ function doRepairStepForParticipant(battle: BattleInstance, participant: Partici
     participant.units.forEach((unit) => {
       participant.onRepairEffect.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, participant)) {
-          effect.onRepair!(unit, participant, battle)
+          effect.onRepair!(unit, participant, battle, effect.name)
         }
       })
     })
@@ -344,12 +344,12 @@ function applyFirstRoundEffect(
 ): UnitInstance {
   battle.attacker.firstRoundEffects.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
-      u = effect.transformUnit!(u, battle.attacker, battle.place)
+      u = effect.transformUnit!(u, battle.attacker, battle.place, effect.name)
     }
   })
   battle.attacker.firstRoundEnemyEffects.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
-      u = effect.transformEnemyUnit!(u, battle.attacker, battle.place)
+      u = effect.transformEnemyUnit!(u, battle.attacker, battle.place, effect.name)
     }
   })
   return u

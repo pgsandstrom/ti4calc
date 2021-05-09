@@ -6,37 +6,6 @@ import { Place, Race } from '../enums'
 import { getBestSustainUnit, isHighestHitUnit } from '../unitGet'
 
 // TODO it is ugly to have it like this. Maybe transformUnit should take the effect name?
-const strikeWingAmbuscade: BattleEffect = {
-  type: 'promissary',
-  name: 'Strike Wing Ambuscade',
-  transformUnit: (unit: UnitInstance, participant: ParticipantInstance, place: Place) => {
-    if (place === 'ground') {
-      if (participant.side === 'attacker') {
-        if (unit.bombardment && isHighestHitUnit(unit, participant, 'bombardment')) {
-          registerUse(strikeWingAmbuscade, participant)
-          return getUnitWithImproved(unit, 'bombardment', 'count')
-        }
-      } else {
-        if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
-          registerUse(strikeWingAmbuscade, participant)
-          return getUnitWithImproved(unit, 'spaceCannon', 'count')
-        }
-      }
-    } else {
-      // space combat
-      if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
-        registerUse(strikeWingAmbuscade, participant)
-        return getUnitWithImproved(unit, 'spaceCannon', 'count')
-      } else if (unit.afb && isHighestHitUnit(unit, participant, 'afb')) {
-        registerUse(strikeWingAmbuscade, participant)
-        return getUnitWithImproved(unit, 'afb', 'count')
-      }
-    }
-    return unit
-  },
-  onlyFirstRound: true,
-  timesPerFight: 1,
-}
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -126,6 +95,41 @@ export const argentFlight: BattleEffect[] = [
       })
     },
   },
-  strikeWingAmbuscade,
+  {
+    type: 'promissary',
+    name: 'Strike Wing Ambuscade',
+    transformUnit: (
+      unit: UnitInstance,
+      participant: ParticipantInstance,
+      place: Place,
+      effectName: string,
+    ) => {
+      if (place === 'ground') {
+        if (participant.side === 'attacker') {
+          if (unit.bombardment && isHighestHitUnit(unit, participant, 'bombardment')) {
+            registerUse(effectName, participant)
+            return getUnitWithImproved(unit, 'bombardment', 'count')
+          }
+        } else {
+          if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
+            registerUse(effectName, participant)
+            return getUnitWithImproved(unit, 'spaceCannon', 'count')
+          }
+        }
+      } else {
+        // space combat
+        if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
+          registerUse(effectName, participant)
+          return getUnitWithImproved(unit, 'spaceCannon', 'count')
+        } else if (unit.afb && isHighestHitUnit(unit, participant, 'afb')) {
+          registerUse(effectName, participant)
+          return getUnitWithImproved(unit, 'afb', 'count')
+        }
+      }
+      return unit
+    },
+    onlyFirstRound: true,
+    timesPerFight: 1,
+  },
   // TODO commander
 ]

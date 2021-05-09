@@ -167,7 +167,7 @@ function addOtherParticipantsBattleEffects(
         participantInstance.firstRoundEnemyEffects.push(battleEffect)
       } else {
         participantInstance.units = participantInstance.units.map((u) => {
-          return battleEffect.transformEnemyUnit!(u, participantInstance, place)
+          return battleEffect.transformEnemyUnit!(u, participantInstance, place, battleEffect.name)
         })
       }
     }
@@ -200,7 +200,7 @@ function applyBattleEffects(
         participantInstance.firstRoundEffects.push(battleEffect)
       } else {
         participantInstance.units = participantInstance.units.map((u) =>
-          battleEffect.transformUnit!(u, participantInstance, place),
+          battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
         )
       }
     }

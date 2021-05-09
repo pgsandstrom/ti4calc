@@ -142,9 +142,9 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
   return true
 }
 
-export function registerUse(effect: BattleEffect, p: ParticipantInstance) {
-  p.roundActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
-  p.fightActionTracker[effect.name] = (p.roundActionTracker[effect.name] ?? 0) + 1
+export function registerUse(effectName: string, p: ParticipantInstance) {
+  p.roundActionTracker[effectName] = (p.roundActionTracker[effectName] ?? 0) + 1
+  p.fightActionTracker[effectName] = (p.roundActionTracker[effectName] ?? 0) + 1
 }
 
 export function canBattleEffectBeUsed(

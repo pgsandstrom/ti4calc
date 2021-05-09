@@ -9,10 +9,15 @@ export function getTechBattleEffects() {
 export const duraniumArmor: BattleEffect = {
   name: 'Duranium Armor',
   type: 'tech',
-  onRepair: (unit: UnitInstance, participant: ParticipantInstance, battle: BattleInstance) => {
+  onRepair: (
+    unit: UnitInstance,
+    participant: ParticipantInstance,
+    battle: BattleInstance,
+    effectName: string,
+  ) => {
     if (unit.takenDamage && unit.takenDamageRound !== battle.roundNumber) {
       unit.takenDamage = false
-      registerUse(duraniumArmor, participant)
+      registerUse(effectName, participant)
       // console.log(`${participant.side} used duranium armor in round ${battle.roundNumber}`)
     }
   },
