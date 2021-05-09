@@ -93,27 +93,30 @@ export function getUnitsWithSustain(p: ParticipantInstance, place: Place, includ
 export function isHighestHitUnit(
   unit: UnitInstance,
   p: ParticipantInstance,
-  type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
 ) {
-  const highestHitUnit = getHighestHitUnit(p, type)
+  const highestHitUnit = getHighestHitUnit(p, attackType)
   if (!highestHitUnit) {
     return true
   }
-  const unitHit = unit[type]!.hit - unit[type]!.hitBonus
-  const bestHit = highestHitUnit[type]!.hit - highestHitUnit[type]!.hitBonus
+  const unitHit = unit[attackType]!.hit - unit[attackType]!.hitBonus
+  const bestHit = highestHitUnit[attackType]!.hit - highestHitUnit[attackType]!.hitBonus
   return unitHit <= bestHit
 }
 
 export function getHighestHitUnit(
   p: ParticipantInstance,
-  type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
 ) {
-  const units = p.units.filter((u) => u[type])
+  const units = p.units.filter((u) => u[attackType])
   if (units.length === 0) {
     return undefined
   }
   const bestUnit = units.reduce((a, b) => {
-    if (a[type]!.hit - a[type]!.hitBonus < b[type]!.hit - b[type]!.hitBonus) {
+    if (
+      a[attackType]!.hit - a[attackType]!.hitBonus <
+      b[attackType]!.hit - b[attackType]!.hitBonus
+    ) {
       return a
     } else {
       return b
@@ -121,6 +124,13 @@ export function getHighestHitUnit(
   })
   // TODO test this
   return bestUnit
+}
+
+export function hasAttackType(
+  p: ParticipantInstance,
+  type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+): boolean {
+  return p.units.some((u) => u[type] !== undefined)
 }
 
 export function doesUnitFitPlace(u: UnitInstance, place: Place) {

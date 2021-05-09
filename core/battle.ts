@@ -90,9 +90,15 @@ export function doBombardment(battle: BattleInstance) {
 function doPds(battle: BattleInstance) {
   if (battle.place === Place.space) {
     const attackerPdsHits = getPdsHits(battle.attacker, battle)
+    if (LOG && battle.attacker.units.some((u) => u.spaceCannon)) {
+      console.log(`attacker pds produced ${attackerPdsHits} hits.`)
+    }
     battle.defender.hitsToAssign.hits += attackerPdsHits
   }
   const defenderPdsHits = getPdsHits(battle.defender, battle)
+  if (LOG && battle.defender.units.some((u) => u.spaceCannon)) {
+    console.log(`defender pds produced ${defenderPdsHits} hits.`)
+  }
   battle.attacker.hitsToAssign.hits += defenderPdsHits
 }
 

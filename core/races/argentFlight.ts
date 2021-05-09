@@ -3,7 +3,7 @@ import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { Place, Race } from '../enums'
-import { getBestSustainUnit, isHighestHitUnit } from '../unitGet'
+import { getBestSustainUnit, hasAttackType, isHighestHitUnit } from '../unitGet'
 
 // TODO it is ugly to have it like this. Maybe transformUnit should take the effect name?
 
@@ -110,18 +110,26 @@ export const argentFlight: BattleEffect[] = [
             registerUse(effectName, participant)
             return getUnitWithImproved(unit, 'bombardment', 'count')
           }
-        } else {
-          if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
-            registerUse(effectName, participant)
-            return getUnitWithImproved(unit, 'spaceCannon', 'count')
-          }
+        } else if (
+          !hasAttackType(participant, 'bombardment') &&
+          unit.spaceCannon &&
+          isHighestHitUnit(unit, participant, 'spaceCannon')
+        ) {
+          registerUse(effectName, participant)
+          return getUnitWithImproved(unit, 'spaceCannon', 'count')
         }
       } else {
         // space combat
         if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
+          console.log('improving spacecannon')
           registerUse(effectName, participant)
           return getUnitWithImproved(unit, 'spaceCannon', 'count')
-        } else if (unit.afb && isHighestHitUnit(unit, participant, 'afb')) {
+        } else if (
+          !hasAttackType(participant, 'spaceCannon') &&
+          unit.afb &&
+          isHighestHitUnit(unit, participant, 'afb')
+        ) {
+          console.log('improving afb')
           registerUse(effectName, participant)
           return getUnitWithImproved(unit, 'afb', 'count')
         }
