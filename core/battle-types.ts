@@ -77,8 +77,8 @@ export interface ParticipantInstance {
   // firstRoundEffects is only active during the attack
   // a firstRoundEffects that tries to give sustain damage or planetary shield, for example, wouldn't work
   //TODO refactor this to battleeffect as well maybe
-  firstRoundEffects: BattleEffect[]
-  firstRoundEnemyEffects: BattleEffect[]
+  temporaryEffects: BattleEffect[]
+  temporaryEnemyEffects: BattleEffect[]
   onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]

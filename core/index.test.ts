@@ -5,6 +5,7 @@ import { Participant } from './battle-types'
 import { Place, Race } from './enums'
 import { baronyOfLetnev } from './races/baronyOfLetnev'
 import { duraniumArmor } from './battleeffect/tech'
+import { getPromissary } from './races/race'
 
 const DO_BATTLE_X_TIMES = 10000
 
@@ -148,6 +149,35 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.99)
+  })
+
+  it('Using Strike Wing ambuscade', () => {
+    const strikeWingAmbuscade = getPromissary().find((e) => e.name === 'Strike Wing Ambuscade')!
+    const attacker: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: [strikeWingAmbuscade],
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: [],
+    }
+    attacker.units.destroyer = 2
+    attacker.units.pds = 1
+    defender.units.destroyer = 2
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.8)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.024, 0.2)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.176)
   })
 
   it('L1z1x flagship makes flagship and dreadnaughts target non-fighter ships', () => {

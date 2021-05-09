@@ -36,7 +36,8 @@ export interface BattleEffect {
   onRepair?: UnitBattleEffect
   onCombatRoundEnd?: ParticipantEffect
   afterAfb?: ParticipantEffect
-  onlyFirstRound?: boolean // default false
+  temporaryEffect?: boolean // default false
+  onlyFirstRound?: boolean // default false. onlyFirstRound also implies temporaryEffect
 
   timesPerRound?: number
   timesPerFight?: number

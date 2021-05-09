@@ -72,9 +72,7 @@ export function doBombardment(battle: BattleInstance) {
   }
 
   const hits = battle.attacker.units.map((u) => {
-    if (battle.roundNumber === 1) {
-      u = applyFirstRoundEffect(battle, battle.attacker, u)
-    }
+    u = applyTemporayEffect(battle, battle.attacker, u)
     return u.bombardment ? getHits(u.bombardment) : 0
   })
   const result = hits.reduce((a, b) => {
@@ -104,9 +102,7 @@ function doPds(battle: BattleInstance) {
 
 function getPdsHits(p: ParticipantInstance, battle: BattleInstance) {
   const hits = p.units.map((u) => {
-    if (battle.roundNumber === 1) {
-      u = applyFirstRoundEffect(battle, p, u)
-    }
+    u = applyTemporayEffect(battle, p, u)
     return u.spaceCannon ? getHits(u.spaceCannon) : 0
   })
   return hits.reduce((a, b) => {
@@ -146,9 +142,7 @@ function doAfb(battle: BattleInstance) {
 
 function getAfbHits(p: ParticipantInstance, battle: BattleInstance) {
   const hits = p.units.map((u) => {
-    if (battle.roundNumber === 1) {
-      applyFirstRoundEffect(battle, p, u)
-    }
+    applyTemporayEffect(battle, p, u)
     return u.afb ? getHits(u.afb) : 0
   })
   return hits.reduce((a, b) => {
@@ -197,9 +191,7 @@ function doParticipantBattleRolls(
   const hits = p.units
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .map((unit) => {
-      if (battle.roundNumber === 1) {
-        applyFirstRoundEffect(battle, p, unit)
-      }
+      applyTemporayEffect(battle, p, unit)
 
       unitTransformEffects.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, p)) {
@@ -343,17 +335,23 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
   })
 }
 
-function applyFirstRoundEffect(
+function applyTemporayEffect(
   battle: BattleInstance,
   p: ParticipantInstance,
   u: UnitInstance,
 ): UnitInstance {
-  battle.attacker.firstRoundEffects.forEach((effect) => {
+  battle.attacker.temporaryEffects.forEach((effect) => {
+    if (effect.onlyFirstRound === true && battle.roundNumber !== 1) {
+      return
+    }
     if (canBattleEffectBeUsed(effect, p)) {
       u = effect.transformUnit!(u, battle.attacker, battle.place, effect.name)
     }
   })
-  battle.attacker.firstRoundEnemyEffects.forEach((effect) => {
+  battle.attacker.temporaryEnemyEffects.forEach((effect) => {
+    if (effect.onlyFirstRound === true && battle.roundNumber !== 1) {
+      return
+    }
     if (canBattleEffectBeUsed(effect, p)) {
       u = effect.transformEnemyUnit!(u, battle.attacker, battle.place, effect.name)
     }

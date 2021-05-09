@@ -122,8 +122,8 @@ function createParticipantInstance(
     side,
     race: participant.race,
     units,
-    firstRoundEffects: [],
-    firstRoundEnemyEffects: [],
+    temporaryEffects: [],
+    temporaryEnemyEffects: [],
     onStartEffect: [],
     onSustainEffect: [],
     onRepairEffect: [],
@@ -163,8 +163,8 @@ function addOtherParticipantsBattleEffects(
 ) {
   battleEffects.forEach((battleEffect) => {
     if (battleEffect.transformEnemyUnit) {
-      if (battleEffect.onlyFirstRound === true) {
-        participantInstance.firstRoundEnemyEffects.push(battleEffect)
+      if (battleEffect.temporaryEffect === true || battleEffect.onlyFirstRound === true) {
+        participantInstance.temporaryEnemyEffects.push(battleEffect)
       } else {
         participantInstance.units = participantInstance.units.map((u) => {
           return battleEffect.transformEnemyUnit!(u, participantInstance, place, battleEffect.name)
@@ -196,8 +196,8 @@ function applyBattleEffects(
       participantInstance.afterAfbEffect.push(battleEffect)
     }
     if (battleEffect.transformUnit) {
-      if (battleEffect.onlyFirstRound === true) {
-        participantInstance.firstRoundEffects.push(battleEffect)
+      if (battleEffect.temporaryEffect === true || battleEffect.onlyFirstRound === true) {
+        participantInstance.temporaryEffects.push(battleEffect)
       } else {
         participantInstance.units = participantInstance.units.map((u) =>
           battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),

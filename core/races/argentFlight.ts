@@ -121,7 +121,6 @@ export const argentFlight: BattleEffect[] = [
       } else {
         // space combat
         if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
-          console.log('improving spacecannon')
           registerUse(effectName, participant)
           return getUnitWithImproved(unit, 'spaceCannon', 'count')
         } else if (
@@ -129,7 +128,6 @@ export const argentFlight: BattleEffect[] = [
           unit.afb &&
           isHighestHitUnit(unit, participant, 'afb')
         ) {
-          console.log('improving afb')
           registerUse(effectName, participant)
           return getUnitWithImproved(unit, 'afb', 'count')
         }
