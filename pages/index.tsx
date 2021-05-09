@@ -284,7 +284,7 @@ function OptionsView(props: OptionsProps) {
       </OptionsDiv>
       <OptionsPartView battleEffects={otherBattleEffects} {...props} />
       <OptionsPartView title="Techs" battleEffects={techs} {...props} />
-      <OptionsPartView title="Race techs" battleEffects={raceTechs} {...props} />
+      <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />
       <OptionsPartView title="Promissary notes" battleEffects={promissary} {...props} />
       <OptionsPartView title="Agents" battleEffects={agents} {...props} />
       <OptionsPartView title="Commanders" battleEffects={commanders} {...props} />

@@ -30,7 +30,8 @@ export const argentFlight: BattleEffect[] = [
                 place: Place,
               ) => {
                 if (place === Place.space) {
-                  // TODO Could this ever be a problem? In other battle effects we assume units have pds. Maybe we need a priority system?
+                  // TODO Order should not be a problem because transform enemy units happen after transform friendly
+                  // But are we sure it is NEVER a problem?
                   return {
                     ...unit,
                     spaceCannon: undefined,

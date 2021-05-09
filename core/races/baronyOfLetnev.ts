@@ -1,7 +1,7 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const baronyOfLetnev: BattleEffect[] = [
   {
@@ -51,6 +51,33 @@ export const baronyOfLetnev: BattleEffect[] = [
         participant.hitsToAssign.hits -= 1
       }
     },
+  },
+  {
+    name: 'L4 Disruptors',
+    type: 'race-tech',
+    race: Race.barony_of_letnev,
+    transformEnemyUnit: (unit: UnitInstance, _p: ParticipantInstance, place: Place) => {
+      if (place === Place.ground) {
+        // TODO Order should not be a problem because transform enemy units happen after transform friendly
+        // But are we sure it is NEVER a problem?
+        return {
+          ...unit,
+          spaceCannon: undefined,
+        }
+      } else {
+        return unit
+      }
+    },
+  },
+  {
+    name: 'Munitions reserves',
+    type: 'race-tech',
+    race: Race.barony_of_letnev,
+    transformUnit: (unit: UnitInstance) => {
+      // TODO this is the kind of stuff that could be done several times
+      return getUnitWithImproved(unit, 'combat', 'reroll')
+    },
+    onlyFirstRound: true,
   },
   {
     name: 'warfunding',

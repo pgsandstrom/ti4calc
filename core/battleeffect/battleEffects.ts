@@ -21,7 +21,7 @@ export interface BattleEffect {
     | 'agent'
     | 'tech'
     | 'race'
-    | 'race-tech'
+    | 'race-tech' // race-tech also includes race abilities such as baronys "munitions reserves".
     | 'unit-upgrade'
     | 'other'
   race?: Race
