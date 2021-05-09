@@ -68,9 +68,11 @@ export interface ParticipantInstance {
   race: Race
   units: UnitInstance[]
 
-  // firstRoundEffects only works for changing attack currently
-  // TODO refactor this to battleeffect as well maybe
-  firstRoundEffects: UnitEffect[]
+  // firstRoundEffects is only active during the attack
+  // a firstRoundEffects that tries to give sustain damage or planetary shield, for example, wouldn't work
+  //TODO refactor this to battleeffect as well maybe
+  firstRoundEffects: BattleEffect[]
+  firstRoundEnemyEffects: BattleEffect[]
   onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]

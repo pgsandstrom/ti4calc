@@ -1,6 +1,7 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { defaultRoll, getNonFighterShips, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { getNonFighterShips } from '../unitGet'
 
 export const winnu: BattleEffect[] = [
   {

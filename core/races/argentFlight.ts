@@ -1,9 +1,42 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
-import { getBestSustainUnit } from '../battle'
 import { Place, Race } from '../enums'
+import { getBestSustainUnit, isHighestHitUnit } from '../unitGet'
+
+// TODO it is ugly to have it like this. Maybe transformUnit should take the effect name?
+const strikeWingAmbuscade: BattleEffect = {
+  type: 'promissary',
+  name: 'Strike Wing Ambuscade',
+  transformUnit: (unit: UnitInstance, participant: ParticipantInstance, place: Place) => {
+    if (place === 'ground') {
+      if (participant.side === 'attacker') {
+        if (unit.bombardment && isHighestHitUnit(unit, participant, 'bombardment')) {
+          registerUse(strikeWingAmbuscade, participant)
+          return getUnitWithImproved(unit, 'bombardment', 'count')
+        }
+      } else {
+        if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
+          registerUse(strikeWingAmbuscade, participant)
+          return getUnitWithImproved(unit, 'spaceCannon', 'count')
+        }
+      }
+    } else {
+      // space combat
+      if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
+        registerUse(strikeWingAmbuscade, participant)
+        return getUnitWithImproved(unit, 'spaceCannon', 'count')
+      } else if (unit.afb && isHighestHitUnit(unit, participant, 'afb')) {
+        registerUse(strikeWingAmbuscade, participant)
+        return getUnitWithImproved(unit, 'afb', 'count')
+      }
+    }
+    return unit
+  },
+  onlyFirstRound: true,
+  timesPerFight: 1,
+}
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -70,7 +103,7 @@ export const argentFlight: BattleEffect[] = [
   },
   {
     type: 'race-tech',
-    name: 'Argent Flight destroyers upgrade',
+    name: 'Strike Wing Alpha II',
     race: Race.argent_flight,
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
@@ -93,6 +126,6 @@ export const argentFlight: BattleEffect[] = [
       })
     },
   },
-  // TODO promissary note
+  strikeWingAmbuscade,
   // TODO commander
 ]

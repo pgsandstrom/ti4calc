@@ -9,7 +9,8 @@ import {
   UnitAuraEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
-import { defaultRoll, getWorstNonFighterShip, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { getWorstNonFighterShip } from '../unitGet'
 
 export interface BattleEffect {
   name: string

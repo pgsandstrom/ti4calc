@@ -1,4 +1,3 @@
-import { ParticipantInstance } from './battle-types'
 import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
 
 export enum UnitType {
@@ -275,29 +274,24 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   warsun,
 }
 
-const NON_FIGHTER_SHIP_BY_USELESSNESS = [carrier, destroyer, cruiser, dreadnought, flagship, warsun]
-
-export function getWorstNonFighterShip(p: ParticipantInstance) {
-  if (p.units.length === 0) {
-    return undefined
+// TODO test this
+// TODO use this on more places
+export function getUnitWithImproved(
+  unit: UnitInstance,
+  type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  how: 'hit' | 'count' | 'reroll',
+  value = 1,
+): UnitInstance {
+  if (unit[type] === undefined) {
+    throw new Error(`Tried to improve ${type} on unit ${unit.type} but failed.`)
   }
-  return p.units.reduce((a, b) => {
-    const aIndex = NON_FIGHTER_SHIP_BY_USELESSNESS.findIndex((u) => u.type === a.type)
-    const bIndex = NON_FIGHTER_SHIP_BY_USELESSNESS.findIndex((u) => u.type === b.type)
-    if (aIndex === -1) {
-      return b
-    }
-    if (bIndex === -1) {
-      return a
-    }
-    if (a < b) {
-      return a
-    } else {
-      return b
-    }
-  })
-}
+  const bonus: 'hitBonus' | 'countBonus' | 'rerollBonus' = `${how}Bonus` as const
 
-export function getNonFighterShips(p: ParticipantInstance) {
-  return p.units.filter((unit) => unit.isShip && unit.type !== UnitType.fighter)
+  return {
+    ...unit,
+    [type]: {
+      ...unit[type],
+      [bonus]: unit[type]![bonus] + value,
+    },
+  }
 }

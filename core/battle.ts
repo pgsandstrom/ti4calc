@@ -3,8 +3,9 @@ import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
 import { getHits } from './roll'
 import { UnitInstance, UnitType } from './unit'
+import { doesUnitFitPlace, getBestSustainUnit, getBestDieUnit } from './unitGet'
 
-// constant is let just to avoid eslint getting confused...
+// constant is "let" just to avoid eslint getting confused...
 // eslint-disable-next-line
 let LOG = false
 
@@ -70,7 +71,12 @@ export function doBombardment(battle: BattleInstance) {
     return
   }
 
-  const hits = battle.attacker.units.map((u) => (u.bombardment ? getHits(u.bombardment) : 0))
+  const hits = battle.attacker.units.map((u) => {
+    if (battle.roundNumber === 1) {
+      u = applyFirstRoundEffect(battle, battle.attacker, u)
+    }
+    return u.bombardment ? getHits(u.bombardment) : 0
+  })
   const result = hits.reduce((a, b) => {
     return a + b
   }, 0)
@@ -83,15 +89,20 @@ export function doBombardment(battle: BattleInstance) {
 
 function doPds(battle: BattleInstance) {
   if (battle.place === Place.space) {
-    const attackerPdsHits = getPdsHits(battle.attacker)
+    const attackerPdsHits = getPdsHits(battle.attacker, battle)
     battle.defender.hitsToAssign.hits += attackerPdsHits
   }
-  const defenderPdsHits = getPdsHits(battle.defender)
+  const defenderPdsHits = getPdsHits(battle.defender, battle)
   battle.attacker.hitsToAssign.hits += defenderPdsHits
 }
 
-function getPdsHits(p: ParticipantInstance) {
-  const hits = p.units.map((u) => (u.spaceCannon ? getHits(u.spaceCannon) : 0))
+function getPdsHits(p: ParticipantInstance, battle: BattleInstance) {
+  const hits = p.units.map((u) => {
+    if (battle.roundNumber === 1) {
+      u = applyFirstRoundEffect(battle, p, u)
+    }
+    return u.spaceCannon ? getHits(u.spaceCannon) : 0
+  })
   return hits.reduce((a, b) => {
     return a + b
   }, 0)
@@ -102,9 +113,9 @@ function doAfb(battle: BattleInstance) {
     return
   }
 
-  const attackerPdsHits = getAfbHits(battle.attacker)
+  const attackerPdsHits = getAfbHits(battle.attacker, battle)
   battle.defender.hitsToAssign.hits += attackerPdsHits
-  const defenderPdsHits = getAfbHits(battle.defender)
+  const defenderPdsHits = getAfbHits(battle.defender, battle)
   battle.attacker.hitsToAssign.hits += defenderPdsHits
 
   resolveAfbHits(battle.attacker)
@@ -127,8 +138,13 @@ function doAfb(battle: BattleInstance) {
   }
 }
 
-function getAfbHits(p: ParticipantInstance) {
-  const hits = p.units.map((u) => (u.afb ? getHits(u.afb) : 0))
+function getAfbHits(p: ParticipantInstance, battle: BattleInstance) {
+  const hits = p.units.map((u) => {
+    if (battle.roundNumber === 1) {
+      applyFirstRoundEffect(battle, p, u)
+    }
+    return u.afb ? getHits(u.afb) : 0
+  })
   return hits.reduce((a, b) => {
     return a + b
   }, 0)
@@ -176,9 +192,7 @@ function doParticipantBattleRolls(
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .map((unit) => {
       if (battle.roundNumber === 1) {
-        p.firstRoundEffects.forEach((effect) => {
-          unit = effect(unit, p, battle.place)
-        })
+        applyFirstRoundEffect(battle, p, unit)
       }
 
       unitTransformEffects.forEach((effect) => {
@@ -314,20 +328,6 @@ function doRepairStepForParticipant(battle: BattleInstance, participant: Partici
   }
 }
 
-function getBestDieUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
-  const units = getAliveUnits(p, place, includeFighter)
-  if (units.length === 0) {
-    return undefined
-  } else {
-    return units.reduce((a, b) => {
-      if (a.diePriority === b.diePriority && a.takenDamage !== b.takenDamage) {
-        return a.takenDamage ? b : a
-      }
-      return a.diePriority! > b.diePriority! ? a : b
-    })
-  }
-}
-
 export function isParticipantAlive(p: ParticipantInstance, place: Place) {
   return p.units.some((u) => {
     if (!doesUnitFitPlace(u, place)) {
@@ -337,50 +337,20 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
   })
 }
 
-function getAliveUnits(p: ParticipantInstance, place: Place, includeFighter: boolean) {
-  return p.units.filter((u) => {
-    if (!includeFighter && u.type === UnitType.fighter) {
-      return false
+function applyFirstRoundEffect(
+  battle: BattleInstance,
+  p: ParticipantInstance,
+  u: UnitInstance,
+): UnitInstance {
+  battle.attacker.firstRoundEffects.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, p)) {
+      u = effect.transformUnit!(u, battle.attacker, battle.place)
     }
-    if (!doesUnitFitPlace(u, place)) {
-      return false
-    }
-    return !u.isDestroyed
   })
-}
-
-export function getBestSustainUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
-  const units = getUnitsWithSustain(p, place, includeFighter)
-  if (units.length === 0) {
-    return undefined
-  } else {
-    return units
-      .filter((u) => includeFighter || u.type !== UnitType.fighter)
-      .reduce((a, b) => {
-        // TODO could it work to just pre-sort this and then never sort again?
-        return a.useSustainDamagePriority! > b.useSustainDamagePriority! ? a : b
-      })
-  }
-}
-
-function getUnitsWithSustain(p: ParticipantInstance, place: Place, includeFighter: boolean) {
-  return p.units.filter((u) => {
-    if (!includeFighter && u.type === UnitType.fighter) {
-      return false
+  battle.attacker.firstRoundEnemyEffects.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, p)) {
+      u = effect.transformEnemyUnit!(u, battle.attacker, battle.place)
     }
-    if (!doesUnitFitPlace(u, place)) {
-      return false
-    }
-    return u.sustainDamage && !u.takenDamage && !u.isDestroyed
   })
-}
-
-function doesUnitFitPlace(u: UnitInstance, place: Place) {
-  if (place === Place.space && !u.isShip) {
-    return false
-  }
-  if (place === Place.ground && !u.isGroundForce) {
-    return false
-  }
-  return true
+  return u
 }
