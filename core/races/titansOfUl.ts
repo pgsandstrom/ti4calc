@@ -78,11 +78,13 @@ export const titansOfUl: BattleEffect[] = [
             ...unit.combat!,
             hit: 6,
           },
-          // sustainDamage: true,
+          sustainDamage: true,
         }
       } else {
         return unit
       }
     },
   },
+  // TODO add agent
+  // TODO add hero
 ]

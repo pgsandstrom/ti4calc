@@ -1,23 +1,23 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
-export const nomad: BattleEffect[] = [
+export const clanOfSaar: BattleEffect[] = [
   {
     type: 'race',
-    name: 'Nomad flagship',
+    name: 'Clan of Saar flagship',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
           ...unit,
           combat: {
             ...defaultRoll,
-            hit: 7,
+            hit: 5,
             count: 2,
           },
           afb: {
             ...defaultRoll,
-            hit: 8,
-            count: 3,
+            hit: 6,
+            count: 4,
           },
         }
       } else {
@@ -25,7 +25,4 @@ export const nomad: BattleEffect[] = [
       }
     },
   },
-  // TODO add faction tech
-  // TODO add mech
-  // TODO add agent???
 ]

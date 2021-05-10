@@ -46,5 +46,6 @@ export const winnu: BattleEffect[] = [
         return unit
       }
     },
+    // TODO add commander
   },
 ]

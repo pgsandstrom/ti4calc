@@ -1,23 +1,19 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
-export const nomad: BattleEffect[] = [
+export const nekro: BattleEffect[] = [
   {
     type: 'race',
-    name: 'Nomad flagship',
+    name: 'Nekro flagship',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
+        // TODO add flagship ability
         return {
           ...unit,
           combat: {
             ...defaultRoll,
-            hit: 7,
+            hit: 9,
             count: 2,
-          },
-          afb: {
-            ...defaultRoll,
-            hit: 8,
-            count: 3,
           },
         }
       } else {
@@ -25,7 +21,6 @@ export const nomad: BattleEffect[] = [
       }
     },
   },
-  // TODO add faction tech
   // TODO add mech
-  // TODO add agent???
+  // TODO should we care about copying technology? No, right?
 ]

@@ -1,10 +1,10 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
-export const nomad: BattleEffect[] = [
+export const mentak: BattleEffect[] = [
   {
     type: 'race',
-    name: 'Nomad flagship',
+    name: 'Mentak flagship',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -14,18 +14,14 @@ export const nomad: BattleEffect[] = [
             hit: 7,
             count: 2,
           },
-          afb: {
-            ...defaultRoll,
-            hit: 8,
-            count: 3,
-          },
         }
       } else {
         return unit
       }
     },
   },
-  // TODO add faction tech
+  // TODO add flagship ability
   // TODO add mech
-  // TODO add agent???
+  // TODO add ambush
+  // TODO maybe add hero???
 ]
