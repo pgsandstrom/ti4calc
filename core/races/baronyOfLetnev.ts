@@ -1,7 +1,8 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
+import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { getHighestHitUnit } from '../unitGet'
 
 export const baronyOfLetnev: BattleEffect[] = [
   {
@@ -75,27 +76,33 @@ export const baronyOfLetnev: BattleEffect[] = [
     race: Race.barony_of_letnev,
     transformUnit: (unit: UnitInstance) => {
       // TODO this is the kind of stuff that could be done several times
-      return getUnitWithImproved(unit, 'combat', 'reroll')
+      return getUnitWithImproved(unit, 'combat', 'reroll', 'temp')
     },
-    onlyFirstRound: true,
   },
   {
     name: 'warfunding',
     type: 'promissary',
     place: Place.space,
     transformUnit: (unit: UnitInstance) => {
-      if (unit.combat) {
-        return {
-          ...unit,
-          combat: {
-            ...unit.combat,
-            rerollBonus: unit.combat.rerollBonus + 1,
-          },
-        }
-      } else {
-        return unit
+      return getUnitWithImproved(unit, 'combat', 'reroll', 'temp')
+    },
+  },
+  {
+    name: 'Barony Agent',
+    type: 'agent',
+    place: Place.space,
+    onCombatRound: (
+      p: ParticipantInstance,
+      _battle: BattleInstance,
+      _otherParticipant: ParticipantInstance,
+      effectName: string,
+    ) => {
+      const highestHitUnit = getHighestHitUnit(p, 'combat')
+      if (highestHitUnit) {
+        highestHitUnit.spaceCannon!.countBonusTmp += 1
+        registerUse(effectName, p)
       }
     },
-    onlyFirstRound: true,
+    timesPerFight: 1,
   },
 ]

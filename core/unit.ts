@@ -33,6 +33,8 @@ export interface Unit {
   diePriority?: number
 
   // this is an effect that is only present while the unit is alive (i.e. sardakk flagship)
+  // the implementation is a bit weird. We create a temporary version of the unit before firing with the aura
+  // this is to make sure that we can apply complex auras, without them leaving permanent changes to the units
   aura?: BattleAura[]
 
   // these work like any other battle effects
@@ -48,19 +50,25 @@ export interface UnitInstance extends Unit {
 export interface Roll {
   hit: number
   hitBonus: number
+  hitBonusTmp: number
   count: number
   countBonus: number
+  countBonusTmp: number
   reroll: number
   rerollBonus: number
+  rerollBonusTmp: number
 }
 
 export const defaultRoll: Roll = {
   hit: 0,
   hitBonus: 0,
+  hitBonusTmp: 0,
   count: 1,
   countBonus: 0,
+  countBonusTmp: 0,
   reroll: 0,
   rerollBonus: 0,
+  rerollBonusTmp: 0,
 }
 
 const carrier: Readonly<Unit> = {
@@ -278,20 +286,28 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
 // TODO use this on more places
 export function getUnitWithImproved(
   unit: UnitInstance,
-  type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
   how: 'hit' | 'count' | 'reroll',
+  duration: 'permanent' | 'temp',
   value = 1,
 ): UnitInstance {
-  if (unit[type] === undefined) {
-    throw new Error(`Tried to improve ${type} on unit ${unit.type} but failed.`)
+  if (unit[rollType] === undefined) {
+    console.warn(`Tried to improve ${rollType} on unit ${unit.type} but failed.`)
+    return unit
   }
-  const bonus: 'hitBonus' | 'countBonus' | 'rerollBonus' = `${how}Bonus` as const
+  const bonus:
+    | 'hitBonus'
+    | 'hitBonusTmp'
+    | 'countBonus'
+    | 'countBonusTmp'
+    | 'rerollBonus'
+    | 'rerollBonusTmp' = `${how}Bonus${duration === 'temp' ? 'Tmp' : ''}` as const
 
   return {
     ...unit,
-    [type]: {
-      ...unit[type],
-      [bonus]: unit[type]![bonus] + value,
+    [rollType]: {
+      ...unit[rollType],
+      [bonus]: unit[rollType]![bonus] + value,
     },
   }
 }

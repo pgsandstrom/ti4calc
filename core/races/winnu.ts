@@ -3,6 +3,7 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import { getNonFighterShips } from '../unitGet'
 
+// TODO fix test for flagship, since it has an aura...
 export const winnu: BattleEffect[] = [
   {
     type: 'race',

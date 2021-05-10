@@ -114,8 +114,8 @@ export function getHighestHitUnit(
   }
   const bestUnit = units.reduce((a, b) => {
     if (
-      a[attackType]!.hit - a[attackType]!.hitBonus <
-      b[attackType]!.hit - b[attackType]!.hitBonus
+      a[attackType]!.hit - a[attackType]!.hitBonus - a[attackType]!.hitBonusTmp <
+      b[attackType]!.hit - b[attackType]!.hitBonus - b[attackType]!.hitBonusTmp
     ) {
       return a
     } else {

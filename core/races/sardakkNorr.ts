@@ -1,6 +1,6 @@
 import { BattleAura, BattleEffect } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const sardarkkNorr: BattleEffect[] = [
   {
@@ -13,13 +13,8 @@ export const sardarkkNorr: BattleEffect[] = [
           place: Place.space,
           transformUnit: (unit: UnitInstance) => {
             if (unit.combat && unit.type !== UnitType.flagship) {
-              return {
-                ...unit,
-                combat: {
-                  ...unit.combat,
-                  hitBonus: unit.combat.hitBonus + 1,
-                },
-              }
+              // lol, it doesnt matter if  we have temp or permanent here, because how auras work
+              return getUnitWithImproved(unit, 'combat', 'hit', 'temp')
             } else {
               return unit
             }

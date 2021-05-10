@@ -1,9 +1,9 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { Place, Race } from '../enums'
-import { getBestSustainUnit, getHighestHitUnit, hasAttackType, isHighestHitUnit } from '../unitGet'
+import { getBestSustainUnit, getHighestHitUnit } from '../unitGet'
 
 // TODO it is ugly to have it like this. Maybe transformUnit should take the effect name?
 
@@ -99,69 +99,66 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'promissary',
     name: 'Strike Wing Ambuscade',
-    transformUnit: (
-      unit: UnitInstance,
-      participant: ParticipantInstance,
-      place: Place,
+    onSpaceCannon: (
+      p: ParticipantInstance,
+      _battle: BattleInstance,
+      _otherP: ParticipantInstance,
       effectName: string,
     ) => {
-      if (place === 'ground') {
-        if (participant.side === 'attacker') {
-          if (unit.bombardment && isHighestHitUnit(unit, participant, 'bombardment')) {
-            registerUse(effectName, participant)
-            return getUnitWithImproved(unit, 'bombardment', 'count')
-          }
-        } else if (
-          !hasAttackType(participant, 'bombardment') &&
-          unit.spaceCannon &&
-          isHighestHitUnit(unit, participant, 'spaceCannon')
-        ) {
-          registerUse(effectName, participant)
-          return getUnitWithImproved(unit, 'spaceCannon', 'count')
-        }
-      } else {
-        // space combat
-        if (unit.spaceCannon && isHighestHitUnit(unit, participant, 'spaceCannon')) {
-          registerUse(effectName, participant)
-          return getUnitWithImproved(unit, 'spaceCannon', 'count')
-        } else if (
-          !hasAttackType(participant, 'spaceCannon') &&
-          unit.afb &&
-          isHighestHitUnit(unit, participant, 'afb')
-        ) {
-          registerUse(effectName, participant)
-          return getUnitWithImproved(unit, 'afb', 'count')
+      // TODO say in theory that pds is disabled. Would strike wing ambuscade still be used here, if it could be used for afb instead?
+      const highestHitUnit = getHighestHitUnit(p, 'spaceCannon')
+      if (highestHitUnit) {
+        highestHitUnit.spaceCannon!.countBonusTmp += 1
+        registerUse(effectName, p)
+      }
+    },
+    onAfb: (
+      p: ParticipantInstance,
+      _battle: BattleInstance,
+      _otherP: ParticipantInstance,
+      effectName: string,
+    ) => {
+      const highestHitUnit = getHighestHitUnit(p, 'afb')
+      if (highestHitUnit) {
+        highestHitUnit.afb!.countBonusTmp += 1
+        registerUse(effectName, p)
+      }
+    },
+    onBombardment: (
+      p: ParticipantInstance,
+      battle: BattleInstance,
+      _otherP: ParticipantInstance,
+      effectName: string,
+    ) => {
+      if (p.side === 'attacker' && battle.place === Place.ground) {
+        const highestHitUnit = getHighestHitUnit(p, 'bombardment')
+        if (highestHitUnit) {
+          highestHitUnit.bombardment!.countBonusTmp += 1
+          registerUse(effectName, p)
         }
       }
-      return unit
     },
-    onlyFirstRound: true,
     timesPerFight: 1,
   },
   {
     type: 'commander',
     name: 'Argent Flight Commander',
-    onStart: (
-      participant: ParticipantInstance,
-      _battle: BattleInstance,
-      _otherParticipant: ParticipantInstance,
-    ) => {
-      // TODO This does have a theoretical weakness. We give one unit each a bonus on their unit ability.
-      // But if the unit ability is repeatable and the improved unit dies, then no other unit can use the ability.
-      // This is not a problem in TI4 POK, but could be a problem in homebrew factions. But Im unsure on how to solve it in a neat way.
-      // I would need to build some new stuff to fix this.
-
-      const bestBomber = getHighestHitUnit(participant, 'bombardment')
-      if (bestBomber) {
-        bestBomber.bombardment!.countBonus += 1
+    onAfb: (p: ParticipantInstance) => {
+      const highestHitUnit = getHighestHitUnit(p, 'afb')
+      if (highestHitUnit) {
+        highestHitUnit.afb!.countBonusTmp += 1
       }
-      const bestAfb = getHighestHitUnit(participant, 'afb')
-      if (bestAfb) {
-        bestAfb.afb!.countBonus += 1
+    },
+    onSpaceCannon: (p: ParticipantInstance) => {
+      const highestHitUnit = getHighestHitUnit(p, 'spaceCannon')
+      if (highestHitUnit) {
+        highestHitUnit.spaceCannon!.countBonusTmp += 1
       }
-      const bestSpacecannon = getHighestHitUnit(participant, 'spaceCannon')
-      if (bestSpacecannon) {
-        bestSpacecannon.spaceCannon!.countBonus += 1
+    },
+    onBombardment: (p: ParticipantInstance) => {
+      const highestHitUnit = getHighestHitUnit(p, 'bombardment')
+      if (highestHitUnit) {
+        highestHitUnit.bombardment!.countBonusTmp += 1
       }
     },
   },

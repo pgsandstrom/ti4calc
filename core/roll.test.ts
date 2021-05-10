@@ -1,11 +1,12 @@
 import _ from 'lodash'
 import { checkResult } from '../util/util.test'
 import { getHits } from './roll'
-import { Roll } from './unit'
+import { defaultRoll, Roll } from './unit'
 
 describe('battle', () => {
   it('should calculate hits correctly', () => {
     const roll: Roll = {
+      ...defaultRoll,
       count: 1,
       countBonus: 0,
       hit: 8,
@@ -23,6 +24,7 @@ describe('battle', () => {
 
   it('should calculate hit bonus correctly', () => {
     const roll: Roll = {
+      ...defaultRoll,
       count: 1,
       countBonus: 0,
       hit: 8,
@@ -40,6 +42,7 @@ describe('battle', () => {
 
   it('should calculate count correctly', () => {
     const roll: Roll = {
+      ...defaultRoll,
       count: 2,
       countBonus: 0,
       hit: 6,
@@ -57,6 +60,7 @@ describe('battle', () => {
 
   it('should calculate count bonus correctly', () => {
     const roll: Roll = {
+      ...defaultRoll,
       count: 2,
       countBonus: 1,
       hit: 6,
@@ -74,6 +78,7 @@ describe('battle', () => {
 
   it('should calculate reroll correctly', () => {
     const roll: Roll = {
+      ...defaultRoll,
       count: 1,
       countBonus: 0,
       hit: 6,
@@ -91,6 +96,7 @@ describe('battle', () => {
 
   it('should calculate reroll bonus correctly', () => {
     const roll: Roll = {
+      ...defaultRoll,
       count: 1,
       countBonus: 0,
       hit: 6,

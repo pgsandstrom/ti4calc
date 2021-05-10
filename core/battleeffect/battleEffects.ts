@@ -29,20 +29,27 @@ export interface BattleEffect {
   place?: Place
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
+
+  // transformUnit are done before battle
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
+
   onStart?: ParticipantEffect
   onSustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
   onCombatRoundEnd?: ParticipantEffect
   afterAfb?: ParticipantEffect
-  temporaryEffect?: boolean // default false
-  onlyFirstRound?: boolean // default false. onlyFirstRound also implies temporaryEffect
+
+  onSpaceCannon?: ParticipantEffect
+  onBombardment?: ParticipantEffect
+  onAfb?: ParticipantEffect
+  onCombatRound?: ParticipantEffect
 
   timesPerRound?: number
   timesPerFight?: number
 }
 
+// TODO perhaps refactor battleaura to just have a ParticipantEffect? I dont know.
 export interface BattleAura {
   name: string
   place?: Place

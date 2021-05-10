@@ -122,13 +122,16 @@ function createParticipantInstance(
     side,
     race: participant.race,
     units,
-    temporaryEffects: [],
-    temporaryEnemyEffects: [],
     onStartEffect: [],
     onSustainEffect: [],
     onRepairEffect: [],
     onCombatRoundEnd: [],
     afterAfbEffect: [],
+
+    onSpaceCannon: [],
+    onBombardment: [],
+    onAfb: [],
+    onCombatRound: [],
 
     riskDirectHit: participant.riskDirectHit,
 
@@ -163,13 +166,9 @@ function addOtherParticipantsBattleEffects(
 ) {
   battleEffects.forEach((battleEffect) => {
     if (battleEffect.transformEnemyUnit) {
-      if (battleEffect.temporaryEffect === true || battleEffect.onlyFirstRound === true) {
-        participantInstance.temporaryEnemyEffects.push(battleEffect)
-      } else {
-        participantInstance.units = participantInstance.units.map((u) => {
-          return battleEffect.transformEnemyUnit!(u, participantInstance, place, battleEffect.name)
-        })
-      }
+      participantInstance.units = participantInstance.units.map((u) => {
+        return battleEffect.transformEnemyUnit!(u, participantInstance, place, battleEffect.name)
+      })
     }
   })
 }
@@ -195,14 +194,24 @@ function applyBattleEffects(
     if (battleEffect.afterAfb) {
       participantInstance.afterAfbEffect.push(battleEffect)
     }
+
+    if (battleEffect.onSpaceCannon) {
+      participantInstance.onSpaceCannon.push(battleEffect)
+    }
+    if (battleEffect.onBombardment) {
+      participantInstance.onBombardment.push(battleEffect)
+    }
+    if (battleEffect.onAfb) {
+      participantInstance.onAfb.push(battleEffect)
+    }
+    if (battleEffect.onCombatRound) {
+      participantInstance.onCombatRound.push(battleEffect)
+    }
+
     if (battleEffect.transformUnit) {
-      if (battleEffect.temporaryEffect === true || battleEffect.onlyFirstRound === true) {
-        participantInstance.temporaryEffects.push(battleEffect)
-      } else {
-        participantInstance.units = participantInstance.units.map((u) =>
-          battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
-        )
-      }
+      participantInstance.units = participantInstance.units.map((u) =>
+        battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
+      )
     }
   })
 }

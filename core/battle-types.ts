@@ -39,6 +39,7 @@ export type ParticipantEffect = (
   participant: ParticipantInstance,
   battle: BattleInstance,
   otherParticipant: ParticipantInstance,
+  effectName: string,
 ) => void
 
 export interface Battle {
@@ -74,16 +75,16 @@ export interface ParticipantInstance {
   race: Race
   units: UnitInstance[]
 
-  // firstRoundEffects is only active during the attack
-  // a firstRoundEffects that tries to give sustain damage or planetary shield, for example, wouldn't work
-  //TODO refactor this to battleeffect as well maybe
-  temporaryEffects: BattleEffect[]
-  temporaryEnemyEffects: BattleEffect[]
   onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
   onCombatRoundEnd: BattleEffect[]
   afterAfbEffect: BattleEffect[]
+
+  onSpaceCannon: BattleEffect[]
+  onBombardment: BattleEffect[]
+  onAfb: BattleEffect[]
+  onCombatRound: BattleEffect[]
 
   riskDirectHit: boolean
 

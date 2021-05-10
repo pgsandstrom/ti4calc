@@ -11,10 +11,10 @@ let LOG = false
 
 export function doBattle(battle: BattleInstance) {
   battle.attacker.onStartEffect.forEach((effect) => {
-    effect.onStart!(battle.attacker, battle, battle.defender)
+    effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
   })
   battle.defender.onStartEffect.forEach((effect) => {
-    effect.onStart!(battle.defender, battle, battle.attacker)
+    effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
   })
 
   doBombardment(battle)
@@ -33,10 +33,14 @@ export function doBattle(battle: BattleInstance) {
     doRepairStep(battle)
 
     battle.attacker.onCombatRoundEnd.forEach((effect) => {
-      effect.onCombatRoundEnd!(battle.attacker, battle, battle.defender)
+      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+        effect.onCombatRoundEnd!(battle.attacker, battle, battle.defender, effect.name)
+      }
     })
     battle.defender.afterAfbEffect.forEach((effect) => {
-      effect.afterAfb!(battle.defender, battle, battle.attacker)
+      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+        effect.afterAfb!(battle.defender, battle, battle.attacker, effect.name)
+      }
     })
 
     battle.roundNumber += 1
@@ -67,12 +71,17 @@ export function doBombardment(battle: BattleInstance) {
     return
   }
 
+  battle.attacker.onBombardment.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.onBombardment!(battle.attacker, battle, battle.defender, effect.name)
+    }
+  })
+
   if (battle.defender.units.some((u) => u.planetaryShield)) {
     return
   }
 
   const hits = battle.attacker.units.map((u) => {
-    u = applyTemporayEffect(battle, battle.attacker, u)
     return u.bombardment ? getHits(u.bombardment) : 0
   })
   const result = hits.reduce((a, b) => {
@@ -87,22 +96,31 @@ export function doBombardment(battle: BattleInstance) {
 
 function doPds(battle: BattleInstance) {
   if (battle.place === Place.space) {
-    const attackerPdsHits = getPdsHits(battle.attacker, battle)
+    const attackerPdsHits = getPdsHits(battle.attacker, battle, battle.defender)
     if (LOG && battle.attacker.units.some((u) => u.spaceCannon)) {
       console.log(`attacker pds produced ${attackerPdsHits} hits.`)
     }
     battle.defender.hitsToAssign.hits += attackerPdsHits
   }
-  const defenderPdsHits = getPdsHits(battle.defender, battle)
+  const defenderPdsHits = getPdsHits(battle.defender, battle, battle.attacker)
   if (LOG && battle.defender.units.some((u) => u.spaceCannon)) {
     console.log(`defender pds produced ${defenderPdsHits} hits.`)
   }
   battle.attacker.hitsToAssign.hits += defenderPdsHits
 }
 
-function getPdsHits(p: ParticipantInstance, battle: BattleInstance) {
+function getPdsHits(
+  p: ParticipantInstance,
+  battle: BattleInstance,
+  otherParticipant: ParticipantInstance,
+) {
+  p.onSpaceCannon.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, p)) {
+      effect.onSpaceCannon!(p, battle, otherParticipant, effect.name)
+    }
+  })
+
   const hits = p.units.map((u) => {
-    u = applyTemporayEffect(battle, p, u)
     return u.spaceCannon ? getHits(u.spaceCannon) : 0
   })
   return hits.reduce((a, b) => {
@@ -115,19 +133,23 @@ function doAfb(battle: BattleInstance) {
     return
   }
 
-  const attackerPdsHits = getAfbHits(battle.attacker, battle)
+  const attackerPdsHits = getAfbHits(battle.attacker, battle, battle.defender)
   battle.defender.hitsToAssign.hits += attackerPdsHits
-  const defenderPdsHits = getAfbHits(battle.defender, battle)
+  const defenderPdsHits = getAfbHits(battle.defender, battle, battle.attacker)
   battle.attacker.hitsToAssign.hits += defenderPdsHits
 
   resolveAfbHits(battle.attacker)
   resolveAfbHits(battle.defender)
 
   battle.attacker.afterAfbEffect.forEach((effect) => {
-    effect.afterAfb!(battle.attacker, battle, battle.defender)
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.afterAfb!(battle.attacker, battle, battle.defender, effect.name)
+    }
   })
   battle.defender.afterAfbEffect.forEach((effect) => {
-    effect.afterAfb!(battle.defender, battle, battle.attacker)
+    if (canBattleEffectBeUsed(effect, battle.defender)) {
+      effect.afterAfb!(battle.defender, battle, battle.attacker, effect.name)
+    }
   })
 
   battle.attacker.hitsToAssign = {
@@ -140,9 +162,18 @@ function doAfb(battle: BattleInstance) {
   }
 }
 
-function getAfbHits(p: ParticipantInstance, battle: BattleInstance) {
+function getAfbHits(
+  p: ParticipantInstance,
+  battle: BattleInstance,
+  otherParticipant: ParticipantInstance,
+) {
+  p.onAfb.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.onAfb!(p, battle, otherParticipant, effect.name)
+    }
+  })
+
   const hits = p.units.map((u) => {
-    applyTemporayEffect(battle, p, u)
     return u.afb ? getHits(u.afb) : 0
   })
   return hits.reduce((a, b) => {
@@ -188,26 +219,25 @@ function doParticipantBattleRolls(
     .flat()
     .filter((effect) => effect.transformEnemyUnit)
 
+  p.onCombatRound.forEach((effect) =>
+    effect.onCombatRound!(p, battle, otherParticipant, effect.name),
+  )
+
   const hits = p.units
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .map((unit) => {
-      applyTemporayEffect(battle, p, unit)
-
       unitTransformEffects.forEach((effect) => {
-        if (canBattleEffectBeUsed(effect, p)) {
-          unit = effect.transformUnit!(unit, p, battle)
-        }
+        unit = effect.transformUnit!(unit, p, battle)
       })
-
       enemyUnitTransformEffects.forEach((effect) => {
-        if (canBattleEffectBeUsed(effect, p)) {
-          unit = effect.transformEnemyUnit!(unit, p, battle)
-        }
+        unit = effect.transformUnit!(unit, p, battle)
       })
 
       if (LOG && unit.combat) {
         console.log(
-          `${p.side} shoots with ${unit.type} at ${unit.combat.hit - unit.combat.hitBonus}`,
+          `${p.side} shoots with ${unit.type} at ${
+            unit.combat.hit - unit.combat.hitBonus - unit.combat.hitBonusTmp
+          }`,
         )
       }
 
@@ -333,28 +363,4 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
     }
     return !u.isDestroyed
   })
-}
-
-function applyTemporayEffect(
-  battle: BattleInstance,
-  p: ParticipantInstance,
-  u: UnitInstance,
-): UnitInstance {
-  battle.attacker.temporaryEffects.forEach((effect) => {
-    if (effect.onlyFirstRound === true && battle.roundNumber !== 1) {
-      return
-    }
-    if (canBattleEffectBeUsed(effect, p)) {
-      u = effect.transformUnit!(u, battle.attacker, battle.place, effect.name)
-    }
-  })
-  battle.attacker.temporaryEnemyEffects.forEach((effect) => {
-    if (effect.onlyFirstRound === true && battle.roundNumber !== 1) {
-      return
-    }
-    if (canBattleEffectBeUsed(effect, p)) {
-      u = effect.transformEnemyUnit!(u, battle.attacker, battle.place, effect.name)
-    }
-  })
-  return u
 }
