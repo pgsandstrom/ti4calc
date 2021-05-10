@@ -142,8 +142,7 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
   }
 
   if (effect.type === 'race' || effect.type === 'race-tech') {
-    // TODO if race is necro, show all race-techs
-    if (participant.race !== effect.race) {
+    if (participant.race !== effect.race && participant.race !== Race.nekro) {
       return false
     }
   }

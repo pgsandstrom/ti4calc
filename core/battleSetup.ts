@@ -88,8 +88,7 @@ function getParticipantUnits(participant: Participant) {
 function getParticipantBattleEffects(participant: Participant) {
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
   const battleEffects = participant.battleEffects.filter((effect) => {
-    // TODO add exception for necro
-    if (effect.race && effect.race !== participant.race) {
+    if (effect.race && effect.race !== participant.race && participant.race !== Race.nekro) {
       return false
     } else {
       return true

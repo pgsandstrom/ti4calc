@@ -56,7 +56,6 @@ export interface Participant {
   }
   // unit upgrades needs to be a map like this, since race techs might replace unit upgrades
   // this creates weird bugs if we attach battle effects that should be replaced when switching races
-  // TODO actually, maybe we should do this with all battle effects...
   unitUpgrades: PartialRecord<UnitType, boolean>
   battleEffects: BattleEffect[]
 
