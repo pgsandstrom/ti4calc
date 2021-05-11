@@ -3,7 +3,12 @@ import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
 import { getHits } from './roll'
 import { UnitInstance, UnitType } from './unit'
-import { doesUnitFitPlace, getBestSustainUnit, getBestDieUnit } from './unitGet'
+import {
+  doesUnitFitPlace,
+  getBestSustainUnit,
+  getBestDieUnit,
+  getBestNonSustainUnit,
+} from './unitGet'
 
 // constant is "let" just to avoid eslint getting confused...
 // eslint-disable-next-line
@@ -16,6 +21,7 @@ export function doBattle(battle: BattleInstance) {
   battle.defender.onStartEffect.forEach((effect) => {
     effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
   })
+  resolveHits(battle)
 
   doBombardment(battle)
 
@@ -155,10 +161,12 @@ function doAfb(battle: BattleInstance) {
   battle.attacker.hitsToAssign = {
     hits: 0,
     hitsToNonFighters: 0,
+    hitsAssignedByEnemy: 0,
   }
   battle.defender.hitsToAssign = {
     hits: 0,
     hitsToNonFighters: 0,
+    hitsAssignedByEnemy: 0,
   }
 }
 
@@ -245,6 +253,7 @@ function doParticipantBattleRolls(
       return {
         hits: unit.assignHitsToNonFighters === true ? 0 : hits,
         hitsToNonFighters: unit.assignHitsToNonFighters === true ? hits : 0,
+        hitsAssignedByEnemy: 0, // I dont think any unit uses this, so I wont implement it now.
       }
     })
     .reduce<HitsToAssign>(
@@ -252,11 +261,13 @@ function doParticipantBattleRolls(
         return {
           hits: a.hits + b.hits,
           hitsToNonFighters: a.hitsToNonFighters + b.hitsToNonFighters,
+          hitsAssignedByEnemy: a.hitsAssignedByEnemy + b.hitsAssignedByEnemy,
         }
       },
       {
         hits: 0,
         hitsToNonFighters: 0,
+        hitsAssignedByEnemy: 0,
       },
     )
 
@@ -276,12 +287,37 @@ function resolveHits(battle: BattleInstance) {
 }
 
 function hasHitToAssign(p: ParticipantInstance) {
-  return p.hitsToAssign.hits > 0 || p.hitsToAssign.hitsToNonFighters > 0
+  return (
+    p.hitsToAssign.hits > 0 ||
+    p.hitsToAssign.hitsToNonFighters > 0 ||
+    p.hitsToAssign.hitsAssignedByEnemy > 0
+  )
 }
 
 function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
   while (hasHitToAssign(p)) {
-    if (p.hitsToAssign.hitsToNonFighters > 0) {
+    if (p.hitsToAssign.hitsAssignedByEnemy > 0) {
+      if (p.hitsToAssign.hitsAssignedByEnemy > 1) {
+        // TODO
+        console.warn(
+          'hitsAssignedByEnemy is larger than one, we should assign them to best sustain unit! But that aint implemented!',
+        )
+      }
+      const bestUnit = getBestNonSustainUnit(p)
+      if (bestUnit) {
+        if (LOG) {
+          console.log(`hitsAssignedByEnemy destroyed ${bestUnit.type}`)
+        }
+        bestUnit.isDestroyed = true
+      } else {
+        const hitNonFighter = applyHit(battle, p, true)
+        if (!hitNonFighter) {
+          applyHit(battle, p, true)
+        }
+      }
+
+      p.hitsToAssign.hitsAssignedByEnemy -= 1
+    } else if (p.hitsToAssign.hitsToNonFighters > 0) {
       const appliedHitToNonFighter = applyHit(battle, p, false)
       if (!appliedHitToNonFighter) {
         applyHit(battle, p, true)

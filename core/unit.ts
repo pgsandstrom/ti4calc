@@ -21,7 +21,6 @@ export interface Unit {
   afb?: Roll
   spaceCannon?: Roll
 
-  // TODO maybe make these optional as well
   sustainDamage: boolean
   planetaryShield: boolean
   assignHitsToNonFighters?: boolean
@@ -232,7 +231,6 @@ const pds: Readonly<Unit> = {
 }
 
 const warsun: Readonly<Unit> = {
-  // TODO warsun should disable planetary shield somehow
   type: UnitType.warsun,
 
   combat: {

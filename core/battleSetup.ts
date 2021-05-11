@@ -139,6 +139,7 @@ function createParticipantInstance(
     hitsToAssign: {
       hits: 0,
       hitsToNonFighters: 0,
+      hitsAssignedByEnemy: 0,
     },
 
     roundActionTracker: {},

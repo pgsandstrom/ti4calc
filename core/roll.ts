@@ -1,7 +1,6 @@
 import { Roll } from './unit'
 import _times from 'lodash/times'
 
-// TODO fix test for tmp stuff
 export function getHits(roll: Roll): number {
   const count = roll.count + roll.countBonus + roll.countBonusTmp
   const hit = roll.hit - roll.hitBonus - roll.hitBonusTmp

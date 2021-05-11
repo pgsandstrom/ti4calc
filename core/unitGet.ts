@@ -37,6 +37,7 @@ export function getNonFighterShips(p: ParticipantInstance) {
   return p.units.filter((unit) => unit.isShip && unit.type !== UnitType.fighter)
 }
 
+// return the unit that the owner prefers dies
 export function getBestDieUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getAliveUnits(p, place, includeFighter)
   if (units.length === 0) {
@@ -51,6 +52,19 @@ export function getBestDieUnit(p: ParticipantInstance, place: Place, includeFigh
   }
 }
 
+// returns the unit that the enemy wants to kill
+export function getBestNonSustainUnit(p: ParticipantInstance) {
+  const nonSustainUnits = p.units.filter((u) => !u.sustainDamage)
+
+  if (nonSustainUnits.length === 0) {
+    return undefined
+  }
+
+  return nonSustainUnits.reduce((a, b) => {
+    return a.diePriority! < b.diePriority! ? a : b
+  })
+}
+
 export function getAliveUnits(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   return p.units.filter((u) => {
     if (!includeFighter && u.type === UnitType.fighter) {
@@ -63,6 +77,7 @@ export function getAliveUnits(p: ParticipantInstance, place: Place, includeFight
   })
 }
 
+// returns the unit that the owner prefers sustains
 export function getBestSustainUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnitsWithSustain(p, place, includeFighter)
   if (units.length === 0) {
@@ -124,7 +139,6 @@ export function getHighestHitUnit(
       return b
     }
   })
-  // TODO test this
   return bestUnit
 }
 

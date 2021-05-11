@@ -4,20 +4,18 @@ import { Participant } from '../battle-types'
 import { getUnitMap } from '../battleSetup'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { mahact } from './mahact'
+import { creuss } from './creuss'
 
-describe('Mahact', () => {
-  it('barony should always win with non-euclidian and duranium', () => {
-    const missingEnemyCommandToken = mahact.find(
-      (e) => e.name === 'Mahact missing enemy command token',
-    )!
+describe('creuss', () => {
+  it('Dimensional splicer should work', () => {
+    const dimensionalSplicer = creuss.find((e) => e.name === 'Dimensional Splicer')!
     const attacker: Participant = {
-      race: Race.mahact,
+      race: Race.creuss,
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [missingEnemyCommandToken],
+      battleEffects: [dimensionalSplicer],
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -27,14 +25,14 @@ describe('Mahact', () => {
       side: 'defender',
       battleEffects: [],
     }
-    attacker.units.flagship = 1
-    attacker.units.dreadnought = 3
-    defender.units.dreadnought = 5
+    attacker.units.destroyer = 2
+    defender.units.destroyer = 2
+    defender.units.cruiser = 1
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.306)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.102, 0.15)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.592)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.479)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.042, 0.15)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.479)
   })
 })

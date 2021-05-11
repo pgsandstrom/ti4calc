@@ -1,4 +1,6 @@
+import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const creuss: BattleEffect[] = [
@@ -20,5 +22,16 @@ export const creuss: BattleEffect[] = [
       }
     },
   },
-  // TODO Dimensional Splicer
+  {
+    type: 'race-tech',
+    name: 'Dimensional Splicer',
+    race: Race.creuss,
+    onStart: (
+      _participant: ParticipantInstance,
+      _battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      otherParticipant.hitsToAssign.hitsAssignedByEnemy += 1
+    },
+  },
 ]

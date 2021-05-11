@@ -101,6 +101,7 @@ export interface ParticipantInstance {
 export interface HitsToAssign {
   hits: number
   hitsToNonFighters: number
+  hitsAssignedByEnemy: number
 }
 
 export enum BattleResult {
