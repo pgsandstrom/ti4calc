@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _, { cloneDeep } from 'lodash'
 import { checkResult } from '../util/util.test'
 import { getHits } from './roll'
 import { defaultRoll, Roll } from './unit'
@@ -38,6 +38,29 @@ describe('battle', () => {
       hits += result
     })
     checkResult(hits, 5000)
+  })
+
+  it('should calculate temporary hit bonus correctly', () => {
+    const originalRoll: Roll = {
+      ...defaultRoll,
+      hit: 6,
+      hitBonusTmp: 1,
+    }
+    let hits = 0
+    const rollUsingUpTemporary = cloneDeep(originalRoll)
+    _.times(10000, () => {
+      const result = getHits(rollUsingUpTemporary)
+      hits += result
+    })
+    checkResult(hits, 5000)
+
+    hits = 0
+    _.times(10000, () => {
+      const rollKeepingTemporary = cloneDeep(originalRoll)
+      const result = getHits(rollKeepingTemporary)
+      hits += result
+    })
+    checkResult(hits, 6000)
   })
 
   it('should calculate count correctly', () => {

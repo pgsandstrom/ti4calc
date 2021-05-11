@@ -5,8 +5,6 @@ import _times from 'lodash/times'
 import { Place, Race } from '../enums'
 import { getBestSustainUnit, getHighestHitUnit } from '../unitGet'
 
-// TODO it is ugly to have it like this. Maybe transformUnit should take the effect name?
-
 export const argentFlight: BattleEffect[] = [
   {
     type: 'race',

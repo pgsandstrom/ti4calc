@@ -89,7 +89,6 @@ export function getUnitsWithSustain(p: ParticipantInstance, place: Place, includ
   })
 }
 
-// TODO test
 export function isHighestHitUnit(
   unit: UnitInstance,
   p: ParticipantInstance,
@@ -99,8 +98,11 @@ export function isHighestHitUnit(
   if (!highestHitUnit) {
     return true
   }
-  const unitHit = unit[attackType]!.hit - unit[attackType]!.hitBonus
-  const bestHit = highestHitUnit[attackType]!.hit - highestHitUnit[attackType]!.hitBonus
+  const unitHit = unit[attackType]!.hit - unit[attackType]!.hitBonus - unit[attackType]!.hitBonusTmp
+  const bestHit =
+    highestHitUnit[attackType]!.hit -
+    highestHitUnit[attackType]!.hitBonus -
+    highestHitUnit[attackType]!.hitBonusTmp
   return unitHit <= bestHit
 }
 
