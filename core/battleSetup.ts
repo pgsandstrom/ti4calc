@@ -132,6 +132,8 @@ function createParticipantInstance(
     onAfb: [],
     onCombatRound: [],
 
+    effects: {},
+
     riskDirectHit: participant.riskDirectHit,
 
     hitsToAssign: {
@@ -212,6 +214,8 @@ function applyBattleEffects(
         battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
       )
     }
+
+    participantInstance.effects[battleEffect.name] = true
   })
 }
 

@@ -11,12 +11,12 @@ export const sardarkkNorr: BattleEffect[] = [
         const flagshipBuff: BattleAura = {
           name: 'Sardakk Norr flagship buff',
           place: Place.space,
-          transformUnit: (unit: UnitInstance) => {
-            if (unit.combat && unit.type !== UnitType.flagship) {
+          transformUnit: (auraUnit: UnitInstance) => {
+            if (auraUnit.combat && auraUnit.type !== UnitType.flagship) {
               // lol, it doesnt matter if  we have temp or permanent here, because how auras work
-              return getUnitWithImproved(unit, 'combat', 'hit', 'temp')
+              return getUnitWithImproved(auraUnit, 'combat', 'hit', 'temp')
             } else {
-              return unit
+              return auraUnit
             }
           },
         }

@@ -22,22 +22,22 @@ export const winnu: BattleEffect[] = [
               name: 'Winnu Flagship ability',
               type: 'other',
               transformUnit: (
-                unit: UnitInstance,
+                auraUnit: UnitInstance,
                 p: ParticipantInstance,
                 battle: BattleInstance,
               ) => {
-                if (unit.type === UnitType.flagship) {
+                if (auraUnit.type === UnitType.flagship) {
                   const opponent = p.side === 'attacker' ? battle.defender : battle.attacker
                   const nonFighterShips = getNonFighterShips(opponent)
                   return {
-                    ...unit,
+                    ...auraUnit,
                     combat: {
-                      ...unit.combat!,
+                      ...auraUnit.combat!,
                       count: nonFighterShips.length,
                     },
                   }
                 }
-                return unit
+                return auraUnit
               },
             },
           ],

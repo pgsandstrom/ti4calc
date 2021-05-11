@@ -7,7 +7,7 @@ import { baronyOfLetnev } from './races/baronyOfLetnev'
 import { duraniumArmor } from './battleeffect/tech'
 import { getPromissary } from './races/race'
 
-const DO_BATTLE_X_TIMES = 10000
+export const DO_BATTLE_X_TIMES = 10000
 
 describe('core', () => {
   it('barony should always win with non-euclidian and duranium', () => {
@@ -265,7 +265,7 @@ describe('core', () => {
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.2)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081, 0.1)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081, 0.15)
   })
 
   it('ground combat with bombardment but also planetary shield', () => {
@@ -351,6 +351,6 @@ describe('core', () => {
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.803)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.063, 0.2)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132, 0.1)
   })
 })

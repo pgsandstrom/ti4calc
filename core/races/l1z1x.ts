@@ -21,14 +21,14 @@ export const l1z1x: BattleEffect[] = [
           aura: [
             {
               name: 'L1z1x flagship forcing shots on non-fighters',
-              transformUnit: (unit: UnitInstance) => {
-                if (unit.type === UnitType.flagship || unit.type === UnitType.dreadnought) {
+              transformUnit: (auraUnit: UnitInstance) => {
+                if (auraUnit.type === UnitType.flagship || auraUnit.type === UnitType.dreadnought) {
                   return {
-                    ...unit,
+                    ...auraUnit,
                     assignHitsToNonFighters: true,
                   }
                 } else {
-                  return unit
+                  return auraUnit
                 }
               },
             },

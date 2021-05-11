@@ -22,14 +22,14 @@ export type UnitEffect = (
 ) => UnitInstance
 
 export type UnitAuraEffect = (
-  p: UnitInstance,
+  auraUnit: UnitInstance,
   participant: ParticipantInstance,
   battle: BattleInstance,
 ) => UnitInstance
 
 // this modifies existing objects
 export type UnitBattleEffect = (
-  p: UnitInstance,
+  u: UnitInstance,
   participant: ParticipantInstance,
   battle: BattleInstance,
   effectName: string,
@@ -84,6 +84,9 @@ export interface ParticipantInstance {
   onBombardment: BattleEffect[]
   onAfb: BattleEffect[]
   onCombatRound: BattleEffect[]
+
+  // keep tracks of effects in play. For example Mahact flagship depends on a battle effect.
+  effects: Record<string, boolean>
 
   riskDirectHit: boolean
 
