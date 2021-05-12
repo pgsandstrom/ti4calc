@@ -17,7 +17,7 @@ describe('battle', () => {
     let hits = 0
     _.times(10000, () => {
       const result = getHits(roll)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 3000)
   })
@@ -35,7 +35,7 @@ describe('battle', () => {
     let hits = 0
     _.times(10000, () => {
       const result = getHits(roll)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 5000)
   })
@@ -50,7 +50,7 @@ describe('battle', () => {
     const rollUsingUpTemporary = cloneDeep(originalRoll)
     _.times(10000, () => {
       const result = getHits(rollUsingUpTemporary)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 5000)
 
@@ -58,7 +58,7 @@ describe('battle', () => {
     _.times(10000, () => {
       const rollKeepingTemporary = cloneDeep(originalRoll)
       const result = getHits(rollKeepingTemporary)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 6000)
   })
@@ -76,7 +76,7 @@ describe('battle', () => {
     let hits = 0
     _.times(10000, () => {
       const result = getHits(roll)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 10000)
   })
@@ -94,7 +94,7 @@ describe('battle', () => {
     let hits = 0
     _.times(10000, () => {
       const result = getHits(roll)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 15000)
   })
@@ -112,7 +112,7 @@ describe('battle', () => {
     let hits = 0
     _.times(10000, () => {
       const result = getHits(roll)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 7500)
   })
@@ -130,7 +130,7 @@ describe('battle', () => {
     let hits = 0
     _.times(10000, () => {
       const result = getHits(roll)
-      hits += result
+      hits += result.hits
     })
     checkResult(hits, 8750)
   })

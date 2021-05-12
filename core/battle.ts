@@ -88,7 +88,7 @@ export function doBombardment(battle: BattleInstance) {
   }
 
   const hits = battle.attacker.units.map((u) => {
-    return u.bombardment ? getHits(u.bombardment) : 0
+    return u.bombardment ? getHits(u.bombardment).hits : 0
   })
   const result = hits.reduce((a, b) => {
     return a + b
@@ -127,7 +127,7 @@ function getPdsHits(
   })
 
   const hits = p.units.map((u) => {
-    return u.spaceCannon ? getHits(u.spaceCannon) : 0
+    return u.spaceCannon ? getHits(u.spaceCannon).hits : 0
   })
   return hits.reduce((a, b) => {
     return a + b
@@ -182,7 +182,7 @@ function getAfbHits(
   })
 
   const hits = p.units.map((u) => {
-    return u.afb ? getHits(u.afb) : 0
+    return u.afb ? getHits(u.afb).hits : 0
   })
   return hits.reduce((a, b) => {
     return a + b
@@ -249,7 +249,13 @@ function doParticipantBattleRolls(
         )
       }
 
-      const hits = unit.combat ? getHits(unit.combat) : 0
+      const hitInfo = unit.combat ? getHits(unit.combat) : { hits: 0, rollInfo: [] }
+
+      if (unit.onHit) {
+        unit.onHit(p, battle, otherParticipant, hitInfo)
+      }
+
+      const hits = hitInfo.hits
       return {
         hits: unit.assignHitsToNonFighters === true ? 0 : hits,
         hitsToNonFighters: unit.assignHitsToNonFighters === true ? hits : 0,
@@ -294,6 +300,7 @@ function hasHitToAssign(p: ParticipantInstance) {
   )
 }
 
+// TODO do we really sort out units that cant take a hit? Like mechs in space battle etc?
 function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
   while (hasHitToAssign(p)) {
     if (p.hitsToAssign.hitsAssignedByEnemy > 0) {

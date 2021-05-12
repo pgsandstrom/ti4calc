@@ -5,7 +5,6 @@ export const startDebugTimer = (taskName = 'The task') => {
     end: () => {
       const timeMs = new Date().getTime() - timer.startTime.getTime()
       const tmp = Math.floor(timeMs / 100)
-      console.log(tmp)
       const seconds = tmp / 10
       if (seconds === 0) {
         console.log(`${taskName} took exactly ${timeMs} milliseconds`)

@@ -1,16 +1,24 @@
 import { Roll } from './unit'
 import _times from 'lodash/times'
 
-export function getHits(roll: Roll): number {
+export interface HitInfo {
+  hits: number
+  rollInfo: number[]
+}
+
+export function getHits(roll: Roll): HitInfo {
   const count = roll.count + roll.countBonus + roll.countBonusTmp
   const hit = roll.hit - roll.hitBonus - roll.hitBonusTmp
 
+  const rollInfo: number[] = []
   const result = _times(count, () => {
     let reroll = roll.reroll + roll.rerollBonus + roll.rerollBonusTmp
     let result = false
     while (!result && reroll >= 0) {
-      result = Math.random() * 10 + 1 > hit
+      const roll = Math.floor(Math.random() * 10 + 1)
+      result = roll >= hit
       reroll -= 1
+      rollInfo.push(roll)
     }
     return result
   }).filter((r) => r).length
@@ -25,5 +33,5 @@ export function getHits(roll: Roll): number {
     roll.rerollBonusTmp -= 1
   }
 
-  return result
+  return { hits: result, rollInfo }
 }

@@ -1,3 +1,4 @@
+import { OnHitEffect } from './battle-types'
 import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
 
 export enum UnitType {
@@ -38,6 +39,10 @@ export interface Unit {
 
   // these work like any other battle effects
   battleEffects?: BattleEffect[]
+
+  // this is called when the units produces a hit. For example Jol-Nar flagship can use its ability here.
+  // it is currently only called for combat rolls, not for unit abilities
+  onHit?: OnHitEffect
 }
 
 export interface UnitInstance extends Unit {
