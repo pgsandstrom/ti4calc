@@ -28,6 +28,13 @@ export type UnitAuraEffect = (
   battle: BattleInstance,
 ) => UnitInstance
 
+export type UnitAuraGroupEffect = (
+  auraUnits: UnitInstance[],
+  participant: ParticipantInstance,
+  battle: BattleInstance,
+  effectName: string,
+) => void
+
 // this modifies existing objects
 export type UnitBattleEffect = (
   u: UnitInstance,

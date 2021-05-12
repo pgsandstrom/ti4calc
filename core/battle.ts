@@ -9,6 +9,7 @@ import {
   getBestDieUnit,
   getBestNonSustainUnit,
 } from './unitGet'
+import _cloneDeep from 'lodash/cloneDeep'
 
 // constant is "let" just to avoid eslint getting confused...
 // eslint-disable-next-line
@@ -211,13 +212,17 @@ function doParticipantBattleRolls(
   p: ParticipantInstance,
   otherParticipant: ParticipantInstance,
 ) {
-  const unitTransformEffects = p.units
+  const friendlyUnitTransformEffects = p.units
     // this filter assumes the ships cannot use battle effects on ground forces
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .filter((unit) => unit.aura && unit.aura.length > 0)
     .map((unit) => unit.aura!)
     .flat()
-    .filter((effect) => effect.transformUnit)
+
+  const unitTransformEffects = friendlyUnitTransformEffects.filter((effect) => effect.transformUnit)
+  const unitOnCombatRoundStartEffect = friendlyUnitTransformEffects.filter(
+    (effect) => effect.onCombatRoundStart,
+  )
 
   const enemyUnitTransformEffects = p.units
     // this filter assumes the ships cannot use battle effects on ground forces
@@ -231,7 +236,20 @@ function doParticipantBattleRolls(
     effect.onCombatRound!(p, battle, otherParticipant, effect.name),
   )
 
-  const hits = p.units
+  let units: UnitInstance[]
+  if (unitOnCombatRoundStartEffect.length > 0) {
+    // clone units before we modify them with temporary effects
+    units = _cloneDeep(p.units)
+    unitOnCombatRoundStartEffect.forEach((effect) => {
+      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+        effect.onCombatRoundStart!(units, p, battle, effect.name)
+      }
+    })
+  } else {
+    units = p.units
+  }
+
+  const hits = units
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .map((unit) => {
       unitTransformEffects.forEach((effect) => {

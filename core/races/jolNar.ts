@@ -1,7 +1,7 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
+import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { HitInfo } from '../roll'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const jolNar: BattleEffect[] = [
   {
@@ -35,7 +35,44 @@ export const jolNar: BattleEffect[] = [
       }
     },
   },
-  // TODO add racial ability
-  // TODO add mech
+  {
+    name: 'Jol-Nar Fragile ability',
+    type: 'race',
+    transformUnit: (u: UnitInstance) => {
+      return getUnitWithImproved(u, 'combat', 'hit', 'permanent', -1)
+    },
+  },
+  {
+    type: 'race',
+    name: 'Jol-Nar mech',
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.mech) {
+        return {
+          ...unit,
+          aura: [
+            {
+              name: 'Jol-Nar mech aura',
+              onCombatRoundStart: (
+                auraUnits: UnitInstance[],
+                p: ParticipantInstance,
+                _battle: BattleInstance,
+                effectName: string,
+              ) => {
+                for (const unit of auraUnits) {
+                  if (unit.type === UnitType.infantry) {
+                    unit.combat!.hitBonusTmp += 1
+                  }
+                }
+                registerUse(effectName, p)
+              },
+              timesPerRound: 1,
+            },
+          ],
+        }
+      } else {
+        return unit
+      }
+    },
+  },
   // TODO add commander
 ]

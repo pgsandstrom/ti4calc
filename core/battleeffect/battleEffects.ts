@@ -7,6 +7,7 @@ import {
   Participant,
   ParticipantEffect,
   UnitAuraEffect,
+  UnitAuraGroupEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
@@ -45,17 +46,19 @@ export interface BattleEffect {
   onAfb?: ParticipantEffect
   onCombatRound?: ParticipantEffect
 
+  // these restrictors does not work for transformUnit, they always happen to all units
   timesPerRound?: number
   timesPerFight?: number
 }
 
-// TODO perhaps refactor battleaura to just have a ParticipantEffect? I dont know.
 export interface BattleAura {
   name: string
-  place?: Place
   transformUnit?: UnitAuraEffect
   transformEnemyUnit?: UnitAuraEffect
 
+  onCombatRoundStart?: UnitAuraGroupEffect
+
+  // these restrictors does not work for transformUnit, they always happen to all units
   timesPerRound?: number
   timesPerFight?: number
 }

@@ -1,5 +1,4 @@
 import { BattleAura, BattleEffect } from '../battleeffect/battleEffects'
-import { Place } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const sardarkkNorr: BattleEffect[] = [
@@ -10,8 +9,9 @@ export const sardarkkNorr: BattleEffect[] = [
       if (unit.type === UnitType.flagship) {
         const flagshipBuff: BattleAura = {
           name: 'Sardakk Norr flagship buff',
-          place: Place.space,
           transformUnit: (auraUnit: UnitInstance) => {
+            // TODO this is a minor thing, but if there are two flagships they should buff each other. Currently, they dont.
+            // this could instead be implemented like the jolNar mechs. Just buff each flagship one less than number of participating flagships
             if (auraUnit.combat && auraUnit.type !== UnitType.flagship) {
               // lol, it doesnt matter if  we have temp or permanent here, because how auras work
               return getUnitWithImproved(auraUnit, 'combat', 'hit', 'temp')
