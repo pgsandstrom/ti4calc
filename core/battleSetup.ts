@@ -14,7 +14,7 @@ import {
   ParticipantInstance,
 } from './battle-types'
 import { Place, Race } from './enums'
-import { BattleEffect } from './battleeffect/battleEffects'
+import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -57,8 +57,8 @@ function createBattleInstance(battle: Battle): BattleInstance {
   addOtherParticipantsBattleEffects(attacker, defenderBattleEffects, battle.place)
   addOtherParticipantsBattleEffects(defender, attackerBattleEffects, battle.place)
 
-  fixUnitBattleEffects(attacker, defender, battle.place)
-  fixUnitBattleEffects(defender, attacker, battle.place)
+  fixUnitBattleEffects(battle.attacker, attacker, defender, battle.place)
+  fixUnitBattleEffects(battle.defender, defender, attacker, battle.place)
 
   return {
     place: battle.place,
@@ -86,14 +86,20 @@ function getParticipantUnits(participant: Participant) {
 }
 
 function getParticipantBattleEffects(participant: Participant) {
+  const allBattleEffects = getAllBattleEffects()
+
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
-  const battleEffects = participant.battleEffects.filter((effect) => {
-    if (effect.race && effect.race !== participant.race && participant.race !== Race.nekro) {
-      return false
-    } else {
-      return true
+  const battleEffects: BattleEffect[] = []
+  for (const effectName in participant.battleEffects) {
+    const effect = allBattleEffects.find((e) => e.name === effectName)!
+    if (
+      effect.race === undefined ||
+      effect.race === participant.race ||
+      participant.race === Race.nekro
+    ) {
+      battleEffects.push(effect)
     }
-  })
+  }
 
   const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
   battleEffects.push(...raceAbilities)
@@ -146,18 +152,23 @@ function createParticipantInstance(
     fightActionTracker: {},
   }
 
-  applyBattleEffects(participantInstance, battleEffects, place)
+  applyBattleEffects(participant, participantInstance, battleEffects, place)
 
   return participantInstance
 }
 
-function fixUnitBattleEffects(p: ParticipantInstance, other: ParticipantInstance, place: Place) {
-  const attackerUnitBattleEffects = p.units
+function fixUnitBattleEffects(
+  participant: Participant,
+  participantInstance: ParticipantInstance,
+  other: ParticipantInstance,
+  place: Place,
+) {
+  const attackerUnitBattleEffects = participantInstance.units
     .filter((u) => u.battleEffects)
     .map((u) => u.battleEffects!)
     .flat()
 
-  applyBattleEffects(p, attackerUnitBattleEffects, place)
+  applyBattleEffects(participant, participantInstance, attackerUnitBattleEffects, place)
   addOtherParticipantsBattleEffects(other, attackerUnitBattleEffects, place)
 }
 
@@ -176,6 +187,7 @@ function addOtherParticipantsBattleEffects(
 }
 
 function applyBattleEffects(
+  participant: Participant,
   participantInstance: ParticipantInstance,
   battleEffects: BattleEffect[],
   place: Place,
@@ -216,7 +228,10 @@ function applyBattleEffects(
       )
     }
 
-    participantInstance.effects[battleEffect.name] = true
+    const effectNumber = participant.battleEffects[battleEffect.name]
+    if (effectNumber !== undefined) {
+      participantInstance.effects[battleEffect.name] = effectNumber
+    }
   })
 }
 
@@ -226,7 +241,7 @@ export function createParticipant(side: Side): Participant {
     side,
     units: getUnitMap(),
     unitUpgrades: {},
-    battleEffects: [],
+    battleEffects: {},
     riskDirectHit: false,
   }
   participant.units.destroyer = 2

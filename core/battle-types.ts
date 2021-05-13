@@ -72,7 +72,7 @@ export interface Participant {
   // unit upgrades needs to be a map like this, since race techs might replace unit upgrades
   // this creates weird bugs if we attach battle effects that should be replaced when switching races
   unitUpgrades: PartialRecord<UnitType, boolean>
-  battleEffects: BattleEffect[]
+  battleEffects: Record<string, number | undefined>
 
   riskDirectHit: boolean
 }
@@ -101,7 +101,8 @@ export interface ParticipantInstance {
   onCombatRound: BattleEffect[]
 
   // keep tracks of effects in play. For example Mahact flagship depends on a battle effect.
-  effects: Record<string, boolean>
+  // the number is important for effects that are used up, for example hacan flagship
+  effects: Record<string, number>
 
   riskDirectHit: boolean
 

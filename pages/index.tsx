@@ -315,8 +315,8 @@ function OptionsPartView({
     <div>
       {title !== undefined && <h3>{title}</h3>}
       {battleEffects.map((effect) => {
-        const attackerView = getBattleEffectCheckbox(effect, attacker, attackerOnChange)
-        const defenderView = getBattleEffectCheckbox(effect, defender, defenderOnChange)
+        const attackerView = getBattleEffectInput(effect, attacker, attackerOnChange)
+        const defenderView = getBattleEffectInput(effect, defender, defenderOnChange)
 
         return (
           <OptionsDiv key={effect.name}>
@@ -349,27 +349,56 @@ const getDirectHitCheckbox = (
   )
 }
 
-const getBattleEffectCheckbox = (
+const getBattleEffectInput = (
   effect: BattleEffect,
   participant: Participant,
   onChange: (participant: Participant) => void,
 ) => {
+  if (effect.count !== undefined) {
+    return (
+      <input
+        type="number"
+        min="0"
+        max="100"
+        value={(participant.battleEffects[effect.name] ?? 0).toString()}
+        onChange={(e) => {
+          const value = parseInt(e.target.value, 10)
+          // TODO fix the cooler version that we have elsewhere
+          if (Number.isFinite(value)) {
+            const newParticipant: Participant = {
+              ...participant,
+              battleEffects: {
+                ...participant.battleEffects,
+                [effect.name]: value,
+              },
+            }
+            onChange(newParticipant)
+          }
+        }}
+      />
+    )
+  }
   return (
     <input
       type="checkbox"
-      name="scales"
-      checked={participant.battleEffects.some((e) => e.name === effect.name)}
+      checked={participant.battleEffects[effect.name] !== undefined}
       onChange={(e) => {
         if (e.target.checked) {
           const newParticipant: Participant = {
             ...participant,
-            battleEffects: [...participant.battleEffects, effect],
+            battleEffects: {
+              ...participant.battleEffects,
+              [effect.name]: 1,
+            },
           }
           onChange(newParticipant)
         } else {
           const newParticipant: Participant = {
             ...participant,
-            battleEffects: participant.battleEffects.filter((e) => e.name !== effect.name),
+            battleEffects: {
+              ...participant.battleEffects,
+              [effect.name]: undefined,
+            },
           }
           onChange(newParticipant)
         }

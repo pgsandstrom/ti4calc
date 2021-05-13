@@ -4,18 +4,16 @@ import { Participant } from '../battle-types'
 import { getUnitMap } from '../battleSetup'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { creuss } from './creuss'
 
 describe('creuss', () => {
   it('Dimensional splicer should work', () => {
-    const dimensionalSplicer = creuss.find((e) => e.name === 'Dimensional Splicer')!
     const attacker: Participant = {
       race: Race.creuss,
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [dimensionalSplicer],
+      battleEffects: { 'Dimensional Splicer': 1 },
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -23,7 +21,7 @@ describe('creuss', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.destroyer = 2
     defender.units.destroyer = 2

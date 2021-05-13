@@ -22,9 +22,8 @@ export const jolNar: BattleEffect[] = [
             _otherParticipant: ParticipantInstance,
             hitInfo: HitInfo,
           ) => {
-            hitInfo.rollInfo.forEach((roll) => {
-              if (roll > 9) {
-                console.log('omg jol-nar!!')
+            hitInfo.rollInfoList.forEach((rollInfo) => {
+              if (rollInfo.roll > 9) {
                 hitInfo.hits += 2
               }
             })
@@ -74,5 +73,20 @@ export const jolNar: BattleEffect[] = [
       }
     },
   },
-  // TODO add commander
+  {
+    name: 'Jol-Nar commander',
+    type: 'commander',
+    transformUnit: (unit) => {
+      if (unit.spaceCannon) {
+        unit = getUnitWithImproved(unit, 'spaceCannon', 'reroll', 'permanent')
+      }
+      if (unit.afb) {
+        unit = getUnitWithImproved(unit, 'afb', 'reroll', 'permanent')
+      }
+      if (unit.bombardment) {
+        unit = getUnitWithImproved(unit, 'bombardment', 'reroll', 'permanent')
+      }
+      return unit
+    },
+  },
 ]

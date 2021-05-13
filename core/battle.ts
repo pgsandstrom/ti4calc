@@ -1,7 +1,7 @@
 import { BattleInstance, HitsToAssign, ParticipantInstance } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
-import { getHits } from './roll'
+import { getHits, HitInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 import {
   doesUnitFitPlace,
@@ -267,7 +267,7 @@ function doParticipantBattleRolls(
         )
       }
 
-      const hitInfo = unit.combat ? getHits(unit.combat) : { hits: 0, rollInfo: [] }
+      const hitInfo: HitInfo = unit.combat ? getHits(unit.combat) : { hits: 0, rollInfoList: [] }
 
       if (unit.onHit) {
         unit.onHit(p, battle, otherParticipant, hitInfo)

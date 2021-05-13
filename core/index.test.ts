@@ -3,24 +3,22 @@ import { checkResult } from '../util/util.test'
 import { getUnitMap } from './battleSetup'
 import { Participant } from './battle-types'
 import { Place, Race } from './enums'
-import { baronyOfLetnev } from './races/baronyOfLetnev'
 import { duraniumArmor } from './battleeffect/tech'
-import { getPromissary } from './races/race'
 
 export const DO_BATTLE_X_TIMES = 10000
 
 describe('core', () => {
   it('barony should always win with non-euclidian and duranium', () => {
-    const nonEuclideanShieldingTech = baronyOfLetnev.find(
-      (e) => e.name === 'Non-Euclidean Shielding',
-    )!
     const attacker: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [nonEuclideanShieldingTech, duraniumArmor],
+      battleEffects: {
+        'Non-Euclidean Shielding': 1,
+        [duraniumArmor.name]: 1,
+      },
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -28,7 +26,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.dreadnought = 2
     defender.units.dreadnought = 2
@@ -46,7 +44,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.arborec,
@@ -54,7 +52,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.flagship = 1
     defender.units.flagship = 1
@@ -73,7 +71,9 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [duraniumArmor],
+      battleEffects: {
+        [duraniumArmor.name]: 1,
+      },
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -81,7 +81,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.dreadnought = 5
     defender.units.dreadnought = 5
@@ -104,7 +104,7 @@ describe('core', () => {
       },
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -112,7 +112,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.destroyer = 2
     defender.units.cruiser = 2
@@ -131,7 +131,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -139,7 +139,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.flagship = 1
     attacker.units.destroyer = 2
@@ -152,14 +152,13 @@ describe('core', () => {
   })
 
   it('Using Strike Wing ambuscade', () => {
-    const strikeWingAmbuscade = getPromissary().find((e) => e.name === 'Strike Wing Ambuscade')!
     const attacker: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [strikeWingAmbuscade],
+      battleEffects: { 'Strike Wing Ambuscade': 1 },
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -167,7 +166,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.destroyer = 2
     attacker.units.pds = 1
@@ -187,7 +186,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.arborec,
@@ -195,7 +194,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.flagship = 1
     attacker.units.dreadnought = 4
@@ -218,7 +217,7 @@ describe('core', () => {
       },
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -226,7 +225,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.infantry = 2
     defender.units.mech = 2
@@ -247,7 +246,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -255,7 +254,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.infantry = 3
     attacker.units.dreadnought = 3
@@ -275,7 +274,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -283,7 +282,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.infantry = 3
     attacker.units.dreadnought = 3
@@ -304,7 +303,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -312,7 +311,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.infantry = 3
     attacker.units.flagship = 1
@@ -333,7 +332,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [],
+      battleEffects: {},
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -341,7 +340,7 @@ describe('core', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.dreadnought = 3
     attacker.units.infantry = 5

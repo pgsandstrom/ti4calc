@@ -3,7 +3,7 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
-const missingCommandToken = 'Mahact missing enemy command token'
+const missingCommandToken = 'Mahact flagship bonus'
 
 export const mahact: BattleEffect[] = [
   {
@@ -22,8 +22,9 @@ export const mahact: BattleEffect[] = [
             {
               name: 'Mahact flagship aura',
               transformUnit: (auraUnit: UnitInstance, participant: ParticipantInstance) => {
+                // TODO this could be a battle effect instead of an aura
                 if (auraUnit.type === UnitType.flagship) {
-                  if (participant.effects[missingCommandToken] === true) {
+                  if (participant.effects[missingCommandToken] > 0) {
                     return getUnitWithImproved(auraUnit, 'combat', 'hit', 'temp', 2)
                   } else {
                     return auraUnit

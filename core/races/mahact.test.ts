@@ -4,20 +4,16 @@ import { Participant } from '../battle-types'
 import { getUnitMap } from '../battleSetup'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { mahact } from './mahact'
 
 describe('Mahact', () => {
-  it('barony should always win with non-euclidian and duranium', () => {
-    const missingEnemyCommandToken = mahact.find(
-      (e) => e.name === 'Mahact missing enemy command token',
-    )!
+  it('Mahact flagship with bonus should be strong', () => {
     const attacker: Participant = {
       race: Race.mahact,
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'attacker',
-      battleEffects: [missingEnemyCommandToken],
+      battleEffects: { 'Mahact flagship bonus': 1 },
     }
     const defender: Participant = {
       race: Race.barony_of_letnev,
@@ -25,7 +21,7 @@ describe('Mahact', () => {
       unitUpgrades: {},
       riskDirectHit: false,
       side: 'defender',
-      battleEffects: [],
+      battleEffects: {},
     }
     attacker.units.flagship = 1
     attacker.units.dreadnought = 3
@@ -33,8 +29,8 @@ describe('Mahact', () => {
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.306)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.102, 0.15)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.305)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.102, 0.1)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.592)
   })
 })

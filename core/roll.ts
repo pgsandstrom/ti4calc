@@ -3,14 +3,19 @@ import _times from 'lodash/times'
 
 export interface HitInfo {
   hits: number
-  rollInfo: number[]
+  rollInfoList: RollInfo[]
+}
+
+export interface RollInfo {
+  hitOn: number
+  roll: number
 }
 
 export function getHits(roll: Roll): HitInfo {
   const count = roll.count + roll.countBonus + roll.countBonusTmp
   const hit = roll.hit - roll.hitBonus - roll.hitBonusTmp
 
-  const rollInfo: number[] = []
+  const rollInfo: RollInfo[] = []
   const result = _times(count, () => {
     let reroll = roll.reroll + roll.rerollBonus + roll.rerollBonusTmp
     let result = false
@@ -18,7 +23,10 @@ export function getHits(roll: Roll): HitInfo {
       const roll = Math.floor(Math.random() * 10 + 1)
       result = roll >= hit
       reroll -= 1
-      rollInfo.push(roll)
+      rollInfo.push({
+        roll,
+        hitOn: hit,
+      })
     }
     return result
   }).filter((r) => r).length
@@ -33,5 +41,5 @@ export function getHits(roll: Roll): HitInfo {
     roll.rerollBonusTmp -= 1
   }
 
-  return { hits: result, rollInfo }
+  return { hits: result, rollInfoList: rollInfo }
 }

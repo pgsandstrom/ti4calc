@@ -10,8 +10,12 @@ import {
   UnitAuraGroupEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
+import { getRaceTechsNonUnit, getPromissary, getAgent, getCommanders } from '../races/race'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import { getWorstNonFighterShip } from '../unitGet'
+import { getActioncards } from './actioncard'
+import { getAgendas } from './agenda'
+import { getTechBattleEffects } from './tech'
 
 export interface BattleEffect {
   name: string
@@ -22,7 +26,7 @@ export interface BattleEffect {
     | 'agent'
     | 'tech'
     | 'race'
-    | 'race-tech' // race-tech also includes race abilities such as baronys "munitions reserves".
+    | 'race-tech' // TODO rename to race-specific or something
     | 'unit-upgrade'
     | 'other'
   race?: Race
@@ -30,6 +34,8 @@ export interface BattleEffect {
   place?: Place
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
+
+  count?: boolean // TODO describe this
 
   // transformUnit are done before battle
   transformUnit?: UnitEffect
@@ -127,6 +133,27 @@ export const memoria2: BattleEffect = {
     }
     worstNonFighterShip.sustainDamage = true
   },
+}
+
+export function getAllBattleEffects() {
+  const otherBattleEffects = getOtherBattleEffects()
+  const techs = getTechBattleEffects()
+  const raceTechs = getRaceTechsNonUnit()
+  const promissary = getPromissary()
+  const agents = getAgent()
+  const commanders = getCommanders()
+  const actioncards = getActioncards()
+  const agendas = getAgendas()
+  return [
+    ...otherBattleEffects,
+    ...techs,
+    ...raceTechs,
+    ...promissary,
+    ...agents,
+    ...commanders,
+    ...actioncards,
+    ...agendas,
+  ]
 }
 
 export function getOtherBattleEffects(): BattleEffect[] {
