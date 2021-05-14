@@ -11,9 +11,10 @@ import {
 } from './unitGet'
 import _cloneDeep from 'lodash/cloneDeep'
 import { NUMBER_OF_ROLLS } from './constant'
+import { isTest } from '../util/util-debug'
 
 // eslint-disable-next-line
-export const LOG = NUMBER_OF_ROLLS === 1
+export const LOG = NUMBER_OF_ROLLS === 1 && !isTest()
 
 export function doBattle(battle: BattleInstance) {
   battle.attacker.onStartEffect.forEach((effect) => {

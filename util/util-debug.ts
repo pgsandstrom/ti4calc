@@ -17,3 +17,7 @@ export const startDebugTimer = (taskName = 'The task') => {
   }
   return timer
 }
+
+export function isTest() {
+  return process.env.JEST_WORKER_ID !== undefined
+}

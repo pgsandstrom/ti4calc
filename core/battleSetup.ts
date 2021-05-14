@@ -2,7 +2,7 @@ import { objectEntries } from '../util/util-object'
 import { UnitInstance, UnitType, UNIT_MAP } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
-import { doBattle, isParticipantAlive } from './battle'
+import { doBattle, isParticipantAlive, LOG } from './battle'
 import { getRaceBattleEffects } from './races/race'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import {
@@ -72,13 +72,7 @@ function getParticipantUnits(participant: Participant) {
   const units = objectEntries(participant.units)
     .map<UnitInstance[]>(([unitType, number]) => {
       return _times(number, () => {
-        const unit = _cloneDeep(UNIT_MAP[unitType])
-        const unitInstance: UnitInstance = {
-          ...unit,
-          takenDamage: false,
-          isDestroyed: false,
-        }
-        return unitInstance
+        return createUnit(unitType)
       })
     })
     .flat()
@@ -279,4 +273,29 @@ export const getUnitMap = () => {
     pds: 0,
   }
   return unitMap
+}
+
+export function createUnit(type: UnitType) {
+  const unit = _cloneDeep(UNIT_MAP[type])
+  const unitInstance: UnitInstance = {
+    ...unit,
+    takenDamage: false,
+    isDestroyed: false,
+  }
+  return unitInstance
+}
+
+export function createUnitAndApplyEffects(
+  type: UnitType,
+  participant: ParticipantInstance,
+  place: Place,
+) {
+  let unit = createUnit(type)
+  participant.allUnitTransform.forEach((effect) => {
+    unit = effect(unit, participant, place, effect.name)
+  })
+  if (LOG) {
+    console.log(`${participant.side} created a new unit: ${unit.type}`)
+  }
+  return unit
 }

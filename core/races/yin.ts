@@ -1,6 +1,7 @@
 import { LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
+import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
+import { createUnitAndApplyEffects } from '../battleSetup'
 import { Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
@@ -64,6 +65,49 @@ export const yin: BattleEffect[] = [
       }
     },
   },
-  // TODO add impulse core
-  // TODO add agent
+  {
+    name: 'Impulse Core',
+    type: 'race-tech',
+    onStart: (
+      participant: ParticipantInstance,
+      _battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
+      if (!suicideUnit) {
+        suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
+      }
+      if (suicideUnit) {
+        otherParticipant.hitsToAssign.hitsToNonFighters += 1
+      }
+    },
+  },
+  {
+    name: 'Yin agent',
+    type: 'agent',
+    onDeath: (
+      deadUnits: UnitInstance[],
+      participant: ParticipantInstance,
+      _otherParticipant: ParticipantInstance,
+      battle: BattleInstance,
+      isOwnUnit: boolean,
+      effectName: string,
+    ) => {
+      if (!isOwnUnit) {
+        return
+      }
+      const deadUnit = deadUnits.find(
+        (u) => u.type === UnitType.destroyer || u.type === UnitType.cruiser,
+      )
+      if (!deadUnit) {
+        return
+      }
+      const newFigher1 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
+      const newFigher2 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
+      participant.newUnits.push(newFigher1)
+      participant.newUnits.push(newFigher2)
+      registerUse(effectName, participant)
+    },
+    timesPerFight: 1,
+  },
 ]

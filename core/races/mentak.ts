@@ -3,7 +3,7 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { getHits } from '../roll'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import _cloneDeep from 'lodash/cloneDeep'
+import { createUnitAndApplyEffects } from '../battleSetup'
 
 export const mentak: BattleEffect[] = [
   {
@@ -116,13 +116,7 @@ export const mentak: BattleEffect[] = [
       }
 
       for (const rawUnit of deadUnits) {
-        let unit = _cloneDeep(rawUnit)
-        unit.isDestroyed = false
-        unit.takenDamage = false
-        unit.takenDamageRound = undefined
-        participant.allUnitTransform.forEach((effect) => {
-          unit = effect(unit, participant, battle.place, effect.name)
-        })
+        const unit = createUnitAndApplyEffects(rawUnit.type, participant, battle.place)
         participant.newUnits.push(unit)
       }
     },
