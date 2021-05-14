@@ -10,10 +10,10 @@ import {
   getBestNonSustainUnit,
 } from './unitGet'
 import _cloneDeep from 'lodash/cloneDeep'
+import { NUMBER_OF_ROLLS } from './constant'
 
-// constant is "let" just to avoid eslint getting confused...
 // eslint-disable-next-line
-let LOG = false
+const LOG = NUMBER_OF_ROLLS === 1
 
 export function doBattle(battle: BattleInstance) {
   battle.attacker.onStartEffect.forEach((effect) => {
@@ -31,10 +31,7 @@ export function doBattle(battle: BattleInstance) {
 
   doAfb(battle)
 
-  while (
-    isParticipantAlive(battle.attacker, battle.place) &&
-    isParticipantAlive(battle.defender, battle.place)
-  ) {
+  while (isBattleOngoing(battle)) {
     doBattleRolls(battle)
     resolveHits(battle)
     doRepairStep(battle)
@@ -46,7 +43,7 @@ export function doBattle(battle: BattleInstance) {
     })
     battle.defender.afterAfbEffect.forEach((effect) => {
       if (canBattleEffectBeUsed(effect, battle.attacker)) {
-        effect.afterAfb!(battle.defender, battle, battle.attacker, effect.name)
+        effect.onCombatRoundEnd!(battle.defender, battle, battle.attacker, effect.name)
       }
     })
 
@@ -415,6 +412,13 @@ function doRepairStepForParticipant(battle: BattleInstance, participant: Partici
       })
     })
   }
+}
+
+export function isBattleOngoing(battle: BattleInstance) {
+  return (
+    isParticipantAlive(battle.attacker, battle.place) &&
+    isParticipantAlive(battle.defender, battle.place)
+  )
 }
 
 export function isParticipantAlive(p: ParticipantInstance, place: Place) {

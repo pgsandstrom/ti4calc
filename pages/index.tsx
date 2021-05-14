@@ -17,9 +17,7 @@ import { getAgent, getCommanders, getPromissary, getRaceTechsNonUnit } from '../
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import { getActioncards } from '../core/battleeffect/actioncard'
 import { getAgendas } from '../core/battleeffect/agenda'
-
-const NUMBER_OF_ROLLS = 100000
-// const NUMBER_OF_ROLLS = undefined
+import { NUMBER_OF_ROLLS } from '../core/constant'
 
 // TODO input field should revert to zero when you empty them
 // TODO shit input should revert to earlier number i guess

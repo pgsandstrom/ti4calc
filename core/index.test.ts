@@ -5,7 +5,7 @@ import { Participant } from './battle-types'
 import { Place, Race } from './enums'
 import { duraniumArmor } from './battleeffect/tech'
 
-export const DO_BATTLE_X_TIMES = 10000
+export const DO_BATTLE_X_TIMES = 15000
 
 describe('core', () => {
   it('barony should always win with non-euclidian and duranium', () => {
@@ -263,7 +263,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.25)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.5)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081, 0.15)
   })
 
