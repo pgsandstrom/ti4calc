@@ -13,7 +13,7 @@ import _cloneDeep from 'lodash/cloneDeep'
 import { NUMBER_OF_ROLLS } from './constant'
 
 // eslint-disable-next-line
-const LOG = NUMBER_OF_ROLLS === 1
+export const LOG = NUMBER_OF_ROLLS === 1
 
 export function doBattle(battle: BattleInstance) {
   battle.attacker.onStartEffect.forEach((effect) => {
@@ -46,6 +46,8 @@ export function doBattle(battle: BattleInstance) {
         effect.onCombatRoundEnd!(battle.defender, battle, battle.attacker, effect.name)
       }
     })
+
+    resolveHits(battle)
 
     battle.roundNumber += 1
 
@@ -336,7 +338,7 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
       const bestUnit = getBestNonSustainUnit(p)
       if (bestUnit) {
         if (LOG) {
-          console.log(`hitsAssignedByEnemy destroyed ${bestUnit.type}`)
+          console.log(`${p.side} loses ${bestUnit.type} after hits assigned by opponent.`)
         }
         bestUnit.isDestroyed = true
       } else {

@@ -52,9 +52,9 @@ export function getBestDieUnit(p: ParticipantInstance, place: Place, includeFigh
   }
 }
 
-// returns the unit that the enemy wants to kill
+// returns the unit that the enemy wants to kill. Returns unit without sustain or with used up sustain
 export function getBestNonSustainUnit(p: ParticipantInstance) {
-  const nonSustainUnits = p.units.filter((u) => !u.sustainDamage)
+  const nonSustainUnits = p.units.filter((u) => !u.sustainDamage || u.takenDamage)
 
   if (nonSustainUnits.length === 0) {
     return undefined

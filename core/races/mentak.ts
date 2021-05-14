@@ -105,7 +105,7 @@ export const mentak: BattleEffect[] = [
     type: 'race-tech',
     race: Race.mentak,
     onDeath: (
-      unitList: UnitInstance[],
+      deadUnits: UnitInstance[],
       participant: ParticipantInstance,
       _otherParticipant: ParticipantInstance,
       battle: BattleInstance,
@@ -115,7 +115,7 @@ export const mentak: BattleEffect[] = [
         return
       }
 
-      for (const rawUnit of unitList) {
+      for (const rawUnit of deadUnits) {
         let unit = _cloneDeep(rawUnit)
         unit.isDestroyed = false
         unit.takenDamage = false

@@ -94,7 +94,7 @@ const carrier: Readonly<Unit> = {
   isGroundForce: false,
   isShip: true,
 
-  diePriority: 40,
+  diePriority: 60,
 }
 
 const cruiser: Readonly<Unit> = {

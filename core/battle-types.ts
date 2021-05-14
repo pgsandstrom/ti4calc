@@ -58,7 +58,7 @@ export type OnHitEffect = (
 ) => void
 
 export type OnDeathEffect = (
-  unitList: UnitInstance[],
+  deadUnits: UnitInstance[],
   participant: ParticipantInstance,
   otherParticipant: ParticipantInstance,
   battle: BattleInstance,
