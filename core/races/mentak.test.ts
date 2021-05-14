@@ -32,8 +32,16 @@ describe('Mentak', () => {
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.647)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.642)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.01, 1)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.353)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.358)
+
+    // and the results should be equal even with attacker/defender flipped:
+
+    const result2 = getBattleReport(defender, attacker, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result2.attacker, DO_BATTLE_X_TIMES * 0.358)
+    checkResult(result2.draw, DO_BATTLE_X_TIMES * 0.01, 1)
+    checkResult(result2.defender, DO_BATTLE_X_TIMES * 0.642)
   })
 })

@@ -123,7 +123,7 @@ export const mentak: BattleEffect[] = [
         participant.allUnitTransform.forEach((effect) => {
           unit = effect(unit, participant, battle.place, effect.name)
         })
-        participant.units.push(unit)
+        participant.newUnits.push(unit)
       }
     },
   },

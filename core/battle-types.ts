@@ -98,6 +98,10 @@ export interface ParticipantInstance {
   race: Race
   units: UnitInstance[]
 
+  // Units added during combat. At the very end of each combat round they are moved to normal units
+  // This is to prevent them from taking a hit the same round they appeared
+  newUnits: UnitInstance[]
+
   // this are only used when a unit appears later in the battle (mentak hero and yin agent for example)
   // it holds both participants own permanent battleeffect, and the opponents "enemy battle effects"
   allUnitTransform: UnitEffect[]

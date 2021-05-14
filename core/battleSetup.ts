@@ -132,6 +132,7 @@ function createParticipantInstance(
     side,
     race: participant.race,
     units,
+    newUnits: [],
 
     allUnitTransform: [],
 

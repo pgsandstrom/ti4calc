@@ -56,6 +56,9 @@ export function doBattle(battle: BattleInstance) {
       // TODO handle it nicer
       throw new Error('infinite fight')
     }
+
+    addNewUnits(battle.attacker)
+    addNewUnits(battle.defender)
   }
 
   if (LOG) {
@@ -67,6 +70,13 @@ export function doBattle(battle: BattleInstance) {
     } else {
       console.log('It ended in a draw')
     }
+  }
+}
+
+function addNewUnits(p: ParticipantInstance) {
+  if (p.newUnits.length > 0) {
+    p.units = [...p.units, ...p.newUnits]
+    p.newUnits = []
   }
 }
 
