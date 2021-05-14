@@ -25,5 +25,21 @@ export const xxcha: BattleEffect[] = [
       }
     },
   },
-  // TODO add mech
+  {
+    type: 'race',
+    name: 'Xxcha mech',
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.mech) {
+        return {
+          ...unit,
+          spaceCannon: {
+            ...defaultRoll,
+            hit: 8,
+          },
+        }
+      } else {
+        return unit
+      }
+    },
+  },
 ]

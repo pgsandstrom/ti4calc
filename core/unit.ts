@@ -51,6 +51,10 @@ export interface UnitInstance extends Unit {
   isDestroyed: boolean
 }
 
+export interface UnitWithCombat extends UnitInstance {
+  combat: Roll
+}
+
 export interface Roll {
   hit: number
   hitBonus: number
@@ -183,6 +187,7 @@ const flagship: Readonly<Unit> = {
   isShip: true,
 
   diePriority: 20,
+  useSustainDamagePriority: 20,
 }
 
 const infantry: Readonly<Unit> = {

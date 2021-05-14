@@ -78,6 +78,7 @@ export function getAliveUnits(p: ParticipantInstance, place: Place, includeFight
 }
 
 // returns the unit that the owner prefers sustains
+// TODO add a test maybe.
 export function getBestSustainUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnitsWithSustain(p, place, includeFighter)
   if (units.length === 0) {
@@ -87,7 +88,7 @@ export function getBestSustainUnit(p: ParticipantInstance, place: Place, include
       .filter((u) => includeFighter || u.type !== UnitType.fighter)
       .reduce((a, b) => {
         // TODO could it work to just pre-sort this and then never sort again?
-        return a.useSustainDamagePriority! > b.useSustainDamagePriority! ? a : b
+        return (a.useSustainDamagePriority ?? 50) > (b.useSustainDamagePriority ?? 50) ? a : b
       })
   }
 }

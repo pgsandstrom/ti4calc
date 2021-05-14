@@ -24,4 +24,6 @@ export const nekro: BattleEffect[] = [
   // TODO add mech
   // TODO should we care about copying technology? No, right?
   // TODO should we fix so nekro can copy faction techs?
+
+  // TODO make sure nekro does not gain all faction unit-techs just by trying to upgrade any unit
 ]

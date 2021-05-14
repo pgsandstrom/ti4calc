@@ -377,10 +377,11 @@ const getBattleEffectInput = (
       />
     )
   }
+  const battleEffectCount = participant.battleEffects[effect.name]
   return (
     <input
       type="checkbox"
-      checked={participant.battleEffects[effect.name] !== undefined}
+      checked={battleEffectCount !== undefined && battleEffectCount > 0}
       onChange={(e) => {
         if (e.target.checked) {
           const newParticipant: Participant = {
@@ -396,7 +397,7 @@ const getBattleEffectInput = (
             ...participant,
             battleEffects: {
               ...participant.battleEffects,
-              [effect.name]: undefined,
+              [effect.name]: 0,
             },
           }
           onChange(newParticipant)

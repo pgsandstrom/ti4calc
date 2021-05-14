@@ -91,6 +91,11 @@ function getParticipantBattleEffects(participant: Participant) {
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
   const battleEffects: BattleEffect[] = []
   for (const effectName in participant.battleEffects) {
+    // TODO add a test to make sure that a count of 0 on a battle effect does not activate it
+    const battleEffectCount = participant.battleEffects[effectName]
+    if (battleEffectCount === undefined || battleEffectCount === 0) {
+      continue
+    }
     const effect = allBattleEffects.find((e) => e.name === effectName)!
     if (
       effect.race === undefined ||
