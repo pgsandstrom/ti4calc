@@ -57,6 +57,15 @@ export type OnHitEffect = (
   hitInfo: HitInfo,
 ) => void
 
+export type OnDeathEffect = (
+  unitList: UnitInstance[],
+  participant: ParticipantInstance,
+  otherParticipant: ParticipantInstance,
+  battle: BattleInstance,
+  isOwnUnit: boolean,
+  effectName: string,
+) => void
+
 export interface Battle {
   place: Place
   attacker: Participant
@@ -89,6 +98,10 @@ export interface ParticipantInstance {
   race: Race
   units: UnitInstance[]
 
+  // this are only used when a unit appears later in the battle (mentak hero and yin agent for example)
+  // it holds both participants own permanent battleeffect, and the opponents "enemy battle effects"
+  allUnitTransform: UnitEffect[]
+
   onStartEffect: BattleEffect[]
   onSustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
@@ -99,6 +112,7 @@ export interface ParticipantInstance {
   onBombardment: BattleEffect[]
   onAfb: BattleEffect[]
   onCombatRound: BattleEffect[]
+  onDeath: BattleEffect[]
 
   // keep tracks of effects in play. For example Mahact flagship depends on a battle effect.
   // the number is important for effects that are used up, for example hacan flagship

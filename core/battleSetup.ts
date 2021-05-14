@@ -132,11 +132,15 @@ function createParticipantInstance(
     side,
     race: participant.race,
     units,
+
+    allUnitTransform: [],
+
     onStartEffect: [],
     onSustainEffect: [],
     onRepairEffect: [],
     onCombatRoundEnd: [],
     afterAfbEffect: [],
+    onDeath: [],
 
     onSpaceCannon: [],
     onBombardment: [],
@@ -184,6 +188,7 @@ function addOtherParticipantsBattleEffects(
 ) {
   battleEffects.forEach((battleEffect) => {
     if (battleEffect.transformEnemyUnit) {
+      participantInstance.allUnitTransform.push(battleEffect.transformEnemyUnit)
       participantInstance.units = participantInstance.units.map((u) => {
         return battleEffect.transformEnemyUnit!(u, participantInstance, place, battleEffect.name)
       })
@@ -213,6 +218,9 @@ function applyBattleEffects(
     if (battleEffect.afterAfb) {
       participantInstance.afterAfbEffect.push(battleEffect)
     }
+    if (battleEffect.onDeath) {
+      participantInstance.onDeath.push(battleEffect)
+    }
 
     if (battleEffect.onSpaceCannon) {
       participantInstance.onSpaceCannon.push(battleEffect)
@@ -228,9 +236,10 @@ function applyBattleEffects(
     }
 
     if (battleEffect.transformUnit) {
-      participantInstance.units = participantInstance.units.map((u) =>
-        battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
-      )
+      participantInstance.allUnitTransform.push(battleEffect.transformUnit),
+        (participantInstance.units = participantInstance.units.map((u) =>
+          battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
+        ))
     }
 
     const effectNumber = participant.battleEffects[battleEffect.name]

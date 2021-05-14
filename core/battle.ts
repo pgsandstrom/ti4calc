@@ -215,14 +215,12 @@ function doParticipantBattleRolls(
     .flat()
     .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
-  const unitTransformEffects = friendlyUnitTransformEffects.filter((effect) => effect.transformUnit)
-  const unitOnCombatRoundStartEffect = friendlyUnitTransformEffects.filter(
+  const friendlyAuras = friendlyUnitTransformEffects.filter((effect) => effect.transformUnit)
+  const onCombatRoundStartAura = friendlyUnitTransformEffects.filter(
     (effect) => effect.onCombatRoundStart,
   )
 
-  const enemyUnitTransformEffects = p.units
-    // this filter assumes the ships cannot use battle effects on ground forces
-    .filter((unit) => doesUnitFitPlace(unit, battle.place))
+  const enemyAuras = otherParticipant.units
     .filter((unit) => unit.aura && unit.aura.length > 0)
     .map((unit) => unit.aura!)
     .flat()
@@ -234,10 +232,10 @@ function doParticipantBattleRolls(
   )
 
   let units: UnitInstance[]
-  if (unitOnCombatRoundStartEffect.length > 0) {
+  if (onCombatRoundStartAura.length > 0) {
     // clone units before we modify them with temporary effects
     units = _cloneDeep(p.units)
-    unitOnCombatRoundStartEffect.forEach((effect) => {
+    onCombatRoundStartAura.forEach((effect) => {
       if (canBattleEffectBeUsed(effect, battle.attacker)) {
         effect.onCombatRoundStart!(units, p, battle, effect.name)
       }
@@ -249,11 +247,11 @@ function doParticipantBattleRolls(
   const hits = units
     .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .map((unit) => {
-      unitTransformEffects.forEach((effect) => {
+      friendlyAuras.forEach((effect) => {
         unit = effect.transformUnit!(unit, p, battle)
       })
-      enemyUnitTransformEffects.forEach((effect) => {
-        unit = effect.transformUnit!(unit, p, battle)
+      enemyAuras.forEach((effect) => {
+        unit = effect.transformEnemyUnit!(unit, p, battle)
       })
 
       if (LOG && unit.combat) {
@@ -350,8 +348,22 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
       p.hitsToAssign.hits -= 1
     }
 
-    // TODO can we remove them directly and remove isDestroyed flag?
+    const deadUnits = p.units.filter((u) => u.isDestroyed)
     p.units = p.units.filter((u) => !u.isDestroyed)
+
+    const otherParticipant = p.side === 'attacker' ? battle.defender : battle.attacker
+
+    p.onDeath.forEach((effect) => {
+      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+        effect.onDeath!(deadUnits, p, otherParticipant, battle, true, effect.name)
+      }
+    })
+
+    otherParticipant.onDeath.forEach((effect) => {
+      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+        effect.onDeath!(deadUnits, otherParticipant, p, battle, false, effect.name)
+      }
+    })
   }
 }
 

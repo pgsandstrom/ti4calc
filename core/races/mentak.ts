@@ -1,8 +1,9 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Place } from '../enums'
+import { Place, Race } from '../enums'
 import { getHits } from '../roll'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import _cloneDeep from 'lodash/cloneDeep'
 
 export const mentak: BattleEffect[] = [
   {
@@ -23,6 +24,8 @@ export const mentak: BattleEffect[] = [
               type: 'other',
               place: Place.space,
               transformEnemyUnit: (u: UnitInstance) => {
+                // TODO preventing enemy sustain damage needs to be like a flag of its own, since it plays out during "assign hit"-step
+                // TODO test all auras that affects enemies
                 // TODO test this ship with assault cannon. It should snipe the ship and retain sustain damage
                 if (u.isShip) {
                   return {
@@ -97,5 +100,31 @@ export const mentak: BattleEffect[] = [
       otherParticipant.hitsToAssign.hits += hits
     },
   },
-  // TODO maybe add hero???
+  {
+    name: 'Mentak hero',
+    type: 'race-tech',
+    race: Race.mentak,
+    onDeath: (
+      unitList: UnitInstance[],
+      participant: ParticipantInstance,
+      _otherParticipant: ParticipantInstance,
+      battle: BattleInstance,
+      isOwnUnit: boolean,
+    ) => {
+      if (isOwnUnit) {
+        return
+      }
+
+      for (const rawUnit of unitList) {
+        let unit = _cloneDeep(rawUnit)
+        unit.isDestroyed = false
+        unit.takenDamage = false
+        unit.takenDamageRound = undefined
+        participant.allUnitTransform.forEach((effect) => {
+          unit = effect(unit, participant, battle.place, effect.name)
+        })
+        participant.units.push(unit)
+      }
+    },
+  },
 ]

@@ -8,6 +8,7 @@ import {
   ParticipantEffect,
   UnitAuraEffect,
   UnitAuraGroupEffect,
+  OnDeathEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
 import { getRaceTechsNonUnit, getPromissary, getAgent, getCommanders } from '../races/race'
@@ -35,9 +36,9 @@ export interface BattleEffect {
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
 
-  count?: boolean // TODO describe this
+  count?: boolean // If the effect needs a counter. For example Letnevs racial ability Munitions reserves uses this.
 
-  // transformUnit are done before battle
+  // transformUnit are done before battle (or whenever a unit appears, see mentak hero and yin agent)
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
 
@@ -46,6 +47,7 @@ export interface BattleEffect {
   onRepair?: UnitBattleEffect
   onCombatRoundEnd?: ParticipantEffect
   afterAfb?: ParticipantEffect
+  onDeath?: OnDeathEffect
 
   onSpaceCannon?: ParticipantEffect
   onBombardment?: ParticipantEffect

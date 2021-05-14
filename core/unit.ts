@@ -35,6 +35,7 @@ export interface Unit {
   // this is an effect that is only present while the unit is alive (i.e. sardakk flagship)
   // the implementation is a bit weird. We create a temporary version of the unit before firing with the aura
   // this is to make sure that we can apply complex auras, without them leaving permanent changes to the units
+  // This means that auras can ONLY do things that affect attack!
   aura?: BattleAura[]
 
   // these work like any other battle effects
