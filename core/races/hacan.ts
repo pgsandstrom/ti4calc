@@ -1,5 +1,6 @@
 import { ParticipantInstance, BattleInstance, OnHitEffect } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { HitInfo } from '../roll'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
@@ -45,6 +46,7 @@ export const hacan: BattleEffect[] = [
           aura: [
             {
               name: 'Hacan flagship aura',
+              place: Place.space,
               transformUnit: (auraUnit: UnitInstance, _participant: ParticipantInstance) => {
                 // our aura gives all friendly units an onHit-listener. Neat solution, right?
                 const newOnHit = getNewOnHit(auraUnit.onHit)

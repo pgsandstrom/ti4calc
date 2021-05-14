@@ -1,5 +1,6 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { HitInfo } from '../roll'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
@@ -51,6 +52,7 @@ export const jolNar: BattleEffect[] = [
           aura: [
             {
               name: 'Jol-Nar mech aura',
+              place: Place.ground,
               onCombatRoundStart: (
                 auraUnits: UnitInstance[],
                 p: ParticipantInstance,

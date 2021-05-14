@@ -1,5 +1,6 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import { getNonFighterShips } from '../unitGet'
 
@@ -21,6 +22,7 @@ export const winnu: BattleEffect[] = [
             {
               name: 'Winnu Flagship ability',
               type: 'other',
+              place: Place.space,
               transformUnit: (
                 auraUnit: UnitInstance,
                 p: ParticipantInstance,

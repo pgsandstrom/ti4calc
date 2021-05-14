@@ -1,5 +1,6 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { getHits } from '../roll'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
@@ -20,9 +21,8 @@ export const mentak: BattleEffect[] = [
             {
               name: 'Mentak flagship ability',
               type: 'other',
+              place: Place.space,
               transformEnemyUnit: (u: UnitInstance) => {
-                // TODO this shouldnt work on a unit that is both ship and ground force
-                // maybe that will mess with the nomad mech?
                 // TODO test this ship with assault cannon. It should snipe the ship and retain sustain damage
                 if (u.isShip) {
                   return {
@@ -52,6 +52,7 @@ export const mentak: BattleEffect[] = [
             {
               name: 'Mentak mech ability',
               type: 'other',
+              place: Place.space,
               transformEnemyUnit: (u: UnitInstance) => {
                 if (u.isGroundForce) {
                   return {

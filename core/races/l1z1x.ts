@@ -1,7 +1,7 @@
 import { doBombardment } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const l1z1x: BattleEffect[] = [
@@ -21,6 +21,7 @@ export const l1z1x: BattleEffect[] = [
           aura: [
             {
               name: 'L1z1x flagship forcing shots on non-fighters',
+              place: Place.space,
               transformUnit: (auraUnit: UnitInstance) => {
                 if (auraUnit.type === UnitType.flagship || auraUnit.type === UnitType.dreadnought) {
                   return {

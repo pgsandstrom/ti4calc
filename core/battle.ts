@@ -213,11 +213,10 @@ function doParticipantBattleRolls(
   otherParticipant: ParticipantInstance,
 ) {
   const friendlyUnitTransformEffects = p.units
-    // this filter assumes the ships cannot use battle effects on ground forces
-    .filter((unit) => doesUnitFitPlace(unit, battle.place))
     .filter((unit) => unit.aura && unit.aura.length > 0)
     .map((unit) => unit.aura!)
     .flat()
+    .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
   const unitTransformEffects = friendlyUnitTransformEffects.filter((effect) => effect.transformUnit)
   const unitOnCombatRoundStartEffect = friendlyUnitTransformEffects.filter(
@@ -231,6 +230,7 @@ function doParticipantBattleRolls(
     .map((unit) => unit.aura!)
     .flat()
     .filter((effect) => effect.transformEnemyUnit)
+    .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
   p.onCombatRound.forEach((effect) =>
     effect.onCombatRound!(p, battle, otherParticipant, effect.name),

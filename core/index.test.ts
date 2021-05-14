@@ -263,7 +263,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.25)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081, 0.15)
   })
 

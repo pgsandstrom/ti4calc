@@ -59,6 +59,7 @@ export interface BattleEffect {
 
 export interface BattleAura {
   name: string
+  place: Place | 'both'
   transformUnit?: UnitAuraEffect
   transformEnemyUnit?: UnitAuraEffect
 
