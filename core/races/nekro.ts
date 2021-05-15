@@ -1,5 +1,9 @@
+import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { Race } from '../enums'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+
+const nekroMechBonus = 'Necro mech bonus'
 
 export const nekro: BattleEffect[] = [
   {
@@ -21,9 +25,24 @@ export const nekro: BattleEffect[] = [
       }
     },
   },
-  // TODO add mech
-  // TODO should we care about copying technology? No, right?
+  {
+    type: 'race',
+    name: 'Nekro mech',
+    transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
+      if (unit.type === UnitType.mech && p.effects[nekroMechBonus] > 0) {
+        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
+      } else {
+        return unit
+      }
+    },
+  },
+  {
+    type: 'race-tech',
+    race: Race.nekro,
+    name: nekroMechBonus,
+  },
+  // TODO certain abilities should not be able to be copied. Like the naluu mech bonus. It should be categorized as something else.
+  // TODO should we care about copying technology mid combat? No, right?
   // TODO should we fix so nekro can copy faction techs?
-
-  // TODO make sure nekro does not gain all faction unit-techs just by trying to upgrade any unit
+  // If we do, make sure nekro does not gain all faction unit-techs just by trying to upgrade any unit
 ]

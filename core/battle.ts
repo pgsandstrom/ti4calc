@@ -42,7 +42,7 @@ export function doBattle(battle: BattleInstance) {
         effect.onCombatRoundEnd!(battle.attacker, battle, battle.defender, effect.name)
       }
     })
-    battle.defender.afterAfbEffect.forEach((effect) => {
+    battle.defender.onCombatRoundEnd.forEach((effect) => {
       if (canBattleEffectBeUsed(effect, battle.attacker)) {
         effect.onCombatRoundEnd!(battle.defender, battle, battle.attacker, effect.name)
       }
