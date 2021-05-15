@@ -60,7 +60,6 @@ export const l1z1x: BattleEffect[] = [
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.dreadnought) {
-        // TODO use that function u know
         return {
           ...unit,
           combat: {

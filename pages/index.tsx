@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { ChangeEvent, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
 import { Participant } from '../core/battle-types'
@@ -24,9 +24,7 @@ import { getTechBattleEffects } from '../core/battleeffect/tech'
 import { getActioncards } from '../core/battleeffect/actioncard'
 import { getAgendas } from '../core/battleeffect/agenda'
 import { NUMBER_OF_ROLLS } from '../core/constant'
-
-// TODO input field should revert to zero when you empty them
-// TODO shit input should revert to earlier number i guess
+import NumberInput from '../component/numberInput'
 
 const StyledMain = styled.main`
   display: flex;
@@ -186,22 +184,7 @@ interface UnitInputProps {
 }
 
 function UnitInput({ participant, unitType, onUpdate }: UnitInputProps) {
-  const [val, setVal] = useState<string>(participant.units[unitType].toString())
-
   const unitUpgrade = getUnitUpgrade(participant.race, unitType)
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setVal(e.target.value)
-    let newVal
-    if (e.target.value === '') {
-      newVal = 0
-    } else {
-      newVal = parseInt(e.target.value, 10)
-    }
-    if (Number.isFinite(newVal)) {
-      updateUnitCount(newVal)
-    }
-  }
 
   const updateUnitCount = (newVal: number) => {
     const newParticipant: Participant = {
@@ -233,21 +216,7 @@ function UnitInput({ participant, unitType, onUpdate }: UnitInputProps) {
           onUpdate(newParticipant)
         }}
       />
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={val}
-        // remember: input with type number dont trigger onChange on invalid input
-        onChange={onChange}
-        onBlur={() => {
-          const newVal = parseInt(val, 10)
-          if (!Number.isFinite(newVal)) {
-            setVal('0')
-            updateUnitCount(0)
-          }
-        }}
-      />
+      <NumberInput currentValue={participant.units[unitType]} onUpdate={updateUnitCount} />
     </div>
   )
 }
@@ -357,29 +326,25 @@ const getDirectHitCheckbox = (
 const getBattleEffectInput = (
   effect: BattleEffect,
   participant: Participant,
-  onChange: (participant: Participant) => void,
+  onUpdate: (participant: Participant) => void,
 ) => {
+  const updateEffectCount = (newVal: number) => {
+    const newParticipant: Participant = {
+      ...participant,
+      ...participant.units,
+      battleEffects: {
+        ...participant.battleEffects,
+        [effect.name]: newVal,
+      },
+    }
+    onUpdate(newParticipant)
+  }
+
   if (effect.count !== undefined) {
     return (
-      <input
-        type="number"
-        min="0"
-        max="100"
-        value={(participant.battleEffects[effect.name] ?? 0).toString()}
-        onChange={(e) => {
-          const value = parseInt(e.target.value, 10)
-          // TODO fix the cooler version that we have elsewhere
-          if (Number.isFinite(value)) {
-            const newParticipant: Participant = {
-              ...participant,
-              battleEffects: {
-                ...participant.battleEffects,
-                [effect.name]: value,
-              },
-            }
-            onChange(newParticipant)
-          }
-        }}
+      <NumberInput
+        currentValue={participant.battleEffects[effect.name] ?? 0}
+        onUpdate={updateEffectCount}
       />
     )
   }
@@ -397,7 +362,7 @@ const getBattleEffectInput = (
               [effect.name]: 1,
             },
           }
-          onChange(newParticipant)
+          onUpdate(newParticipant)
         } else {
           const newParticipant: Participant = {
             ...participant,
@@ -406,7 +371,7 @@ const getBattleEffectInput = (
               [effect.name]: 0,
             },
           }
-          onChange(newParticipant)
+          onUpdate(newParticipant)
         }
       }}
       disabled={!isBattleEffectRelevant(effect, participant)}
