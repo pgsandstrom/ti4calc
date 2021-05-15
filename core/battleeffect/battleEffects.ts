@@ -10,7 +10,13 @@ import {
   OnDeathEffect,
 } from '../battle-types'
 import { Place, Race } from '../enums'
-import { getRaceTechsNonUnit, getPromissary, getAgent, getCommanders } from '../races/race'
+import {
+  getRaceTechsNonUnit,
+  getPromissary,
+  getAgent,
+  getCommanders,
+  getGeneralEffectFromRaces,
+} from '../races/race'
 import { UnitInstance, UnitType } from '../unit'
 import { getActioncards } from './actioncard'
 import { getAgendas } from './agenda'
@@ -98,6 +104,7 @@ export function getAllBattleEffects() {
   const promissary = getPromissary()
   const agents = getAgent()
   const commanders = getCommanders()
+  const general = getGeneralEffectFromRaces()
   const actioncards = getActioncards()
   const agendas = getAgendas()
   return [
@@ -107,6 +114,7 @@ export function getAllBattleEffects() {
     ...promissary,
     ...agents,
     ...commanders,
+    ...general,
     ...actioncards,
     ...agendas,
   ]

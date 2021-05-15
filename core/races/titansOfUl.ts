@@ -1,4 +1,6 @@
+import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { createUnitAndApplyEffects } from '../battleSetup'
 import { Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
@@ -85,6 +87,25 @@ export const titansOfUl: BattleEffect[] = [
       }
     },
   },
-  // TODO add agent
-  // TODO add hero
+  {
+    type: 'agent',
+    name: 'Titans agent',
+    onStart: (p: ParticipantInstance) => {
+      p.soakHits += 1
+    },
+  },
+  {
+    type: 'general',
+    name: 'Titans hero',
+    onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+      const planetUnit = createUnitAndApplyEffects(UnitType.pds, p, battle.place)
+      planetUnit.spaceCannon!.hit = 5
+      planetUnit.spaceCannon!.count = 3
+      planetUnit.combat = undefined
+      planetUnit.planetaryShield = false
+      planetUnit.sustainDamage = false
+      planetUnit.isGroundForce = false
+      p.units.push(planetUnit)
+    },
+  },
 ]

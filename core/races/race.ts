@@ -105,3 +105,12 @@ export function getCommanders() {
     })
     .flat()
 }
+
+export function getGeneralEffectFromRaces() {
+  return Object.values(Race)
+    .map((raceName) => {
+      const race = RACE_MAP[raceName]
+      return race.filter((effect) => effect.type === 'general')
+    })
+    .flat()
+}

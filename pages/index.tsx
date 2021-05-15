@@ -13,7 +13,13 @@ import { createParticipant } from '../core/battleSetup'
 import { Place, Race } from '../core/enums'
 import { UnitType } from '../core/unit'
 import SwitchButton from '../component/switchButton'
-import { getAgent, getCommanders, getPromissary, getRaceTechsNonUnit } from '../core/races/race'
+import {
+  getAgent,
+  getCommanders,
+  getGeneralEffectFromRaces,
+  getPromissary,
+  getRaceTechsNonUnit,
+} from '../core/races/race'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import { getActioncards } from '../core/battleeffect/actioncard'
 import { getAgendas } from '../core/battleeffect/agenda'
@@ -261,7 +267,7 @@ const OptionsDiv = styled.div`
 `
 
 function OptionsView(props: OptionsProps) {
-  const otherBattleEffects = getOtherBattleEffects()
+  const otherBattleEffects = [...getOtherBattleEffects(), ...getGeneralEffectFromRaces()]
   const techs = getTechBattleEffects()
   const raceTechs = getRaceTechsNonUnit()
   const promissary = getPromissary()
