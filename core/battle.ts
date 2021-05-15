@@ -329,6 +329,11 @@ function hasHitToAssign(p: ParticipantInstance) {
 // TODO do we really sort out units that cant take a hit? Like mechs in space battle etc?
 function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
   while (hasHitToAssign(p)) {
+    if (p.soakHits > 0) {
+      soakHit(p)
+      continue
+    }
+
     if (p.hitsToAssign.hitsAssignedByEnemy > 0) {
       if (p.hitsToAssign.hitsAssignedByEnemy > 1) {
         // TODO
@@ -377,6 +382,22 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
         effect.onDeath!(deadUnits, otherParticipant, p, battle, false, effect.name)
       }
     })
+  }
+}
+
+function soakHit(p: ParticipantInstance) {
+  p.soakHits -= 1
+  if (p.hitsToAssign.hitsAssignedByEnemy > 0) {
+    p.hitsToAssign.hitsAssignedByEnemy -= 1
+  } else if (p.hitsToAssign.hitsToNonFighters > 0) {
+    p.hitsToAssign.hitsToNonFighters -= 1
+  } else if (p.hitsToAssign.hits > 0) {
+    p.hitsToAssign.hits -= 1
+  } else {
+    throw new Error('soak hits called without reason')
+  }
+  if (LOG) {
+    console.log(`${p.side} soaked a hit. ${p.soakHits} soaks remaining.`)
   }
 }
 

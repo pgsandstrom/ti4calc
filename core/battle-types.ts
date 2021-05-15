@@ -124,6 +124,7 @@ export interface ParticipantInstance {
 
   riskDirectHit: boolean
 
+  soakHits: number // number of hits that can be cancelled
   hitsToAssign: HitsToAssign
 
   // used to track stuff that can only happen a limited number of times per turn

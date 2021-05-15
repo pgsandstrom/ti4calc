@@ -146,6 +146,7 @@ function createParticipantInstance(
 
     riskDirectHit: participant.riskDirectHit,
 
+    soakHits: 0,
     hitsToAssign: {
       hits: 0,
       hitsToNonFighters: 0,

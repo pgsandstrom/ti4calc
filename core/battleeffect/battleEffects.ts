@@ -3,7 +3,6 @@ import {
   UnitEffect,
   UnitBattleEffect,
   ParticipantInstance,
-  BattleInstance,
   Participant,
   ParticipantEffect,
   UnitAuraEffect,
@@ -12,8 +11,7 @@ import {
 } from '../battle-types'
 import { Place, Race } from '../enums'
 import { getRaceTechsNonUnit, getPromissary, getAgent, getCommanders } from '../races/race'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getWorstNonFighterShip } from '../unitGet'
+import { UnitInstance, UnitType } from '../unit'
 import { getActioncards } from './actioncard'
 import { getAgendas } from './agenda'
 import { getTechBattleEffects } from './tech'
@@ -92,52 +90,6 @@ export const defendingInNebula: BattleEffect = {
   },
 }
 
-export const memoria1: BattleEffect = {
-  name: 'Memoria I',
-  type: 'promissary',
-  place: Place.space,
-  onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
-    const worstNonFighterShip = getWorstNonFighterShip(participant)
-    if (!worstNonFighterShip) {
-      return
-    }
-    worstNonFighterShip.combat = {
-      ...defaultRoll,
-      hit: 7,
-      countBonus: 2,
-    }
-    worstNonFighterShip.afb = {
-      ...defaultRoll,
-      hit: 5,
-      countBonus: 3,
-    }
-    worstNonFighterShip.sustainDamage = true
-  },
-}
-
-export const memoria2: BattleEffect = {
-  name: 'Memoria II',
-  type: 'promissary',
-  place: Place.space,
-  onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
-    const worstNonFighterShip = getWorstNonFighterShip(participant)
-    if (!worstNonFighterShip) {
-      return
-    }
-    worstNonFighterShip.combat = {
-      ...defaultRoll,
-      hit: 5,
-      countBonus: 2,
-    }
-    worstNonFighterShip.afb = {
-      ...defaultRoll,
-      hit: 5,
-      countBonus: 3,
-    }
-    worstNonFighterShip.sustainDamage = true
-  },
-}
-
 // TODO add test to make sure this never returns duplicate names
 export function getAllBattleEffects() {
   const otherBattleEffects = getOtherBattleEffects()
@@ -161,9 +113,7 @@ export function getAllBattleEffects() {
 }
 
 export function getOtherBattleEffects(): BattleEffect[] {
-  // TODO move out some of these
-  const normal = [defendingInNebula, memoria1, memoria2]
-  return normal
+  return [defendingInNebula]
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {
