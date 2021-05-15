@@ -1,4 +1,4 @@
-import { BattleInstance, HitsToAssign, ParticipantInstance } from './battle-types'
+import { BattleInstance, BattleResult, HitsToAssign, ParticipantInstance } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
 import { getHits, HitInfo } from './roll'
@@ -32,7 +32,8 @@ export function doBattle(battle: BattleInstance) {
 
   doAfb(battle)
 
-  while (isBattleOngoing(battle)) {
+  let battleResult: BattleResult | undefined = undefined
+  while (!battleResult) {
     doBattleRolls(battle)
     resolveHits(battle)
     doRepairStep(battle)
@@ -55,25 +56,39 @@ export function doBattle(battle: BattleInstance) {
     battle.attacker.roundActionTracker = {}
     battle.defender.roundActionTracker = {}
 
-    if (battle.roundNumber === 1000) {
-      // TODO handle it nicer
-      throw new Error('infinite fight')
+    if (battle.roundNumber === 400) {
+      // TODO in theory we could start detecting if the battle state changes after 400 turns and only end prematurely if it is static
+      console.warn('Infinite fight detected')
+      return BattleResult.draw
     }
 
     addNewUnits(battle.attacker)
     addNewUnits(battle.defender)
+
+    const attackerAlive = isParticipantAlive(battle.attacker, battle.place)
+    const defenderAlive = isParticipantAlive(battle.defender, battle.place)
+
+    if (attackerAlive && !defenderAlive) {
+      battleResult = BattleResult.attacker
+    } else if (!attackerAlive && defenderAlive) {
+      battleResult = BattleResult.defender
+    } else if (!attackerAlive && !defenderAlive) {
+      battleResult = BattleResult.draw
+    }
   }
 
   if (LOG) {
     console.log(`Battle resolved after ${battle.roundNumber - 1} rounds`)
-    if (isParticipantAlive(battle.attacker, battle.place)) {
+    if (battleResult === BattleResult.attacker) {
       console.log('Attacker won')
-    } else if (isParticipantAlive(battle.defender, battle.place)) {
+    } else if (battleResult === BattleResult.defender) {
       console.log('Defender won')
     } else {
       console.log('It ended in a draw')
     }
   }
+
+  return battleResult
 }
 
 function addNewUnits(p: ParticipantInstance) {

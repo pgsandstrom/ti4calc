@@ -2,17 +2,10 @@ import { objectEntries } from '../util/util-object'
 import { UnitInstance, UnitType, UNIT_MAP } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
-import { doBattle, isParticipantAlive, LOG } from './battle'
+import { doBattle, LOG } from './battle'
 import { getRaceBattleEffects } from './races/race'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
-import {
-  Battle,
-  BattleResult,
-  BattleInstance,
-  Side,
-  Participant,
-  ParticipantInstance,
-} from './battle-types'
+import { Battle, BattleInstance, Side, Participant, ParticipantInstance } from './battle-types'
 import { Place, Race } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 
@@ -22,15 +15,7 @@ export function setupBattle(battle: Battle): BattleInstance {
 }
 
 export function startBattle(battle: BattleInstance) {
-  doBattle(battle)
-
-  if (isParticipantAlive(battle.attacker, battle.place)) {
-    return BattleResult.attacker
-  } else if (isParticipantAlive(battle.defender, battle.place)) {
-    return BattleResult.defender
-  } else {
-    return BattleResult.draw
-  }
+  return doBattle(battle)
 }
 
 function createBattleInstance(battle: Battle): BattleInstance {
