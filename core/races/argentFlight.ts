@@ -4,6 +4,7 @@ import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { Place, Race } from '../enums'
 import { getBestSustainUnit, getHighestHitUnit } from '../unitGet'
+import { LOG } from '../battle'
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -56,13 +57,20 @@ export const argentFlight: BattleEffect[] = [
       return unit
     },
     afterAfb: (
-      _p: ParticipantInstance,
+      p: ParticipantInstance,
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
       _times(otherParticipant.hitsToAssign.hits, () => {
         const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
+          if (LOG) {
+            console.log(
+              `${
+                p.side === 'attacker' ? 'defender' : 'attacker'
+              } used sustain damage from Argent anti fighter barrage`,
+            )
+          }
           bestSustainUnit.takenDamage = true
           bestSustainUnit.takenDamageRound = 0
         }
@@ -81,13 +89,20 @@ export const argentFlight: BattleEffect[] = [
       return unit
     },
     afterAfb: (
-      _p: ParticipantInstance,
+      p: ParticipantInstance,
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
       _times(otherParticipant.hitsToAssign.hits, () => {
         const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
+          if (LOG) {
+            console.log(
+              `${
+                p.side === 'attacker' ? 'defender' : 'attacker'
+              } used sustain damage from Argent anti fighter barrage`,
+            )
+          }
           bestSustainUnit.takenDamage = true
           bestSustainUnit.takenDamageRound = 0
         }

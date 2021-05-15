@@ -165,10 +165,10 @@ function doAfb(battle: BattleInstance) {
     return
   }
 
-  const attackerPdsHits = getAfbHits(battle.attacker, battle, battle.defender)
-  battle.defender.hitsToAssign.hits += attackerPdsHits
-  const defenderPdsHits = getAfbHits(battle.defender, battle, battle.attacker)
-  battle.attacker.hitsToAssign.hits += defenderPdsHits
+  const attackerAfbHits = getAfbHits(battle.attacker, battle, battle.defender)
+  battle.defender.hitsToAssign.hits += attackerAfbHits
+  const defenderAfbHits = getAfbHits(battle.defender, battle, battle.attacker)
+  battle.attacker.hitsToAssign.hits += defenderAfbHits
 
   resolveAfbHits(battle.attacker)
   resolveAfbHits(battle.defender)
@@ -221,6 +221,9 @@ function resolveAfbHits(p: ParticipantInstance) {
     if (aliveFighter) {
       aliveFighter.isDestroyed = true
       p.hitsToAssign.hits -= 1
+      if (LOG) {
+        console.log(`${p.side} lost fighter to anti fighter barrage`)
+      }
     } else {
       break
     }

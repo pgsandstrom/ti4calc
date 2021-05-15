@@ -7,6 +7,8 @@ import { duraniumArmor } from './battleeffect/tech'
 
 export const DO_BATTLE_X_TIMES = 15000
 
+// TODO move out race specific tests
+
 describe('core', () => {
   it('barony should always win with non-euclidian and duranium', () => {
     const attacker: Participant = {
@@ -93,7 +95,34 @@ describe('core', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
   })
 
-  // TODO add a test where argent flight destroyers fudge up sustain armor
+  it('Make sure battle effect isnt used if set to 0', () => {
+    const attacker: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: {
+        [duraniumArmor.name]: 0,
+      },
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: {},
+    }
+    attacker.units.dreadnought = 2
+    defender.units.dreadnought = 2
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.438)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.134, 0.1)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.438)
+  })
 
   it('argent flight upgraded destroyers should perform like cruisers', () => {
     const attacker: Participant = {
@@ -120,7 +149,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.443)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.113, 0.1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.113, 0.15)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.443)
   })
 
