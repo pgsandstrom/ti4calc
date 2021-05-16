@@ -7,8 +7,12 @@ import { createUnitAndApplyEffects } from '../battleSetup'
 
 export const mentak: BattleEffect[] = [
   {
+    // TODO test all auras that affects enemies
+    // TODO test this ship with assault cannon for enemy. It should snipe the ship and retain sustain damage
+    // test this ship with with assault cannon for us. It should snipe an enemy war sun
     type: 'race',
     name: 'Mentak flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -18,26 +22,7 @@ export const mentak: BattleEffect[] = [
             hit: 7,
             count: 2,
           },
-          aura: [
-            {
-              name: 'Mentak flagship ability',
-              type: 'other',
-              place: Place.space,
-              transformEnemyUnit: (u: UnitInstance) => {
-                // TODO preventing enemy sustain damage needs to be like a flag of its own, since it plays out during "assign hit"-step
-                // TODO test all auras that affects enemies
-                // TODO test this ship with assault cannon. It should snipe the ship and retain sustain damage
-                if (u.isShip) {
-                  return {
-                    ...u,
-                    sustainDamage: false,
-                  }
-                } else {
-                  return u
-                }
-              },
-            },
-          ],
+          preventEnemySustain: true,
         }
       } else {
         return unit
@@ -47,27 +32,12 @@ export const mentak: BattleEffect[] = [
   {
     name: 'Mentak mech',
     type: 'race',
+    place: Place.ground,
     transformUnit: (u: UnitInstance) => {
       if (u.type === UnitType.mech) {
         return {
           ...u,
-          aura: [
-            {
-              name: 'Mentak mech ability',
-              type: 'other',
-              place: Place.space,
-              transformEnemyUnit: (u: UnitInstance) => {
-                if (u.isGroundForce) {
-                  return {
-                    ...u,
-                    sustainDamage: false,
-                  }
-                } else {
-                  return u
-                }
-              },
-            },
-          ],
+          preventEnemySustain: true,
         }
       } else {
         return u
@@ -77,6 +47,7 @@ export const mentak: BattleEffect[] = [
   {
     name: 'Ambush',
     type: 'race',
+    place: Place.space,
     onStart: (
       participant: ParticipantInstance,
       _battle: BattleInstance,

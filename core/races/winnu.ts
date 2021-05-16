@@ -1,3 +1,4 @@
+import { getOtherParticipant } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
@@ -29,7 +30,7 @@ export const winnu: BattleEffect[] = [
                 battle: BattleInstance,
               ) => {
                 if (auraUnit.type === UnitType.flagship) {
-                  const opponent = p.side === 'attacker' ? battle.defender : battle.attacker
+                  const opponent = getOtherParticipant(battle, p)
                   const nonFighterShips = getNonFighterShips(opponent)
                   return {
                     ...auraUnit,

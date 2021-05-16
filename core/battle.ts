@@ -366,10 +366,7 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
         }
         bestUnit.isDestroyed = true
       } else {
-        const hitNonFighter = applyHit(battle, p, true)
-        if (!hitNonFighter) {
-          applyHit(battle, p, true)
-        }
+        applyHit(battle, p, true)
       }
 
       p.hitsToAssign.hitsAssignedByEnemy -= 1
@@ -387,7 +384,7 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
     const deadUnits = p.units.filter((u) => u.isDestroyed)
     p.units = p.units.filter((u) => !u.isDestroyed)
 
-    const otherParticipant = p.side === 'attacker' ? battle.defender : battle.attacker
+    const otherParticipant = getOtherParticipant(battle, p)
 
     p.onDeath.forEach((effect) => {
       if (canBattleEffectBeUsed(effect, battle.attacker)) {
@@ -425,16 +422,18 @@ function applyHit(
   p: ParticipantInstance,
   includeFighter: boolean,
 ): boolean {
+  const sustainDisabled = isSustainDisabled(battle, p)
+
   // Currently if we dont have riskDirectHit dreadnaughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.
   const bestSustainUnit = getBestSustainUnit(p, battle.place, includeFighter)
-  if (p.riskDirectHit && bestSustainUnit) {
+  if (!sustainDisabled && p.riskDirectHit && bestSustainUnit) {
     doSustainDamage(battle, p, bestSustainUnit)
     return true
   } else {
     const bestDieUnit = getBestDieUnit(p, battle.place, includeFighter)
     if (bestDieUnit) {
-      if (bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
+      if (!sustainDisabled && bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
         doSustainDamage(battle, p, bestDieUnit)
       } else {
         bestDieUnit.isDestroyed = true
@@ -492,4 +491,13 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
     }
     return !u.isDestroyed
   })
+}
+
+export function isSustainDisabled(battle: BattleInstance, p: ParticipantInstance) {
+  const other = getOtherParticipant(battle, p)
+  return other.units.some((u) => u.preventEnemySustain)
+}
+
+export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstance) {
+  return p.side === 'attacker' ? battle.defender : battle.attacker
 }
