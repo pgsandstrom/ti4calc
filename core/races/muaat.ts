@@ -1,10 +1,12 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const muaat: BattleEffect[] = [
   {
     type: 'race',
     name: 'Muaat flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {

@@ -1,5 +1,6 @@
 import { OnHitEffect } from './battle-types'
 import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
+import { Place } from './enums'
 
 export enum UnitType {
   cruiser = 'cruiser',
@@ -269,6 +270,7 @@ const warsun: Readonly<Unit> = {
     {
       name: 'warsun remove planetary shield',
       type: 'other',
+      place: Place.ground,
       transformEnemyUnit: (u: UnitInstance) => {
         return {
           ...u,

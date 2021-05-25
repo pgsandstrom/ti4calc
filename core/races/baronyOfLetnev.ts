@@ -8,6 +8,7 @@ export const baronyOfLetnev: BattleEffect[] = [
   {
     type: 'race',
     name: 'Barony of Letnev flagship',
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       // TODO add repair
       if (unit.type === UnitType.flagship) {
@@ -27,6 +28,7 @@ export const baronyOfLetnev: BattleEffect[] = [
             {
               name: 'Barony flagship remove planetary shield',
               type: 'other',
+              place: 'both',
               transformEnemyUnit: (u: UnitInstance) => {
                 return {
                   ...u,
@@ -44,6 +46,7 @@ export const baronyOfLetnev: BattleEffect[] = [
   {
     name: 'Non-Euclidean Shielding',
     type: 'race-tech',
+    place: 'both',
     race: Race.barony_of_letnev,
     onSustain: (_unit: UnitInstance, participant: ParticipantInstance, _battle: BattleInstance) => {
       if (participant.hitsToAssign.hitsToNonFighters > 0) {
@@ -56,23 +59,21 @@ export const baronyOfLetnev: BattleEffect[] = [
   {
     name: 'L4 Disruptors',
     type: 'race-tech',
+    place: Place.ground,
     race: Race.barony_of_letnev,
-    transformEnemyUnit: (unit: UnitInstance, _p: ParticipantInstance, place: Place) => {
-      if (place === Place.ground) {
-        // TODO Order should not be a problem because transform enemy units happen after transform friendly
-        // But are we sure it is NEVER a problem?
-        return {
-          ...unit,
-          spaceCannon: undefined,
-        }
-      } else {
-        return unit
+    transformEnemyUnit: (unit: UnitInstance) => {
+      // TODO Order should not be a problem because transform enemy units happen after transform friendly
+      // But are we sure it is NEVER a problem?
+      return {
+        ...unit,
+        spaceCannon: undefined,
       }
     },
   },
   {
     name: 'Munitions reserves',
     type: 'race-tech',
+    place: Place.space,
     race: Race.barony_of_letnev,
     transformUnit: (unit: UnitInstance) => {
       // TODO this is the kind of stuff that could be done several times

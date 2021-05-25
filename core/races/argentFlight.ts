@@ -10,6 +10,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'race',
     name: 'Argent Flight flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -23,6 +24,7 @@ export const argentFlight: BattleEffect[] = [
             {
               name: 'Argent Flight flagship preventing pds',
               type: 'other',
+              place: Place.space,
               transformEnemyUnit: (
                 unit: UnitInstance,
                 _participant: ParticipantInstance,
@@ -50,6 +52,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'race',
     name: 'Argent Flight destroyers',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         unit.combat!.hit = 8
@@ -80,6 +83,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Strike Wing Alpha II',
+    place: Place.space,
     race: Race.argent_flight,
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
@@ -112,6 +116,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'promissary',
     name: 'Strike Wing Ambuscade',
+    place: 'both',
     onSpaceCannon: (
       p: ParticipantInstance,
       _battle: BattleInstance,
@@ -156,6 +161,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'commander',
     name: 'Argent Flight Commander',
+    place: 'both',
     onAfb: (p: ParticipantInstance) => {
       const highestHitUnit = getHighestHitUnit(p, 'afb')
       if (highestHitUnit) {

@@ -1,10 +1,12 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
+import { Place } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const xxcha: BattleEffect[] = [
   {
     type: 'race',
     name: 'Xxcha flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -28,6 +30,7 @@ export const xxcha: BattleEffect[] = [
   {
     type: 'race',
     name: 'Xxcha mech',
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
         return {

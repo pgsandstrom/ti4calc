@@ -1,12 +1,13 @@
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const creuss: BattleEffect[] = [
   {
     type: 'race',
     name: 'Creuss flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -25,6 +26,7 @@ export const creuss: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Dimensional Splicer',
+    place: Place.space,
     race: Race.creuss,
     onStart: (
       _participant: ParticipantInstance,

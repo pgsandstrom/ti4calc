@@ -9,6 +9,7 @@ export function getTechBattleEffects() {
 export const duraniumArmor: BattleEffect = {
   name: 'Duranium Armor',
   type: 'tech',
+  place: 'both',
   onRepair: (
     unit: UnitInstance,
     participant: ParticipantInstance,

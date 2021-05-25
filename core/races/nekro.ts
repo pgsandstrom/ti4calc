@@ -1,6 +1,6 @@
 import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 const nekroMechBonus = 'Necro mech bonus'
@@ -9,6 +9,7 @@ export const nekro: BattleEffect[] = [
   {
     type: 'race',
     name: 'Nekro flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         // TODO add flagship ability
@@ -28,6 +29,7 @@ export const nekro: BattleEffect[] = [
   {
     type: 'race',
     name: 'Nekro mech',
+    place: Place.ground,
     transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
       if (unit.type === UnitType.mech && p.effects[nekroMechBonus] > 0) {
         return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
@@ -37,7 +39,9 @@ export const nekro: BattleEffect[] = [
     },
   },
   {
+    // TODO add test to make sure all race-techs has a race specified
     type: 'race-tech',
+    place: Place.ground,
     race: Race.nekro,
     name: nekroMechBonus,
   },

@@ -6,6 +6,7 @@ export const sardarkkNorr: BattleEffect[] = [
   {
     type: 'race',
     name: 'Sardakk Norr flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         const flagshipBuff: BattleAura = {
@@ -40,6 +41,7 @@ export const sardarkkNorr: BattleEffect[] = [
   {
     type: 'race',
     name: 'Sardakk Norr buff',
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
         return {

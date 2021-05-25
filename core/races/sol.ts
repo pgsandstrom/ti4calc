@@ -7,6 +7,7 @@ export const sol: BattleEffect[] = [
   {
     type: 'race',
     name: 'Sol flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -25,6 +26,7 @@ export const sol: BattleEffect[] = [
   {
     type: 'race',
     name: 'Sol infantry',
+    place: Place.ground,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.infantry) {
         unit.combat!.hit = 7
@@ -35,6 +37,7 @@ export const sol: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Spec Ops II',
+    place: Place.ground,
     race: Race.sol,
     unit: UnitType.infantry,
     transformUnit: (unit: UnitInstance) => {
@@ -47,6 +50,7 @@ export const sol: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Advanced Carrier II',
+    place: Place.space,
     race: Race.sol,
     unit: UnitType.carrier,
     transformUnit: (unit: UnitInstance) => {
@@ -64,6 +68,7 @@ export const sol: BattleEffect[] = [
   {
     type: 'agent',
     name: 'Sol agent',
+    place: Place.ground,
     onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
       if (battle.place === Place.ground) {
         const infantry = participant.units.find(

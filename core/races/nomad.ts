@@ -8,6 +8,7 @@ export const nomad: BattleEffect[] = [
   {
     type: 'race',
     name: 'Nomad flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -31,6 +32,7 @@ export const nomad: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Nomad flagship upgrade',
+    place: Place.space,
     unit: UnitType.flagship,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
@@ -99,6 +101,7 @@ export const nomad: BattleEffect[] = [
   {
     name: 'Nomad mech sustain in space battle ability',
     type: 'race',
+    place: Place.space,
     onStart: (participant: ParticipantInstance) => {
       const mechCount = participant.units.filter((u) => u.type === UnitType.mech).length
       participant.soakHits += mechCount

@@ -35,6 +35,7 @@ export const mentak: BattleEffect[] = [
     place: Place.ground,
     transformUnit: (u: UnitInstance) => {
       if (u.type === UnitType.mech) {
+        console.log('fuck')
         return {
           ...u,
           preventEnemySustain: true,
@@ -74,6 +75,7 @@ export const mentak: BattleEffect[] = [
   {
     name: 'Mentak hero',
     type: 'race-tech',
+    place: Place.space,
     race: Race.mentak,
     onDeath: (
       deadUnits: UnitInstance[],

@@ -36,7 +36,7 @@ export interface BattleEffect {
     | 'other'
   race?: Race
   side?: Side
-  place?: Place
+  place: Place | 'both'
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
 

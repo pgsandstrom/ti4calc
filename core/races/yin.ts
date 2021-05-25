@@ -2,13 +2,14 @@ import { LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { createUnitAndApplyEffects } from '../battleSetup'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const yin: BattleEffect[] = [
   {
     type: 'race',
     name: 'Yin flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -22,6 +23,7 @@ export const yin: BattleEffect[] = [
             {
               name: 'Yin flagship "kill everything" effect',
               type: 'other',
+              place: Place.space,
               onDeath: (
                 deadUnits: UnitInstance[],
                 participant: ParticipantInstance,
@@ -46,6 +48,7 @@ export const yin: BattleEffect[] = [
   {
     name: 'Devotion',
     type: 'race-tech',
+    place: Place.space,
     race: Race.yin,
     onCombatRoundEnd: (
       participant: ParticipantInstance,
@@ -68,6 +71,7 @@ export const yin: BattleEffect[] = [
   {
     name: 'Impulse Core',
     type: 'race-tech',
+    place: Place.space,
     onStart: (
       participant: ParticipantInstance,
       _battle: BattleInstance,
@@ -85,6 +89,7 @@ export const yin: BattleEffect[] = [
   {
     name: 'Yin agent',
     type: 'agent',
+    place: Place.space,
     onDeath: (
       deadUnits: UnitInstance[],
       participant: ParticipantInstance,

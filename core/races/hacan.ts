@@ -10,6 +10,7 @@ export const hacan: BattleEffect[] = [
   {
     type: 'race',
     name: 'Hacan flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         const getNewOnHit = (oldOnHit?: OnHitEffect) => {
@@ -63,6 +64,7 @@ export const hacan: BattleEffect[] = [
   {
     name: hacanTradeGoods,
     type: 'race-tech',
+    place: Place.space,
     count: true,
   },
 ]

@@ -24,14 +24,14 @@ function createBattleInstance(battle: Battle): BattleInstance {
   // battle effects to the opponent
   // Also, a battle effect (such as the flagships) can give units new battle effects. So unit battle effects needs
   // to be applied after all other effects.
-  const attackerBattleEffects = getParticipantBattleEffects(battle.attacker)
+  const attackerBattleEffects = getParticipantBattleEffects(battle.attacker, battle.place)
   const attacker = createParticipantInstance(
     battle.attacker,
     attackerBattleEffects,
     'attacker',
     battle.place,
   )
-  const defenderBattleEffects = getParticipantBattleEffects(battle.defender)
+  const defenderBattleEffects = getParticipantBattleEffects(battle.defender, battle.place)
   const defender = createParticipantInstance(
     battle.defender,
     defenderBattleEffects,
@@ -64,7 +64,7 @@ function getParticipantUnits(participant: Participant) {
   return units
 }
 
-function getParticipantBattleEffects(participant: Participant) {
+function getParticipantBattleEffects(participant: Participant, place: Place) {
   const allBattleEffects = getAllBattleEffects()
 
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
@@ -75,6 +75,7 @@ function getParticipantBattleEffects(participant: Participant) {
       continue
     }
     const effect = allBattleEffects.find((e) => e.name === effectName)!
+    // if (effect.place === 'both' || effect.place === place) {
     if (
       effect.race === undefined ||
       effect.race === participant.race ||
@@ -82,6 +83,7 @@ function getParticipantBattleEffects(participant: Participant) {
     ) {
       battleEffects.push(effect)
     }
+    // }
   }
 
   const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
@@ -95,7 +97,10 @@ function getParticipantBattleEffects(participant: Participant) {
       }
     }
   })
-  return battleEffects
+
+  return battleEffects.filter((effect) => {
+    return effect.place === 'both' || effect.place === place
+  })
 }
 
 function createParticipantInstance(

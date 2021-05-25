@@ -8,6 +8,7 @@ export const l1z1x: BattleEffect[] = [
   {
     type: 'race',
     name: 'L1z1x flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -43,6 +44,7 @@ export const l1z1x: BattleEffect[] = [
   {
     type: 'race',
     name: 'L1z1x Harrow',
+    place: Place.ground,
     onCombatRoundEnd: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -56,6 +58,7 @@ export const l1z1x: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'L1z1x dreadnaught upgrade',
+    place: 'both',
     race: Race.l1z1x,
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {

@@ -5,6 +5,7 @@ export const vuilRaith: BattleEffect[] = [
   {
     type: 'race',
     name: "Vuil'Raith flagship",
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {

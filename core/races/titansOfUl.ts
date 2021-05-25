@@ -1,13 +1,14 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { createUnitAndApplyEffects } from '../battleSetup'
-import { Race } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const titansOfUl: BattleEffect[] = [
   {
     type: 'race',
     name: 'Titans of Ul flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -26,6 +27,7 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'race',
     name: 'Titans of Ul pds',
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.pds) {
         return {
@@ -45,6 +47,7 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Titans of Ul pds upgrade',
+    place: 'both',
     race: Race.titans_of_ul,
     unit: UnitType.pds,
     transformUnit: (unit: UnitInstance) => {
@@ -70,6 +73,7 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'race-tech',
     name: 'Titans of Ul cruiser upgrade',
+    place: Place.space,
     race: Race.titans_of_ul,
     unit: UnitType.cruiser,
     transformUnit: (unit: UnitInstance) => {
@@ -90,6 +94,7 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'agent',
     name: 'Titans agent',
+    place: 'both',
     onStart: (p: ParticipantInstance) => {
       p.soakHits += 1
     },
@@ -97,6 +102,7 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'general',
     name: 'Titans hero',
+    place: 'both',
     onStart: (p: ParticipantInstance, battle: BattleInstance) => {
       const planetUnit = createUnitAndApplyEffects(UnitType.pds, p, battle.place)
       planetUnit.spaceCannon!.hit = 5

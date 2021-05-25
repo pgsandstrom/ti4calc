@@ -7,6 +7,7 @@ export const naazRokha: BattleEffect[] = [
   {
     type: 'race',
     name: 'Naaz-Rokha flagship',
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -39,6 +40,7 @@ export const naazRokha: BattleEffect[] = [
   {
     type: 'race',
     name: 'Naaz-Rokha mech',
+    place: 'both',
     transformUnit: (unit: UnitInstance, _p: ParticipantInstance, place: Place) => {
       if (unit.type === UnitType.mech) {
         if (place === Place.space) {
@@ -74,6 +76,7 @@ export const naazRokha: BattleEffect[] = [
   {
     name: 'Supercharge',
     type: 'race-tech',
+    place: 'both',
     transformUnit: (unit: UnitInstance) => {
       return getUnitWithImproved(unit, 'combat', 'hit', 'temp')
     },

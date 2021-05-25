@@ -10,6 +10,7 @@ export const winnu: BattleEffect[] = [
   {
     type: 'race',
     name: 'Winnu flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -53,6 +54,7 @@ export const winnu: BattleEffect[] = [
   {
     type: 'commander',
     name: 'Winnu commander',
+    place: 'both',
     transformUnit: (u: UnitInstance) => {
       return getUnitWithImproved(u, 'combat', 'hit', 'permanent', 2)
     },

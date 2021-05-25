@@ -9,6 +9,7 @@ export const mahact: BattleEffect[] = [
   {
     type: 'race',
     name: 'Mahact flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -44,6 +45,7 @@ export const mahact: BattleEffect[] = [
   },
   {
     type: 'race-tech',
+    place: Place.space,
     race: Race.mahact,
     name: missingCommandToken,
   },

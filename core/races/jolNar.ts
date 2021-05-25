@@ -8,6 +8,7 @@ export const jolNar: BattleEffect[] = [
   {
     type: 'race',
     name: 'Jol-Nar flagship',
+    place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -38,6 +39,7 @@ export const jolNar: BattleEffect[] = [
   {
     name: 'Jol-Nar Fragile ability',
     type: 'race',
+    place: 'both',
     transformUnit: (u: UnitInstance) => {
       return getUnitWithImproved(u, 'combat', 'hit', 'permanent', -1)
     },
@@ -45,6 +47,7 @@ export const jolNar: BattleEffect[] = [
   {
     type: 'race',
     name: 'Jol-Nar mech',
+    place: Place.ground,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
         return {
@@ -78,6 +81,7 @@ export const jolNar: BattleEffect[] = [
   {
     name: 'Jol-Nar commander',
     type: 'commander',
+    place: 'both',
     transformUnit: (unit) => {
       if (unit.spaceCannon) {
         unit = getUnitWithImproved(unit, 'spaceCannon', 'reroll', 'permanent')
