@@ -75,7 +75,6 @@ function getParticipantBattleEffects(participant: Participant, place: Place) {
       continue
     }
     const effect = allBattleEffects.find((e) => e.name === effectName)!
-    // if (effect.place === 'both' || effect.place === place) {
     if (
       effect.race === undefined ||
       effect.race === participant.race ||
@@ -83,7 +82,6 @@ function getParticipantBattleEffects(participant: Participant, place: Place) {
     ) {
       battleEffects.push(effect)
     }
-    // }
   }
 
   const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')

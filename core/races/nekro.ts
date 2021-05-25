@@ -12,7 +12,6 @@ export const nekro: BattleEffect[] = [
     place: Place.space,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
-        // TODO add flagship ability
         return {
           ...unit,
           combat: {
@@ -20,6 +19,23 @@ export const nekro: BattleEffect[] = [
             hit: 9,
             count: 2,
           },
+          battleEffects: [
+            {
+              type: 'other',
+              name: 'Nekro flagship ability',
+              place: Place.space,
+              transformUnit: (unit: UnitInstance) => {
+                if (unit.type === UnitType.infantry) {
+                  return {
+                    ...unit,
+                    isShip: true,
+                  }
+                } else {
+                  return unit
+                }
+              },
+            },
+          ],
         }
       } else {
         return unit

@@ -80,5 +80,15 @@ export const l1z1x: BattleEffect[] = [
     },
   },
   // TODO add mech
-  // TODO add commander
+  {
+    type: 'commander',
+    name: 'L1z1x commander',
+    place: Place.ground,
+    transformEnemyUnit: (u: UnitInstance) => {
+      return {
+        ...u,
+        planetaryShield: false,
+      }
+    },
+  },
 ]
