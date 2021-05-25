@@ -10,7 +10,6 @@ export const baronyOfLetnev: BattleEffect[] = [
     name: 'Barony of Letnev flagship',
     place: 'both',
     transformUnit: (unit: UnitInstance) => {
-      // TODO add repair
       if (unit.type === UnitType.flagship) {
         return {
           ...unit,
@@ -34,6 +33,18 @@ export const baronyOfLetnev: BattleEffect[] = [
                   ...u,
                   planetaryShield: false,
                 }
+              },
+            },
+            {
+              name: 'Barony flagship repair',
+              type: 'other',
+              place: Place.space,
+              onCombatRoundEnd: (participant: ParticipantInstance) => {
+                participant.units.forEach((unit) => {
+                  if (unit.type === UnitType.flagship) {
+                    unit.takenDamage = false
+                  }
+                })
               },
             },
           ],

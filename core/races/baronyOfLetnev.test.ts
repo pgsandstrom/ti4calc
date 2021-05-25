@@ -33,4 +33,30 @@ describe('Barony of Letnev', () => {
     expect(result.draw).toEqual(0)
     expect(result.defender).toEqual(0)
   })
+
+  it('barony flagship should repair and always win vs dreadnought', () => {
+    const attacker: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: {},
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: {},
+    }
+    attacker.units.flagship = 1
+    defender.units.dreadnought = 1
+
+    const result = getBattleReport(attacker, defender, Place.space, 100)
+
+    expect(result.draw).toEqual(0)
+    expect(result.defender).toEqual(0)
+  })
 })

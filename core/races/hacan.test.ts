@@ -16,7 +16,7 @@ describe('Hacan', () => {
       battleEffects: { 'Hacan flagship trade goods': 1 },
     }
     const defender: Participant = {
-      race: Race.barony_of_letnev,
+      race: Race.muaat,
       units: getUnitMap(),
       unitUpgrades: {},
       riskDirectHit: false,
