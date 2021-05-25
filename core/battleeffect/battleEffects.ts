@@ -11,7 +11,7 @@ import {
 } from '../battle-types'
 import { Place, Race } from '../enums'
 import {
-  getRaceTechsNonUnit,
+  getRaceStuffNonUnit,
   getPromissary,
   getAgent,
   getCommanders,
@@ -31,7 +31,9 @@ export interface BattleEffect {
     | 'agent'
     | 'tech'
     | 'race'
-    | 'race-tech' // TODO rename to race-specific or something
+    // 'race-tech' is stuff that nekro can steal, race-ability is other race-specific stuff
+    | 'race-tech'
+    | 'race-ability'
     | 'unit-upgrade'
     | 'other'
   race?: Race
@@ -100,7 +102,7 @@ export const defendingInNebula: BattleEffect = {
 export function getAllBattleEffects() {
   const otherBattleEffects = getOtherBattleEffects()
   const techs = getTechBattleEffects()
-  const raceTechs = getRaceTechsNonUnit()
+  const raceTechs = getRaceStuffNonUnit()
   const promissary = getPromissary()
   const agents = getAgent()
   const commanders = getCommanders()
@@ -133,7 +135,7 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
     return false
   }
 
-  if (effect.type === 'race' || effect.type === 'race-tech') {
+  if (effect.type === 'race' || effect.type === 'race-tech' || effect.type === 'race-ability') {
     if (participant.race !== effect.race && participant.race !== Race.nekro) {
       return false
     }

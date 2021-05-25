@@ -74,7 +74,7 @@ export const mentak: BattleEffect[] = [
   },
   {
     name: 'Mentak hero',
-    type: 'race-tech',
+    type: 'race-ability',
     place: Place.space,
     race: Race.mentak,
     onDeath: (

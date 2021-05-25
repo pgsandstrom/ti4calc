@@ -70,11 +70,15 @@ function isParticipant(p: Participant | Race): p is Participant {
   }
 }
 
-export function getRaceTechsNonUnit() {
+export function getRaceStuffNonUnit() {
   return Object.values(Race)
     .map((raceName) => {
       const race = RACE_MAP[raceName]
-      return race.filter((effect) => effect.type === 'race-tech' && effect.unit === undefined)
+      return race.filter(
+        (effect) =>
+          (effect.type === 'race-tech' || effect.type === 'race-ability') &&
+          effect.unit === undefined,
+      )
     })
     .flat()
 }

@@ -18,7 +18,7 @@ import {
   getCommanders,
   getGeneralEffectFromRaces,
   getPromissary,
-  getRaceTechsNonUnit,
+  getRaceStuffNonUnit,
 } from '../core/races/race'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import { getActioncards } from '../core/battleeffect/actioncard'
@@ -238,7 +238,7 @@ const OptionsDiv = styled.div`
 function OptionsView(props: OptionsProps) {
   const otherBattleEffects = [...getOtherBattleEffects(), ...getGeneralEffectFromRaces()]
   const techs = getTechBattleEffects()
-  const raceTechs = getRaceTechsNonUnit()
+  const raceTechs = getRaceStuffNonUnit()
   const promissary = getPromissary()
   const agents = getAgent()
   const commanders = getCommanders()

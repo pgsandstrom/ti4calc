@@ -56,7 +56,7 @@ export const nekro: BattleEffect[] = [
   },
   {
     // TODO add test to make sure all race-techs has a race specified
-    type: 'race-tech',
+    type: 'race-ability',
     place: Place.ground,
     race: Race.nekro,
     name: nekroMechBonus,

@@ -44,7 +44,7 @@ export const mahact: BattleEffect[] = [
     },
   },
   {
-    type: 'race-tech',
+    type: 'race-ability',
     place: Place.space,
     race: Race.mahact,
     name: missingCommandToken,

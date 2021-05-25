@@ -83,7 +83,7 @@ export const baronyOfLetnev: BattleEffect[] = [
   },
   {
     name: 'Munitions reserves',
-    type: 'race-tech',
+    type: 'race-ability',
     place: Place.space,
     race: Race.barony_of_letnev,
     transformUnit: (unit: UnitInstance) => {

@@ -90,7 +90,7 @@ export const naluu: BattleEffect[] = [
     },
   },
   {
-    type: 'race-tech',
+    type: 'race-ability',
     race: Race.naluu,
     place: Place.ground,
     name: opponentHasRelicFragment,

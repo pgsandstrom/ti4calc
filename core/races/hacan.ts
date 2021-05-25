@@ -63,7 +63,7 @@ export const hacan: BattleEffect[] = [
   },
   {
     name: hacanTradeGoods,
-    type: 'race-tech',
+    type: 'race-ability',
     place: Place.space,
     count: true,
   },
