@@ -44,7 +44,6 @@ export const yin: BattleEffect[] = [
       }
     },
   },
-  // TODO add test that checks so all race-techs has a race... or maybe fix it with type?
   {
     name: 'Devotion',
     type: 'race-ability',
@@ -72,6 +71,7 @@ export const yin: BattleEffect[] = [
     name: 'Impulse Core',
     type: 'race-tech',
     place: Place.space,
+    race: Race.yin,
     onStart: (
       participant: ParticipantInstance,
       _battle: BattleInstance,

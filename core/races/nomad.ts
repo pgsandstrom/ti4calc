@@ -1,6 +1,6 @@
 import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Place } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import { getWorstNonFighterShip } from '../unitGet'
 
@@ -33,6 +33,7 @@ export const nomad: BattleEffect[] = [
     type: 'race-tech',
     name: 'Nomad flagship upgrade',
     place: Place.space,
+    race: Race.nomad,
     unit: UnitType.flagship,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {

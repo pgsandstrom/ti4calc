@@ -22,21 +22,32 @@ import { getActioncards } from './actioncard'
 import { getAgendas } from './agenda'
 import { getTechBattleEffects } from './tech'
 
-export interface BattleEffect {
-  name: string
+export type BattleEffect = NormalBattleEffect | RaceBattleEffect
+
+export interface NormalBattleEffect extends SharedStuffBattleEffect {
   type:
     | 'general'
     | 'promissary'
     | 'commander'
     | 'agent'
     | 'tech'
-    | 'race'
-    // 'race-tech' is stuff that nekro can steal, race-ability is other race-specific stuff
-    | 'race-tech'
-    | 'race-ability'
     | 'unit-upgrade'
     | 'other'
-  race?: Race
+    // 'race' is race-stuff that is automatically used
+    | 'race'
+  race?: undefined
+}
+
+export interface RaceBattleEffect extends SharedStuffBattleEffect {
+  type: // race-tech is tech (can be stolen by nekro)
+  | 'race-tech'
+    // race-ability is something race-specific that is not automatically used (munitions reserves for example)
+    | 'race-ability'
+  race: Race
+}
+
+interface SharedStuffBattleEffect {
+  name: string
   side?: Side
   place: Place | 'both'
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui

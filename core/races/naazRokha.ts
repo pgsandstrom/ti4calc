@@ -1,6 +1,6 @@
 import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Place } from '../enums'
+import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const naazRokha: BattleEffect[] = [
@@ -77,6 +77,7 @@ export const naazRokha: BattleEffect[] = [
     name: 'Supercharge',
     type: 'race-tech',
     place: 'both',
+    race: Race.naaz_rokha,
     transformUnit: (unit: UnitInstance) => {
       return getUnitWithImproved(unit, 'combat', 'hit', 'temp')
     },
