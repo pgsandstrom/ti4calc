@@ -31,16 +31,9 @@ export function getHits(roll: Roll): HitInfo {
     return result
   }).filter((r) => r).length
 
-  // TODO wtf why are we only decreasing it by 1?
-  if (roll.hitBonusTmp > 0) {
-    roll.hitBonusTmp -= 1
-  }
-  if (roll.countBonusTmp > 0) {
-    roll.countBonusTmp -= 1
-  }
-  if (roll.rerollBonusTmp > 0) {
-    roll.rerollBonusTmp -= 1
-  }
+  roll.hitBonusTmp = 0
+  roll.countBonusTmp = 0
+  roll.rerollBonusTmp = 0
 
   return { hits: result, rollInfoList: rollInfo }
 }

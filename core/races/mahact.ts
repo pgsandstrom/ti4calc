@@ -19,20 +19,20 @@ export const mahact: BattleEffect[] = [
             hit: 5,
             count: 2,
           },
-          aura: [
+          battleEffects: [
             {
-              name: 'Mahact flagship aura',
+              name: 'Mahact flagship effect',
+              type: 'other',
               place: Place.space,
-              transformUnit: (auraUnit: UnitInstance, participant: ParticipantInstance) => {
-                // TODO this could be a battle effect instead of an aura
-                if (auraUnit.type === UnitType.flagship) {
+              transformUnit: (u: UnitInstance, participant: ParticipantInstance) => {
+                if (u.type === UnitType.flagship) {
                   if (participant.effects[missingCommandToken] > 0) {
-                    return getUnitWithImproved(auraUnit, 'combat', 'hit', 'temp', 2)
+                    return getUnitWithImproved(u, 'combat', 'hit', 'permanent', 2)
                   } else {
-                    return auraUnit
+                    return u
                   }
                 } else {
-                  return auraUnit
+                  return u
                 }
               },
             },

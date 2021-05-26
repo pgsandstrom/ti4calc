@@ -5,6 +5,7 @@ interface NumberInputProps {
   onUpdate: (newVal: number) => void
 }
 
+// TODO maybe just select everything when pressing it? Not removing the zero.
 export default function NumberInput({ currentValue, onUpdate }: NumberInputProps) {
   const [val, setVal] = useState<string>(currentValue.toString())
 
