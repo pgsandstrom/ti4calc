@@ -114,6 +114,7 @@ export function doBombardment(battle: BattleInstance) {
   }
 
   const hits = battle.attacker.units.map((u) => {
+    logAttack(battle.attacker, u, 'bombardment')
     return u.bombardment ? getHits(u.bombardment).hits : 0
   })
   const result = hits.reduce((a, b) => {
@@ -153,6 +154,7 @@ function getPdsHits(
   })
 
   const hits = p.units.map((u) => {
+    logAttack(p, u, 'spaceCannon')
     return u.spaceCannon ? getHits(u.spaceCannon).hits : 0
   })
   return hits.reduce((a, b) => {
@@ -208,6 +210,7 @@ function getAfbHits(
   })
 
   const hits = p.units.map((u) => {
+    logAttack(p, u, 'afb')
     return u.afb ? getHits(u.afb).hits : 0
   })
   return hits.reduce((a, b) => {
@@ -285,22 +288,7 @@ function doParticipantBattleRolls(
         unit = effect.transformEnemyUnit!(unit, p, battle)
       })
 
-      if (LOG && unit.combat) {
-        const hit = unit.combat.hit - unit.combat.hitBonus - unit.combat.hitBonusTmp
-        const count = unit.combat.count + unit.combat.countBonus + unit.combat.countBonusTmp
-        const reroll = unit.combat.reroll + unit.combat.rerollBonus + unit.combat.rerollBonusTmp
-        if (count === 1 && reroll === 1) {
-          console.log(`${p.side} shoots with ${unit.type} at ${hit}.`)
-        } else if (reroll === 1) {
-          console.log(`${p.side} shoots with ${unit.type} at ${hit}, using ${count} dices`)
-        } else if (count === 1) {
-          console.log(`${p.side} shoots with ${unit.type} at ${hit}, using ${reroll} rerolls`)
-        } else {
-          console.log(
-            `${p.side} shoots with ${unit.type} at ${hit}, using ${count} dices and ${reroll} rerolls.`,
-          )
-        }
-      }
+      logAttack(p, unit, 'combat')
 
       const hitInfo: HitInfo = unit.combat ? getHits(unit.combat) : { hits: 0, rollInfoList: [] }
 
@@ -521,4 +509,28 @@ export function isSustainDisabled(battle: BattleInstance, p: ParticipantInstance
 
 export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstance) {
   return p.side === 'attacker' ? battle.defender : battle.attacker
+}
+
+function logAttack(
+  p: ParticipantInstance,
+  unit: UnitInstance,
+  rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+) {
+  const roll = unit[rollType]
+  if (LOG && roll) {
+    const hit = roll.hit - roll.hitBonus - roll.hitBonusTmp
+    const count = roll.count + roll.countBonus + roll.countBonusTmp
+    const reroll = roll.reroll + roll.rerollBonus + roll.rerollBonusTmp
+    if (count === 1 && reroll === 0) {
+      console.log(`${p.side} does ${rollType} with ${unit.type} at ${hit}.`)
+    } else if (reroll === 0) {
+      console.log(`${p.side} does ${rollType} with ${unit.type} at ${hit}, using ${count} dices`)
+    } else if (count === 1) {
+      console.log(`${p.side} does ${rollType} with ${unit.type} at ${hit}, using ${reroll} rerolls`)
+    } else {
+      console.log(
+        `${p.side} does ${rollType} with ${unit.type} at ${hit}, using ${count} dices and ${reroll} rerolls.`,
+      )
+    }
+  }
 }

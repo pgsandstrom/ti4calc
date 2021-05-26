@@ -294,7 +294,6 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   warsun,
 }
 
-// TODO test this
 export function getUnitWithImproved(
   unit: UnitInstance,
   rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
