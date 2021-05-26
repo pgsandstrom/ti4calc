@@ -53,6 +53,8 @@ const BattleReportDiv = styled.div`
   }
 `
 
+// TODO add "units damaged before the battle"?
+
 export default function Home() {
   const [attacker, setAttacker] = useState<Participant>(createParticipant('attacker'))
   const [defender, setDefender] = useState<Participant>(createParticipant('defender'))

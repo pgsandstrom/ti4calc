@@ -33,6 +33,20 @@ export function getWorstNonFighterShip(p: ParticipantInstance) {
   })
 }
 
+export function getBestShip(p: ParticipantInstance) {
+  if (p.units.length === 0) {
+    return undefined
+  }
+  return p.units.reduce((a, b) => {
+    if (a.diePriority === undefined) {
+      return b
+    } else if (b.diePriority === undefined) {
+      return a
+    }
+    return a.diePriority < b.diePriority ? a : b
+  })
+}
+
 export function getNonFighterShips(p: ParticipantInstance) {
   return p.units.filter((unit) => unit.isShip && unit.type !== UnitType.fighter)
 }

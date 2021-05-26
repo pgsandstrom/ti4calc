@@ -38,6 +38,7 @@ export const titansOfUl: BattleEffect[] = [
           },
           isGroundForce: true,
           sustainDamage: true,
+          // TODO add die priority?
         }
       } else {
         return unit
