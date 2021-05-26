@@ -1,12 +1,20 @@
 import { destroyUnit, LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { Place } from '../enums'
-import { UnitInstance } from '../unit'
+import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { getBestShip, getHighestHitUnit, getNonFighterShips } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 
 export function getTechBattleEffects() {
-  return [plasmaScoring, magenDefenseGrid, duraniumArmor, assaultCannon]
+  return [
+    plasmaScoring,
+    magenDefenseGrid,
+    duraniumArmor,
+    assaultCannon,
+    x89BacterialWeapon,
+    antimassDeflectors,
+    gravitonLaserSystem,
+  ]
 }
 
 export const plasmaScoring: BattleEffect = {
@@ -83,14 +91,57 @@ export const assaultCannon: BattleEffect = {
   },
 }
 
-export const x89BacterialWeapon = {
-  // TODO
+export const x89BacterialWeapon: BattleEffect = {
+  name: 'X-89 Bacterial Weapon',
+  type: 'tech',
+  place: Place.ground,
+  side: 'attacker',
+  onDeath: (
+    deadUnits: UnitInstance[],
+    _participant: ParticipantInstance,
+    otherParticipant: ParticipantInstance,
+    battle: BattleInstance,
+    isOwnUnit: boolean,
+  ) => {
+    if (isOwnUnit) {
+      return
+    }
+    if (deadUnits.some((u) => u.type === UnitType.infantry)) {
+      otherParticipant.units.forEach((unit) => {
+        if (unit.type === UnitType.infantry) {
+          destroyUnit(battle, unit)
+        }
+      })
+    }
+  },
 }
 
-export const antimassDeflectors = {
-  //TODO
+export const antimassDeflectors: BattleEffect = {
+  name: 'Antimass Deflectors',
+  type: 'tech',
+  place: 'both',
+  transformEnemyUnit: (u: UnitInstance) => {
+    if (u.spaceCannon) {
+      return getUnitWithImproved(u, 'spaceCannon', 'hit', 'permanent', -1)
+    } else {
+      return u
+    }
+  },
 }
 
-export const gravitonLaserSystem = {
-  // TODO
+// In theory graviton could cause problems. It gives permanent 'assignHitsToNonFighters' which is incorrect.
+// But currently it has no negative impact.
+export const gravitonLaserSystem: BattleEffect = {
+  name: 'Graviton Laser System',
+  type: 'tech',
+  place: Place.space,
+  transformUnit: (u: UnitInstance) => {
+    // TODO if a carrier is destroyed here, the fighters should be destroyed prior to combat.
+    if (u.spaceCannon) {
+      u.assignHitsToNonFighters = true
+      return u
+    } else {
+      return u
+    }
+  },
 }

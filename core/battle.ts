@@ -127,19 +127,20 @@ export function doBombardment(battle: BattleInstance) {
   resolveHits(battle)
 }
 
+// TODO rename pds to spacecannon
 function doPds(battle: BattleInstance) {
   if (battle.place === Place.space) {
-    const attackerPdsHits = getPdsHits(battle.attacker, battle, battle.defender)
+    const attackerHits = getPdsHits(battle.attacker, battle, battle.defender)
     if (LOG && battle.attacker.units.some((u) => u.spaceCannon)) {
-      console.log(`attacker pds produced ${attackerPdsHits} hits.`)
+      logHits(battle.attacker, attackerHits, 'spaceCannon')
     }
-    battle.defender.hitsToAssign.hits += attackerPdsHits
+    battle.defender.hitsToAssign = attackerHits
   }
-  const defenderPdsHits = getPdsHits(battle.defender, battle, battle.attacker)
+  const defenderHits = getPdsHits(battle.defender, battle, battle.attacker)
   if (LOG && battle.defender.units.some((u) => u.spaceCannon)) {
-    console.log(`defender pds produced ${defenderPdsHits} hits.`)
+    logHits(battle.defender, defenderHits, 'spaceCannon')
   }
-  battle.attacker.hitsToAssign.hits += defenderPdsHits
+  battle.attacker.hitsToAssign = defenderHits
 }
 
 function getPdsHits(
@@ -153,13 +154,35 @@ function getPdsHits(
     }
   })
 
-  const hits = p.units.map((u) => {
-    logAttack(p, u, 'spaceCannon')
-    return u.spaceCannon ? getHits(u.spaceCannon).hits : 0
-  })
-  return hits.reduce((a, b) => {
-    return a + b
-  }, 0)
+  return p.units
+    .map((u) => {
+      logAttack(p, u, 'spaceCannon')
+
+      const hitInfo: HitInfo = u.spaceCannon
+        ? getHits(u.spaceCannon)
+        : { hits: 0, rollInfoList: [] }
+
+      const hits = hitInfo.hits
+      return {
+        hits: u.assignHitsToNonFighters === true ? 0 : hits,
+        hitsToNonFighters: u.assignHitsToNonFighters === true ? hits : 0,
+        hitsAssignedByEnemy: 0, // I dont think any unit uses this, so I wont implement it now.
+      }
+    })
+    .reduce<HitsToAssign>(
+      (a, b) => {
+        return {
+          hits: a.hits + b.hits,
+          hitsToNonFighters: a.hitsToNonFighters + b.hitsToNonFighters,
+          hitsAssignedByEnemy: a.hitsAssignedByEnemy + b.hitsAssignedByEnemy,
+        }
+      },
+      {
+        hits: 0,
+        hitsToNonFighters: 0,
+        hitsAssignedByEnemy: 0,
+      },
+    )
 }
 
 function doAfb(battle: BattleInstance) {
@@ -318,11 +341,7 @@ function doParticipantBattleRolls(
       },
     )
 
-  if (LOG) {
-    console.log(
-      `${p.side} hits ${hits.hits} normal hits and ${hits.hitsToNonFighters} to non-fighters.`,
-    )
-  }
+  logHits(p, hits, 'combat')
   otherParticipant.hitsToAssign = hits
 }
 
@@ -530,6 +549,26 @@ function logAttack(
     } else {
       console.log(
         `${p.side} does ${rollType} with ${unit.type} at ${hit}, using ${count} dices and ${reroll} rerolls.`,
+      )
+    }
+  }
+}
+
+function logHits(
+  p: ParticipantInstance,
+  hits: HitsToAssign,
+  rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+) {
+  if (LOG) {
+    if (hits.hits === 0 && hits.hitsToNonFighters === 0) {
+      console.log(`${p.side} ${rollType} missed all`)
+    } else if (hits.hitsToNonFighters === 0) {
+      console.log(`${p.side} ${rollType} hits ${hits.hits} normal hits.`)
+    } else if (hits.hits === 0) {
+      console.log(`${p.side} ${rollType} hits ${hits.hitsToNonFighters} to non-fighters.`)
+    } else {
+      console.log(
+        `${p.side} ${rollType} hits ${hits.hits} normal hits and ${hits.hitsToNonFighters} to non-fighters.`,
       )
     }
   }
