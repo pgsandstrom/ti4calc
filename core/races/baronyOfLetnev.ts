@@ -86,9 +86,21 @@ export const baronyOfLetnev: BattleEffect[] = [
     type: 'race-ability',
     place: Place.space,
     race: Race.barony_of_letnev,
-    transformUnit: (unit: UnitInstance) => {
-      // TODO this is the kind of stuff that could be done several times
-      return getUnitWithImproved(unit, 'combat', 'reroll', 'temp')
+    count: true,
+    onCombatRound: (
+      participant: ParticipantInstance,
+      _battle: BattleInstance,
+      _otherParticipant: ParticipantInstance,
+      effectName: string,
+    ) => {
+      if (participant.effects[effectName] > 0) {
+        participant.units.forEach((unit) => {
+          if (unit.combat) {
+            unit.combat.rerollBonusTmp += 1
+          }
+        })
+        participant.effects[effectName] -= 1
+      }
     },
   },
   {

@@ -286,11 +286,20 @@ function doParticipantBattleRolls(
       })
 
       if (LOG && unit.combat) {
-        console.log(
-          `${p.side} shoots with ${unit.type} at ${
-            unit.combat.hit - unit.combat.hitBonus - unit.combat.hitBonusTmp
-          }`,
-        )
+        const hit = unit.combat.hit - unit.combat.hitBonus - unit.combat.hitBonusTmp
+        const count = unit.combat.count + unit.combat.countBonus + unit.combat.countBonusTmp
+        const reroll = unit.combat.reroll + unit.combat.rerollBonus + unit.combat.rerollBonusTmp
+        if (count === 1 && reroll === 1) {
+          console.log(`${p.side} shoots with ${unit.type} at ${hit}.`)
+        } else if (reroll === 1) {
+          console.log(`${p.side} shoots with ${unit.type} at ${hit}, using ${count} dices`)
+        } else if (count === 1) {
+          console.log(`${p.side} shoots with ${unit.type} at ${hit}, using ${reroll} rerolls`)
+        } else {
+          console.log(
+            `${p.side} shoots with ${unit.type} at ${hit}, using ${count} dices and ${reroll} rerolls.`,
+          )
+        }
       }
 
       const hitInfo: HitInfo = unit.combat ? getHits(unit.combat) : { hits: 0, rollInfoList: [] }
@@ -344,7 +353,6 @@ function hasHitToAssign(p: ParticipantInstance) {
   )
 }
 
-// TODO do we really sort out units that cant take a hit? Like mechs in space battle etc?
 function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
   while (hasHitToAssign(p)) {
     if (p.soakHits > 0) {

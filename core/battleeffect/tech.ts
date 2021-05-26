@@ -6,6 +6,8 @@ export function getTechBattleEffects() {
   return [duraniumArmor]
 }
 
+// TODO add techs
+
 export const duraniumArmor: BattleEffect = {
   name: 'Duranium Armor',
   type: 'tech',

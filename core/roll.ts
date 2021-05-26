@@ -31,6 +31,7 @@ export function getHits(roll: Roll): HitInfo {
     return result
   }).filter((r) => r).length
 
+  // TODO wtf why are we only decreasing it by 1?
   if (roll.hitBonusTmp > 0) {
     roll.hitBonusTmp -= 1
   }
