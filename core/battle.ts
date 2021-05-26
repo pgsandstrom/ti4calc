@@ -389,11 +389,22 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
       p.hitsToAssign.hits -= 1
     }
 
-    const deadUnits = p.units.filter((u) => u.isDestroyed)
-    p.units = p.units.filter((u) => !u.isDestroyed)
+    removeDeadUnits(p, battle)
+  }
+}
 
+export function destroyUnit(battle: BattleInstance, unit: UnitInstance) {
+  unit.isDestroyed = true
+  removeDeadUnits(battle.attacker, battle)
+  removeDeadUnits(battle.defender, battle)
+}
+
+function removeDeadUnits(p: ParticipantInstance, battle: BattleInstance) {
+  const deadUnits = p.units.filter((u) => u.isDestroyed)
+  p.units = p.units.filter((u) => !u.isDestroyed)
+
+  if (deadUnits.length > 0) {
     const otherParticipant = getOtherParticipant(battle, p)
-
     p.onDeath.forEach((effect) => {
       if (canBattleEffectBeUsed(effect, battle.attacker)) {
         effect.onDeath!(deadUnits, p, otherParticipant, battle, true, effect.name)
@@ -431,6 +442,8 @@ function applyHit(
   includeFighter: boolean,
 ): boolean {
   const sustainDisabled = isSustainDisabled(battle, p)
+
+  // TODO direct hit only exists is space
 
   // Currently if we dont have riskDirectHit dreadnaughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.

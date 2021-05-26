@@ -1,4 +1,4 @@
-import { LOG } from '../battle'
+import { destroyUnit, LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { createUnitAndApplyEffects } from '../battleSetup'
@@ -51,7 +51,7 @@ export const yin: BattleEffect[] = [
     race: Race.yin,
     onCombatRoundEnd: (
       participant: ParticipantInstance,
-      _battle: BattleInstance,
+      battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
       let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
@@ -59,7 +59,7 @@ export const yin: BattleEffect[] = [
         suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
       }
       if (suicideUnit) {
-        suicideUnit.isDestroyed = true
+        destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsAssignedByEnemy += 1
         if (LOG) {
           console.log(`${participant.side} uses devotion to destroy their own ${suicideUnit.type}`)
@@ -74,7 +74,7 @@ export const yin: BattleEffect[] = [
     race: Race.yin,
     onStart: (
       participant: ParticipantInstance,
-      _battle: BattleInstance,
+      battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
       let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
@@ -82,6 +82,7 @@ export const yin: BattleEffect[] = [
         suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
       }
       if (suicideUnit) {
+        destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsToNonFighters += 1
       }
     },
