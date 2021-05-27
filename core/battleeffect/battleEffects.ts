@@ -31,6 +31,8 @@ export interface NormalBattleEffect extends SharedStuffBattleEffect {
     | 'commander'
     | 'agent'
     | 'tech'
+    | 'agenda'
+    | 'action-card'
     | 'unit-upgrade'
     | 'other'
     // 'race' is race-stuff that is automatically used

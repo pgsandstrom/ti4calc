@@ -22,9 +22,9 @@ import {
 } from '../core/races/race'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import { getActioncards } from '../core/battleeffect/actioncard'
-import { getAgendas } from '../core/battleeffect/agenda'
 import { NUMBER_OF_ROLLS } from '../core/constant'
 import NumberInput from '../component/numberInput'
+import { getAgendas } from '../core/battleeffect/agenda'
 
 const StyledMain = styled.main`
   display: flex;
