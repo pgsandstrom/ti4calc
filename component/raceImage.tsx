@@ -26,7 +26,7 @@ export default function RaceImage(props: Props) {
         src={`/races/${props.race.replaceAll(' ', '_').replaceAll("'", '').toLowerCase()}.png`}
         alt=""
         width={640}
-        height={848}
+        height={828}
       /> */}
       <img
         src={`/races/small/${props.race
@@ -35,7 +35,7 @@ export default function RaceImage(props: Props) {
           .toLowerCase()}.webp`}
         alt=""
         width={640}
-        height={848}
+        height={828}
       />
       {/* <Image src={`/background.png`} alt="" width={1204} height={1541} /> */}
     </StyledDiv>
