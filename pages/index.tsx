@@ -25,6 +25,7 @@ import { getActioncards } from '../core/battleeffect/actioncard'
 import { NUMBER_OF_ROLLS } from '../core/constant'
 import NumberInput from '../component/numberInput'
 import { getAgendas } from '../core/battleeffect/agenda'
+import Image from 'next/image'
 
 const StyledMain = styled.main`
   display: flex;
@@ -85,6 +86,15 @@ export default function Home() {
       <StyledMain>
         <h1>ti4 calc</h1>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <Image
+            src={`/races/${attacker.race
+              .replaceAll(' ', '_')
+              .replaceAll("'", '')
+              .toLowerCase()}.png`}
+            alt=""
+            width={500}
+            height={500}
+          />
           <div style={{ display: 'flex' }}>
             <ParticipantView participant={attacker} onChange={setAttacker} />
             <StyledDiv>
