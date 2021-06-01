@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import getBattleReport, { BattleReport } from '../core'
 import { Participant } from '../core/battle-types'
@@ -84,6 +84,20 @@ export default function Home() {
     setBattleReport(br)
     // timer.end()
   }
+
+  useEffect(() => {
+    void (async () => {
+      const { default: Worker } = await import(
+        'worker-loader?filename=static/[hash].worker.js!../core/webworker'
+      )
+
+      const worker = new Worker()
+      worker.addEventListener('message', (event) => {
+        console.log(event.data)
+      })
+      worker.postMessage('ping')
+    })()
+  }, [])
 
   return (
     <div
