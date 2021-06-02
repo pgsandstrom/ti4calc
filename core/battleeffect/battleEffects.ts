@@ -147,8 +147,12 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
   if (effect.side !== undefined && effect.side !== participant.side) {
     return false
   }
-
-  if (effect.type === 'race' || effect.type === 'race-tech' || effect.type === 'race-ability') {
+  if (effect.type === 'race' || effect.type === 'race-ability') {
+    if (participant.race !== effect.race) {
+      return false
+    }
+  }
+  if (effect.type === 'race-tech') {
     if (participant.race !== effect.race && participant.race !== Race.nekro) {
       return false
     }
