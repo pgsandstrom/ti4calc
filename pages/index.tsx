@@ -1,8 +1,8 @@
 import Head from 'next/head'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import getBattleReport, { BattleReport } from '../core'
-import { Participant } from '../core/battle-types'
+import { BattleReport } from '../core'
+import { Battle, Participant } from '../core/battle-types'
 import {
   BattleEffect,
   getOtherBattleEffects,
@@ -22,7 +22,6 @@ import {
 } from '../core/races/race'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import { getActioncards } from '../core/battleeffect/actioncard'
-import { NUMBER_OF_ROLLS } from '../core/constant'
 import NumberInput from '../component/numberInput'
 import { getAgendas } from '../core/battleeffect/agenda'
 import RaceImage from '../component/raceImage'
@@ -67,37 +66,53 @@ const StyledDiv = styled.div`
 // TODO add "units damaged before the battle"?
 
 export default function Home() {
-  const [attacker, setAttacker] = useState<Participant>(createParticipant('attacker'))
-  const [defender, setDefender] = useState<Participant>(createParticipant('defender'))
+  const [attacker, setAttackerRaw] = useState<Participant>(createParticipant('attacker'))
+  const [defender, setDefenderRaw] = useState<Participant>(createParticipant('defender'))
   const [battleReport, setBattleReport] = useState<BattleReport>()
   const [spaceCombat, setSpaceCombat] = useState(true)
 
-  const launch = () => {
-    // TODO perhaps do this in a service thread?
-    // const timer = startDebugTimer('simulate')
-    const br = getBattleReport(
-      attacker,
-      defender,
-      spaceCombat ? Place.space : Place.ground,
-      NUMBER_OF_ROLLS,
-    )
-    setBattleReport(br)
-    // timer.end()
+  const [touched, setTouched] = useState(false)
+  const workerRef = useRef<Worker>()
+
+  const setAttacker = (p: Participant) => {
+    if (!touched) {
+      setTouched(true)
+    }
+    setAttackerRaw(p)
+  }
+  const setDefender = (p: Participant) => {
+    if (!touched) {
+      setTouched(true)
+    }
+    setDefenderRaw(p)
   }
 
   useEffect(() => {
-    void (async () => {
-      const { default: Worker } = await import(
-        'worker-loader?filename=static/[hash].worker.js!../core/webworker'
-      )
+    if (touched) {
+      void (async () => {
+        const { default: Worker } = await import(
+          'worker-loader?filename=static/[hash].worker.js!../core/webworker'
+        )
+        if (workerRef.current) {
+          workerRef.current.terminate()
+        }
 
-      const worker = new Worker()
-      worker.addEventListener('message', (event) => {
-        console.log(event.data)
-      })
-      worker.postMessage('ping')
-    })()
-  }, [])
+        const worker = new Worker()
+        workerRef.current = worker
+
+        worker.addEventListener('message', (event) => {
+          setBattleReport(event.data)
+        })
+
+        const battle: Battle = {
+          attacker,
+          defender,
+          place: spaceCombat ? Place.space : Place.ground,
+        }
+        worker.postMessage(battle)
+      })()
+    }
+  }, [touched, attacker, defender, spaceCombat])
 
   return (
     <div
@@ -154,7 +169,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <button onClick={launch}>roll</button>
             <BattleReportView report={battleReport} />
           </StyledMainController>
           <OptionsView

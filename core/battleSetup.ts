@@ -241,7 +241,6 @@ export function createParticipant(side: Side): Participant {
     battleEffects: {},
     riskDirectHit: false,
   }
-  participant.units.destroyer = 2
   return participant
 }
 

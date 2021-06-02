@@ -6,9 +6,8 @@ const BattleReportDiv = styled.div`
   display: flex;
 `
 
-const PercentageDiv = styled.div<{ percentage: number; color: string }>`
-  flex: ${(p) => p.percentage} 0 0;
-  background: ${(p) => p.color};
+const PercentageDiv = styled.div`
+  transition: flex-grow 200ms;
 
   > * {
     text-align: center;
@@ -36,19 +35,34 @@ export function BattleReportView({ report }: Props) {
 
       <BattleReportDiv>
         {report.attacker !== 0 && (
-          <PercentageDiv percentage={report.attacker / total} color="#B1B1FF">
+          <PercentageDiv
+            style={{
+              flex: `${report.attacker / total} 0 0`,
+              background: '#B1B1FF',
+            }}
+          >
             <div>Attacker</div>
             <div>{toPercentage(total, report.attacker)}</div>
           </PercentageDiv>
         )}
         {report.draw !== 0 && (
-          <PercentageDiv percentage={report.draw / total} color="#CFCFCF">
+          <PercentageDiv
+            style={{
+              flex: `${report.draw / total} 0 0`,
+              background: '#CFCFCF',
+            }}
+          >
             <div>Draw</div>
             <div>{toPercentage(total, report.draw)}</div>
           </PercentageDiv>
         )}
         {report.defender !== 0 && (
-          <PercentageDiv percentage={report.defender / total} color="#FFB1B1">
+          <PercentageDiv
+            style={{
+              flex: `${report.defender / total} 0 0`,
+              background: '#FFB1B1',
+            }}
+          >
             <div>Defender</div>
             <div>{toPercentage(total, report.defender)}</div>
           </PercentageDiv>
