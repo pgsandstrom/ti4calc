@@ -136,7 +136,6 @@ export default function Home() {
       <Head>
         <title>TI4 calculator</title>
         <meta name="description" content="Twilight Imperium 4 battle calculator" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <StyledHolder>
