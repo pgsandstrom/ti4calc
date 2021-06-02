@@ -26,6 +26,7 @@ import NumberInput from '../component/numberInput'
 import { getAgendas } from '../core/battleeffect/agenda'
 import RaceImage from '../component/raceImage'
 import { BattleReportView } from '../component/battleReportView'
+import getServerUrl from '../server/serverUrl'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -74,14 +75,23 @@ export default function Home() {
   const [touched, setTouched] = useState(false)
   const workerRef = useRef<Worker>()
 
+  const registerUsage = () => {
+    void fetch(`${getServerUrl()}/api/usage`, {
+      method: 'POST',
+      credentials: 'same-origin',
+    })
+  }
+
   const setAttacker = (p: Participant) => {
     if (!touched) {
+      registerUsage()
       setTouched(true)
     }
     setAttackerRaw(p)
   }
   const setDefender = (p: Participant) => {
     if (!touched) {
+      registerUsage()
       setTouched(true)
     }
     setDefenderRaw(p)
