@@ -5,7 +5,6 @@ set -u
 cd "$(dirname "$0")"
 
 ./prep_repo_for_deploy.sh
-# TODO a super cool thing would be if the script could detect that the git update changed this script, and then abort. Or even reload itself.
 
 npm install --only=prod
 

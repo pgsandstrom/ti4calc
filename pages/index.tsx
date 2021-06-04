@@ -97,6 +97,8 @@ export default function Home() {
     setDefenderRaw(p)
   }
 
+  // TODO pre-load worker so it is cached
+
   useEffect(() => {
     if (touched) {
       void (async () => {
