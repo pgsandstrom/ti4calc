@@ -4,6 +4,7 @@ import { Battle, BattleInstance, BattleResult } from './battle-types'
 import { setupBattle, startBattle } from './battleSetup'
 import { BattleReport } from '.'
 import { NUMBER_OF_ROLLS } from './constant'
+import { ErrorReportUnsaved } from '../server/errorReportController'
 
 //! To avoid isolatedModules error
 export default {}
@@ -13,6 +14,15 @@ const ROLLS_BETWEEN_UI_UPDATE = 1000
 
 self.addEventListener('message', (e) => {
   const battle = e.data as Battle
+
+  try {
+    doWork(battle)
+  } catch (e) {
+    reportError(battle, e)
+  }
+})
+
+function doWork(battle: Battle) {
   const battleInstance = setupBattle(battle)
 
   const finalData: BattleReport = {
@@ -32,7 +42,7 @@ self.addEventListener('message', (e) => {
     finalData.defender += partialData.defender
     self.postMessage(finalData)
   })
-})
+}
 
 function getPartialReport(battleInstance: BattleInstance, times: number) {
   const data: BattleReport = {
@@ -56,4 +66,25 @@ function getPartialReport(battleInstance: BattleInstance, times: number) {
     }
   })
   return data
+}
+
+function reportError(battle: Battle, e: any) {
+  let workerError: ErrorReportUnsaved
+  if (e instanceof Error) {
+    workerError = {
+      error: true,
+      message: e.message,
+      stack: e.stack ?? '',
+      battle,
+    }
+  } else {
+    workerError = {
+      error: true,
+      message: 'unknown error',
+      stack: '',
+      battle,
+    }
+  }
+
+  self.postMessage(workerError)
 }

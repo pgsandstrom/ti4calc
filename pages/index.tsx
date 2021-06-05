@@ -27,6 +27,7 @@ import { getAgendas } from '../core/battleeffect/agenda'
 import RaceImage from '../component/raceImage'
 import { BattleReportView } from '../component/battleReportView'
 import getServerUrl from '../server/serverUrl'
+import { ErrorReportUnsaved } from '../server/errorReportController'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -71,6 +72,7 @@ export default function Home() {
   const [defender, setDefenderRaw] = useState<Participant>(createParticipant('defender'))
   const [battleReport, setBattleReport] = useState<BattleReport>()
   const [spaceCombat, setSpaceCombat] = useState(true)
+  const [error, setError] = useState(false)
 
   const [touched, setTouched] = useState(false)
   const workerRef = useRef<Worker>()
@@ -78,6 +80,14 @@ export default function Home() {
   const registerUsage = () => {
     void fetch(`${getServerUrl()}/api/usage`, {
       method: 'POST',
+      credentials: 'same-origin',
+    })
+  }
+
+  const sendErrorReport = (workerError: ErrorReportUnsaved) => {
+    void fetch(`${getServerUrl()}/api/report-error`, {
+      method: 'POST',
+      body: JSON.stringify(workerError),
       credentials: 'same-origin',
     })
   }
@@ -113,7 +123,17 @@ export default function Home() {
         workerRef.current = worker
 
         worker.addEventListener('message', (event) => {
-          setBattleReport(event.data)
+          // eslint-disable-next-line
+          if (event.data.error === true) {
+            if (!error) {
+              const workerError = event.data as ErrorReportUnsaved
+              setError(true)
+              // TODO show error message
+              sendErrorReport(workerError)
+            }
+          } else {
+            setBattleReport(event.data)
+          }
         })
 
         const battle: Battle = {
@@ -124,7 +144,7 @@ export default function Home() {
         worker.postMessage(battle)
       })()
     }
-  }, [touched, attacker, defender, spaceCombat])
+  }, [touched, attacker, defender, spaceCombat, error])
 
   return (
     <div
