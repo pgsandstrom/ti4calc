@@ -408,6 +408,7 @@ const getBattleEffectInput = (
       <NumberInput
         currentValue={participant.battleEffects[effect.name] ?? 0}
         onUpdate={updateEffectCount}
+        disabled={!isBattleEffectRelevant(effect, participant)}
       />
     )
   }

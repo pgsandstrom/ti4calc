@@ -3,10 +3,11 @@ import React, { ChangeEvent, useState } from 'react'
 interface NumberInputProps {
   currentValue: number
   onUpdate: (newVal: number) => void
+  disabled?: boolean
 }
 
 // TODO maybe just select everything when pressing it? Not removing the zero.
-export default function NumberInput({ currentValue, onUpdate }: NumberInputProps) {
+export default function NumberInput({ currentValue, onUpdate, disabled }: NumberInputProps) {
   const [val, setVal] = useState<string>(currentValue.toString())
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +38,7 @@ export default function NumberInput({ currentValue, onUpdate }: NumberInputProps
           onUpdate(currentValue)
         }
       }}
+      disabled={disabled}
     />
   )
 }
