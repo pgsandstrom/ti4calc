@@ -122,8 +122,8 @@ export const baronyOfLetnev: BattleEffect[] = [
       effectName: string,
     ) => {
       const highestHitUnit = getHighestHitUnit(p, 'combat')
-      if (highestHitUnit) {
-        highestHitUnit.spaceCannon!.countBonusTmp += 1
+      if (highestHitUnit?.combat) {
+        highestHitUnit.combat.countBonusTmp += 1
         registerUse(effectName, p)
       }
     },
