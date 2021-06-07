@@ -128,7 +128,6 @@ export default function Home() {
             if (!error) {
               const workerError = event.data as ErrorReportUnsaved
               setError(true)
-              // TODO show error message
               sendErrorReport(workerError)
             }
           } else {
@@ -145,6 +144,36 @@ export default function Home() {
       })()
     }
   }, [touched, attacker, defender, spaceCombat, error])
+
+  if (error) {
+    const battle: Battle = {
+      attacker,
+      defender,
+      place: spaceCombat ? Place.space : Place.ground,
+    }
+    return (
+      <div style={{ padding: '20px' }}>
+        <div>A critical error has occurred!</div>
+        <div style={{ marginTop: '10px' }}>
+          I apologize for the inconvenience. The crash has been logged and hopefully I will soon fix
+          it. If you have a github account, please submit a bug report{' '}
+          <a
+            href="https://github.com/pgsandstrom/ti4calc/issues/new"
+            target="_blank"
+            rel="noreferrer"
+          >
+            here
+          </a>
+          , otherwise send me a mail at{' '}
+          <a href="mailto:ti4calc@persandstrom.com">ti4calc@persandstrom.com</a>
+        </div>
+        <div style={{ marginTop: '10px' }}>Please include the data below.</div>
+        <div style={{ marginTop: '10px', border: '1px solid black', padding: '10px' }}>
+          {JSON.stringify(battle)}
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div
