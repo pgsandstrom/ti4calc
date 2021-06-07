@@ -7,23 +7,12 @@ export function getAgendas() {
 }
 
 // All war suns lose SUSTAIN DAMAGE
-// TODO this is symmetrical, as in it always affects both attacker and defender. How to handle that?
 export const publicizeWeaponSchematics: BattleEffect = {
   name: 'Publicize Weapon Schematics',
   type: 'agenda',
   place: Place.space,
+  symmetrical: true,
   transformUnit: (u: UnitInstance) => {
-    if (u.type === UnitType.warsun) {
-      return {
-        ...u,
-        sustainDamage: false,
-      }
-    } else {
-      return u
-    }
-  },
-  // TODO remove enemy transform? If not, add it to conventionsOfWar as well
-  transformEnemyUnit: (u: UnitInstance) => {
     if (u.type === UnitType.warsun) {
       return {
         ...u,
@@ -54,6 +43,7 @@ export const articlesOfWar: BattleEffect = {
   name: 'Articles of War',
   type: 'agenda',
   place: 'both',
+  symmetrical: true,
   // TODO
 }
 
@@ -62,9 +52,9 @@ export const conventionsOfWar: BattleEffect = {
   name: 'Conventions of War',
   type: 'agenda',
   place: Place.ground,
+  symmetrical: true,
   transformUnit: (u: UnitInstance) => {
     if (u.bombardment) {
-      console.log('lol')
       return {
         ...u,
         bombardment: undefined,

@@ -409,8 +409,20 @@ function OptionsPartView({
     <div>
       {title !== undefined && <h3>{title}</h3>}
       {battleEffects.map((effect) => {
-        const attackerView = getBattleEffectInput(effect, attacker, attackerOnChange)
-        const defenderView = getBattleEffectInput(effect, defender, defenderOnChange)
+        const attackerView = getBattleEffectInput(
+          effect,
+          attacker,
+          attackerOnChange,
+          defender,
+          defenderOnChange,
+        )
+        const defenderView = getBattleEffectInput(
+          effect,
+          defender,
+          defenderOnChange,
+          attacker,
+          attackerOnChange,
+        )
 
         return (
           <OptionsDiv key={effect.name}>
@@ -447,20 +459,21 @@ const getBattleEffectInput = (
   effect: BattleEffect,
   participant: Participant,
   onUpdate: (participant: Participant) => void,
+  otherParticipant: Participant,
+  onOtherUpdate: (participant: Participant) => void,
 ) => {
-  const updateEffectCount = (newVal: number) => {
-    const newParticipant: Participant = {
-      ...participant,
-      ...participant.units,
-      battleEffects: {
-        ...participant.battleEffects,
-        [effect.name]: newVal,
-      },
-    }
-    onUpdate(newParticipant)
-  }
-
   if (effect.count !== undefined) {
+    const updateEffectCount = (newVal: number) => {
+      const newParticipant: Participant = {
+        ...participant,
+        ...participant.units,
+        battleEffects: {
+          ...participant.battleEffects,
+          [effect.name]: newVal,
+        },
+      }
+      onUpdate(newParticipant)
+    }
     return (
       <NumberInput
         currentValue={participant.battleEffects[effect.name] ?? 0}
@@ -470,29 +483,30 @@ const getBattleEffectInput = (
     )
   }
   const battleEffectCount = participant.battleEffects[effect.name]
+
+  const updateParticipant = (
+    p: Participant,
+    checked: boolean,
+    onUpdate: (p: Participant) => void,
+  ) => {
+    const newParticipant: Participant = {
+      ...p,
+      battleEffects: {
+        ...p.battleEffects,
+        [effect.name]: checked ? 1 : 0,
+      },
+    }
+    onUpdate(newParticipant)
+  }
+
   return (
     <input
       type="checkbox"
       checked={battleEffectCount !== undefined && battleEffectCount > 0}
       onChange={(e) => {
-        if (e.target.checked) {
-          const newParticipant: Participant = {
-            ...participant,
-            battleEffects: {
-              ...participant.battleEffects,
-              [effect.name]: 1,
-            },
-          }
-          onUpdate(newParticipant)
-        } else {
-          const newParticipant: Participant = {
-            ...participant,
-            battleEffects: {
-              ...participant.battleEffects,
-              [effect.name]: 0,
-            },
-          }
-          onUpdate(newParticipant)
+        updateParticipant(participant, e.target.checked, onUpdate)
+        if (effect.symmetrical === true) {
+          updateParticipant(otherParticipant, e.target.checked, onOtherUpdate)
         }
       }}
       disabled={!isBattleEffectRelevant(effect, participant)}

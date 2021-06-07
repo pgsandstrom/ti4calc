@@ -57,6 +57,8 @@ interface SharedStuffBattleEffect {
 
   count?: boolean // If the effect needs a counter. For example Letnevs racial ability Munitions reserves uses this.
 
+  symmetrical?: boolean // If true, then the UI will restrict this effect to being activated for both or neither player. Mostly used by agendas.
+
   // transformUnit are done before battle (or whenever a unit appears, see mentak hero and yin agent)
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
