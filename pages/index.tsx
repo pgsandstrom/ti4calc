@@ -107,7 +107,15 @@ export default function Home() {
     setDefenderRaw(p)
   }
 
-  // TODO pre-load worker so it is cached
+  // Load the worker only to cache it
+  useEffect(() => {
+    void (async () => {
+      const { default: Worker } = await import(
+        'worker-loader?filename=static/[hash].worker.js!../core/webworker'
+      )
+      new Worker()
+    })()
+  }, [])
 
   useEffect(() => {
     if (touched) {
