@@ -1,3 +1,4 @@
+import { LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { Place } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
@@ -49,8 +50,22 @@ export const directHit: BattleEffect = {
   name: 'Direct Hit',
   type: 'action-card',
   place: Place.space,
-  onSustain: () => {
-    // TODO add "onEnemySustain"
+  count: true,
+  onEnemySustain: (
+    u: UnitInstance,
+    participant: ParticipantInstance,
+    _battle: BattleInstance,
+    effectName: string,
+  ) => {
+    if (participant.effects[effectName] > 0) {
+      if (!u.isDestroyed) {
+        u.isDestroyed = true
+        if (LOG) {
+          console.log(`${participant.side} used direct hit to destroy ${u.type}`)
+        }
+        participant.effects[effectName] -= 1
+      }
+    }
   },
 }
 

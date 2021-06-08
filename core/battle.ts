@@ -13,6 +13,8 @@ import _cloneDeep from 'lodash/cloneDeep'
 import { NUMBER_OF_ROLLS } from './constant'
 import { isTest } from '../util/util-debug'
 
+// TODO add retreat?
+
 // eslint-disable-next-line
 export const LOG = NUMBER_OF_ROLLS === 1 && !isTest()
 
@@ -481,6 +483,12 @@ function doSustainDamage(battle: BattleInstance, p: ParticipantInstance, unit: U
   p.onSustainEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
       effect.onSustain!(unit, p, battle, effect.name)
+    }
+  })
+  const otherP = getOtherParticipant(battle, p)
+  otherP.onEnemySustainEffect.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, otherP)) {
+      effect.onEnemySustain!(unit, otherP, battle, effect.name)
     }
   })
   if (LOG) {

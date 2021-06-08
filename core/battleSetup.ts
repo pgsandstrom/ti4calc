@@ -119,6 +119,7 @@ function createParticipantInstance(
 
     onStartEffect: [],
     onSustainEffect: [],
+    onEnemySustainEffect: [],
     onRepairEffect: [],
     onCombatRoundEnd: [],
     afterAfbEffect: [],
@@ -191,6 +192,9 @@ function applyBattleEffects(
     }
     if (battleEffect.onSustain) {
       participantInstance.onSustainEffect.push(battleEffect)
+    }
+    if (battleEffect.onEnemySustain) {
+      participantInstance.onEnemySustainEffect.push(battleEffect)
     }
     if (battleEffect.onRepair) {
       participantInstance.onRepairEffect.push(battleEffect)
