@@ -3,7 +3,7 @@ import _cloneDeep from 'lodash/cloneDeep'
 import { Battle, BattleInstance, BattleResult } from './battle-types'
 import { setupBattle, startBattle } from './battleSetup'
 import { BattleReport } from '.'
-import { NUMBER_OF_ROLLS } from './constant'
+import { NUMBER_OF_ROLLS, ROLLS_WHEN_BUILDING_TEST_DATA } from './constant'
 import { ErrorReportUnsaved } from '../server/errorReportController'
 
 //! To avoid isolatedModules error
@@ -42,6 +42,10 @@ function doWork(battle: Battle) {
     finalData.defender += partialData.defender
     self.postMessage(finalData)
   })
+
+  if (NUMBER_OF_ROLLS === ROLLS_WHEN_BUILDING_TEST_DATA) {
+    console.log(JSON.stringify(finalData))
+  }
 }
 
 function getPartialReport(battleInstance: BattleInstance, times: number) {

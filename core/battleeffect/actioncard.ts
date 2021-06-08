@@ -103,6 +103,9 @@ export const emergencyRepairs: BattleEffect = {
       participant.units.forEach((u) => {
         u.takenDamage = false
       })
+      if (LOG) {
+        console.log(`${participant.side} used Emergency repair`)
+      }
       registerUse(effectName, participant)
     }
   },
@@ -116,6 +119,9 @@ export const emergencyRepairs: BattleEffect = {
       participant.units.forEach((u) => {
         u.takenDamage = false
       })
+      if (LOG) {
+        console.log(`${participant.side} used Emergency repair`)
+      }
       registerUse(effectName, participant)
     }
   },

@@ -20,10 +20,14 @@ export const LOG = NUMBER_OF_ROLLS === 1 && !isTest()
 
 export function doBattle(battle: BattleInstance) {
   battle.attacker.onStartEffect.forEach((effect) => {
-    effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
+    }
   })
   battle.defender.onStartEffect.forEach((effect) => {
-    effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
+    }
   })
   resolveHits(battle)
 
@@ -286,9 +290,11 @@ function doParticipantBattleRolls(
     .filter((effect) => effect.transformEnemyUnit)
     .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
-  p.onCombatRound.forEach((effect) =>
-    effect.onCombatRound!(p, battle, otherParticipant, effect.name),
-  )
+  p.onCombatRound.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.onCombatRound!(p, battle, otherParticipant, effect.name)
+    }
+  })
 
   let units: UnitInstance[]
   if (onCombatRoundStartAura.length > 0) {
