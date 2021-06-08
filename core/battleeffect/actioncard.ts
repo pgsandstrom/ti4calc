@@ -76,8 +76,15 @@ export const disable: BattleEffect = {
   place: Place.ground,
   side: 'attacker',
   transformEnemyUnit: (u: UnitInstance) => {
-    // TODO
-    return u
+    if (u.type === UnitType.pds) {
+      return {
+        ...u,
+        planetaryShield: false,
+        spaceCannon: undefined,
+      }
+    } else {
+      return u
+    }
   },
 }
 
