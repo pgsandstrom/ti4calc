@@ -3,12 +3,17 @@ import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { BattleEffect } from './battleEffects'
 
 export function getAgendas() {
-  return [publicizeWeaponSchematics, prophecyOfIxth, articlesOfWar, conventionsOfWar]
+  return [
+    publicizeWeaponSchematics,
+    prophecyOfIxth,
+    // articlesOfWar,
+    conventionsOfWar,
+  ]
 }
 
-// All war suns lose SUSTAIN DAMAGE
 export const publicizeWeaponSchematics: BattleEffect = {
   name: 'Publicize Weapon Schematics',
+  description: 'All war suns lose SUSTAIN DAMAGE.',
   type: 'agenda',
   place: Place.space,
   symmetrical: true,
@@ -24,9 +29,9 @@ export const publicizeWeaponSchematics: BattleEffect = {
   },
 }
 
-// The owner of this card applies +1 to the result of their fighter's combat rolls
 export const prophecyOfIxth: BattleEffect = {
   name: 'Prophecy of Ixth',
+  description: "The owner of this card applies +1 to the result of their fighter's combat rolls.",
   type: 'agenda',
   place: Place.space,
   transformUnit: (u: UnitInstance) => {
@@ -38,9 +43,9 @@ export const prophecyOfIxth: BattleEffect = {
   },
 }
 
-// All mechs lose their printed abilities except for SUSTAIN DAMAGE
 export const articlesOfWar: BattleEffect = {
   name: 'Articles of War',
+  description: 'All mechs lose their printed abilities except for SUSTAIN DAMAGE.',
   type: 'agenda',
   place: 'both',
   symmetrical: true,
@@ -50,6 +55,7 @@ export const articlesOfWar: BattleEffect = {
 // No bombardment
 export const conventionsOfWar: BattleEffect = {
   name: 'Conventions of War',
+  description: 'No BOMBARDMENT.',
   type: 'agenda',
   place: Place.ground,
   symmetrical: true,

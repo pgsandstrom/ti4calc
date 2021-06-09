@@ -25,9 +25,10 @@ export function getActioncards() {
   ]
 }
 
-// During this invasion, apply -4 to the result of each Bombardment roll against planets you control.
 export const bunker: BattleEffect = {
   name: 'Bunker',
+  description:
+    'During this invasion, apply -4 to the result of each BOMBARDMENT roll against planets you control.',
   type: 'action-card',
   side: 'defender',
   place: Place.ground,
@@ -45,9 +46,11 @@ export const bunker: BattleEffect = {
 // After 1 of your ships is destroyed during a space combat:
 // Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships.
 
-//	After another player's ship uses Sustain Damage to cancel a hit produced by your units or abilities: Destroy that ship.
+//
 export const directHit: BattleEffect = {
   name: 'Direct Hit',
+  description:
+    "After another player's ship uses SUSTAIN DAMAGE to cancel a hit produced by your units or abilities: Destroy that ship.",
   type: 'action-card',
   place: Place.space,
   count: true,
@@ -69,9 +72,10 @@ export const directHit: BattleEffect = {
   },
 }
 
-// Your opponents' PDS units lose Planetary Shield and Space Cannon during this invasion.
 export const disable: BattleEffect = {
   name: 'Disable',
+  description:
+    "Your opponents' PDS units lose Planetary Shield and Space Cannon during this invasion.",
   type: 'action-card',
   place: Place.ground,
   side: 'attacker',
@@ -88,9 +92,10 @@ export const disable: BattleEffect = {
   },
 }
 
-// At the start or end of a combat round: Repair all of your units that have Sustain Damage in the active system.
 export const emergencyRepairs: BattleEffect = {
   name: 'Emergency Repairs',
+  description:
+    'At the start or end of a combat round: Repair all of your units that have SUSTAIN DAMAGE in the active system.',
   type: 'action-card',
   place: 'both',
   onCombatRound: (
@@ -128,10 +133,10 @@ export const emergencyRepairs: BattleEffect = {
   timesPerFight: 1,
 }
 
-// After another player moves ships into a system during a tactical action:
-// Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.
 export const experimentalBattlestation: BattleEffect = {
   name: 'Experimental Battlestation',
+  description:
+    'After another player moves ships into a system during a tactical action: Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.',
   type: 'action-card',
   place: Place.space,
   onStart: () => {
@@ -142,9 +147,10 @@ export const experimentalBattlestation: BattleEffect = {
   },
 }
 
-// 	At the start of the first round of a space combat: 	Apply +2 to the result of each of your fighters' combat rolls during this combat round.
 export const fighterPrototype: BattleEffect = {
   name: 'Fighter Prototype',
+  description:
+    "At the start of the first round of a space combat: Apply +2 to the result of each of your fighters' combat rolls during this combat round.",
   type: 'action-card',
   place: Place.space,
   transformUnit: (u: UnitInstance) => {
@@ -156,9 +162,10 @@ export const fighterPrototype: BattleEffect = {
   },
 }
 
-// After your ground forces make combat rolls during a round of ground combat: 	Reroll any number of your dice.
 export const fireTeam: BattleEffect = {
   name: 'Fire Team',
+  description:
+    'After your ground forces make combat rolls during a round of ground combat: Reroll any number of your dice.',
   type: 'action-card',
   place: Place.ground,
   transformUnit: (u: UnitInstance) => {
@@ -170,17 +177,19 @@ export const fireTeam: BattleEffect = {
   },
 }
 
-//  	4 	Before you assign hits produced by another player's Space Cannon roll: 	Cancel 1 hit.
 export const maneuveringJets: BattleEffect = {
   name: 'Maneuvering Jets',
+  description:
+    "Before you assign hits produced by another player's Space Cannon roll: Cancel 1 hit.",
   type: 'action-card',
   place: 'both',
   // TODO
 }
 
-// Morale Boost 	4 	At the start of a combat round: 	Apply +1 to the result of each of your unit's combat rolls during this combat round.
 export const moraleBoost: BattleEffect = {
   name: 'Morale Boost',
+  description:
+    "At the start of a combat round: Apply +1 to the result of each of your unit's combat rolls during this combat round.",
   type: 'action-card',
   place: 'both',
   count: true,
@@ -201,17 +210,18 @@ export const moraleBoost: BattleEffect = {
   },
 }
 
-// Shields Holding 	4 	Before you assign hits to your ships during a space combat: 	Cancel up to 2 hits.
 export const shieldsHolding: BattleEffect = {
   name: 'Shields Holding',
+  description: 'Before you assign hits to your ships during a space combat: Cancel up to 2 hits.',
   type: 'action-card',
   place: Place.space,
   // TODO
 }
 
-// Blitz 	1 	At the start of an invasion: 	Each of your non-fighter ships in the active system that do not have BOMBARDMENT gain BOMBARDMENT 6 until the end of the invasion.
 export const blitz: BattleEffect = {
   name: 'Blitz',
+  description:
+    'At the start of an invasion: Each of your non-fighter ships in the active system that do not have BOMBARDMENT gain BOMBARDMENT 6 until the end of the invasion.',
   type: 'action-card',
   place: Place.ground,
   side: 'attacker',
@@ -230,25 +240,28 @@ export const blitz: BattleEffect = {
   },
 }
 
-// Reflective Shielding 	1 	When one of your ships uses SUSTAIN DAMAGE during combat: 	Produce 2 hits against your opponent's ships in the active system.
 export const reflectiveShielding: BattleEffect = {
   name: 'Reflective Shielding',
+  description:
+    "When one of your ships uses SUSTAIN DAMAGE during combat: Produce 2 hits against your opponent's ships in the active system.",
   type: 'action-card',
   place: Place.space,
   // TODO
 }
 
-// Scramble Frequency 	1 	After another player makes a BOMBARDMENT, SPACE CANNON, or ANTI-FIGHTER BARRAGE roll: 	That player rerolls all of their dice.
 export const scrambleFrequency: BattleEffect = {
   name: 'Scramble Frequency',
+  description:
+    'After another player makes a BOMBARDMENT, SPACE CANNON, or ANTI-FIGHTER BARRAGE roll: That player rerolls all of their dice.',
   type: 'action-card',
   place: 'both',
   // TODO another thing that would require "worse than average" detection
 }
 
-// After you activate a system: 	During this movement, other players cannot use SPACE CANNON against your ships.
 export const solarFlare: BattleEffect = {
   name: 'Solar Flare',
+  description:
+    'After you activate a system: During this movement, other players cannot use SPACE CANNON against your ships.',
   type: 'action-card',
   place: Place.space,
   transformEnemyUnit: (u) => {
@@ -263,9 +276,10 @@ export const solarFlare: BattleEffect = {
   },
 }
 
-// Waylay 	1 	Before you roll dice for ANTI-FIGHTER BARRAGE 	Hits from this roll are produced against all ships (not just fighters).
 export const waylay: BattleEffect = {
   name: 'Waylay',
+  description:
+    'Before you roll dice for ANTI-FIGHTER BARRAGE: Hits from this roll are produced against all ships (not just fighters).',
   type: 'action-card',
   place: Place.space,
   // TODO

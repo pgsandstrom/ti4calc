@@ -50,6 +50,7 @@ export interface RaceBattleEffect extends SharedStuffBattleEffect {
 
 interface SharedStuffBattleEffect {
   name: string
+  description?: string
   side?: Side
   place: Place | 'both'
   // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui

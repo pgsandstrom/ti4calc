@@ -56,6 +56,7 @@ export const baronyOfLetnev: BattleEffect[] = [
   },
   {
     name: 'Non-Euclidean Shielding',
+    description: 'When 1 of your units uses SUSTAIN DAMAGE, cancel 2 hits instead of 1.',
     type: 'race-tech',
     place: 'both',
     race: Race.barony_of_letnev,
@@ -69,6 +70,7 @@ export const baronyOfLetnev: BattleEffect[] = [
   },
   {
     name: 'L4 Disruptors',
+    description: 'During an invasion, units cannot use SPACE CANNON against your units.',
     type: 'race-tech',
     place: Place.ground,
     race: Race.barony_of_letnev,

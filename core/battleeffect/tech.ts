@@ -19,6 +19,8 @@ export function getTechBattleEffects() {
 
 export const plasmaScoring: BattleEffect = {
   name: 'Plasma Scoring',
+  description:
+    'When 1 or more of your units use BOMBARDMENT or SPACE CANNON, 1 of those units may roll 1 additional die.',
   type: 'tech',
   place: 'both',
   onStart: (participant: ParticipantInstance) => {
@@ -37,6 +39,8 @@ export const plasmaScoring: BattleEffect = {
 
 export const magenDefenseGrid: BattleEffect = {
   name: 'Magen Defense Grid',
+  description:
+    "At the start of ground combat on a planet that contains 1 or more of your structures, you may produce 1 hit and assign it to 1 of your opponent's ground forces.",
   type: 'tech',
   place: Place.ground,
   side: 'defender',
@@ -51,6 +55,8 @@ export const magenDefenseGrid: BattleEffect = {
 
 export const duraniumArmor: BattleEffect = {
   name: 'Duranium Armor',
+  description:
+    'During each combat round, after you assign hits to your units, repair 1 of your damaged units that did not use SUSTAIN DAMAGE during this combat round.',
   type: 'tech',
   place: 'both',
   onRepair: (
@@ -72,6 +78,8 @@ export const duraniumArmor: BattleEffect = {
 
 export const assaultCannon: BattleEffect = {
   name: 'Assault Cannon',
+  description:
+    'At the start of a space combat in a system that contains 3 or more of your non-fighter ships, your opponent must destroy 1 of their non-fighter ships',
   type: 'tech',
   place: Place.space,
   onStart: (
@@ -93,6 +101,8 @@ export const assaultCannon: BattleEffect = {
 
 export const x89BacterialWeapon: BattleEffect = {
   name: 'X-89 Bacterial Weapon',
+  description:
+    "After 1 or more of your units use BOMBARDMENT against a planet, if at least 1 of your opponent's infantry was destroyed, you may destroy all of your opponent's infantry on that planet.",
   type: 'tech',
   place: Place.ground,
   side: 'attacker',
@@ -118,6 +128,8 @@ export const x89BacterialWeapon: BattleEffect = {
 
 export const antimassDeflectors: BattleEffect = {
   name: 'Antimass Deflectors',
+  description:
+    'When other players’ units use SPACE CANNON against your units, apply -1 to the result of each die roll.',
   type: 'tech',
   place: 'both',
   transformEnemyUnit: (u: UnitInstance) => {
@@ -133,6 +145,8 @@ export const antimassDeflectors: BattleEffect = {
 // But currently it has no negative impact.
 export const gravitonLaserSystem: BattleEffect = {
   name: 'Graviton Laser System',
+  description:
+    'You may exhaust this card before 1 or more of your units uses SPACE CANNON; hits produced by those units must be assigned to non-fighter ships if able.',
   type: 'tech',
   place: Place.space,
   transformUnit: (u: UnitInstance) => {

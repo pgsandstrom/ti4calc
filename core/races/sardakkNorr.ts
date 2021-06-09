@@ -56,4 +56,6 @@ export const sardarkkNorr: BattleEffect[] = [
       }
     },
   },
+  // TODO Valkyrie Particle Weave
+  // After making combat rolls during a round of ground combat, if your opponent produced 1 or more hits, you produce 1 additional hit.
 ]
