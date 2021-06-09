@@ -33,7 +33,7 @@ export function doBattle(battle: BattleInstance) {
 
   doBombardment(battle)
 
-  doPds(battle)
+  doSpaceCannon(battle)
   resolveHits(battle)
 
   doAfb(battle)
@@ -133,23 +133,22 @@ export function doBombardment(battle: BattleInstance) {
   resolveHits(battle)
 }
 
-// TODO rename pds to spacecannon
-function doPds(battle: BattleInstance) {
+function doSpaceCannon(battle: BattleInstance) {
   if (battle.place === Place.space) {
-    const attackerHits = getPdsHits(battle.attacker, battle, battle.defender)
+    const attackerHits = getSpaceCannonHits(battle.attacker, battle, battle.defender)
     if (LOG && battle.attacker.units.some((u) => u.spaceCannon)) {
       logHits(battle.attacker, attackerHits, 'spaceCannon')
     }
     battle.defender.hitsToAssign = attackerHits
   }
-  const defenderHits = getPdsHits(battle.defender, battle, battle.attacker)
+  const defenderHits = getSpaceCannonHits(battle.defender, battle, battle.attacker)
   if (LOG && battle.defender.units.some((u) => u.spaceCannon)) {
     logHits(battle.defender, defenderHits, 'spaceCannon')
   }
   battle.attacker.hitsToAssign = defenderHits
 }
 
-function getPdsHits(
+function getSpaceCannonHits(
   p: ParticipantInstance,
   battle: BattleInstance,
   otherParticipant: ParticipantInstance,

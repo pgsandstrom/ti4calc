@@ -21,7 +21,7 @@ export function getActioncards() {
     reflectiveShielding,
     // scrambleFrequency,
     solarFlare,
-    waylay,
+    // waylay,
   ]
 }
 
@@ -183,7 +183,22 @@ export const moraleBoost: BattleEffect = {
   name: 'Morale Boost',
   type: 'action-card',
   place: 'both',
-  // TODO
+  count: true,
+  onCombatRound: (
+    participant: ParticipantInstance,
+    _battle: BattleInstance,
+    _otherParticipant: ParticipantInstance,
+    effectName: string,
+  ) => {
+    if (participant.effects[effectName] > 0) {
+      participant.units.forEach((u) => {
+        if (u.combat) {
+          u.combat.hitBonusTmp += 1
+        }
+      })
+      participant.effects[effectName] -= 1
+    }
+  },
 }
 
 // Shields Holding 	4 	Before you assign hits to your ships during a space combat: 	Cancel up to 2 hits.
@@ -199,6 +214,7 @@ export const blitz: BattleEffect = {
   name: 'Blitz',
   type: 'action-card',
   place: Place.ground,
+  side: 'attacker',
   transformUnit: (u: UnitInstance, _p: ParticipantInstance, place: Place) => {
     if (!doesUnitFitPlace(u, place) && u.type !== UnitType.fighter && !u.bombardment) {
       return {
