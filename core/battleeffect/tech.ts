@@ -79,7 +79,7 @@ export const duraniumArmor: BattleEffect = {
 export const assaultCannon: BattleEffect = {
   name: 'Assault Cannon',
   description:
-    'At the start of a space combat in a system that contains 3 or more of your non-fighter ships, your opponent must destroy 1 of their non-fighter ships',
+    'At the start of a space combat in a system that contains 3 or more of your non-fighter ships, your opponent must destroy 1 of their non-fighter ships.',
   type: 'tech',
   place: Place.space,
   onStart: (
@@ -142,7 +142,7 @@ export const antimassDeflectors: BattleEffect = {
 }
 
 // In theory graviton could cause problems. It gives permanent 'assignHitsToNonFighters' which is incorrect.
-// But currently it has no negative impact.
+// But currently it has no negative impact. But be wary when we implement experimental battlestation...
 export const gravitonLaserSystem: BattleEffect = {
   name: 'Graviton Laser System',
   description:

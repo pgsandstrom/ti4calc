@@ -28,6 +28,7 @@ import RaceImage from '../component/raceImage'
 import { BattleReportView } from '../component/battleReportView'
 import getServerUrl from '../server/serverUrl'
 import { ErrorReportUnsaved } from '../server/errorReportController'
+import Popover from '../component/popover'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -425,9 +426,14 @@ function OptionsPartView({
         )
 
         return (
-          <OptionsDiv key={effect.name}>
+          <OptionsDiv key={effect.name} style={{ marginBottom: '20px' }}>
             {attackerView}
-            <span>{effect.name}</span>
+            <div style={{ display: 'flex' }}>
+              <span style={{ flex: '1 0 0' }}>{effect.name}</span>
+              <div style={{ flex: '0 0 auto' }}>
+                <Popover text={effect.description} />
+              </div>
+            </div>
             {defenderView}
           </OptionsDiv>
         )
