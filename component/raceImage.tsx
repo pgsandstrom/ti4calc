@@ -3,14 +3,16 @@ import styled from 'styled-components'
 import { Race } from '../core/enums'
 
 const StyledDiv = styled.div<Props>`
+  @media (max-width: 1023px) {
+    display: none;
+  }
+
   img {
     transform: ${(p) => (p.side === 'left' ? 'scaleX(-1)' : undefined)};
+    max-width: 100%;
+    height: auto;
   }
 `
-
-// style={{
-//   transform: side === 'left' ? 'scaleX(-1)' : undefined,
-// }}
 
 interface Props {
   race: Race

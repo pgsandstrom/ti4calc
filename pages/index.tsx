@@ -34,6 +34,9 @@ const StyledHolder = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex: 1 0 auto;
+  margin: 0 auto;
+  max-width: 100%;
 `
 
 const StyledMain = styled.main`
@@ -187,10 +190,11 @@ export default function Home() {
   return (
     <div
       style={{
+        display: 'flex',
+        width: '100vw',
+        maxWidth: '100%',
+        height: '100%',
         background: '#110F0B',
-        // background: `url(/space4.png)`,
-        // backgroundSize: 'fit',
-        // backgroundRepeat: 'no-repeat',
       }}
     >
       <Head>
