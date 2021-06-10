@@ -4,10 +4,12 @@ interface NumberInputProps {
   currentValue: number
   onUpdate: (newVal: number) => void
   disabled?: boolean
+  'aria-labelledby'?: string
 }
 
 // TODO maybe just select everything when pressing it? Not removing the zero.
-export default function NumberInput({ currentValue, onUpdate, disabled }: NumberInputProps) {
+export default function NumberInput(props: NumberInputProps) {
+  const { currentValue, onUpdate, disabled } = props
   const [val, setVal] = useState<string>(currentValue.toString())
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +41,7 @@ export default function NumberInput({ currentValue, onUpdate, disabled }: Number
         }
       }}
       disabled={disabled}
+      aria-labelledby={props['aria-labelledby']}
     />
   )
 }

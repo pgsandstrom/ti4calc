@@ -46,7 +46,7 @@ const StyledMain = styled.main`
   align-items: center;
 
   > * {
-    width: 500px;
+    max-width: 500px;
   }
 `
 
@@ -212,16 +212,16 @@ export default function Home() {
                 <ParticipantView participant={attacker} onChange={setAttacker} />
                 <StyledDiv>
                   <div>race</div>
-                  <div>flagship</div>
-                  <div>warsun</div>
-                  <div>dreadnought</div>
-                  <div>carrier</div>
-                  <div>cruiser</div>
-                  <div>destroyer</div>
-                  <div>fighter</div>
-                  <div>mech</div>
-                  <div>infantry</div>
-                  <div>pds</div>
+                  <div id="flagship">flagship</div>
+                  <div id="warsun">warsun</div>
+                  <div id="dreadnought">dreadnought</div>
+                  <div id="carrier">carrier</div>
+                  <div id="cruiser">cruiser</div>
+                  <div id="destroyer">destroyer</div>
+                  <div id="fighter">fighter</div>
+                  <div id="mech">mech</div>
+                  <div id="infantry">infantry</div>
+                  <div id="pds">pds</div>
                 </StyledDiv>
                 <ParticipantView participant={defender} onChange={setDefender} />
               </div>
@@ -336,8 +336,13 @@ function UnitInput({ participant, unitType, onUpdate }: UnitInputProps) {
           }
           onUpdate(newParticipant)
         }}
+        aria-labelledby={unitType}
       />
-      <NumberInput currentValue={participant.units[unitType]} onUpdate={updateUnitCount} />
+      <NumberInput
+        currentValue={participant.units[unitType]}
+        onUpdate={updateUnitCount}
+        aria-labelledby={unitType}
+      />
     </div>
   )
 }
