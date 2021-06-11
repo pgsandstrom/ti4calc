@@ -6,8 +6,9 @@ const BattleReportDiv = styled.div`
   display: flex;
 `
 
+// its good if animation time is lower than MIN_TIME_BETWEEN_SENDING_UPDATES, to avoid jerky animations
 const PercentageDiv = styled.div`
-  transition: flex-grow 200ms;
+  transition: flex-grow 240ms;
 
   > * {
     text-align: center;

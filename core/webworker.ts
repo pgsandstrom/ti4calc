@@ -12,6 +12,8 @@ export default {}
 const DEFAULT_ROLL_NUMBER = 20000
 const ROLLS_BETWEEN_UI_UPDATE = 1000
 
+const MIN_TIME_BETWEEN_SENDING_UPDATES = 250
+
 self.addEventListener('message', (e) => {
   const battle = e.data as Battle
 
@@ -35,12 +37,18 @@ function doWork(battle: Battle) {
   const parts = Math.ceil(numberOfRolls / ROLLS_BETWEEN_UI_UPDATE)
   const partRolls = Math.ceil(numberOfRolls / parts)
 
-  _times(parts, () => {
+  let lastMessageTime = 0
+  _times(parts, (index) => {
     const partialData = getPartialReport(battleInstance, partRolls)
     finalData.attacker += partialData.attacker
     finalData.draw += partialData.draw
     finalData.defender += partialData.defender
-    self.postMessage(finalData)
+    const currentTime = new Date().getTime()
+    const lastIteration = parts === index
+    if (lastIteration || currentTime > lastMessageTime + MIN_TIME_BETWEEN_SENDING_UPDATES) {
+      lastMessageTime = currentTime
+      self.postMessage(finalData)
+    }
   })
 
   if (NUMBER_OF_ROLLS === ROLLS_WHEN_BUILDING_TEST_DATA) {
