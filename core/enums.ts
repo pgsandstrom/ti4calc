@@ -28,6 +28,6 @@ export enum Race {
 }
 
 export enum Place {
-  space = 'space',
-  ground = 'ground',
+  space = 'Space',
+  ground = 'Ground',
 }

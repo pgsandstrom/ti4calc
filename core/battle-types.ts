@@ -1,11 +1,6 @@
 // battle types is in their own file, because I got weird errors from jest
 // the errors were enums being undefined, I guess it was dependency cycle related
 
-// export enum BattleType {
-// space = 'space',
-// ground = 'ground',
-// }
-
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
 import { Place, Race } from './enums'

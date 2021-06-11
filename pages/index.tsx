@@ -73,7 +73,7 @@ export default function Home() {
   const [attacker, setAttackerRaw] = useState<Participant>(createParticipant('attacker'))
   const [defender, setDefenderRaw] = useState<Participant>(createParticipant('defender'))
   const [battleReport, setBattleReport] = useState<BattleReport>()
-  const [spaceCombat, setSpaceCombat] = useState(true)
+  const [place, setPlace] = useState<Place>(Place.space)
   const [error, setError] = useState(false)
 
   const [touched, setTouched] = useState(false)
@@ -148,18 +148,18 @@ export default function Home() {
         const battle: Battle = {
           attacker,
           defender,
-          place: spaceCombat ? Place.space : Place.ground,
+          place,
         }
         worker.postMessage(battle)
       })()
     }
-  }, [touched, attacker, defender, spaceCombat, error])
+  }, [touched, attacker, defender, place, error])
 
   if (error) {
     const battle: Battle = {
       attacker,
       defender,
-      place: spaceCombat ? Place.space : Place.ground,
+      place,
     }
     return (
       <div style={{ padding: '20px' }}>
@@ -203,8 +203,8 @@ export default function Home() {
       }}
     >
       <Head>
-        <title>TI4 calculator</title>
-        <meta name="description" content="Twilight Imperium 4 battle calculator" />
+        <title>TI4 PoK battle calculator</title>
+        <meta name="description" content="Twilight Imperium 4 PoK battle calculator" />
       </Head>
 
       <StyledHolder>
@@ -216,7 +216,6 @@ export default function Home() {
               <div
                 style={{
                   display: 'flex',
-
                   height: '48px',
                 }}
               >
@@ -262,9 +261,11 @@ export default function Home() {
               >
                 <div>
                   <SwitchButton
-                    isLeftSelected={spaceCombat}
-                    onLeftClick={() => setSpaceCombat(true)}
-                    onRightClick={() => setSpaceCombat(false)}
+                    isLeftSelected={place === Place.space}
+                    leftLabel={Place.space}
+                    rightLabel={Place.ground}
+                    onLeftClick={() => setPlace(Place.space)}
+                    onRightClick={() => setPlace(Place.ground)}
                   />
                 </div>
               </div>

@@ -12,11 +12,19 @@ const StyledNeutralButton = styled(NeutralButton)`
 
 interface Props {
   isLeftSelected: boolean
+  leftLabel: string
+  rightLabel: string
   onLeftClick?: () => void
   onRightClick?: () => void
 }
 
-export default function SwitchSideButton({ isLeftSelected, onLeftClick, onRightClick }: Props) {
+export default function SwitchSideButton({
+  isLeftSelected,
+  leftLabel,
+  rightLabel,
+  onLeftClick,
+  onRightClick,
+}: Props) {
   return (
     <>
       <StyledNeutralButton
@@ -24,14 +32,14 @@ export default function SwitchSideButton({ isLeftSelected, onLeftClick, onRightC
         className={isLeftSelected ? 'selected' : undefined}
         style={{ border: '1px solid black', borderRadius: '5px 0 0 5px' }}
       >
-        Space
+        {leftLabel}
       </StyledNeutralButton>
       <StyledNeutralButton
         onClick={onRightClick}
         className={!isLeftSelected ? 'selected' : undefined}
         style={{ border: '1px solid black', borderLeft: 'none', borderRadius: '0 5px 5px 0' }}
       >
-        Ground
+        {rightLabel}
       </StyledNeutralButton>
     </>
   )
