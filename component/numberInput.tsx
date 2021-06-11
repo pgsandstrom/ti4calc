@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
+import usePrevious from '../util/usePrevious'
 
 interface NumberInputProps {
   currentValue: number
@@ -21,6 +22,14 @@ export default function NumberInput(props: NumberInputProps) {
       onUpdate(newVal)
     }
   }
+
+  // ensure new currentValue changes the internal state
+  const previousValue = usePrevious(currentValue)
+  useEffect(() => {
+    if (previousValue !== currentValue && currentValue.toString() !== val) {
+      setVal(currentValue.toString())
+    }
+  }, [previousValue, currentValue, val])
 
   return (
     <input

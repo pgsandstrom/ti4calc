@@ -6,7 +6,19 @@ const StyledNeutralButton = styled(NeutralButton)`
   padding: 5px;
 
   &.selected {
-    background: red;
+    background: rgba(0, 0, 0, 0.2);
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.23);
+    }
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    background: rgba(0, 0, 0, 0.3) !important;
   }
 `
 

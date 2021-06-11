@@ -30,6 +30,7 @@ import { ErrorReportUnsaved } from '../server/errorReportController'
 import Popover from '../component/popover'
 import RacePicker from '../component/racePicker'
 import UnitRow from '../component/unitRow'
+import CoolButton from '../component/coolButton'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -255,19 +256,38 @@ export default function Home() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  flexDirection: 'column',
                   padding: '20px',
                 }}
               >
-                <div>
-                  <SwitchButton
-                    isLeftSelected={place === Place.space}
-                    leftLabel={Place.space}
-                    rightLabel={Place.ground}
-                    onLeftClick={() => setPlace(Place.space)}
-                    onRightClick={() => setPlace(Place.ground)}
-                  />
-                </div>
+                <div style={{ flex: '1 0 0' }} />
+                <CoolButton
+                  onClick={() => {
+                    const newAttacker = createParticipant('attacker', attacker.race)
+                    setAttacker(newAttacker)
+                  }}
+                  style={{ width: '110px' }}
+                >
+                  Clear attacker
+                </CoolButton>
+                <div style={{ flex: '1 0 0' }} />
+                <SwitchButton
+                  isLeftSelected={place === Place.space}
+                  leftLabel={Place.space}
+                  rightLabel={Place.ground}
+                  onLeftClick={() => setPlace(Place.space)}
+                  onRightClick={() => setPlace(Place.ground)}
+                />
+                <div style={{ flex: '1 0 0' }} />
+                <CoolButton
+                  onClick={() => {
+                    const newDefender = createParticipant('defender', defender.race)
+                    setDefender(newDefender)
+                  }}
+                  style={{ width: '110px' }}
+                >
+                  Clear defender
+                </CoolButton>
+                <div style={{ flex: '1 0 0' }} />
               </div>
             </div>
             <BattleReportView report={battleReport} />

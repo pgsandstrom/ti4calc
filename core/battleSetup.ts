@@ -236,9 +236,9 @@ function applyBattleEffects(
   })
 }
 
-export function createParticipant(side: Side): Participant {
+export function createParticipant(side: Side, race?: Race): Participant {
   const participant: Participant = {
-    race: Race.barony_of_letnev,
+    race: race ?? Race.barony_of_letnev,
     side,
     units: getUnitMap(),
     unitUpgrades: {},
