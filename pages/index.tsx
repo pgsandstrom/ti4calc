@@ -8,9 +8,8 @@ import {
   getOtherBattleEffects,
   isBattleEffectRelevant,
 } from '../core/battleeffect/battleEffects'
-import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
 import { createParticipant } from '../core/battleSetup'
-import { Place, Race } from '../core/enums'
+import { Place } from '../core/enums'
 import { UnitType } from '../core/unit'
 import SwitchButton from '../component/switchButton'
 import {
@@ -29,6 +28,8 @@ import { BattleReportView } from '../component/battleReportView'
 import getServerUrl from '../server/serverUrl'
 import { ErrorReportUnsaved } from '../server/errorReportController'
 import Popover from '../component/popover'
+import RacePicker from '../component/racePicker'
+import UnitRow from '../component/unitRow'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -64,24 +65,6 @@ const StyledMainController = styled.div`
   padding: 20px;
   padding-bottom: 40px;
   width: 100%;
-`
-
-const StyledUnitColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 0;
-
-  text-align: center;
-
-  > * {
-    height: 48px;
-  }
-
-  &.unit-name-holder {
-    > * {
-      padding-top: 12px;
-    }
-  }
 `
 
 // TODO add "units damaged before the battle"?
@@ -202,6 +185,13 @@ export default function Home() {
     )
   }
 
+  const participantsObject = {
+    attacker,
+    onChangeAttacker: setAttacker,
+    defender,
+    onChangeDefender: setDefender,
+  }
+
   return (
     <div
       style={{
@@ -223,31 +213,45 @@ export default function Home() {
           <StyledMainController>
             <h1 style={{ textAlign: 'center' }}>TI4 calculator</h1>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{ display: 'flex' }}>
-                <ParticipantView
+              <div
+                style={{
+                  display: 'flex',
+
+                  height: '48px',
+                }}
+              >
+                <RacePicker
                   participant={attacker}
                   onChange={setAttacker}
+                  aria-labelledby="race"
                   style={{ flex: '1 0 0' }}
                 />
-                <StyledUnitColumn className="unit-name-holder">
-                  <div>race</div>
-                  <div id="flagship">flagship</div>
-                  <div id="warsun">warsun</div>
-                  <div id="dreadnought">dreadnought</div>
-                  <div id="carrier">carrier</div>
-                  <div id="cruiser">cruiser</div>
-                  <div id="destroyer">destroyer</div>
-                  <div id="fighter">fighter</div>
-                  <div id="mech">mech</div>
-                  <div id="infantry">infantry</div>
-                  <div id="pds">pds</div>
-                </StyledUnitColumn>
-                <ParticipantView
+                <div
+                  id="race"
+                  style={{
+                    flex: '1 0 0',
+                    textAlign: 'center',
+                    paddingTop: '10px',
+                  }}
+                >
+                  race
+                </div>
+                <RacePicker
                   participant={defender}
                   onChange={setDefender}
                   style={{ flex: '1 0 0' }}
                 />
               </div>
+              <UnitRow unitType={UnitType.flagship} {...participantsObject} />
+              <UnitRow unitType={UnitType.warsun} {...participantsObject} />
+              <UnitRow unitType={UnitType.dreadnought} {...participantsObject} />
+              <UnitRow unitType={UnitType.carrier} {...participantsObject} />
+              <UnitRow unitType={UnitType.cruiser} {...participantsObject} />
+              <UnitRow unitType={UnitType.destroyer} {...participantsObject} />
+              <UnitRow unitType={UnitType.fighter} {...participantsObject} />
+              <UnitRow unitType={UnitType.mech} {...participantsObject} />
+              <UnitRow unitType={UnitType.infantry} {...participantsObject} />
+              <UnitRow unitType={UnitType.pds} {...participantsObject} />
               <div
                 style={{
                   display: 'flex',
@@ -276,119 +280,6 @@ export default function Home() {
         </StyledMain>
         <RaceImage race={defender.race} side="right" />
       </StyledHolder>
-    </div>
-  )
-}
-
-interface ParticipantProps {
-  participant: Participant
-  onChange: (participant: Participant) => void
-  style?: React.CSSProperties
-}
-
-function ParticipantView({ participant, onChange, style }: ParticipantProps) {
-  return (
-    <StyledUnitColumn style={style}>
-      <div style={{ display: 'flex' }}>
-        <select
-          onChange={(e) => {
-            const race = e.target.value as Race
-            const newParticipant: Participant = {
-              ...participant,
-              race,
-            }
-            onChange(newParticipant)
-          }}
-          value={participant.race}
-          style={{
-            flex: '1 0 auto',
-            width: '0px',
-          }}
-        >
-          {Object.values(Race).map((race) => {
-            return (
-              <option key={race} value={race}>
-                {race}
-              </option>
-            )
-          })}
-        </select>
-      </div>
-      <UnitInput participant={participant} unitType={UnitType.flagship} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.warsun} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.dreadnought} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.carrier} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.cruiser} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.destroyer} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.fighter} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.mech} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.infantry} onUpdate={onChange} />
-      <UnitInput participant={participant} unitType={UnitType.pds} onUpdate={onChange} />
-    </StyledUnitColumn>
-  )
-}
-
-interface UnitInputProps {
-  participant: Participant
-  unitType: UnitType
-  onUpdate: (participant: Participant) => void
-}
-
-function UnitInput({ participant, unitType, onUpdate }: UnitInputProps) {
-  const unitUpgrade = getUnitUpgrade(participant.race, unitType)
-
-  const updateUnitCount = (newVal: number) => {
-    const newParticipant: Participant = {
-      ...participant,
-      units: {
-        ...participant.units,
-        [unitType]: newVal,
-      },
-    }
-    onUpdate(newParticipant)
-  }
-
-  const hasUpgrade = participant.unitUpgrades[unitType] ?? false
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        height: '48px',
-        flexDirection: participant.side === 'attacker' ? 'row' : 'row-reverse',
-      }}
-    >
-      <input
-        title="Upgrade"
-        type="checkbox"
-        disabled={!unitUpgrade}
-        checked={hasUpgrade}
-        onChange={() => {
-          const newParticipant: Participant = {
-            ...participant,
-            unitUpgrades: {
-              ...participant.unitUpgrades,
-              [unitType]: !hasUpgrade,
-            },
-          }
-          onUpdate(newParticipant)
-        }}
-        aria-labelledby={unitType}
-        style={{
-          width: '24px',
-          height: '24px',
-          marginTop: '12px',
-          marginLeft: participant.side === 'defender' ? '10px' : undefined,
-          marginRight: participant.side === 'attacker' ? '10px' : undefined,
-          visibility: unitUpgrade ? undefined : 'hidden',
-        }}
-      />
-      <NumberInput
-        currentValue={participant.units[unitType]}
-        onUpdate={updateUnitCount}
-        aria-labelledby={unitType}
-        style={{ flex: '1 0 auto', width: '0px' }}
-      />
     </div>
   )
 }
