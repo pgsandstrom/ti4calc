@@ -9,6 +9,12 @@ interface Props {
 const ARROW_WIDTH = 5
 
 const StyledDiv = styled.div`
+  @media (max-width: 1023px) {
+    .popover {
+      width: 220px !important;
+    }
+  }
+
   position: relative;
 
   .hover-icon {
