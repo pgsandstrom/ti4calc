@@ -44,7 +44,7 @@ export default function NumberInput(props: NumberInputProps) {
       }}
       disabled={disabled}
       aria-labelledby={props['aria-labelledby']}
-      style={{ ...style, fontSize: '1.5rem' }}
+      style={{ ...style, fontSize: '1.5rem', textAlign: 'center' }}
     />
   )
 }
