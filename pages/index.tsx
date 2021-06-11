@@ -395,6 +395,7 @@ const getDirectHitCheckbox = (
 ) => {
   return (
     <input
+      autoComplete="off"
       type="checkbox"
       checked={participant.riskDirectHit}
       onChange={() => {
@@ -455,6 +456,7 @@ const getBattleEffectInput = (
 
   return (
     <input
+      autoComplete="off"
       type="checkbox"
       checked={battleEffectCount !== undefined && battleEffectCount > 0}
       onChange={(e) => {

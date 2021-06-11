@@ -47,6 +47,7 @@ export default function UnitInput({ participant, unitType, onUpdate, style }: Un
       {/* We insert numberInput like this instead of using flex row-reverse due to tab index order */}
       {participant.side === 'defender' && numberInput}
       <input
+        autoComplete="off"
         title="Upgrade"
         type="checkbox"
         disabled={!unitUpgrade}

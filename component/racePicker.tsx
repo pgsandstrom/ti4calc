@@ -13,6 +13,7 @@ export default function RacePicker(props: Props) {
   return (
     <div style={{ ...style, display: 'flex' }}>
       <select
+        autoComplete="off"
         onChange={(e) => {
           const race = e.target.value as Race
           const newParticipant: Participant = {

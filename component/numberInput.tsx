@@ -24,6 +24,7 @@ export default function NumberInput(props: NumberInputProps) {
 
   return (
     <input
+      autoComplete="off"
       type="number"
       min="0"
       max="100"
