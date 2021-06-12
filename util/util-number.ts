@@ -1,5 +1,8 @@
-export function toPercentage(total: number, n: number): string {
+export function toPercentageNumber(total: number, n: number): number {
   const percentage = n / total
-  const tmp = Math.round(percentage * 100)
-  return `${tmp}%`
+  return Math.round(percentage * 100)
+}
+
+export function toPercentageString(total: number, n: number): string {
+  return `${toPercentageNumber(total, n)}%`
 }

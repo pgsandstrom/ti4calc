@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { BattleReport } from '../core'
-import { toPercentage } from '../util/util-number'
+import { toPercentageNumber, toPercentageString } from '../util/util-number'
 
 const BattleReportDiv = styled.div`
   display: flex;
@@ -37,40 +37,40 @@ export function BattleReportView({ report }: Props) {
       <BattleReportDiv>
         <PercentageDiv
           style={{
-            flex: `${report.attacker / total} 0 0`,
+            flex: `${toPercentageNumber(total, report.attacker)} 0 0`,
             background: '#B1B1FF',
           }}
         >
           {report.attacker !== 0 && (
             <>
               <div>Attacker</div>
-              <div>{toPercentage(total, report.attacker)}</div>
+              <div>{toPercentageString(total, report.attacker)}</div>
             </>
           )}
         </PercentageDiv>
         <PercentageDiv
           style={{
-            flex: `${report.draw / total} 0 0`,
+            flex: `${toPercentageNumber(total, report.draw)} 0 0`,
             background: '#CFCFCF',
           }}
         >
           {report.draw !== 0 && (
             <>
               <div>Draw</div>
-              <div>{toPercentage(total, report.draw)}</div>
+              <div>{toPercentageString(total, report.draw)}</div>
             </>
           )}
         </PercentageDiv>
         <PercentageDiv
           style={{
-            flex: `${report.defender / total} 0 0`,
+            flex: `${toPercentageNumber(total, report.defender)} 0 0`,
             background: '#FFB1B1',
           }}
         >
           {report.defender !== 0 && (
             <>
               <div>Defender</div>
-              <div>{toPercentage(total, report.defender)}</div>
+              <div>{toPercentageString(total, report.defender)}</div>
             </>
           )}
         </PercentageDiv>
