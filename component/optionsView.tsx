@@ -113,14 +113,14 @@ export default function OptionsView(props: OptionsProps) {
             name="Risk direct hit"
             description="If units with SUSTAIN DAMAGE should be assigned the first hits."
           />
-          <OptionsPartView battleEffects={otherBattleEffects} {...props} />
-          <OptionsPartView title="Techs" battleEffects={techs} {...props} />
+          <OptionsPartView title="Tech" battleEffects={techs} {...props} />
           <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />
-          <OptionsPartView title="Promissary notes" battleEffects={promissary} {...props} />
-          <OptionsPartView title="Agents" battleEffects={agents} {...props} />
-          <OptionsPartView title="Commanders" battleEffects={commanders} {...props} />
-          <OptionsPartView title="Action cards" battleEffects={actioncards} {...props} />
-          <OptionsPartView title="Agendas" battleEffects={agendas} {...props} />
+          <OptionsPartView title="Promissary note" battleEffects={promissary} {...props} />
+          <OptionsPartView title="Agent" battleEffects={agents} {...props} />
+          <OptionsPartView title="Commander" battleEffects={commanders} {...props} />
+          <OptionsPartView title="Action card" battleEffects={actioncards} {...props} />
+          <OptionsPartView title="Agenda" battleEffects={agendas} {...props} />
+          <OptionsPartView title="Other" battleEffects={otherBattleEffects} {...props} />
         </div>
       )}
     </div>
@@ -146,7 +146,7 @@ function OptionsPartView({
 }: OptionsPartProps) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {title !== undefined && <h3>{title}</h3>}
+      {title !== undefined && <h2 style={{ textAlign: 'center' }}>{title}</h2>}
       {battleEffects.map((effect) => {
         const attackerView = getBattleEffectInput(
           effect,
