@@ -21,8 +21,6 @@ import CoolButton from './coolButton'
 import NumberInput from './numberInput'
 import Popover from './popover'
 
-// TODO doesnt work on small screens
-
 interface OptionsProps {
   attacker: Participant
   attackerOnChange: (participant: Participant) => void
@@ -35,6 +33,7 @@ const OptionsDiv = styled.div`
 
   .control-container {
     min-width: 48px;
+    max-width: 72px;
     height: 48px;
   }
 
@@ -54,7 +53,8 @@ const OptionsDiv = styled.div`
   }
 
   .space-taker {
-    flex: 0 1 50px;
+    flex: 1 0 0;
+    max-width: 50px;
   }
 `
 

@@ -35,7 +35,7 @@ const StyledMain = styled.main`
   flex: 1 0 auto;
 
   max-width: 500px;
-  min-width: 370px;
+  min-width: 360px;
 
   > * {
     width: 100%;
@@ -256,6 +256,7 @@ export default function Home() {
                   Clear attacker
                 </CoolButton>
                 <div style={{ flex: '1 0 0' }} />
+                {/* TODO below 410px width and we should reorganize these buttons */}
                 <SwitchButton
                   isLeftSelected={place === Place.space}
                   leftLabel={Place.space}
