@@ -1,34 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Twilight Imperium 4 PoK battle calculator
 
-## Getting Started
+This is a web application to get the odds of battles in TI4 PoK. It can be found at [ti4battle.com](https://ti4battle.com). The goal of creating yet another battle calculator is to have a battle calculator that fulfills all these points:
 
-First, run the development server:
+- Page load and battle simulation should feel quick and responsive
+- The page should look good both on desktop and mobile
+- Simulating all mechanics, even complicated once such as the Sardakk mech and the Mentak hero
+- The application should be updated when new codex and expansions are released.
+
+On a more technical note, the implementation of the battle simulator should be as flexible as possible. It should be possible for a programmer to easily and quickly clone the project and add a complex homebrew faction. Perhaps someday we will add an interface for adding homebrew rules directly in the application.
+
+## Technical details
+
+The calculator works by simulating many battles. To be responsive a preliminary result is shown after only a few thousand simulations, then the result is continously updated with more simulations.
+
+This is a [Next.js](https://nextjs.org/) project written in typescript. The root interface can be found in `pages/index.tsx`. The battle simulation code can be found in the `core` folder.
+
+To run the project, first install all dependencies:
+
+```bash
+npm install
+```
+
+Then start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) and hopefully everything is working :)
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+There is a bash script to deploy to production in `do_complete_deploy.sh` but it is only made to work on my personal server with pm2. Sorry!
