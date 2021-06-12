@@ -349,7 +349,14 @@ function OptionsView(props: OptionsProps) {
       <CoolButton onClick={() => setShow(!show)} style={{ padding: '10px' }}>
         <div style={{ display: 'flex' }}>
           <span>Options</span>
-          <ArrowSvg style={{ width: '16px', height: '16px', marginLeft: '5px' }} />
+          <ArrowSvg
+            style={{
+              width: '16px',
+              height: '16px',
+              marginLeft: '5px',
+              transform: show ? 'scaleY(-1)' : undefined,
+            }}
+          />
         </div>
       </CoolButton>
       {show && (
