@@ -54,6 +54,24 @@ const StyledMainController = styled.div`
   width: 100%;
 `
 
+const StyledClearButton = styled(CoolButton)`
+  @media (max-width: 410px) {
+    width: 60px;
+
+    .long-text {
+      display: none;
+    }
+  }
+
+  @media (min-width: 411px) {
+    width: 110px;
+
+    .short-text {
+      display: none;
+    }
+  }
+`
+
 // TODO add "units damaged before the battle"?
 
 export default function Home() {
@@ -246,15 +264,15 @@ export default function Home() {
                 }}
               >
                 <div style={{ flex: '1 0 0' }} />
-                <CoolButton
+                <StyledClearButton
                   onClick={() => {
                     const newAttacker = createParticipant('attacker', attacker.race)
                     setAttacker(newAttacker)
                   }}
-                  style={{ width: '110px' }}
                 >
-                  Clear attacker
-                </CoolButton>
+                  <span className="short-text">Clear</span>
+                  <span className="long-text">Clear attacker</span>
+                </StyledClearButton>
                 <div style={{ flex: '1 0 0' }} />
                 {/* TODO below 410px width and we should reorganize these buttons */}
                 <SwitchButton
@@ -265,15 +283,15 @@ export default function Home() {
                   onRightClick={() => setPlace(Place.ground)}
                 />
                 <div style={{ flex: '1 0 0' }} />
-                <CoolButton
+                <StyledClearButton
                   onClick={() => {
                     const newDefender = createParticipant('defender', defender.race)
                     setDefender(newDefender)
                   }}
-                  style={{ width: '110px' }}
                 >
-                  Clear defender
-                </CoolButton>
+                  <span className="short-text">Clear</span>
+                  <span className="long-text">Clear defender</span>
+                </StyledClearButton>
                 <div style={{ flex: '1 0 0' }} />
               </div>
             </div>

@@ -5,6 +5,7 @@ import NeutralButton from './neutralButton'
 interface Props {
   children: React.ReactNode
   onClick?: () => void
+  className?: string
   style?: React.CSSProperties
 }
 
@@ -22,9 +23,9 @@ const StyledButton = styled(NeutralButton)`
   }
 `
 
-export default function CoolButton({ children, onClick, style }: Props) {
+export default function CoolButton({ children, onClick, className, style }: Props) {
   return (
-    <StyledButton onClick={onClick} style={style}>
+    <StyledButton onClick={onClick} className={className} style={style}>
       {children}
     </StyledButton>
   )
