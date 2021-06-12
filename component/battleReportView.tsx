@@ -35,39 +35,45 @@ export function BattleReportView({ report }: Props) {
       <h2 style={{ textAlign: 'center' }}>Result</h2>
 
       <BattleReportDiv>
-        {report.attacker !== 0 && (
-          <PercentageDiv
-            style={{
-              flex: `${report.attacker / total} 0 0`,
-              background: '#B1B1FF',
-            }}
-          >
-            <div>Attacker</div>
-            <div>{toPercentage(total, report.attacker)}</div>
-          </PercentageDiv>
-        )}
-        {report.draw !== 0 && (
-          <PercentageDiv
-            style={{
-              flex: `${report.draw / total} 0 0`,
-              background: '#CFCFCF',
-            }}
-          >
-            <div>Draw</div>
-            <div>{toPercentage(total, report.draw)}</div>
-          </PercentageDiv>
-        )}
-        {report.defender !== 0 && (
-          <PercentageDiv
-            style={{
-              flex: `${report.defender / total} 0 0`,
-              background: '#FFB1B1',
-            }}
-          >
-            <div>Defender</div>
-            <div>{toPercentage(total, report.defender)}</div>
-          </PercentageDiv>
-        )}
+        <PercentageDiv
+          style={{
+            flex: `${report.attacker / total} 0 0`,
+            background: '#B1B1FF',
+          }}
+        >
+          {report.attacker !== 0 && (
+            <>
+              <div>Attacker</div>
+              <div>{toPercentage(total, report.attacker)}</div>
+            </>
+          )}
+        </PercentageDiv>
+        <PercentageDiv
+          style={{
+            flex: `${report.draw / total} 0 0`,
+            background: '#CFCFCF',
+          }}
+        >
+          {report.draw !== 0 && (
+            <>
+              <div>Draw</div>
+              <div>{toPercentage(total, report.draw)}</div>
+            </>
+          )}
+        </PercentageDiv>
+        <PercentageDiv
+          style={{
+            flex: `${report.defender / total} 0 0`,
+            background: '#FFB1B1',
+          }}
+        >
+          {report.defender !== 0 && (
+            <>
+              <div>Defender</div>
+              <div>{toPercentage(total, report.defender)}</div>
+            </>
+          )}
+        </PercentageDiv>
       </BattleReportDiv>
     </div>
   )
