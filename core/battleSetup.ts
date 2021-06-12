@@ -243,7 +243,7 @@ export function createParticipant(side: Side, race?: Race): Participant {
     units: getUnitMap(),
     unitUpgrades: {},
     battleEffects: {},
-    riskDirectHit: false,
+    riskDirectHit: true,
   }
   return participant
 }
