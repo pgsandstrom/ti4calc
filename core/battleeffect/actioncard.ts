@@ -215,7 +215,7 @@ export const shieldsHolding: BattleEffect = {
   description: 'Before you assign hits to your ships during a space combat: Cancel up to 2 hits.',
   type: 'action-card',
   place: Place.space,
-  // TODO
+  // TODO can only be played once per round per player
 }
 
 export const blitz: BattleEffect = {
