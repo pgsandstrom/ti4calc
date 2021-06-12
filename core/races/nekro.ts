@@ -3,7 +3,7 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
-const nekroMechBonus = 'Necro mech bonus'
+const nekroMechBonus = 'Nekro mech bonus'
 
 export const nekro: BattleEffect[] = [
   {
@@ -56,6 +56,8 @@ export const nekro: BattleEffect[] = [
   },
   {
     type: 'race-ability',
+    description:
+      'Nekro mech text is: During combat against an opponent who has an "X" or "Y" token on 1 or more of their technologies, apply +2 to the result of each of this unit\'s combat rolls.',
     place: Place.ground,
     race: Race.nekro,
     name: nekroMechBonus,

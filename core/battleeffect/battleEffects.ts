@@ -97,6 +97,8 @@ export interface BattleAura {
 
 export const defendingInNebula: BattleEffect = {
   name: 'Defending in nebula',
+  description:
+    'If a space combat occurs in a nebula, the defender applies +1 to each combat roll of their ships during that combat.',
   type: 'general',
   side: 'defender',
   place: Place.space,

@@ -57,6 +57,8 @@ export const nomad: BattleEffect[] = [
   },
   {
     name: 'Memoria I',
+    description:
+      "At the start of a space combat against a player other than the Nomad: During this combat, treat 1 of your non-fighter ships as if it has the SUSTAIN DAMAGE ability, combat value, and ANTI-FIGHTER BARRAGE value of the Nomad's flagship",
     type: 'promissary',
     place: Place.space,
     onStart: (participant: ParticipantInstance) => {
@@ -79,6 +81,8 @@ export const nomad: BattleEffect[] = [
   },
   {
     name: 'Memoria II',
+    description:
+      "At the start of a space combat against a player other than the Nomad: During this combat, treat 1 of your non-fighter ships as if it has the SUSTAIN DAMAGE ability, combat value, and ANTI-FIGHTER BARRAGE value of the Nomad's flagship",
     type: 'promissary',
     place: Place.space,
     onStart: (participant: ParticipantInstance) => {

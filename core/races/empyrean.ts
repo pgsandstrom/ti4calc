@@ -26,6 +26,8 @@ export const empyrean: BattleEffect[] = [
   {
     type: 'general',
     name: 'Empyrean flagship repair',
+    description:
+      "Empyrean flagship text: After any player's unit in this system or an adjacent system uses SUSTAIN DAMAGE, you may spend 2 influence to repair that unit.",
     place: 'both',
     count: true,
     onSustain: (

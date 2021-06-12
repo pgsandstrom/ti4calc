@@ -94,6 +94,8 @@ export const titansOfUl: BattleEffect[] = [
   },
   {
     type: 'agent',
+    description:
+      'When a hit is produced against a unit: You may exhaust this card to cancel that hit.',
     name: 'Titans agent',
     place: 'both',
     onStart: (p: ParticipantInstance) => {
@@ -102,9 +104,12 @@ export const titansOfUl: BattleEffect[] = [
   },
   {
     type: 'general',
+    description:
+      'The Titans hero gives a their home system planet SPACE CANNON 5 (x3) ability as if it were a unit.',
     name: 'Titans hero',
     place: 'both',
     onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+      // TODO maybe this will be disabled by certain effects? It should have a unique unit type
       const planetUnit = createUnitAndApplyEffects(UnitType.pds, p, battle.place)
       planetUnit.spaceCannon!.hit = 5
       planetUnit.spaceCannon!.count = 3

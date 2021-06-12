@@ -82,6 +82,7 @@ export const l1z1x: BattleEffect[] = [
   // TODO add mech
   {
     type: 'commander',
+    description: 'Units that have PLANETARY SHIELD do not prevent you from using Bombardment.',
     name: 'L1z1x commander',
     place: Place.ground,
     transformEnemyUnit: (u: UnitInstance) => {

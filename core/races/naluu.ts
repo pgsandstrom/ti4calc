@@ -91,6 +91,8 @@ export const naluu: BattleEffect[] = [
   },
   {
     type: 'race-ability',
+    description:
+      "Naluu mech text is: During combat against an opponent who has at least 1 relic fragment, apply +2 to the results of this unit's combat rolls.",
     race: Race.naluu,
     place: Place.ground,
     name: opponentHasRelicFragment,

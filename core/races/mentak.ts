@@ -74,6 +74,8 @@ export const mentak: BattleEffect[] = [
   },
   {
     name: 'Mentak hero',
+    description:
+      "At the start of space combat that you are participating in: You may purge this card; if you do, for each other player's ship that is destroyed during this combat, place 1 ship of that type from your reinforcements in the active system.",
     type: 'race-ability',
     place: Place.space,
     race: Race.mentak,

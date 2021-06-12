@@ -115,6 +115,8 @@ export const argentFlight: BattleEffect[] = [
   },
   {
     type: 'promissary',
+    description:
+      'When 1 or more of your units make a roll for a unit ability: Choose 1 of those units to roll 1 additional die',
     name: 'Strike Wing Ambuscade',
     place: 'both',
     onSpaceCannon: (
@@ -160,6 +162,8 @@ export const argentFlight: BattleEffect[] = [
   },
   {
     type: 'commander',
+    description:
+      'When 1 or more of your units make a roll for a unit ability: You may choose 1 of those units to roll 1 additional die.',
     name: 'Argent Flight Commander',
     place: 'both',
     onAfb: (p: ParticipantInstance) => {

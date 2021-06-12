@@ -45,6 +45,8 @@ export const mahact: BattleEffect[] = [
   },
   {
     type: 'race-ability',
+    description:
+      "Mahact flagship bonus. Flagship text is: During combat against an opponent whose command token is not in your fleet pool, apply +2 to the results of this unit's combat rolls.",
     place: Place.space,
     race: Race.mahact,
     name: missingCommandToken,

@@ -80,6 +80,7 @@ export const jolNar: BattleEffect[] = [
   },
   {
     name: 'Jol-Nar commander',
+    description: 'After you roll dice for a unit ability: You may reroll any of those dice.',
     type: 'commander',
     place: 'both',
     transformUnit: (unit) => {

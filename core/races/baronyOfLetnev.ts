@@ -85,6 +85,8 @@ export const baronyOfLetnev: BattleEffect[] = [
   },
   {
     name: 'Munitions reserves',
+    description:
+      'At the start of each round of space combat, you may spend 2 trade goods;  you may re-roll any number of your dice during that combat round.',
     type: 'race-ability',
     place: Place.space,
     race: Race.barony_of_letnev,
@@ -106,7 +108,10 @@ export const baronyOfLetnev: BattleEffect[] = [
     },
   },
   {
-    name: 'warfunding',
+    name: 'War Funding',
+    // TODO this could use the "worse than average" thingy
+    description:
+      "After you and your opponent roll dice during space combat: You may reroll all of your opponent's dice.  You may reroll any number of your dice. (currently only rerolls your dice).",
     type: 'promissary',
     place: Place.space,
     transformUnit: (unit: UnitInstance) => {
@@ -115,6 +120,8 @@ export const baronyOfLetnev: BattleEffect[] = [
   },
   {
     name: 'Barony Agent',
+    description:
+      'At the start of a Space Combat round: You may exhaust this card to choose 1 ship in the active system. That ship rolls 1 additional die during this combat round.',
     type: 'agent',
     place: Place.space,
     onCombatRound: (

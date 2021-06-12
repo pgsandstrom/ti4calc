@@ -67,6 +67,8 @@ export const sol: BattleEffect[] = [
   },
   {
     type: 'agent',
+    description:
+      'At the start of a ground combat round: You may exhaust this card to choose 1 ground force in the active system; that ground force rolls 1 additional die during that combat round.',
     name: 'Sol agent',
     place: Place.ground,
     onStart: (participant: ParticipantInstance, battle: BattleInstance) => {

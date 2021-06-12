@@ -46,6 +46,8 @@ export const yin: BattleEffect[] = [
   },
   {
     name: 'Devotion',
+    description:
+      "After each space battle round, you may destroy 1 of your cruisers or destroyers in the active system to produce 1 hit and assign it to 1 of your opponent's ships in that system.",
     type: 'race-ability',
     place: Place.space,
     race: Race.yin,
@@ -91,6 +93,8 @@ export const yin: BattleEffect[] = [
   },
   {
     name: 'Yin agent',
+    description:
+      "After a player's destroyer or cruiser is destroyed: You may exhaust this card; if you do, that player may place up to 2 fighters from their reinforcements in that unit's system.",
     type: 'agent',
     place: Place.space,
     onDeath: (

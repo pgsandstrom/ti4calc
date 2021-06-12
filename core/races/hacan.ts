@@ -63,6 +63,8 @@ export const hacan: BattleEffect[] = [
   },
   {
     name: hacanTradeGoods,
+    description:
+      'Trade goods to be used by flagship. Hacan flagship text: After you roll a die during a space combat in this system, you may spend 1 trade good to apply +1 to the result.',
     type: 'race-ability',
     place: Place.space,
     race: Race.hacan,
