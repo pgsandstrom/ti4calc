@@ -17,6 +17,7 @@ const StyledDiv = styled.div<Props>`
 interface Props {
   race: Race
   side: 'left' | 'right'
+  style?: React.CSSProperties
 }
 
 export default function RaceImage(props: Props) {
@@ -38,8 +39,8 @@ export default function RaceImage(props: Props) {
         alt=""
         width={640}
         height={828}
+        style={{ float: props.side === 'left' ? 'right' : 'left' }}
       />
-      {/* <Image src={`/background.png`} alt="" width={1204} height={1541} /> */}
     </StyledDiv>
   )
 }

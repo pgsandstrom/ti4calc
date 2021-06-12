@@ -7,7 +7,8 @@ body {
 }
 
 html {
-  overflow-x: hidden;
+  /* I prefer to always show scrollbar, so the centered items are not re-centered when the scrollbar appears */
+  overflow-y: scroll;
 }
 
 * {

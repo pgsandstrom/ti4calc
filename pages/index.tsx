@@ -31,6 +31,7 @@ import Popover from '../component/popover'
 import RacePicker from '../component/racePicker'
 import UnitRow from '../component/unitRow'
 import CoolButton from '../component/coolButton'
+import ArrowSvg from '../component/arrowSvg'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -39,14 +40,16 @@ const StyledHolder = styled.div`
   flex: 1 0 auto;
   margin: 0 auto;
   max-width: 100%;
+  min-height: 100vh;
+
+  overflow: hidden; // to prevent popovers from creating horizontal scrollbar
 `
 
 const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  flex: 1 0 0;
+  flex: 1 0 auto;
 
   max-width: 500px;
   min-width: 370px;
@@ -209,7 +212,7 @@ export default function Home() {
       </Head>
 
       <StyledHolder>
-        <RaceImage race={attacker.race} side="left" />
+        <RaceImage race={attacker.race} side="left" style={{ flex: '1 0 0' }} />
         <StyledMain>
           <StyledMainController>
             <h1 style={{ textAlign: 'center' }}>TI4 calculator</h1>
@@ -299,7 +302,7 @@ export default function Home() {
             defenderOnChange={setDefender}
           />
         </StyledMain>
-        <RaceImage race={defender.race} side="right" />
+        <RaceImage race={defender.race} side="right" style={{ flex: '1 0 0' }} />
       </StyledHolder>
     </div>
   )
@@ -333,25 +336,44 @@ function OptionsView(props: OptionsProps) {
   //   return isBattleEffectRelevantForSome(effect, [attacker, defender])
   // })
 
+  const [show, setShow] = useState(false)
+
   return (
     <div
       style={{
         background: 'white',
+        borderRadius: '5px',
+        padding: '5px',
       }}
     >
-      <OptionsDiv>
-        {getDirectHitCheckbox(props.attacker, props.attackerOnChange)}
-        <span>Risk direct hit</span>
-        {getDirectHitCheckbox(props.defender, props.defenderOnChange)}
-      </OptionsDiv>
-      <OptionsPartView battleEffects={otherBattleEffects} {...props} />
-      <OptionsPartView title="Techs" battleEffects={techs} {...props} />
-      <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />
-      <OptionsPartView title="Promissary notes" battleEffects={promissary} {...props} />
-      <OptionsPartView title="Agents" battleEffects={agents} {...props} />
-      <OptionsPartView title="Commanders" battleEffects={commanders} {...props} />
-      <OptionsPartView title="Action cards" battleEffects={actioncards} {...props} />
-      <OptionsPartView title="Agendas" battleEffects={agendas} {...props} />
+      <CoolButton onClick={() => setShow(!show)} style={{ padding: '10px' }}>
+        <div style={{ display: 'flex' }}>
+          <span>Options</span>
+          <ArrowSvg style={{ width: '16px', height: '16px', marginLeft: '5px' }} />
+        </div>
+      </CoolButton>
+      {show && (
+        <>
+          <OptionsDiv style={{ marginTop: '20px' }}>
+            {getDirectHitCheckbox(props.attacker, props.attackerOnChange)}
+            <div style={{ display: 'flex' }}>
+              <span style={{ flex: '1 0 0' }}>Risk direct hit</span>
+              <div style={{ flex: '0 0 auto' }}>
+                <Popover text="If units with SUSTAIN DAMAGE should be assigned the first hits." />
+              </div>
+            </div>
+            {getDirectHitCheckbox(props.defender, props.defenderOnChange)}
+          </OptionsDiv>
+          <OptionsPartView battleEffects={otherBattleEffects} {...props} />
+          <OptionsPartView title="Techs" battleEffects={techs} {...props} />
+          <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />
+          <OptionsPartView title="Promissary notes" battleEffects={promissary} {...props} />
+          <OptionsPartView title="Agents" battleEffects={agents} {...props} />
+          <OptionsPartView title="Commanders" battleEffects={commanders} {...props} />
+          <OptionsPartView title="Action cards" battleEffects={actioncards} {...props} />
+          <OptionsPartView title="Agendas" battleEffects={agendas} {...props} />
+        </>
+      )}
     </div>
   )
 }
