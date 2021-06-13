@@ -66,8 +66,7 @@ export function getBestDieUnit(p: ParticipantInstance, place: Place, includeFigh
   }
 }
 
-// returns the unit that the enemy wants to kill. Returns unit without sustain or with used up sustain
-export function getBestNonSustainUnit(p: ParticipantInstance) {
+export function getHighestWorthNonSustainUnit(p: ParticipantInstance) {
   const nonSustainUnits = p.units.filter((u) => !u.sustainDamage || u.takenDamage)
 
   if (nonSustainUnits.length === 0) {
@@ -93,8 +92,12 @@ export function getAliveUnits(p: ParticipantInstance, place: Place, includeFight
 
 // returns the unit that the owner prefers sustains
 // TODO add a test maybe.
-export function getBestSustainUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
-  const units = getUnitsWithSustain(p, place, includeFighter)
+export function getLowestWorthSustainUnit(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+) {
+  const units = getUnits(p, place, includeFighter, true)
   if (units.length === 0) {
     return undefined
   } else {
@@ -107,7 +110,31 @@ export function getBestSustainUnit(p: ParticipantInstance, place: Place, include
   }
 }
 
-export function getUnitsWithSustain(p: ParticipantInstance, place: Place, includeFighter: boolean) {
+// TODO add a test maybe.
+export function getHighestWorthSustainUnit(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+) {
+  const units = getUnits(p, place, includeFighter, true)
+  if (units.length === 0) {
+    return undefined
+  } else {
+    return units
+      .filter((u) => includeFighter || u.type !== UnitType.fighter)
+      .reduce((a, b) => {
+        // TODO could it work to just pre-sort this and then never sort again?
+        return (a.useSustainDamagePriority ?? 50) > (b.useSustainDamagePriority ?? 50) ? b : a
+      })
+  }
+}
+
+export function getUnits(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+  withSustain: boolean,
+) {
   return p.units.filter((u) => {
     if (!includeFighter && u.type === UnitType.fighter) {
       return false
@@ -115,7 +142,15 @@ export function getUnitsWithSustain(p: ParticipantInstance, place: Place, includ
     if (!doesUnitFitPlace(u, place)) {
       return false
     }
-    return u.sustainDamage && !u.takenDamage && !u.isDestroyed
+    if (u.isDestroyed) {
+      return false
+    }
+
+    if (withSustain) {
+      return u.sustainDamage && !u.takenDamage
+    } else {
+      return !u.sustainDamage
+    }
   })
 }
 

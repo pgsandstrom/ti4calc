@@ -36,6 +36,9 @@ export const naluu: BattleEffect[] = [
                 }
               },
               onCombatRoundEnd: (participant: ParticipantInstance, battle: BattleInstance) => {
+                // TODO there is a complicated situation here. If fighters are upgraded, they are better than infantry but are killed first.
+                // Optimal strategy is to kill all but one infantry, and then fighters, but our model does not support that.
+
                 // return fighters to space!
                 if (!isBattleOngoing(battle)) {
                   participant.units.forEach((unit) => {

@@ -5,9 +5,10 @@ import { getHits, HitInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 import {
   doesUnitFitPlace,
-  getBestSustainUnit,
+  getLowestWorthSustainUnit,
   getBestDieUnit,
-  getBestNonSustainUnit,
+  getHighestWorthNonSustainUnit,
+  getHighestWorthSustainUnit,
 } from './unitGet'
 import _cloneDeep from 'lodash/cloneDeep'
 import { NUMBER_OF_ROLLS } from './constant'
@@ -376,19 +377,25 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
 
     if (p.hitsToAssign.hitsAssignedByEnemy > 0) {
       if (p.hitsToAssign.hitsAssignedByEnemy > 1) {
-        // TODO
+        // This currently cant happen, so lets not bother to implement it
         console.warn(
           'hitsAssignedByEnemy is larger than one, we should assign them to best sustain unit! But that aint implemented!',
         )
       }
-      const bestUnit = getBestNonSustainUnit(p)
-      if (bestUnit) {
+      const highestWorthNonSustainUnit = getHighestWorthNonSustainUnit(p)
+      if (highestWorthNonSustainUnit) {
         if (LOG) {
-          console.log(`${p.side} loses ${bestUnit.type} after hits assigned by opponent.`)
+          console.log(
+            `${p.side} loses ${highestWorthNonSustainUnit.type} after hits assigned by opponent.`,
+          )
         }
-        bestUnit.isDestroyed = true
+        highestWorthNonSustainUnit.isDestroyed = true
       } else {
-        applyHit(battle, p, true)
+        // This happens when all units have sustain. We pick the best sustain unit in case we have direct hit.
+        const highestWorthSustainUnit = getHighestWorthSustainUnit(p, battle.place, true)
+        if (highestWorthSustainUnit) {
+          doSustainDamage(battle, p, highestWorthSustainUnit)
+        }
       }
 
       p.hitsToAssign.hitsAssignedByEnemy -= 1
@@ -461,7 +468,7 @@ function applyHit(
 
   // Currently if we dont have riskDirectHit dreadnaughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.
-  const bestSustainUnit = getBestSustainUnit(p, battle.place, includeFighter)
+  const bestSustainUnit = getLowestWorthSustainUnit(p, battle.place, includeFighter)
   if (!sustainDisabled && p.riskDirectHit && bestSustainUnit) {
     doSustainDamage(battle, p, bestSustainUnit)
     return true

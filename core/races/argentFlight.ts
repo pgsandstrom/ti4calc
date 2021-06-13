@@ -3,7 +3,7 @@ import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { Place, Race } from '../enums'
-import { getBestSustainUnit, getHighestHitUnit } from '../unitGet'
+import { getLowestWorthSustainUnit, getHighestHitUnit } from '../unitGet'
 import { LOG } from '../battle'
 
 export const argentFlight: BattleEffect[] = [
@@ -65,7 +65,7 @@ export const argentFlight: BattleEffect[] = [
       otherParticipant: ParticipantInstance,
     ) => {
       _times(otherParticipant.hitsToAssign.hits, () => {
-        const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place, true)
+        const bestSustainUnit = getLowestWorthSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
           if (LOG) {
             console.log(
@@ -98,7 +98,7 @@ export const argentFlight: BattleEffect[] = [
       otherParticipant: ParticipantInstance,
     ) => {
       _times(otherParticipant.hitsToAssign.hits, () => {
-        const bestSustainUnit = getBestSustainUnit(otherParticipant, battle.place, true)
+        const bestSustainUnit = getLowestWorthSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
           if (LOG) {
             console.log(
