@@ -3,14 +3,11 @@ import _cloneDeep from 'lodash/cloneDeep'
 import { Battle, BattleInstance, BattleResult } from './battle-types'
 import { setupBattle, startBattle } from './battleSetup'
 import { BattleReport } from '.'
-import { NUMBER_OF_ROLLS, ROLLS_WHEN_BUILDING_TEST_DATA } from './constant'
+import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE, ROLLS_WHEN_BUILDING_TEST_DATA } from './constant'
 import { ErrorReportUnsaved } from '../server/errorReportController'
 
 //! To avoid isolatedModules error
 export default {}
-
-const DEFAULT_ROLL_NUMBER = 20000
-const ROLLS_BETWEEN_UI_UPDATE = 1000
 
 const MIN_TIME_BETWEEN_SENDING_UPDATES = 250
 
@@ -33,9 +30,8 @@ function doWork(battle: Battle) {
     defender: 0,
   }
 
-  const numberOfRolls = NUMBER_OF_ROLLS ?? DEFAULT_ROLL_NUMBER
-  const parts = Math.ceil(numberOfRolls / ROLLS_BETWEEN_UI_UPDATE)
-  const partRolls = Math.ceil(numberOfRolls / parts)
+  const parts = Math.ceil(NUMBER_OF_ROLLS / ROLLS_BETWEEN_UI_UPDATE)
+  const partRolls = Math.ceil(NUMBER_OF_ROLLS / parts)
 
   let lastMessageTime = 0
   _times(parts, (index) => {

@@ -15,6 +15,7 @@ import RacePicker from '../component/racePicker'
 import UnitRow from '../component/unitRow'
 import CoolButton from '../component/coolButton'
 import OptionsView from '../component/optionsView'
+import HelpView from '../component/helpView'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -302,7 +303,9 @@ export default function Home() {
             attackerOnChange={setAttacker}
             defender={defender}
             defenderOnChange={setDefender}
+            style={{ marginTop: '10px' }}
           />
+          <HelpView style={{ marginTop: '10px' }} />
         </StyledMain>
         <RaceImage race={defender.race} side="right" style={{ flex: '1 0 0' }} />
       </StyledHolder>

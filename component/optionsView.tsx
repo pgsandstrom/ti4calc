@@ -26,6 +26,7 @@ interface OptionsProps {
   attackerOnChange: (participant: Participant) => void
   defender: Participant
   defenderOnChange: (participant: Participant) => void
+  style?: React.CSSProperties
 }
 
 const OptionsDiv = styled.div`
@@ -82,6 +83,7 @@ export default function OptionsView(props: OptionsProps) {
   return (
     <div
       style={{
+        ...props.style,
         background: 'white',
         borderRadius: '5px',
         padding: '5px',
