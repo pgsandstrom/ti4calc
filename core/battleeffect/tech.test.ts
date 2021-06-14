@@ -7,7 +7,7 @@ import { DO_BATTLE_X_TIMES } from '../index.test'
 import { duraniumArmor } from './tech'
 
 describe('Tech', () => {
-  it('5v5 dreadnaught with duranium', () => {
+  it('5v5 dreadnought with duranium', () => {
     const attacker: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),

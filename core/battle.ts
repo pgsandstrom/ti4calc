@@ -466,7 +466,7 @@ function applyHit(
 
   // TODO upgraded dreadnought should sustain even without riskDirectHit
 
-  // Currently if we dont have riskDirectHit dreadnaughts will die before flagship sustains.
+  // Currently if we dont have riskDirectHit dreadnoughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.
   const bestSustainUnit = getLowestWorthSustainUnit(p, battle.place, includeFighter)
   if (bestSustainUnit && !sustainDisabled && (battle.place === Place.ground || p.riskDirectHit)) {

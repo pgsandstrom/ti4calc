@@ -34,7 +34,7 @@ describe('L1z1x', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132)
   })
 
-  it('L1z1x flagship makes flagship and dreadnaughts target non-fighter ships', () => {
+  it('L1z1x flagship makes flagship and dreadnoughts target non-fighter ships', () => {
     const attacker: Participant = {
       race: Race.l1z1x,
       units: getUnitMap(),

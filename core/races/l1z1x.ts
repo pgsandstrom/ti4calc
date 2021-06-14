@@ -57,7 +57,7 @@ export const l1z1x: BattleEffect[] = [
   },
   {
     type: 'race-tech',
-    name: 'L1z1x dreadnaught upgrade',
+    name: 'L1z1x dreadnought upgrade',
     place: 'both',
     race: Race.l1z1x,
     unit: UnitType.dreadnought,
