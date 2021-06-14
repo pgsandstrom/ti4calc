@@ -9,7 +9,6 @@ interface NumberInputProps {
   style?: React.CSSProperties
 }
 
-// TODO maybe just select everything when pressing it? Not removing the zero.
 export default function NumberInput(props: NumberInputProps) {
   const { currentValue, onUpdate, disabled, style } = props
 
@@ -38,10 +37,8 @@ export default function NumberInput(props: NumberInputProps) {
       min="0"
       max="100"
       value={val}
-      onFocus={() => {
-        if (val === '0') {
-          setVal('')
-        }
+      onFocus={(e) => {
+        e.target.select()
       }}
       // remember: input with type number dont trigger onChange on invalid input. So we need to clean up in onBlur
       onChange={onChange}
