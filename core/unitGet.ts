@@ -51,8 +51,9 @@ export function getNonFighterShips(p: ParticipantInstance) {
   return p.units.filter((unit) => unit.isShip && unit.type !== UnitType.fighter)
 }
 
-// return the unit that the owner prefers dies
-export function getBestDieUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
+// TODO maybe refactor all these and make sure we dont get a pds by mistake... like they have to have a die priority???
+// TODO add test
+export function getLowestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getAliveUnits(p, place, includeFighter)
   if (units.length === 0) {
     return undefined

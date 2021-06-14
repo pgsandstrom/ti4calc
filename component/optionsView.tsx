@@ -113,7 +113,7 @@ export default function OptionsView(props: OptionsProps) {
             left={getDirectHitCheckbox(props.attacker, props.attackerOnChange)}
             right={getDirectHitCheckbox(props.defender, props.defenderOnChange)}
             name="Risk direct hit"
-            description="If units with SUSTAIN DAMAGE should be assigned the first hits."
+            description="If units with SUSTAIN DAMAGE should be assigned the first hits. Direct hit can only be played in space combat, so ground combat is not affected."
           />
           <OptionsPartView title="Tech" battleEffects={techs} {...props} />
           <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />

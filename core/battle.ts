@@ -6,7 +6,7 @@ import { UnitInstance, UnitType } from './unit'
 import {
   doesUnitFitPlace,
   getLowestWorthSustainUnit,
-  getBestDieUnit,
+  getLowestWorthUnit,
   getHighestWorthNonSustainUnit,
   getHighestWorthSustainUnit,
 } from './unitGet'
@@ -464,16 +464,16 @@ function applyHit(
 ): boolean {
   const sustainDisabled = isSustainDisabled(battle, p)
 
-  // TODO direct hit only exists is space
+  // TODO upgraded dreadnought should sustain even without riskDirectHit
 
   // Currently if we dont have riskDirectHit dreadnaughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.
   const bestSustainUnit = getLowestWorthSustainUnit(p, battle.place, includeFighter)
-  if (!sustainDisabled && p.riskDirectHit && bestSustainUnit) {
+  if (bestSustainUnit && !sustainDisabled && (battle.place === Place.ground || p.riskDirectHit)) {
     doSustainDamage(battle, p, bestSustainUnit)
     return true
   } else {
-    const bestDieUnit = getBestDieUnit(p, battle.place, includeFighter)
+    const bestDieUnit = getLowestWorthUnit(p, battle.place, includeFighter)
     if (bestDieUnit) {
       if (!sustainDisabled && bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
         doSustainDamage(battle, p, bestDieUnit)
