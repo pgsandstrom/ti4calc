@@ -30,8 +30,8 @@ describe('L1z1x', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.803)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.063, 0.2)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132, 0.1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.063)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132)
   })
 
   it('L1z1x flagship makes flagship and dreadnaughts target non-fighter ships', () => {
@@ -59,7 +59,7 @@ describe('L1z1x', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.296)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.021, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.021)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.682)
   })
 })

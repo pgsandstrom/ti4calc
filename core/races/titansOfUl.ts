@@ -24,6 +24,7 @@ export const titansOfUl: BattleEffect[] = [
       }
     },
   },
+  // TODO add some tests...
   {
     type: 'race',
     name: 'Titans of Ul pds',

@@ -31,9 +31,9 @@ describe('Naaz-Rokha', () => {
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.525)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.087, 0.1)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.387)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.44)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.086)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.474)
   })
 
   it('Naaz-Rokha mech should help in space combat', () => {
@@ -60,7 +60,7 @@ describe('Naaz-Rokha', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.796)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.062, 0.1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.062)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.142)
   })
 })

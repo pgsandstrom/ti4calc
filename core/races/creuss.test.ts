@@ -30,7 +30,7 @@ describe('creuss', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.479)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.042, 0.15)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.042)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.479)
   })
 })

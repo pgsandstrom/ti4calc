@@ -33,7 +33,7 @@ describe('Mentak', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.642)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.01, 1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.01)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.358)
 
     // and the results should be equal even with attacker/defender flipped:
@@ -41,7 +41,7 @@ describe('Mentak', () => {
     const result2 = getBattleReport(defender, attacker, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result2.attacker, DO_BATTLE_X_TIMES * 0.358)
-    checkResult(result2.draw, DO_BATTLE_X_TIMES * 0.01, 1)
+    checkResult(result2.draw, DO_BATTLE_X_TIMES * 0.01)
     checkResult(result2.defender, DO_BATTLE_X_TIMES * 0.642)
   })
 
@@ -73,7 +73,7 @@ describe('Mentak', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.41)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.101, 0.1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.101)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.49)
   })
 })

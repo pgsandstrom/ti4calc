@@ -33,7 +33,7 @@ describe('Argent flight', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.719)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.243)
   })
 
@@ -89,7 +89,7 @@ describe('Argent flight', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.443)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.113, 0.15)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.113)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.443)
   })
 
@@ -117,7 +117,7 @@ describe('Argent flight', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.8)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.024, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.024)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.176)
   })
 })

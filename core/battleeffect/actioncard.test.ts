@@ -32,7 +32,7 @@ describe('Action card', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.778)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.07, 0.15)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.07)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
   })
 })

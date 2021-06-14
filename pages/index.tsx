@@ -305,7 +305,7 @@ export default function Home() {
             defenderOnChange={setDefender}
             style={{ marginTop: '10px' }}
           />
-          <HelpView style={{ marginTop: '10px' }} />
+          <HelpView style={{ marginTop: '10px', marginBottom: '10px' }} />
         </StyledMain>
         <RaceImage race={defender.race} side="right" style={{ flex: '1 0 0' }} />
       </StyledHolder>

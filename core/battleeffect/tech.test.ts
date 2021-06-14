@@ -32,7 +32,7 @@ describe('Tech', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
   })
 })

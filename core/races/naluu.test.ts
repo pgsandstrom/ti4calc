@@ -31,7 +31,7 @@ describe('Naluu', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.477)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.044, 0.25)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.044)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.479)
   })
 
@@ -58,8 +58,8 @@ describe('Naluu', () => {
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, 0, 0)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.908, 0.1)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.092, 0.1)
+    checkResult(result.attacker, 0)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.908)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.092)
   })
 })

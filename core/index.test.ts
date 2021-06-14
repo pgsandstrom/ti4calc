@@ -33,7 +33,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.438)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.123, 0.1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.123)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.438)
   })
 
@@ -61,8 +61,8 @@ describe('core', () => {
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.033, 0.2)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.017, 0.2)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.033)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.017)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.949)
   })
 
@@ -90,8 +90,8 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014, 0.5)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081, 0.15)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081)
   })
 
   it('ground combat with bombardment but also planetary shield', () => {
@@ -119,7 +119,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.316)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.646)
   })
 
@@ -148,7 +148,7 @@ describe('core', () => {
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.82)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.028, 0.2)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.028)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
   })
 })
