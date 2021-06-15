@@ -1,5 +1,7 @@
-import { BattleAura, BattleEffect } from '../battleeffect/battleEffects'
-import { Place } from '../enums'
+import { getOtherParticipant, LOG } from '../battle'
+import { BattleInstance, ParticipantInstance } from '../battle-types'
+import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
+import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const sardarkkNorr: BattleEffect[] = [
@@ -56,6 +58,44 @@ export const sardarkkNorr: BattleEffect[] = [
       }
     },
   },
-  // TODO Valkyrie Particle Weave
-  // After making combat rolls during a round of ground combat, if your opponent produced 1 or more hits, you produce 1 additional hit.
+  {
+    type: 'race-tech',
+    name: 'Valkyrie Particle Weave',
+    description:
+      'After making combat rolls during a round of ground combat, if your opponent produced 1 or more hits, you produce 1 additional hit',
+    place: Place.ground,
+    race: Race.sardakk_norr,
+    onDeath: (
+      _deadUnits: UnitInstance[],
+      participant: ParticipantInstance,
+      otherParticipant: ParticipantInstance,
+      _battle: BattleInstance,
+      isOwnUnit: boolean,
+      effectName: string,
+    ) => {
+      if (!isOwnUnit) {
+        return
+      }
+      otherParticipant.hitsToAssign.hits += 1
+      registerUse(effectName, participant)
+      if (LOG) {
+        console.log(`${participant.side} uses Valkyrie Particle Weave to produce 1 hit`)
+      }
+    },
+    onSustain: (
+      _u: UnitInstance,
+      participant: ParticipantInstance,
+      battle: BattleInstance,
+      effectName: string,
+    ) => {
+      const otherParticipant = getOtherParticipant(battle, participant)
+      otherParticipant.hitsToAssign.hits += 1
+      registerUse(effectName, participant)
+      if (LOG) {
+        console.log(`${participant.side} uses Valkyrie Particle Weave to produce 1 hit`)
+      }
+    },
+    timesPerRound: 1,
+  },
+  // TODO dreadnought and its upgrade
 ]
