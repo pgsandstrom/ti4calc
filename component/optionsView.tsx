@@ -7,6 +7,7 @@ import {
   BattleEffect,
   getOtherBattleEffects,
   isBattleEffectRelevant,
+  isBattleEffectRelevantForSome,
 } from '../core/battleeffect/battleEffects'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import {
@@ -64,19 +65,29 @@ const StyledCheckbox = styled.input`
   width: 24px;
 `
 
+const filterOutBattleEffects = (
+  effects: BattleEffect[],
+  attacker: Participant,
+  defender: Participant,
+) => {
+  return effects.filter((effect) => {
+    return isBattleEffectRelevantForSome(effect, [attacker, defender])
+  })
+}
+
 export default function OptionsView(props: OptionsProps) {
-  const otherBattleEffects = [...getOtherBattleEffects(), ...getGeneralEffectFromRaces()]
-  const techs = getTechBattleEffects()
-  const raceTechs = getRaceStuffNonUnit()
-  const promissary = getPromissary()
-  const agents = getAgent()
-  const commanders = getCommanders()
-  const actioncards = getActioncards()
-  const agendas = getAgendas()
-  // const relevantBattleEffects = battleEffects.filter((effect) => effect.type !== 'unit-upgrade')
-  // .filter((effect) => {
-  //   return isBattleEffectRelevantForSome(effect, [attacker, defender])
-  // })
+  const otherBattleEffects = filterOutBattleEffects(
+    [...getOtherBattleEffects(), ...getGeneralEffectFromRaces()],
+    props.attacker,
+    props.defender,
+  )
+  const techs = filterOutBattleEffects(getTechBattleEffects(), props.attacker, props.defender)
+  const raceTechs = filterOutBattleEffects(getRaceStuffNonUnit(), props.attacker, props.defender)
+  const promissary = filterOutBattleEffects(getPromissary(), props.attacker, props.defender)
+  const agents = filterOutBattleEffects(getAgent(), props.attacker, props.defender)
+  const commanders = filterOutBattleEffects(getCommanders(), props.attacker, props.defender)
+  const actioncards = filterOutBattleEffects(getActioncards(), props.attacker, props.defender)
+  const agendas = filterOutBattleEffects(getAgendas(), props.attacker, props.defender)
 
   const [show, setShow] = useState(false)
 
