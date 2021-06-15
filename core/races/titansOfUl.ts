@@ -110,7 +110,7 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'general',
     description:
-      'The Titans hero gives a their home system planet SPACE CANNON 5 (x3) ability as if it were a unit.',
+      'The Titans hero gives their home system planet SPACE CANNON 5 (x3) ability as if it were a unit.',
     name: 'Titans hero',
     place: 'both',
     onStart: (p: ParticipantInstance, battle: BattleInstance) => {
