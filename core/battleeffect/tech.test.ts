@@ -4,7 +4,7 @@ import { Participant } from '../battle-types'
 import { getUnitMap } from '../battleSetup'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { duraniumArmor } from './tech'
+import { assaultCannon, duraniumArmor } from './tech'
 
 describe('Tech', () => {
   it('5v5 dreadnought with duranium', () => {
@@ -34,5 +34,33 @@ describe('Tech', () => {
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
+  })
+
+  it('Assault cannon should not snipe mech', () => {
+    const attacker: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'attacker',
+      battleEffects: {
+        [assaultCannon.name]: 1,
+      },
+    }
+    const defender: Participant = {
+      race: Race.barony_of_letnev,
+      units: getUnitMap(),
+      unitUpgrades: {},
+      riskDirectHit: false,
+      side: 'defender',
+      battleEffects: {},
+    }
+    attacker.units.destroyer = 3
+    defender.units.cruiser = 1
+    defender.units.mech = 1
+
+    const result = getBattleReport(attacker, defender, Place.space, 100)
+
+    expect(result.attacker).toEqual(100)
   })
 })

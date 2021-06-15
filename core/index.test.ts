@@ -124,6 +124,7 @@ describe('core', () => {
   })
 
   it('ground combat with bombardment but also planetary shield... but the planetary shield is DISABLED', () => {
+    // TODO add a util function to decrease the test boilerplate
     const attacker: Participant = {
       race: Race.barony_of_letnev,
       units: getUnitMap(),

@@ -382,7 +382,7 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
           'hitsAssignedByEnemy is larger than one, we should assign them to best sustain unit! But that aint implemented!',
         )
       }
-      const highestWorthNonSustainUnit = getHighestWorthNonSustainUnit(p)
+      const highestWorthNonSustainUnit = getHighestWorthNonSustainUnit(p, battle.place, true)
       if (highestWorthNonSustainUnit) {
         if (LOG) {
           console.log(
@@ -466,7 +466,9 @@ function applyHit(
 
   // TODO upgraded dreadnought should sustain even without riskDirectHit
 
-  // Currently if we dont have riskDirectHit dreadnoughts will die before flagship sustains.
+  // If we ever desired to speed up the code, this could be done in a single passover of all units
+
+  // TODO Currently if we don't have riskDirectHit dreadnoughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.
   const bestSustainUnit = getLowestWorthSustainUnit(p, battle.place, includeFighter)
   if (bestSustainUnit && !sustainDisabled && (battle.place === Place.ground || p.riskDirectHit)) {

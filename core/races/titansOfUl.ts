@@ -89,6 +89,7 @@ export const titansOfUl: BattleEffect[] = [
             ...unit.combat!,
             hit: 6,
           },
+          useSustainDamagePriority: 200,
           sustainDamage: true,
         }
       } else {

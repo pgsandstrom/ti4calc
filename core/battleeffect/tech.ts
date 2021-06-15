@@ -2,7 +2,7 @@ import { destroyUnit, LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { Place } from '../enums'
 import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-import { getBestShip, getHighestHitUnit, getNonFighterShips } from '../unitGet'
+import { getHighestWorthUnit, getHighestHitUnit, getNonFighterShips } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 
 export function getTechBattleEffects() {
@@ -26,11 +26,11 @@ export const plasmaScoring: BattleEffect = {
   onStart: (participant: ParticipantInstance) => {
     // TODO when we do these things on onStart... maybe this unit is destroyed by assault cannon or something similar.
     // It would be more correct to do it at the appropriate time. Like onBombard and onSpaceCannon
-    const bestBomber = getHighestHitUnit(participant, 'bombardment')
+    const bestBomber = getHighestHitUnit(participant, 'bombardment', undefined)
     if (bestBomber?.bombardment) {
       bestBomber.bombardment.countBonus += 1
     }
-    const bestSpacecannon = getHighestHitUnit(participant, 'spaceCannon')
+    const bestSpacecannon = getHighestHitUnit(participant, 'spaceCannon', undefined)
     if (bestSpacecannon?.spaceCannon) {
       bestSpacecannon.spaceCannon.countBonus += 1
     }
@@ -88,7 +88,7 @@ export const assaultCannon: BattleEffect = {
     otherParticipant: ParticipantInstance,
   ) => {
     if (getNonFighterShips(participant).length >= 3) {
-      const bestShip = getBestShip(otherParticipant)
+      const bestShip = getHighestWorthUnit(otherParticipant, Place.space)
       if (bestShip) {
         destroyUnit(battle, bestShip)
         if (LOG) {

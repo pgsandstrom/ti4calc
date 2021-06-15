@@ -126,7 +126,7 @@ export const argentFlight: BattleEffect[] = [
       effectName: string,
     ) => {
       // TODO say in theory that pds is disabled. Would strike wing ambuscade still be used here, if it could be used for afb instead?
-      const highestHitUnit = getHighestHitUnit(p, 'spaceCannon')
+      const highestHitUnit = getHighestHitUnit(p, 'spaceCannon', undefined)
       if (highestHitUnit) {
         highestHitUnit.spaceCannon!.countBonusTmp += 1
         registerUse(effectName, p)
@@ -138,7 +138,7 @@ export const argentFlight: BattleEffect[] = [
       _otherP: ParticipantInstance,
       effectName: string,
     ) => {
-      const highestHitUnit = getHighestHitUnit(p, 'afb')
+      const highestHitUnit = getHighestHitUnit(p, 'afb', undefined)
       if (highestHitUnit) {
         highestHitUnit.afb!.countBonusTmp += 1
         registerUse(effectName, p)
@@ -151,7 +151,7 @@ export const argentFlight: BattleEffect[] = [
       effectName: string,
     ) => {
       if (p.side === 'attacker' && battle.place === Place.ground) {
-        const highestHitUnit = getHighestHitUnit(p, 'bombardment')
+        const highestHitUnit = getHighestHitUnit(p, 'bombardment', undefined)
         if (highestHitUnit) {
           highestHitUnit.bombardment!.countBonusTmp += 1
           registerUse(effectName, p)
@@ -167,19 +167,19 @@ export const argentFlight: BattleEffect[] = [
     name: 'Argent Flight Commander',
     place: 'both',
     onAfb: (p: ParticipantInstance) => {
-      const highestHitUnit = getHighestHitUnit(p, 'afb')
+      const highestHitUnit = getHighestHitUnit(p, 'afb', undefined)
       if (highestHitUnit) {
         highestHitUnit.afb!.countBonusTmp += 1
       }
     },
     onSpaceCannon: (p: ParticipantInstance) => {
-      const highestHitUnit = getHighestHitUnit(p, 'spaceCannon')
+      const highestHitUnit = getHighestHitUnit(p, 'spaceCannon', undefined)
       if (highestHitUnit) {
         highestHitUnit.spaceCannon!.countBonusTmp += 1
       }
     },
     onBombardment: (p: ParticipantInstance) => {
-      const highestHitUnit = getHighestHitUnit(p, 'bombardment')
+      const highestHitUnit = getHighestHitUnit(p, 'bombardment', undefined)
       if (highestHitUnit) {
         highestHitUnit.bombardment!.countBonusTmp += 1
       }

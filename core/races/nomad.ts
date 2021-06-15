@@ -2,7 +2,7 @@ import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getWorstNonFighterShip } from '../unitGet'
+import { getLowestWorthUnit } from '../unitGet'
 
 export const nomad: BattleEffect[] = [
   {
@@ -62,7 +62,7 @@ export const nomad: BattleEffect[] = [
     type: 'promissary',
     place: Place.space,
     onStart: (participant: ParticipantInstance) => {
-      const worstNonFighterShip = getWorstNonFighterShip(participant)
+      const worstNonFighterShip = getLowestWorthUnit(participant, Place.space, false)
       if (!worstNonFighterShip) {
         return
       }
@@ -86,7 +86,7 @@ export const nomad: BattleEffect[] = [
     type: 'promissary',
     place: Place.space,
     onStart: (participant: ParticipantInstance) => {
-      const worstNonFighterShip = getWorstNonFighterShip(participant)
+      const worstNonFighterShip = getLowestWorthUnit(participant, Place.space, false)
       if (!worstNonFighterShip) {
         return
       }
