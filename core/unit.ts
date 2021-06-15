@@ -24,6 +24,7 @@ export interface Unit {
   spaceCannon?: Roll
 
   sustainDamage: boolean
+  immuneToDirectHit?: boolean
   planetaryShield: boolean
   assignHitsToNonFighters?: boolean
   preventEnemySustain?: boolean

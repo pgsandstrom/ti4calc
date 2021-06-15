@@ -46,7 +46,7 @@ export const bunker: BattleEffect = {
 // After 1 of your ships is destroyed during a space combat:
 // Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships.
 
-//
+// TODO maybe add a test to direct hit
 export const directHit: BattleEffect = {
   name: 'Direct Hit',
   description:
@@ -61,7 +61,7 @@ export const directHit: BattleEffect = {
     effectName: string,
   ) => {
     if (participant.effects[effectName] > 0) {
-      if (!u.isDestroyed) {
+      if (u.immuneToDirectHit !== true && !u.isDestroyed) {
         u.isDestroyed = true
         if (LOG) {
           console.log(`${participant.side} used direct hit to destroy ${u.type}`)

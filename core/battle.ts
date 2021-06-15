@@ -64,7 +64,7 @@ export function doBattle(battle: BattleInstance) {
     battle.defender.roundActionTracker = {}
 
     if (battle.roundNumber === 400) {
-      // TODO in theory we could start detecting if the battle state changes after 400 turns and only end prematurely if it is static
+      // I guess an infinite fight should be won by the defender, right? But who cares.
       console.warn('Infinite fight detected')
       return BattleResult.draw
     }
@@ -464,14 +464,17 @@ function applyHit(
 ): boolean {
   const sustainDisabled = isSustainDisabled(battle, p)
 
-  // TODO upgraded dreadnought should sustain even without riskDirectHit
-
   // If we ever desired to speed up the code, this could be done in a single passover of all units
 
   // TODO Currently if we don't have riskDirectHit dreadnoughts will die before flagship sustains.
   // I guess that is okay, even though it is most likely not how a human would play.
   const bestSustainUnit = getLowestWorthSustainUnit(p, battle.place, includeFighter)
-  if (bestSustainUnit && !sustainDisabled && (battle.place === Place.ground || p.riskDirectHit)) {
+
+  if (
+    bestSustainUnit &&
+    !sustainDisabled &&
+    (battle.place === Place.ground || p.riskDirectHit || bestSustainUnit.immuneToDirectHit === true)
+  ) {
     doSustainDamage(battle, p, bestSustainUnit)
     return true
   } else {

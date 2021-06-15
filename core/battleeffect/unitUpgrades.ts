@@ -67,7 +67,7 @@ const dreadnought: BattleEffect = {
     if (unit.type === UnitType.dreadnought) {
       return {
         ...unit,
-        // TODO make immune to direct hit in the future
+        immuneToDirectHit: true,
       }
     } else {
       return unit
