@@ -1,30 +1,25 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
+import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Sardakk', () => {
   it('Sardakk vs arborec flagship', () => {
-    const attacker: Participant = {
-      race: Race.sardakk_norr,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.arborec,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    defender.units.flagship = 1
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+      },
+      Race.sardakk_norr,
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        flagship: 1,
+      },
+      Race.arborec,
+    )
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 

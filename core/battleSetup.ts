@@ -8,6 +8,7 @@ import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import { Battle, BattleInstance, Side, Participant, ParticipantInstance } from './battle-types'
 import { Place, Race } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
+import { PartialRecord } from '../util/util-types'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -248,7 +249,7 @@ export function createParticipant(side: Side, race?: Race): Participant {
   return participant
 }
 
-export const getUnitMap = () => {
+export const getUnitMap = (units?: PartialRecord<UnitType, number>) => {
   const unitMap: {
     [key in UnitType]: number
   } = {
@@ -262,6 +263,7 @@ export const getUnitMap = () => {
     mech: 0,
     infantry: 0,
     pds: 0,
+    ...units,
   }
   return unitMap
 }

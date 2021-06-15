@@ -1,32 +1,26 @@
 import getBattleReport from '..'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
-import { Race, Place } from '../enums'
+import { getTestParticipant } from '../../util/util.test'
+import { Place, Race } from '../enums'
 
 describe('Yin', () => {
   it('suicided units should be cleaned up before they get to fire', () => {
-    const attacker: Participant = {
-      race: Race.yin,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: { 'Impulse Core': 1 },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.destroyer = 1
-    defender.units.destroyer = 2
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 1,
+      },
+      Race.yin,
+      {
+        'Impulse Core': 1,
+      },
+    )
 
-    const result = getBattleReport(attacker, defender, Place.space)
+    const defender = getTestParticipant('defender', {
+      destroyer: 2,
+    })
 
-    expect(result.attacker).toEqual(0)
-    expect(result.draw).toEqual(0)
+    const result = getBattleReport(attacker, defender, Place.space, 100)
+
+    expect(result.defender).toEqual(100)
   })
 })

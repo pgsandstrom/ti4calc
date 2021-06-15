@@ -1,33 +1,25 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
-import { Race, Place } from '../enums'
+import { checkResult, getTestParticipant } from '../../util/util.test'
+import { Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 import { assaultCannon, duraniumArmor } from './tech'
 
 describe('Tech', () => {
   it('5v5 dreadnought with duranium', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 5,
+      },
+      undefined,
+      {
         [duraniumArmor.name]: 1,
       },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 5
-    defender.units.dreadnought = 5
+    )
+
+    const defender = getTestParticipant('defender', {
+      dreadnought: 5,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
@@ -37,27 +29,21 @@ describe('Tech', () => {
   })
 
   it('Assault cannon should not snipe mech', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 3,
+      },
+      undefined,
+      {
         [assaultCannon.name]: 1,
       },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.destroyer = 3
-    defender.units.cruiser = 1
-    defender.units.mech = 1
+    )
+
+    const defender = getTestParticipant('defender', {
+      cruiser: 1,
+      mech: 1,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, 100)
 

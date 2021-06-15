@@ -1,34 +1,26 @@
 import getBattleReport from '.'
-import { checkResult } from '../util/util.test'
-import { getUnitMap } from './battleSetup'
-import { Participant } from './battle-types'
-import { Place, Race } from './enums'
+import { checkResult, getTestParticipant } from '../util/util.test'
+import { Place } from './enums'
 import { duraniumArmor } from './battleeffect/tech'
 
 export const DO_BATTLE_X_TIMES = 15000
 
 describe('core', () => {
   it('Make sure battle effect isnt used if set to 0', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 2,
+      },
+      undefined,
+      {
         [duraniumArmor.name]: 0,
       },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 2
-    defender.units.dreadnought = 2
+    )
+
+    const defender = getTestParticipant('defender', {
+      dreadnought: 2,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
@@ -38,26 +30,21 @@ describe('core', () => {
   })
 
   it('basic ground combat', () => {
-    const attacker: Participant = {
-      race: Race.argent_flight,
-      units: getUnitMap(),
-      unitUpgrades: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        infantry: 2,
+      },
+      undefined,
+      {},
+      {
         infantry: true,
       },
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.infantry = 2
-    defender.units.mech = 2
+    )
+
+    const defender = getTestParticipant('defender', {
+      mech: 2,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
@@ -67,25 +54,14 @@ describe('core', () => {
   })
 
   it('ground combat with bombardment', () => {
-    const attacker: Participant = {
-      race: Race.argent_flight,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.infantry = 3
-    attacker.units.dreadnought = 3
-    defender.units.infantry = 3
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 3,
+      infantry: 3,
+    })
+
+    const defender = getTestParticipant('defender', {
+      infantry: 3,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
@@ -95,26 +71,15 @@ describe('core', () => {
   })
 
   it('ground combat with bombardment but also planetary shield', () => {
-    const attacker: Participant = {
-      race: Race.argent_flight,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.infantry = 3
-    attacker.units.dreadnought = 3
-    defender.units.infantry = 3
-    defender.units.pds = 1
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 3,
+      infantry: 3,
+    })
+
+    const defender = getTestParticipant('defender', {
+      infantry: 3,
+      pds: 1,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
@@ -124,27 +89,15 @@ describe('core', () => {
   })
 
   it('ground combat with bombardment but also planetary shield... but the planetary shield is DISABLED', () => {
-    // TODO add a util function to decrease the test boilerplate
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.infantry = 3
-    attacker.units.flagship = 1
-    defender.units.infantry = 3
-    defender.units.pds = 1
+    const attacker = getTestParticipant('attacker', {
+      flagship: 1,
+      infantry: 3,
+    })
+
+    const defender = getTestParticipant('defender', {
+      infantry: 3,
+      pds: 1,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 

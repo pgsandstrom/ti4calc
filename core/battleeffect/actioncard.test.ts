@@ -1,33 +1,24 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
-import { Race, Place } from '../enums'
+import { checkResult, getTestParticipant } from '../../util/util.test'
+import { Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 import { emergencyRepairs } from './actioncard'
 
 describe('Action card', () => {
   it('Emergency Repairs', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 2,
+      },
+      undefined,
+      {
         [emergencyRepairs.name]: 1,
       },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 2
-    defender.units.dreadnought = 2
+    )
+    const defender = getTestParticipant('defender', {
+      dreadnought: 2,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 

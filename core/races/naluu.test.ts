@@ -1,32 +1,23 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
+import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Naluu', () => {
   it('Naluu flagship should help in ground combat', () => {
-    const attacker: Participant = {
-      race: Race.naluu,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: { 'Mahact flagship bonus': 1 },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    attacker.units.fighter = 2
-    attacker.units.infantry = 1
-    defender.units.infantry = 3
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        fighter: 2,
+        infantry: 1,
+      },
+      Race.naluu,
+    )
+
+    const defender = getTestParticipant('defender', {
+      infantry: 3,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
@@ -36,25 +27,18 @@ describe('Naluu', () => {
   })
 
   it('Naluu fighters should never be able to win ground combat', () => {
-    const attacker: Participant = {
-      race: Race.naluu,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: { 'Mahact flagship bonus': 1 },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    attacker.units.fighter = 2
-    defender.units.infantry = 1
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        fighter: 2,
+      },
+      Race.naluu,
+    )
+
+    const defender = getTestParticipant('defender', {
+      infantry: 1,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 

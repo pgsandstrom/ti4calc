@@ -1,32 +1,30 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
+import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Hacan', () => {
   it('Hacan flagship should give different results with different numbers of trade goods bonuses', () => {
-    const attacker: Participant = {
-      race: Race.hacan,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: { 'Hacan flagship trade goods': 1 },
-    }
-    const defender: Participant = {
-      race: Race.muaat,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    attacker.units.cruiser = 5
-    defender.units.flagship = 1
-    defender.units.cruiser = 5
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        cruiser: 5,
+      },
+      Race.hacan,
+      {
+        'Hacan flagship trade goods': 1,
+      },
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        flagship: 1,
+        cruiser: 5,
+      },
+      Race.muaat,
+    )
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 

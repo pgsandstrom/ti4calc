@@ -1,5 +1,6 @@
+import { getTestParticipant } from '../util/util.test'
 import { Battle, Participant } from './battle-types'
-import { createParticipant, getUnitMap, setupBattle } from './battleSetup'
+import { setupBattle } from './battleSetup'
 import { Race, Place } from './enums'
 import { UnitType } from './unit'
 import {
@@ -12,29 +13,7 @@ import {
 } from './unitGet'
 
 describe('unitGet', () => {
-  it('getHighestWorthUnit', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.warsun = 1
-    attacker.units.flagship = 1
-    attacker.units.dreadnought = 2
-    attacker.units.mech = 1
-    attacker.units.pds = 1
-
+  const getAttackerInstance = (attacker: Participant, defender: Participant) => {
     const battle: Battle = {
       attacker,
       defender,
@@ -42,7 +21,21 @@ describe('unitGet', () => {
     }
     const battleInstance = setupBattle(battle)
 
-    const participantInstance = battleInstance.attacker
+    return battleInstance.attacker
+  }
+
+  it('getHighestWorthUnit', () => {
+    const attacker = getTestParticipant('attacker', {
+      warsun: 1,
+      flagship: 1,
+      dreadnought: 2,
+      mech: 1,
+      pds: 1,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getHighestWorthUnit(participantInstance, Place.space)
 
@@ -50,32 +43,13 @@ describe('unitGet', () => {
   })
 
   it('getHighestWorthUnit when one is damaged', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 5
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 5,
+    })
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const defender = getTestParticipant('defender')
 
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     participantInstance.units.forEach((u, index) => {
       if (index !== 2) {
@@ -91,33 +65,14 @@ describe('unitGet', () => {
   })
 
   it('getHighestWorthUnit should respect place', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.destroyer = 1
-    attacker.units.mech = 1
+    const attacker = getTestParticipant('attacker', {
+      destroyer: 1,
+      mech: 1,
+    })
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const defender = getTestParticipant('defender')
 
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getHighestWorthUnit(participantInstance, Place.space)
 
@@ -125,36 +80,16 @@ describe('unitGet', () => {
   })
 
   it('getHighestWorthSustainUnit', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
+    const attacker = getTestParticipant('attacker', {
+      warsun: 1,
+      dreadnought: 1,
+      destroyer: 1,
+      mech: 1,
+    })
 
-    attacker.units.warsun = 1
-    attacker.units.dreadnought = 1
-    attacker.units.destroyer = 1
-    attacker.units.mech = 1
+    const defender = getTestParticipant('defender')
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
-
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
 
@@ -162,33 +97,14 @@ describe('unitGet', () => {
   })
 
   it('getHighestWorthSustainUnit returning undefined', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.destroyer = 1
-    attacker.units.mech = 1
+    const attacker = getTestParticipant('attacker', {
+      destroyer: 1,
+      mech: 1,
+    })
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const defender = getTestParticipant('defender')
 
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
 
@@ -196,33 +112,14 @@ describe('unitGet', () => {
   })
 
   it('getLowestWorthSustainUnit', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 1
-    attacker.units.flagship = 1
+    const attacker = getTestParticipant('attacker', {
+      flagship: 1,
+      dreadnought: 1,
+    })
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const defender = getTestParticipant('defender')
 
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getLowestWorthSustainUnit(participantInstance, Place.space, true)
 
@@ -230,33 +127,14 @@ describe('unitGet', () => {
   })
 
   it('getHighestWorthNonSustainUnit', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.fighter = 1
-    attacker.units.flagship = 1
+    const attacker = getTestParticipant('attacker', {
+      flagship: 1,
+      fighter: 1,
+    })
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const defender = getTestParticipant('defender')
 
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
 
@@ -264,33 +142,14 @@ describe('unitGet', () => {
   })
 
   it('getLowestWorthUnit', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 1
-    attacker.units.flagship = 1
+    const attacker = getTestParticipant('attacker', {
+      flagship: 1,
+      dreadnought: 1,
+    })
 
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const defender = getTestParticipant('defender')
 
-    const participantInstance = battleInstance.attacker
+    const participantInstance = getAttackerInstance(attacker, defender)
 
     const unit = getLowestWorthUnit(participantInstance, Place.space, true)
 
@@ -298,32 +157,24 @@ describe('unitGet', () => {
   })
 
   it('getHighestHitUnit', () => {
-    const attacker = createParticipant('attacker')
-    attacker.race = Race.l1z1x
-    attacker.units.destroyer = 1
-    attacker.units.cruiser = 1
-    attacker.units.mech = 1
-    const defender = createParticipant('defender')
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
+    const attacker = getTestParticipant('attacker', {
+      cruiser: 1,
+      destroyer: 1,
+      mech: 1,
+    })
 
-    const cruiser = battleInstance.attacker.units.find((u) => u.type === UnitType.cruiser)!
-    const isCruiserHighest = isHighestHitUnit(
-      cruiser,
-      battleInstance.attacker,
-      'combat',
-      Place.space,
-    )
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    const cruiser = participantInstance.units.find((u) => u.type === UnitType.cruiser)!
+    const isCruiserHighest = isHighestHitUnit(cruiser, participantInstance, 'combat', Place.space)
     expect(isCruiserHighest).toEqual(true)
 
-    const destroyer = battleInstance.attacker.units.find((u) => u.type === UnitType.destroyer)!
+    const destroyer = participantInstance.units.find((u) => u.type === UnitType.destroyer)!
     const isDestroyerHighest = isHighestHitUnit(
       destroyer,
-      battleInstance.attacker,
+      participantInstance,
       'combat',
       Place.space,
     )
@@ -331,32 +182,31 @@ describe('unitGet', () => {
   })
 
   it('isHighestHitUnit should work with unit upgrades', () => {
-    const attacker = createParticipant('attacker')
-    attacker.race = Race.l1z1x
-    attacker.units.flagship = 1
-    attacker.units.dreadnought = 1
-    attacker.unitUpgrades[UnitType.dreadnought] = true
-    const defender = createParticipant('defender')
-    const battle: Battle = {
-      attacker,
-      defender,
-      place: Place.space,
-    }
-    const battleInstance = setupBattle(battle)
-
-    const flagShip = battleInstance.attacker.units.find((u) => u.type === UnitType.flagship)!
-    const isFlagshipHighest = isHighestHitUnit(
-      flagShip,
-      battleInstance.attacker,
-      'combat',
-      Place.space,
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        dreadnought: 1,
+      },
+      Race.l1z1x,
+      {},
+      {
+        dreadnought: true,
+      },
     )
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    const flagShip = participantInstance.units.find((u) => u.type === UnitType.flagship)!
+    const isFlagshipHighest = isHighestHitUnit(flagShip, participantInstance, 'combat', Place.space)
     expect(isFlagshipHighest).toEqual(false)
 
-    const dreadnought = battleInstance.attacker.units.find((u) => u.type === UnitType.dreadnought)!
+    const dreadnought = participantInstance.units.find((u) => u.type === UnitType.dreadnought)!
     const isDreadnoughtHighest = isHighestHitUnit(
       dreadnought,
-      battleInstance.attacker,
+      participantInstance,
       'combat',
       Place.space,
     )

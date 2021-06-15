@@ -47,6 +47,7 @@ export const bunker: BattleEffect = {
 // Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships.
 
 // TODO maybe add a test to direct hit
+// TODO also test riskDirectHit and that stuff there
 export const directHit: BattleEffect = {
   name: 'Direct Hit',
   description:

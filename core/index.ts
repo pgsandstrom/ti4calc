@@ -16,6 +16,10 @@ export default function getBattleReport(
   place: Place,
   times = 1000,
 ): BattleReport {
+  if (attacker.side !== 'attacker' || defender.side !== 'defender') {
+    throw new Error(`side error: ${attacker.side}, ${defender.side}`)
+  }
+
   const battle: Battle = {
     attacker,
     defender,

@@ -1,4 +1,27 @@
+import { Participant, Side } from '../core/battle-types'
+import { getUnitMap } from '../core/battleSetup'
+import { Race } from '../core/enums'
 import { DO_BATTLE_X_TIMES } from '../core/index.test'
+import { UnitType } from '../core/unit'
+import { PartialRecord } from './util-types'
+
+export function getTestParticipant(
+  side: Side,
+  units: PartialRecord<UnitType, number> = {},
+  race = Race.barony_of_letnev,
+  battleEffects: Record<string, number | undefined> = {},
+  unitUpgrades: PartialRecord<UnitType, boolean> = {},
+) {
+  const p: Participant = {
+    race,
+    units: getUnitMap(units),
+    unitUpgrades,
+    riskDirectHit: false,
+    side,
+    battleEffects,
+  }
+  return p
+}
 
 export function checkResult(result: number, expected: number) {
   // the allowed diff percentage from the expected value is dependant on how small the value is

@@ -1,34 +1,27 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
+import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Argent flight', () => {
   it('Argent flight destroyers should destroy sustain', () => {
-    const attacker: Participant = {
-      race: Race.argent_flight,
-      units: getUnitMap(),
-      unitUpgrades: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 3,
+        destroyer: 3,
+      },
+      Race.argent_flight,
+      {},
+      {
         destroyer: true,
       },
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 3
-    attacker.units.destroyer = 3
-    defender.units.dreadnought = 3
-    defender.units.cruiser = 3
+    )
+
+    const defender = getTestParticipant('defender', {
+      dreadnought: 3,
+      cruiser: 3,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
@@ -38,26 +31,19 @@ describe('Argent flight', () => {
   })
 
   it('Argent flight flagship prevents pds fire in space', () => {
-    const attacker: Participant = {
-      race: Race.argent_flight,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    attacker.units.destroyer = 2
-    defender.units.destroyer = 2
-    defender.units.pds = 10
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        destroyer: 2,
+      },
+      Race.argent_flight,
+    )
+
+    const defender = getTestParticipant('defender', {
+      destroyer: 2,
+      pds: 10,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
@@ -65,26 +51,21 @@ describe('Argent flight', () => {
   })
 
   it('argent flight upgraded destroyers should perform like cruisers', () => {
-    const attacker: Participant = {
-      race: Race.argent_flight,
-      units: getUnitMap(),
-      unitUpgrades: {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 2,
+      },
+      Race.argent_flight,
+      {},
+      {
         destroyer: true,
       },
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.destroyer = 2
-    defender.units.cruiser = 2
+    )
+
+    const defender = getTestParticipant('defender', {
+      cruiser: 2,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
@@ -94,25 +75,21 @@ describe('Argent flight', () => {
   })
 
   it('Using Strike Wing ambuscade', () => {
-    const attacker: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: { 'Strike Wing Ambuscade': 1 },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.destroyer = 2
-    attacker.units.pds = 1
-    defender.units.destroyer = 2
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 2,
+        pds: 1,
+      },
+      undefined,
+      {
+        'Strike Wing Ambuscade': 1,
+      },
+    )
+
+    const defender = getTestParticipant('defender', {
+      destroyer: 2,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 

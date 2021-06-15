@@ -1,34 +1,27 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
+import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Mentak', () => {
   it('Mentak hero should resurrect upgraded units if mentak has the upgrade', () => {
-    const attacker: Participant = {
-      race: Race.mentak,
-      units: getUnitMap(),
-      unitUpgrades: {
-        destroyer: true,
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 1,
       },
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {
+      Race.mentak,
+      {
         'Mentak hero': 1,
       },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 1
-    defender.units.destroyer = 4
+      {
+        destroyer: true,
+      },
+    )
+
+    const defender = getTestParticipant('defender', {
+      destroyer: 4,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
@@ -38,6 +31,9 @@ describe('Mentak', () => {
 
     // and the results should be equal even with attacker/defender flipped:
 
+    defender.side = 'attacker'
+    attacker.side = 'defender'
+
     const result2 = getBattleReport(defender, attacker, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result2.attacker, DO_BATTLE_X_TIMES * 0.358)
@@ -46,29 +42,21 @@ describe('Mentak', () => {
   })
 
   it('Mentak flagship should not affect ground combat', () => {
-    const attacker: Participant = {
-      race: Race.mentak,
-      units: getUnitMap(),
-      unitUpgrades: {
-        destroyer: true,
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        infantry: 2,
       },
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {
+      Race.mentak,
+      {
         'Mentak hero': 1,
       },
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    attacker.units.infantry = 2
-    defender.units.mech = 1
+    )
+
+    const defender = getTestParticipant('defender', {
+      mech: 1,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 

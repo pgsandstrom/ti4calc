@@ -1,31 +1,22 @@
 import getBattleReport from '..'
-import { checkResult } from '../../util/util.test'
-import { Participant } from '../battle-types'
-import { getUnitMap } from '../battleSetup'
+import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Race, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('L1z1x', () => {
   it('ground combat with l1z1x harrow ability', () => {
-    const attacker: Participant = {
-      race: Race.l1z1x,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.barony_of_letnev,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.dreadnought = 3
-    attacker.units.infantry = 5
-    defender.units.infantry = 8
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 3,
+        infantry: 5,
+      },
+      Race.l1z1x,
+    )
+
+    const defender = getTestParticipant('defender', {
+      infantry: 8,
+    })
 
     const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
@@ -35,26 +26,19 @@ describe('L1z1x', () => {
   })
 
   it('L1z1x flagship makes flagship and dreadnoughts target non-fighter ships', () => {
-    const attacker: Participant = {
-      race: Race.l1z1x,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'attacker',
-      battleEffects: {},
-    }
-    const defender: Participant = {
-      race: Race.arborec,
-      units: getUnitMap(),
-      unitUpgrades: {},
-      riskDirectHit: false,
-      side: 'defender',
-      battleEffects: {},
-    }
-    attacker.units.flagship = 1
-    attacker.units.dreadnought = 4
-    defender.units.dreadnought = 5
-    defender.units.fighter = 3
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        dreadnought: 4,
+      },
+      Race.l1z1x,
+    )
+
+    const defender = getTestParticipant('defender', {
+      dreadnought: 5,
+      fighter: 3,
+    })
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
