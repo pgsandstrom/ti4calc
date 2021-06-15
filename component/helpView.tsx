@@ -59,7 +59,8 @@ export default function HelpView({ style }: Props) {
             <a href="https://twitter.com/pgsandstrom" target="_blank" rel="noopener noreferrer">
               Twitter
             </a>{' '}
-            or via mail at <a href="mailto:ti4calc@persandstrom.com">ti4calc@persandstrom.com</a>.
+            or via mail at{' '}
+            <a href="mailto:ti4battle@persandstrom.com">ti4battle@persandstrom.com</a>.
           </div>
           <div></div>
         </StyledDiv>

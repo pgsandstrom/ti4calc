@@ -181,7 +181,7 @@ export default function Home() {
             here
           </a>
           , otherwise send me a mail at{' '}
-          <a href="mailto:ti4calc@persandstrom.com">ti4calc@persandstrom.com</a>
+          <a href="mailto:ti4battle@persandstrom.com">ti4battle@persandstrom.com</a>
         </div>
         <div style={{ marginTop: '10px' }}>Please include the data below.</div>
         <div style={{ marginTop: '10px', border: '1px solid black', padding: '10px' }}>
