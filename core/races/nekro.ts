@@ -62,7 +62,6 @@ export const nekro: BattleEffect[] = [
     race: Race.nekro,
     name: nekroMechBonus,
   },
-  // TODO certain abilities should not be able to be copied. Like the naluu mech bonus. It should be categorized as something else.
   // TODO should we care about copying technology mid combat? No, right?
   // TODO should we fix so nekro can copy faction techs?
   // If we do, make sure nekro does not gain all faction unit-techs just by trying to upgrade any unit

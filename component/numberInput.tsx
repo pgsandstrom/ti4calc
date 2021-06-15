@@ -13,8 +13,12 @@ export default function NumberInput(props: NumberInputProps) {
   const { currentValue, onUpdate, disabled, style } = props
 
   const [val, setVal] = useState<string>(currentValue.toString())
+  const [empty, setEmpty] = useState(false)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // remember: input with type number just get value "" on invalid input
+    // so we use the valid flag to figure out if it is empty
+    setEmpty(e.currentTarget.value === '' && e.target.validity.valid)
     setVal(e.target.value)
     const newVal = parseInt(e.target.value, 10)
     if (Number.isFinite(newVal)) {
@@ -40,9 +44,14 @@ export default function NumberInput(props: NumberInputProps) {
       onFocus={(e) => {
         e.target.select()
       }}
-      // remember: input with type number dont trigger onChange on invalid input. So we need to clean up in onBlur
       onChange={onChange}
       onBlur={() => {
+        if (val === '' && empty) {
+          setVal('0')
+          onUpdate(0)
+          return
+        }
+
         const newVal = parseInt(val, 10)
         if (!Number.isFinite(newVal)) {
           setVal(currentValue.toString())
