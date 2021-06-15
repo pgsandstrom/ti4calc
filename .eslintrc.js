@@ -47,7 +47,12 @@ module.exports = {
       },
     ],
     '@typescript-eslint/no-unnecessary-condition': ['error'],
-    '@typescript-eslint/strict-boolean-expressions': ['error'],
+    '@typescript-eslint/strict-boolean-expressions': [
+      'error',
+      {
+        allowNullableBoolean: true,
+      },
+    ],
 
     // here is frontend/backend exclusive rules
 

@@ -61,7 +61,7 @@ export const directHit: BattleEffect = {
     effectName: string,
   ) => {
     if (participant.effects[effectName] > 0) {
-      if (u.immuneToDirectHit !== true && !u.isDestroyed) {
+      if (!u.immuneToDirectHit && !u.isDestroyed) {
         u.isDestroyed = true
         if (LOG) {
           console.log(`${participant.side} used direct hit to destroy ${u.type}`)

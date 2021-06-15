@@ -263,7 +263,7 @@ const getBattleEffectInput = (
       checked={battleEffectCount !== undefined && battleEffectCount > 0}
       onChange={(e) => {
         updateParticipant(participant, e.target.checked, onUpdate)
-        if (effect.symmetrical === true) {
+        if (effect.symmetrical) {
           updateParticipant(otherParticipant, e.target.checked, onOtherUpdate)
         }
       }}

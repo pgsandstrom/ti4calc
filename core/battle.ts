@@ -170,8 +170,8 @@ function getSpaceCannonHits(
 
       const hits = hitInfo.hits
       return {
-        hits: u.assignHitsToNonFighters === true ? 0 : hits,
-        hitsToNonFighters: u.assignHitsToNonFighters === true ? hits : 0,
+        hits: u.assignHitsToNonFighters ? 0 : hits,
+        hitsToNonFighters: u.assignHitsToNonFighters ? hits : 0,
         hitsAssignedByEnemy: 0, // I dont think any unit uses this, so I wont implement it now.
       }
     })
@@ -329,8 +329,8 @@ function doParticipantBattleRolls(
 
       const hits = hitInfo.hits
       return {
-        hits: unit.assignHitsToNonFighters === true ? 0 : hits,
-        hitsToNonFighters: unit.assignHitsToNonFighters === true ? hits : 0,
+        hits: unit.assignHitsToNonFighters ? 0 : hits,
+        hitsToNonFighters: unit.assignHitsToNonFighters ? hits : 0,
         hitsAssignedByEnemy: 0, // I dont think any unit uses this, so I wont implement it now.
       }
     })
@@ -473,7 +473,7 @@ function applyHit(
   if (
     bestSustainUnit &&
     !sustainDisabled &&
-    (battle.place === Place.ground || p.riskDirectHit || bestSustainUnit.immuneToDirectHit === true)
+    (battle.place === Place.ground || p.riskDirectHit || bestSustainUnit.immuneToDirectHit)
   ) {
     doSustainDamage(battle, p, bestSustainUnit)
     return true
