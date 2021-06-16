@@ -230,12 +230,13 @@ const getBattleEffectInput = (
       }
       onUpdate(newParticipant)
     }
+
+    const disabled = !isBattleEffectRelevant(effect, participant)
     return (
       <NumberInput
         currentValue={participant.battleEffects[effect.name] ?? 0}
         onUpdate={updateEffectCount}
-        disabled={!isBattleEffectRelevant(effect, participant)}
-        style={{ width: '100%' }}
+        style={{ width: '100%', visibility: disabled ? 'hidden' : undefined }}
       />
     )
   }
@@ -256,6 +257,7 @@ const getBattleEffectInput = (
     onUpdate(newParticipant)
   }
 
+  const disabled = !isBattleEffectRelevant(effect, participant)
   return (
     <StyledCheckbox
       autoComplete="off"
@@ -267,7 +269,9 @@ const getBattleEffectInput = (
           updateParticipant(otherParticipant, e.target.checked, onOtherUpdate)
         }
       }}
-      disabled={!isBattleEffectRelevant(effect, participant)}
+      style={{
+        visibility: disabled ? 'hidden' : undefined,
+      }}
     />
   )
 }
