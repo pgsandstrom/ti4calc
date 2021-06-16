@@ -31,8 +31,32 @@ export function BattleReportView({ report }: Props) {
   const total = report.attacker + report.defender + report.draw
 
   return (
-    <div>
-      <h2 style={{ textAlign: 'center' }}>Result</h2>
+    <div
+      style={{
+        position: 'sticky',
+        top: 0,
+        bottom: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        marginBottom: '5px',
+        marginTop: '10px',
+      }}
+    >
+      <h3
+        style={{
+          textAlign: 'center',
+          marginBottom: '0px',
+          marginTop: '0px',
+          border: '1px solid black',
+          borderBottom: 'none',
+          alignSelf: 'center',
+          padding: '0 10px',
+          borderRadius: '5px 5px 0 0',
+          background: '#E5ECF7',
+        }}
+      >
+        Result
+      </h3>
 
       <BattleReportDiv>
         <PercentageDiv

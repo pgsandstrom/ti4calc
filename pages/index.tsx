@@ -25,8 +25,6 @@ const StyledHolder = styled.div`
   margin: 0 auto;
   max-width: 100%;
   min-height: 100vh;
-
-  overflow: hidden; // to prevent popovers from creating horizontal scrollbar
 `
 
 const StyledMain = styled.main`
@@ -50,8 +48,7 @@ const StyledMainController = styled.div`
   border-image-outset: 0px;
   border-image-repeat: round;
 
-  padding: 20px;
-  padding-bottom: 40px;
+  padding: 10px 20px 40px;
   width: 100%;
 `
 

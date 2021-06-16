@@ -8,13 +8,13 @@ interface Props {
 
 const ARROW_WIDTH = 5
 
-const StyledDiv = styled.div`
-  @media (max-width: 1023px) {
-    .popover {
-      width: 220px !important;
-    }
-  }
+// centering this popover is kind of an ugly hack
+// we cant use the normal -50% hack because it requires a 'overflow: hidden' somewhere to prevent horizontal scroll to appear
+// and we can't use that, because it breaks our 'position: sticky' elements.
+const LEFT_PERCENTAGE = 100
+const LEFT_PX = 70
 
+const StyledDiv = styled.div`
   position: relative;
 
   .hover-icon {
@@ -30,16 +30,15 @@ const StyledDiv = styled.div`
   .popover {
     position: absolute;
     bottom: calc(100% + ${ARROW_WIDTH}px);
-    left: 50%;
     z-index: 1000;
-    width: 260px;
+    width: 300px;
     pointer-events: none;
 
     .popover-content {
       background: black;
       color: white;
       position: relative;
-      left: -50%;
+      left: calc(-${LEFT_PERCENTAGE}% + ${LEFT_PX}px);
       padding: 10px;
       border-radius: 5px;
 
@@ -53,7 +52,7 @@ const StyledDiv = styled.div`
         border-width: ${ARROW_WIDTH}px;
         top: 100%;
         border-top-color: black;
-        right: calc(50% - ${ARROW_WIDTH}px);
+        right: calc(${100 - LEFT_PERCENTAGE}% + ${LEFT_PX - 15}px);
       }
     }
   }
