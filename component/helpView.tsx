@@ -40,6 +40,10 @@ export default function HelpView({ style }: Props) {
       </CoolButton>
       {show && (
         <StyledDiv>
+          <div>
+            This is a tool to help calculate odds for the board game Twilight Imperium 4. All
+            current expansions and codex are included.
+          </div>
           <div>Upgrade units by selecting the checkbox next to them.</div>
           <div>
             The result is calculated by running {NUMBER_OF_ROLLS} simulations but the first result

@@ -42,6 +42,13 @@ const StyledMain = styled.main`
 `
 
 const StyledMainController = styled.div`
+  @media (max-height: 799px) {
+    .main-title {
+      visibility: hidden;
+      height: 10px;
+    }
+  }
+
   border-image-source: url('/background.webp');
   border-image-slice: 40 fill;
   border-image-width: 20px;
@@ -214,7 +221,9 @@ export default function Home() {
         <RaceImage race={attacker.race} side="left" style={{ flex: '1 0 0' }} />
         <StyledMain>
           <StyledMainController>
-            <h1 style={{ textAlign: 'center' }}>TI4 calculator</h1>
+            <h1 className="main-title" style={{ textAlign: 'center', margin: '10px 0' }}>
+              TI4 calculator
+            </h1>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <div
                 style={{
