@@ -31,7 +31,7 @@ const StyledMain = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 0 auto;
+  flex: 1 0 0;
 
   max-width: 500px;
   min-width: 360px;
