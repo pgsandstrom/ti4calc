@@ -93,6 +93,10 @@ export interface ParticipantInstance {
   race: Race
   units: UnitInstance[]
 
+  // we track what unit upgrades we have because it is required by some abilities.
+  //For example sardakk norr Exotrireme II self destruct ability.
+  unitUpgrades: PartialRecord<UnitType, boolean>
+
   // Units added during combat. At the very end of each combat round they are moved to normal units
   // This is to prevent them from taking a hit the same round they appeared
   newUnits: UnitInstance[]

@@ -1,8 +1,10 @@
-import { getOtherParticipant, LOG } from '../battle'
+import { destroyUnit, getOtherParticipant, isParticipantAlive, LOG } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { getHighestWorthUnit, getUnits } from '../unitGet'
+import _times from 'lodash/times'
 
 export const sardarkkNorr: BattleEffect[] = [
   {
@@ -59,6 +61,75 @@ export const sardarkkNorr: BattleEffect[] = [
     },
   },
   {
+    type: 'race',
+    name: 'Sardakk Norr dreadnoughts',
+    place: 'both',
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.dreadnought) {
+        unit.bombardment!.hit = 4
+        unit.bombardment!.count = 2
+      }
+      return unit
+    },
+  },
+  {
+    type: 'race-tech',
+    name: 'Exotrireme II',
+    place: 'both',
+    race: Race.sardakk_norr,
+    unit: UnitType.dreadnought,
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.dreadnought) {
+        return {
+          ...unit,
+          immuneToDirectHit: true,
+        }
+      } else {
+        return unit
+      }
+    },
+  },
+  {
+    type: 'race-ability',
+    name: 'Exotrireme II should suicide',
+    description:
+      'If the Sardakk dreadnought is upgraded, it will activate its ability after the first combat round. The ability reads: "After a round of space combat, you may destroy this unit to destroy up to 2 ships in this system."',
+    place: Place.space,
+    race: Race.sardakk_norr,
+    onCombatRoundEnd: (
+      participant: ParticipantInstance,
+      battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      if (
+        participant.unitUpgrades[UnitType.dreadnought] &&
+        isParticipantAlive(otherParticipant, battle.place)
+      ) {
+        const units = getUnits(participant, battle.place, false)
+        const dreadNoughts = units.filter((u) => u.type === UnitType.dreadnought)
+        dreadNoughts.forEach((u) => {
+          destroyUnit(battle, u)
+        })
+
+        if (LOG) {
+          console.log(
+            `${participant.side} used Exotrireme II ability for ${dreadNoughts.length} ships.`,
+          )
+        }
+
+        _times(dreadNoughts.length * 2, () => {
+          const highestWorthUnit = getHighestWorthUnit(otherParticipant, battle.place)
+          if (highestWorthUnit) {
+            if (LOG) {
+              console.log(`${highestWorthUnit.type} was destroyed by Exotrireme II ability.`)
+            }
+            destroyUnit(battle, highestWorthUnit)
+          }
+        })
+      }
+    },
+  },
+  {
     type: 'race-tech',
     name: 'Valkyrie Particle Weave',
     description:
@@ -97,5 +168,4 @@ export const sardarkkNorr: BattleEffect[] = [
     },
     timesPerRound: 1,
   },
-  // TODO dreadnought and its upgrade
 ]

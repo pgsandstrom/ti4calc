@@ -65,7 +65,7 @@ function getParticipantUnits(participant: Participant) {
   return units
 }
 
-function getParticipantBattleEffects(participant: Participant, place: Place) {
+function getParticipantBattleEffects(participant: Participant, place: Place): BattleEffect[] {
   const allBattleEffects = getAllBattleEffects()
 
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
@@ -114,6 +114,7 @@ function createParticipantInstance(
     side,
     race: participant.race,
     units,
+    unitUpgrades: participant.unitUpgrades,
     newUnits: [],
 
     allUnitTransform: [],
