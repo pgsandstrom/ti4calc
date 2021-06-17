@@ -5,6 +5,7 @@ import { registerUsage } from '../../server/usageController'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   let ip = req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? undefined
+  console.log(`ip: ${ip}`)
   if (isArray(ip)) {
     ip = ip[0]
   }

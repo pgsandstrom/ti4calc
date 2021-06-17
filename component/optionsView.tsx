@@ -120,6 +120,7 @@ export default function OptionsView(props: OptionsProps) {
           style={{
             display: 'flex',
             flexDirection: 'column',
+            marginTop: '20px',
           }}
         >
           <OptionsRow
