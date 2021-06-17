@@ -91,6 +91,8 @@ export const mentak: BattleEffect[] = [
       }
 
       for (const rawUnit of deadUnits) {
+        // We should only be able to steal a warsun if we have the warsun upgrade. But we don't track that.
+        // And I dont want to clutter the interface more for such an extreme edge case. So lets ignore it.
         const unit = createUnitAndApplyEffects(rawUnit.type, participant, battle.place)
         participant.newUnits.push(unit)
       }

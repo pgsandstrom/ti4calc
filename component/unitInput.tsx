@@ -50,7 +50,6 @@ export default function UnitInput({ participant, unitType, onUpdate, style }: Un
         autoComplete="off"
         title="Upgrade"
         type="checkbox"
-        disabled={!unitUpgrade}
         checked={hasUpgrade}
         onChange={() => {
           const newParticipant: Participant = {
