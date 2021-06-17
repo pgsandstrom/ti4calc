@@ -32,6 +32,7 @@ interface OptionsProps {
 
 const OptionsDiv = styled.div`
   display: flex;
+  margin-top: 0px;
 
   .control-container {
     min-width: 48px;
@@ -43,6 +44,7 @@ const OptionsDiv = styled.div`
     display: flex;
     flex: 0 0 auto;
     width: 200px;
+    padding-top: 3px;
 
     > span {
       flex: 1 0 0;
@@ -285,14 +287,14 @@ interface OptionsRowProps {
 
 function OptionsRow({ left, right, name, description }: OptionsRowProps) {
   return (
-    <OptionsDiv style={{ marginTop: '20px' }}>
+    <OptionsDiv>
       <div className="space-taker-outer" />
       <div className="control-container">{left}</div>
       <div className="space-taker" />
       <div className="description-container">
         <span style={{ flex: '1 0 0' }}>{name}</span>
         <div style={{ flex: '0 0 auto' }}>
-          <Popover text={description} />
+          <Popover text={description} style={{ marginTop: '2px' }} />
         </div>
       </div>
       <div className="space-taker" />
