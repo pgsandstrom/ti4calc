@@ -88,7 +88,7 @@ export const assaultCannon: BattleEffect = {
     otherParticipant: ParticipantInstance,
   ) => {
     if (getNonFighterShips(participant).length >= 3) {
-      const bestShip = getHighestWorthUnit(otherParticipant, Place.space)
+      const bestShip = getHighestWorthUnit(otherParticipant, Place.space, false)
       if (bestShip) {
         destroyUnit(battle, bestShip)
         if (LOG) {

@@ -2,8 +2,8 @@ import { ParticipantInstance } from './battle-types'
 import { Place } from './enums'
 import { UnitInstance, UnitType } from './unit'
 
-export function getHighestWorthUnit(p: ParticipantInstance, place: Place) {
-  const units = getUnits(p, place, true)
+export function getHighestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
+  const units = getUnits(p, place, includeFighter)
 
   if (units.length === 0) {
     return undefined

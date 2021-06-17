@@ -37,7 +37,7 @@ describe('unitGet', () => {
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthUnit(participantInstance, Place.space)
+    const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
     expect(unit?.type).toEqual(UnitType.warsun)
   })
@@ -58,7 +58,7 @@ describe('unitGet', () => {
       }
     })
 
-    const unit = getHighestWorthUnit(participantInstance, Place.space)
+    const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
     expect(unit?.type).toEqual(UnitType.dreadnought)
     expect(unit?.takenDamage).toEqual(false)
@@ -74,7 +74,7 @@ describe('unitGet', () => {
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthUnit(participantInstance, Place.space)
+    const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
     expect(unit?.type).toEqual(UnitType.destroyer)
   })

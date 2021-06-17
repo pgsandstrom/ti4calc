@@ -118,7 +118,7 @@ export const sardarkkNorr: BattleEffect[] = [
         }
 
         _times(dreadNoughts.length * 2, () => {
-          const highestWorthUnit = getHighestWorthUnit(otherParticipant, battle.place)
+          const highestWorthUnit = getHighestWorthUnit(otherParticipant, battle.place, true)
           if (highestWorthUnit) {
             if (LOG) {
               console.log(`${highestWorthUnit.type} was destroyed by Exotrireme II ability.`)
