@@ -25,7 +25,7 @@ export const nekro: BattleEffect[] = [
               name: 'Nekro flagship ability',
               place: Place.space,
               transformUnit: (unit: UnitInstance) => {
-                if (unit.type === UnitType.infantry) {
+                if (unit.isGroundForce) {
                   return {
                     ...unit,
                     isShip: true,
