@@ -88,7 +88,18 @@ export const argentFlight: BattleEffect[] = [
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
-        unit.combat!.hit = 7
+        return {
+          ...unit,
+          combat: {
+            ...unit.combat!,
+            hit: 7,
+          },
+          afb: {
+            ...unit.afb!,
+            hit: 6,
+            count: 3,
+          },
+        }
       }
       return unit
     },

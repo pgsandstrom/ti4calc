@@ -25,9 +25,9 @@ describe('Argent flight', () => {
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.719)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.243)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.863)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.026)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.111)
   })
 
   it('Argent flight flagship prevents pds fire in space', () => {

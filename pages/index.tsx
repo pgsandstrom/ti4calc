@@ -78,6 +78,8 @@ const StyledClearButton = styled(CoolButton)`
 `
 
 // TODO add "units damaged before the battle"?
+// TODO add resource value
+// TODO remember faction
 
 export default function Home() {
   const [attacker, setAttackerRaw] = useState<Participant>(createParticipant('attacker'))
