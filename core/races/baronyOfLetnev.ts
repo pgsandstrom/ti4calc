@@ -29,10 +29,11 @@ export const baronyOfLetnev: BattleEffect[] = [
               type: 'other',
               place: 'both',
               transformEnemyUnit: (u: UnitInstance) => {
-                return {
-                  ...u,
-                  planetaryShield: false,
-                }
+                throw new Error('plox')
+                // return {
+                //   ...u,
+                //   planetaryShield: false,
+                // }
               },
             },
             {
