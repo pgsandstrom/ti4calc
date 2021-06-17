@@ -26,7 +26,7 @@ export function doBattle(battle: BattleInstance) {
     }
   })
   battle.defender.onStartEffect.forEach((effect) => {
-    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+    if (canBattleEffectBeUsed(effect, battle.defender)) {
       effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
     }
   })
@@ -51,7 +51,7 @@ export function doBattle(battle: BattleInstance) {
       }
     })
     battle.defender.onCombatRoundEnd.forEach((effect) => {
-      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      if (canBattleEffectBeUsed(effect, battle.defender)) {
         effect.onCombatRoundEnd!(battle.defender, battle, battle.attacker, effect.name)
       }
     })
