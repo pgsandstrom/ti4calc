@@ -281,7 +281,6 @@ export default function Home() {
                   <span className="long-text">Clear attacker</span>
                 </StyledClearButton>
                 <div style={{ flex: '1 0 0' }} />
-                {/* TODO below 410px width and we should reorganize these buttons */}
                 <SwitchButton
                   isLeftSelected={place === Place.space}
                   leftLabel={Place.space}

@@ -52,7 +52,6 @@ export const articlesOfWar: BattleEffect = {
   // TODO
 }
 
-// No bombardment
 export const conventionsOfWar: BattleEffect = {
   name: 'Conventions of War',
   description: 'No BOMBARDMENT.',

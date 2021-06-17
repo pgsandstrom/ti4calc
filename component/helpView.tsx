@@ -66,7 +66,39 @@ export default function HelpView({ style }: Props) {
             or via mail at{' '}
             <a href="mailto:ti4battle@persandstrom.com">ti4battle@persandstrom.com</a>.
           </div>
-          <div></div>
+          <div>
+            <span>Known missing features:</span>
+            <ul>
+              <li>Nekro can&apos;t use other factions unit upgrades.</li>
+              <li>Nekro can&apos;t steal techs mid battle.</li>
+              <li>The fight cannot be started with damaged units.</li>
+              <li>Action card &quot;Courageous to the End&quot; is missing.</li>
+              <li>Action card &quot;Experimental Battlestation&quot; is missing.</li>
+              <li>Action card &quot;Maneuvering Jets&quot; is missing.</li>
+              <li>Action card &quot;Shields Holding&quot; is missing.</li>
+              <li>Action card &quot;Reflective Shielding&quot; is missing.</li>
+              <li>Action card &quot;Scramble Frequency&quot; is missing.</li>
+              <li>Action card &quot;Waylay&quot; is missing.</li>
+              <li>Agenda &quot;Articles of War&quot; is missing.</li>
+              <li>Nomad agent is missing.</li>
+              <li>L1z1x mech can&apos;t be used to bombard during a ground invasion.</li>
+              <li>
+                Empyrean flagship can repair the same unit several times during the same combat
+                round. This is not supposed to happen.
+              </li>
+              <li>
+                If a carrier is killed by a PDS then fighters without capacity should die. Currently
+                capacity is ignored.
+              </li>
+              <li>
+                If the mentak hero kills a war sun, Mentak must have the war sun technology to steal
+                it. In the simulation we always steal it.
+              </li>
+              <li>
+                Baronys &quot;War Funding&quot; only rerolls their own dice, never their opponents
+              </li>
+            </ul>
+          </div>
         </StyledDiv>
       )}
     </div>
