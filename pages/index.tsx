@@ -54,7 +54,10 @@ const StyledMainController = styled.div`
   border-image-width: 20px;
   border-image-outset: 0px;
   border-image-repeat: round;
+
+  // part of ios fix hack
   border-color: white;
+  border-style: solid;
 
   padding: 10px 20px 40px;
   width: 100%;
