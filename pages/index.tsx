@@ -55,11 +55,12 @@ const StyledMainController = styled.div`
   border-image-outset: 0px;
   border-image-repeat: round;
 
-  // part of ios fix hack
-  border-color: white;
-  border-style: solid;
+  // some ios devices does not show the border-image, so we need a fallback background
+  // that is why we have this ugly hack
+  background: #e6edf8;
+  background-clip: content-box;
 
-  padding: 10px 20px 40px;
+  padding: 18px 20px 40px;
   width: 100%;
 `
 
@@ -227,7 +228,7 @@ export default function Home() {
         <RaceImage race={attacker.race} side="left" style={{ flex: '1 0 0' }} />
         <StyledMain>
           <StyledMainController>
-            <h1 className="main-title" style={{ textAlign: 'center', margin: '10px 0' }}>
+            <h1 className="main-title" style={{ textAlign: 'center', margin: '2px 0 10px' }}>
               TI4 calculator
             </h1>
             <div
