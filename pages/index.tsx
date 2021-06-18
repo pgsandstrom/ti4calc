@@ -226,7 +226,14 @@ export default function Home() {
             <h1 className="main-title" style={{ textAlign: 'center', margin: '10px 0' }}>
               TI4 calculator
             </h1>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                // this is a fallback background since our border-image-source does not seem to load on old iphones
+                background: '#e6edf8',
+              }}
+            >
               <div
                 style={{
                   display: 'flex',
