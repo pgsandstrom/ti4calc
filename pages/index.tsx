@@ -54,6 +54,7 @@ const StyledMainController = styled.div`
   border-image-width: 20px;
   border-image-outset: 0px;
   border-image-repeat: round;
+  border-color: white;
 
   padding: 10px 20px 40px;
   width: 100%;
@@ -230,8 +231,6 @@ export default function Home() {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                // this is a fallback background since our border-image-source does not seem to load on old iphones
-                background: '#e6edf8',
               }}
             >
               <div
