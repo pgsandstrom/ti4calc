@@ -53,7 +53,7 @@ const RACE_MAP: Record<Race, BattleEffect[]> = {
   Yssaril: yssaril,
 }
 
-export function getRaceBattleEffects(p: Participant | Race) {
+export function getRaceBattleEffects(p: Participant | Race): BattleEffect[] {
   if (isParticipant(p)) {
     return RACE_MAP[p.race]
   } else {

@@ -1,10 +1,10 @@
 import Head from 'next/head'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
 import { createParticipant } from '../core/battleSetup'
-import { Place } from '../core/enums'
+import { Place, Race } from '../core/enums'
 import { UnitType } from '../core/unit'
 import SwitchButton from '../component/switchButton'
 import RaceImage from '../component/raceImage'
@@ -84,7 +84,6 @@ const StyledClearButton = styled(CoolButton)`
 
 // TODO add "units damaged before the battle"?
 // TODO add resource value
-// TODO remember faction
 
 export default function Home() {
   const [attacker, setAttackerRaw] = useState<Participant>(createParticipant('attacker'))
@@ -171,6 +170,43 @@ export default function Home() {
       })()
     }
   }, [touched, attacker, defender, place, error])
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    if (localStorage && touched) {
+      localStorage.setItem('attacker.race', attacker.race)
+    }
+  }, [attacker.race, touched])
+
+  useEffect(() => {
+    // eslint-disable-next-line
+    if (localStorage && touched) {
+      localStorage.setItem('defender.race', defender.race)
+    }
+  }, [defender.race, touched])
+
+  useLayoutEffect(() => {
+    // eslint-disable-next-line
+    if (localStorage) {
+      const attackerRace = localStorage.getItem('attacker.race') as Race | undefined
+      if (attackerRace) {
+        const newAttacker: Participant = {
+          ...attacker,
+          race: attackerRace,
+        }
+        setAttackerRaw(newAttacker)
+      }
+      const defenderRace = localStorage.getItem('defender.race') as Race | undefined
+      if (defenderRace) {
+        const newDefender: Participant = {
+          ...defender,
+          race: defenderRace,
+        }
+        setDefenderRaw(newDefender)
+      }
+    }
+    // eslint-disable-next-line
+  }, [])
 
   if (error) {
     const battle: Battle = {
