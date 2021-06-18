@@ -44,6 +44,40 @@ export const sardarkkNorr: BattleEffect[] = [
   },
   {
     type: 'race',
+    name: 'Sardakk mech',
+    place: Place.ground,
+    transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
+      if (unit.type === UnitType.mech) {
+        return {
+          ...unit,
+          battleEffects: [
+            {
+              type: 'other',
+              name: 'Sardakk mech ability',
+              place: Place.ground,
+              onSustain: (
+                u: UnitInstance,
+                participant: ParticipantInstance,
+                battle: BattleInstance,
+              ) => {
+                if (u.type === UnitType.mech) {
+                  const otherParticipant = getOtherParticipant(battle, participant)
+                  otherParticipant.hitsToAssign.hits += 1
+                  if (LOG) {
+                    console.log(`${participant.side} assigned hit to enemy due to mech sustain.`)
+                  }
+                }
+              },
+            },
+          ],
+        }
+      } else {
+        return unit
+      }
+    },
+  },
+  {
+    type: 'race',
     name: 'Sardakk Norr buff',
     place: 'both',
     transformUnit: (unit: UnitInstance) => {
