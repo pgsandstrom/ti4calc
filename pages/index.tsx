@@ -60,7 +60,7 @@ const StyledMainController = styled.div`
   background: #e6edf8;
   background-clip: content-box;
 
-  padding: 18px 20px 40px;
+  padding: 18px 20px 120px;
   width: 100%;
 `
 
@@ -349,8 +349,15 @@ export default function Home() {
                 <div style={{ flex: '1 0 0' }} />
               </div>
             </div>
-            <BattleReportView report={battleReport} />
           </StyledMainController>
+          <BattleReportView
+            report={battleReport}
+            style={{
+              marginTop: '-120px',
+              marginBottom: '55px',
+              zIndex: 200,
+            }}
+          />
           <OptionsView
             attacker={attacker}
             attackerOnChange={setAttacker}

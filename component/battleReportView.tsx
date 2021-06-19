@@ -17,9 +17,10 @@ const PercentageDiv = styled.div`
 
 interface Props {
   report: BattleReport | undefined
+  style?: React.CSSProperties
 }
 
-export function BattleReportView({ report }: Props) {
+export function BattleReportView({ report, style }: Props) {
   if (!report) {
     report = {
       attacker: 0,
@@ -39,7 +40,7 @@ export function BattleReportView({ report }: Props) {
         display: 'flex',
         flexDirection: 'column',
         marginBottom: '5px',
-        marginTop: '10px',
+        ...style,
       }}
     >
       <h3
