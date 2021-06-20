@@ -1,9 +1,6 @@
-import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-
-const missingCommandToken = 'Mahact flagship bonus'
 
 export const mahact: BattleEffect[] = [
   {
@@ -19,24 +16,6 @@ export const mahact: BattleEffect[] = [
             hit: 5,
             count: 2,
           },
-          battleEffects: [
-            {
-              name: 'Mahact flagship effect',
-              type: 'other',
-              place: Place.space,
-              transformUnit: (u: UnitInstance, participant: ParticipantInstance) => {
-                if (u.type === UnitType.flagship) {
-                  if (participant.effects[missingCommandToken] > 0) {
-                    return getUnitWithImproved(u, 'combat', 'hit', 'permanent', 2)
-                  } else {
-                    return u
-                  }
-                } else {
-                  return u
-                }
-              },
-            },
-          ],
         }
       } else {
         return unit
@@ -45,10 +24,17 @@ export const mahact: BattleEffect[] = [
   },
   {
     type: 'race-ability',
+    name: 'Mahact flagship bonus',
     description:
       "Mahact flagship bonus. Flagship text is: During combat against an opponent whose command token is not in your fleet pool, apply +2 to the results of this unit's combat rolls.",
     place: Place.space,
     race: Race.mahact,
-    name: missingCommandToken,
+    transformUnit: (u: UnitInstance) => {
+      if (u.type === UnitType.flagship) {
+        return getUnitWithImproved(u, 'combat', 'hit', 'permanent', 2)
+      } else {
+        return u
+      }
+    },
   },
 ]

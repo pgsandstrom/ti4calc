@@ -41,7 +41,7 @@ export interface Unit {
   // This means that auras can ONLY do things that affect attack!
   aura?: BattleAura[]
 
-  // these work like any other battle effects
+  // these work like any other battle effects. But remember, they execute ONCE PER UNIT that has the ability!
   battleEffects?: BattleEffect[]
 
   // this is called when the units produces a hit. For example Jol-Nar flagship can use its ability here.

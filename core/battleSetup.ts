@@ -72,7 +72,7 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
   const allBattleEffects = getAllBattleEffects()
 
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
-  const battleEffects: BattleEffect[] = []
+  let battleEffects: BattleEffect[] = []
   for (const effectName in participant.battleEffects) {
     const battleEffectCount = participant.battleEffects[effectName]
     if (battleEffectCount === undefined || battleEffectCount === 0) {
@@ -89,7 +89,7 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
   }
 
   const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
-  battleEffects.push(...raceAbilities)
+  battleEffects = [...raceAbilities, ...battleEffects]
 
   objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
     if (upgraded) {
