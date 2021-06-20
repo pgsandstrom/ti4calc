@@ -16,6 +16,7 @@ export function getTestParticipant(
     race,
     units: getUnitMap(units),
     unitUpgrades,
+    damagedUnits: {},
     // TODO change default to true
     riskDirectHit: false,
     side,

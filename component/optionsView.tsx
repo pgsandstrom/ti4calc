@@ -19,8 +19,9 @@ import {
 } from '../core/races/race'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
+import DamagedUnitsView from './damagedUnitsView'
 import NumberInput from './numberInput'
-import Popover from './popover'
+import { OptionsRowView } from './optionsRowView'
 
 interface OptionsProps {
   attacker: Participant
@@ -29,38 +30,6 @@ interface OptionsProps {
   defenderOnChange: (participant: Participant) => void
   style?: React.CSSProperties
 }
-
-const OptionsDiv = styled.div`
-  display: flex;
-  margin-top: 0px;
-
-  .control-container {
-    min-width: 48px;
-    max-width: 72px;
-    height: 48px;
-  }
-
-  .description-container {
-    display: flex;
-    flex: 0 0 auto;
-    width: 200px;
-    padding-top: 3px;
-
-    > span {
-      flex: 1 0 0;
-      text-align: center;
-    }
-  }
-
-  .space-taker-outer {
-    flex: 1 0 0;
-  }
-
-  .space-taker {
-    flex: 1 0 0;
-    max-width: 50px;
-  }
-`
 
 const StyledCheckbox = styled.input`
   height: 24px;
@@ -123,12 +92,13 @@ export default function OptionsView(props: OptionsProps) {
             marginTop: '20px',
           }}
         >
-          <OptionsRow
+          <OptionsRowView
             left={getDirectHitCheckbox(props.attacker, props.attackerOnChange)}
             right={getDirectHitCheckbox(props.defender, props.defenderOnChange)}
             name="Risk direct hit"
             description="If units with SUSTAIN DAMAGE should be assigned the first hits. Direct hit can only be played in space combat, so ground combat is not affected."
           />
+          <DamagedUnitsView {...props} />
           <OptionsPartView title="Tech" battleEffects={techs} {...props} />
           <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />
           <OptionsPartView title="Promissary note" battleEffects={promissary} {...props} />
@@ -180,7 +150,7 @@ function OptionsPartView({
         )
 
         return (
-          <OptionsRow
+          <OptionsRowView
             key={effect.name}
             left={attackerView}
             right={defenderView}
@@ -276,31 +246,5 @@ const getBattleEffectInput = (
         visibility: disabled ? 'hidden' : undefined,
       }}
     />
-  )
-}
-
-interface OptionsRowProps {
-  left: React.ReactNode
-  right: React.ReactNode
-  name: string
-  description?: string
-}
-
-function OptionsRow({ left, right, name, description }: OptionsRowProps) {
-  return (
-    <OptionsDiv>
-      <div className="space-taker-outer" />
-      <div className="control-container">{left}</div>
-      <div className="space-taker" />
-      <div className="description-container">
-        <span style={{ flex: '1 0 0' }}>{name}</span>
-        <div style={{ flex: '0 0 auto' }}>
-          <Popover text={description} style={{ marginTop: '2px' }} />
-        </div>
-      </div>
-      <div className="space-taker" />
-      <div className="control-container">{right}</div>
-      <div className="space-taker-outer" />
-    </OptionsDiv>
   )
 }

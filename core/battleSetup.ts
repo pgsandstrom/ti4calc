@@ -46,6 +46,9 @@ function createBattleInstance(battle: Battle): BattleInstance {
   fixUnitBattleEffects(battle.attacker, attacker, defender, battle.place)
   fixUnitBattleEffects(battle.defender, defender, attacker, battle.place)
 
+  damageUnits(attacker, battle.attacker.damagedUnits)
+  damageUnits(defender, battle.defender.damagedUnits)
+
   return {
     place: battle.place,
     attacker,
@@ -244,6 +247,7 @@ export function createParticipant(side: Side, race?: Race): Participant {
     side,
     units: getUnitMap(),
     unitUpgrades: {},
+    damagedUnits: {},
     battleEffects: {},
     riskDirectHit: true,
   }
@@ -292,4 +296,21 @@ export function createUnitAndApplyEffects(
     console.log(`${participant.side} created a new unit: ${unit.type}`)
   }
   return unit
+}
+
+function damageUnits(
+  participant: ParticipantInstance,
+  damagedUnits: PartialRecord<UnitType, number>,
+) {
+  objectEntries(damagedUnits).forEach(([unitType, n]) => {
+    _times(n, () => {
+      const unit = participant.units.find((u) => {
+        return u.type === unitType && u.sustainDamage && !u.takenDamage
+      })
+      if (unit) {
+        unit.takenDamage = true
+        unit.takenDamageRound = 0
+      }
+    })
+  })
 }

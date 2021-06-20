@@ -76,6 +76,7 @@ export interface Participant {
   // unit upgrades needs to be a map like this, since race techs might replace unit upgrades
   // this creates weird bugs if we attach battle effects that should be replaced when switching races
   unitUpgrades: PartialRecord<UnitType, boolean>
+  damagedUnits: PartialRecord<UnitType, number>
   battleEffects: Record<string, number | undefined>
 
   riskDirectHit: boolean
