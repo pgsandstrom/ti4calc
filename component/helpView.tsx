@@ -81,6 +81,7 @@ export default function HelpView({ style }: Props) {
               <li>Action card &quot;Waylay&quot; is missing.</li>
               <li>Agenda &quot;Articles of War&quot; is missing.</li>
               <li>Nomad agent is missing.</li>
+              <li>Relic &quot;The Crown of Thalnos&quot; is missing</li>
               <li>L1z1x mech can&apos;t be used to bombard during a ground invasion.</li>
               <li>
                 Empyrean flagship can repair the same unit several times during the same combat
