@@ -35,7 +35,6 @@ export const mentak: BattleEffect[] = [
     place: Place.ground,
     transformUnit: (u: UnitInstance) => {
       if (u.type === UnitType.mech) {
-        console.log('fuck')
         return {
           ...u,
           preventEnemySustain: true,

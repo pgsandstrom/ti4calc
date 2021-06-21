@@ -1,4 +1,4 @@
-import { ParticipantInstance, BattleInstance } from '../battle-types'
+import { ParticipantInstance, BattleInstance, EFFECT_LOW_PRIORITY } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
@@ -74,9 +74,8 @@ export const baronyOfLetnev: BattleEffect[] = [
     type: 'race-tech',
     place: Place.ground,
     race: Race.barony_of_letnev,
+    priority: EFFECT_LOW_PRIORITY,
     transformEnemyUnit: (unit: UnitInstance) => {
-      // TODO Order should not be a problem because transform enemy units happen after transform friendly
-      // But are we sure it is NEVER a problem?
       return {
         ...unit,
         spaceCannon: undefined,

@@ -1,3 +1,4 @@
+import { EFFECT_LOW_PRIORITY } from '../battle-types'
 import { Place } from '../enums'
 import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { BattleEffect } from './battleEffects'
@@ -58,6 +59,7 @@ export const conventionsOfWar: BattleEffect = {
   type: 'agenda',
   place: Place.ground,
   symmetrical: true,
+  priority: EFFECT_LOW_PRIORITY,
   transformUnit: (u: UnitInstance) => {
     if (u.bombardment) {
       return {

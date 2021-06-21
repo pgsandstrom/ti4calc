@@ -31,8 +31,6 @@ export const argentFlight: BattleEffect[] = [
                 place: Place,
               ) => {
                 if (place === Place.space) {
-                  // TODO Order should not be a problem because transform enemy units happen after transform friendly
-                  // But are we sure it is NEVER a problem?
                   return {
                     ...unit,
                     spaceCannon: undefined,

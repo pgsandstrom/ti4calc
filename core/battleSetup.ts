@@ -5,7 +5,14 @@ import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle, LOG } from './battle'
 import { getRaceBattleEffects } from './races/race'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
-import { Battle, BattleInstance, Side, Participant, ParticipantInstance } from './battle-types'
+import {
+  Battle,
+  BattleInstance,
+  Side,
+  Participant,
+  ParticipantInstance,
+  EFFECT_DEFAULT_PRIORITY,
+} from './battle-types'
 import { Place, Race } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 import { PartialRecord } from '../util/util-types'
@@ -72,7 +79,7 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
   const allBattleEffects = getAllBattleEffects()
 
   // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
-  let battleEffects: BattleEffect[] = []
+  const battleEffects: BattleEffect[] = []
   for (const effectName in participant.battleEffects) {
     const battleEffectCount = participant.battleEffects[effectName]
     if (battleEffectCount === undefined || battleEffectCount === 0) {
@@ -89,7 +96,7 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
   }
 
   const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
-  battleEffects = [...raceAbilities, ...battleEffects]
+  battleEffects.push(...raceAbilities)
 
   objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
     if (upgraded) {
@@ -191,54 +198,65 @@ function applyBattleEffects(
   battleEffects: BattleEffect[],
   place: Place,
 ) {
-  battleEffects.forEach((battleEffect) => {
-    if (battleEffect.onStart) {
-      participantInstance.onStartEffect.push(battleEffect)
-    }
-    if (battleEffect.onSustain) {
-      participantInstance.onSustainEffect.push(battleEffect)
-    }
-    if (battleEffect.onEnemySustain) {
-      participantInstance.onEnemySustainEffect.push(battleEffect)
-    }
-    if (battleEffect.onRepair) {
-      participantInstance.onRepairEffect.push(battleEffect)
-    }
-    if (battleEffect.onCombatRoundEnd) {
-      participantInstance.onCombatRoundEnd.push(battleEffect)
-    }
-    if (battleEffect.afterAfb) {
-      participantInstance.afterAfbEffect.push(battleEffect)
-    }
-    if (battleEffect.onDeath) {
-      participantInstance.onDeath.push(battleEffect)
-    }
+  battleEffects
+    .sort((a, b) => {
+      const prioDiff =
+        (b.priority ?? EFFECT_DEFAULT_PRIORITY) - (a.priority ?? EFFECT_DEFAULT_PRIORITY)
 
-    if (battleEffect.onSpaceCannon) {
-      participantInstance.onSpaceCannon.push(battleEffect)
-    }
-    if (battleEffect.onBombardment) {
-      participantInstance.onBombardment.push(battleEffect)
-    }
-    if (battleEffect.onAfb) {
-      participantInstance.onAfb.push(battleEffect)
-    }
-    if (battleEffect.onCombatRound) {
-      participantInstance.onCombatRound.push(battleEffect)
-    }
+      if (prioDiff === 0) {
+        // race abilities take priority
+        return a.type === 'race' ? -1 : 1
+      }
+      return prioDiff
+    })
+    .forEach((battleEffect) => {
+      if (battleEffect.onStart) {
+        participantInstance.onStartEffect.push(battleEffect)
+      }
+      if (battleEffect.onSustain) {
+        participantInstance.onSustainEffect.push(battleEffect)
+      }
+      if (battleEffect.onEnemySustain) {
+        participantInstance.onEnemySustainEffect.push(battleEffect)
+      }
+      if (battleEffect.onRepair) {
+        participantInstance.onRepairEffect.push(battleEffect)
+      }
+      if (battleEffect.onCombatRoundEnd) {
+        participantInstance.onCombatRoundEnd.push(battleEffect)
+      }
+      if (battleEffect.afterAfb) {
+        participantInstance.afterAfbEffect.push(battleEffect)
+      }
+      if (battleEffect.onDeath) {
+        participantInstance.onDeath.push(battleEffect)
+      }
 
-    if (battleEffect.transformUnit) {
-      participantInstance.allUnitTransform.push(battleEffect.transformUnit),
-        (participantInstance.units = participantInstance.units.map((u) =>
-          battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
-        ))
-    }
+      if (battleEffect.onSpaceCannon) {
+        participantInstance.onSpaceCannon.push(battleEffect)
+      }
+      if (battleEffect.onBombardment) {
+        participantInstance.onBombardment.push(battleEffect)
+      }
+      if (battleEffect.onAfb) {
+        participantInstance.onAfb.push(battleEffect)
+      }
+      if (battleEffect.onCombatRound) {
+        participantInstance.onCombatRound.push(battleEffect)
+      }
 
-    const effectNumber = participant.battleEffects[battleEffect.name]
-    if (effectNumber !== undefined) {
-      participantInstance.effects[battleEffect.name] = effectNumber
-    }
-  })
+      if (battleEffect.transformUnit) {
+        participantInstance.allUnitTransform.push(battleEffect.transformUnit),
+          (participantInstance.units = participantInstance.units.map((u) =>
+            battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
+          ))
+      }
+
+      const effectNumber = participant.battleEffects[battleEffect.name]
+      if (effectNumber !== undefined) {
+        participantInstance.effects[battleEffect.name] = effectNumber
+      }
+    })
 }
 
 export function createParticipant(side: Side, race?: Race): Participant {

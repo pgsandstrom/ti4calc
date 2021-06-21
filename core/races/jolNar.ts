@@ -1,4 +1,4 @@
-import { ParticipantInstance, BattleInstance } from '../battle-types'
+import { ParticipantInstance, BattleInstance, EFFECT_HIGH_PRIORITY } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
 import { HitInfo } from '../roll'
@@ -9,6 +9,7 @@ export const jolNar: BattleEffect[] = [
     type: 'race',
     name: 'Jol-Nar flagship',
     place: Place.space,
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -48,6 +49,7 @@ export const jolNar: BattleEffect[] = [
     type: 'race',
     name: 'Jol-Nar mech',
     place: Place.ground,
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
         return {

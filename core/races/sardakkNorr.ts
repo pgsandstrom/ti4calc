@@ -1,5 +1,5 @@
 import { destroyUnit, getOtherParticipant, isParticipantAlive, LOG } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place, Race } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
@@ -11,6 +11,7 @@ export const sardarkkNorr: BattleEffect[] = [
     type: 'race',
     name: 'Sardakk Norr flagship',
     place: Place.space,
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         const flagshipBuff: BattleAura = {
@@ -62,13 +63,7 @@ export const sardarkkNorr: BattleEffect[] = [
     place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
-        return {
-          ...unit,
-          combat: {
-            ...unit.combat,
-            hitBonus: unit.combat.hitBonus + 1,
-          },
-        }
+        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent')
       } else {
         return unit
       }
@@ -78,6 +73,7 @@ export const sardarkkNorr: BattleEffect[] = [
     type: 'race',
     name: 'Sardakk Norr dreadnoughts',
     place: 'both',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.dreadnought) {
         unit.bombardment!.hit = 4

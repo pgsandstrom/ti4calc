@@ -1,5 +1,5 @@
 import { LOG } from '../battle'
-import { ParticipantInstance, BattleInstance } from '../battle-types'
+import { ParticipantInstance, BattleInstance, EFFECT_LOW_PRIORITY } from '../battle-types'
 import { Place } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { doesUnitFitPlace } from '../unitGet'
@@ -80,6 +80,7 @@ export const disable: BattleEffect = {
   type: 'action-card',
   place: Place.ground,
   side: 'attacker',
+  priority: EFFECT_LOW_PRIORITY,
   transformEnemyUnit: (u: UnitInstance) => {
     if (u.type === UnitType.pds) {
       return {
@@ -265,6 +266,7 @@ export const solarFlare: BattleEffect = {
     'After you activate a system: During this movement, other players cannot use SPACE CANNON against your ships.',
   type: 'action-card',
   place: Place.space,
+  priority: EFFECT_LOW_PRIORITY,
   transformEnemyUnit: (u) => {
     if (u.spaceCannon) {
       return {

@@ -60,6 +60,11 @@ interface SharedStuffBattleEffect {
 
   symmetrical?: boolean // If true, then the UI will restrict this effect to being activated for both or neither player. Mostly used by agendas.
 
+  // priority rules:
+  // transformEnemyUnits always happens last
+  // race abilities goes first when the priority is the same
+  priority?: number
+
   // transformUnit are done before battle (or whenever a unit appears, see mentak hero and yin agent)
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
