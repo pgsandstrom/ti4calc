@@ -124,8 +124,8 @@ const pds: BattleEffect = {
     if (unit.type === UnitType.pds) {
       return {
         ...unit,
-        combat: {
-          ...unit.combat!,
+        spaceCannon: {
+          ...unit.spaceCannon!,
           hit: 5,
         },
       }
