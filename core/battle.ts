@@ -427,13 +427,13 @@ function removeDeadUnits(p: ParticipantInstance, battle: BattleInstance) {
   if (deadUnits.length > 0) {
     const otherParticipant = getOtherParticipant(battle, p)
     p.onDeath.forEach((effect) => {
-      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      if (canBattleEffectBeUsed(effect, p)) {
         effect.onDeath!(deadUnits, p, otherParticipant, battle, true, effect.name)
       }
     })
 
     otherParticipant.onDeath.forEach((effect) => {
-      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      if (canBattleEffectBeUsed(effect, otherParticipant)) {
         effect.onDeath!(deadUnits, otherParticipant, p, battle, false, effect.name)
       }
     })
