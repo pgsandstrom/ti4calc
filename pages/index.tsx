@@ -16,6 +16,7 @@ import UnitRow from '../component/unitRow'
 import CoolButton from '../component/coolButton'
 import OptionsView from '../component/optionsView'
 import HelpView from '../component/helpView'
+import { DetailedBattleReportView } from '../component/detailedBattleReportView'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -354,6 +355,13 @@ export default function Home() {
             report={battleReport}
             style={{
               marginTop: '-120px',
+              marginBottom: '55px',
+              zIndex: 200,
+            }}
+          />
+          <DetailedBattleReportView
+            report={battleReport}
+            style={{
               marginBottom: '55px',
               zIndex: 200,
             }}

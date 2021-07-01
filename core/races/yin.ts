@@ -119,6 +119,11 @@ export const yin: BattleEffect[] = [
       participant.newUnits.push(newFigher1)
       participant.newUnits.push(newFigher2)
       registerUse(effectName, participant)
+      if (LOG) {
+        console.log(
+          `${participant.side} uses Yin agent to summon two fighters when a ${deadUnit.type} was destroyed`,
+        )
+      }
     },
     timesPerFight: 1,
   },

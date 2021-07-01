@@ -1,4 +1,10 @@
-import { BattleInstance, BattleResult, HitsToAssign, ParticipantInstance } from './battle-types'
+import {
+  BattleInstance,
+  BattleResult,
+  BattleWinner,
+  HitsToAssign,
+  ParticipantInstance,
+} from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
 import { getHits, HitInfo } from './roll'
@@ -13,13 +19,14 @@ import {
 import _cloneDeep from 'lodash/cloneDeep'
 import { NUMBER_OF_ROLLS } from './constant'
 import { isTest } from '../util/util-debug'
+import { getBattleResultUnitString } from './battleResult'
 
 // TODO add retreat?
 
 // eslint-disable-next-line
 export const LOG = NUMBER_OF_ROLLS === 1 && !isTest()
 
-export function doBattle(battle: BattleInstance) {
+export function doBattle(battle: BattleInstance): BattleResult {
   battle.attacker.onStartEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, battle.attacker)) {
       effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
@@ -66,7 +73,10 @@ export function doBattle(battle: BattleInstance) {
     if (battle.roundNumber === 400) {
       // I guess an infinite fight should be won by the defender, right? But who cares.
       console.warn('Infinite fight detected')
-      return BattleResult.draw
+      return {
+        winner: BattleWinner.draw,
+        units: '',
+      }
     }
 
     addNewUnits(battle.attacker)
@@ -76,22 +86,31 @@ export function doBattle(battle: BattleInstance) {
     const defenderAlive = isParticipantAlive(battle.defender, battle.place)
 
     if (attackerAlive && !defenderAlive) {
-      battleResult = BattleResult.attacker
+      battleResult = {
+        winner: BattleWinner.attacker,
+        units: getBattleResultUnitString(battle.attacker),
+      }
     } else if (!attackerAlive && defenderAlive) {
-      battleResult = BattleResult.defender
+      battleResult = {
+        winner: BattleWinner.defender,
+        units: getBattleResultUnitString(battle.defender),
+      }
     } else if (!attackerAlive && !defenderAlive) {
-      battleResult = BattleResult.draw
+      battleResult = {
+        winner: BattleWinner.draw,
+        units: '',
+      }
     }
   }
 
   if (LOG) {
     console.log(`Battle resolved after ${battle.roundNumber - 1} rounds`)
-    if (battleResult === BattleResult.attacker) {
+    if (battleResult.winner === 'attacker') {
       console.log('Attacker won')
-    } else if (battleResult === BattleResult.defender) {
+    } else if (battleResult.winner === 'defender') {
       console.log('Defender won')
     } else {
-      console.log('It ended in a draw')
+      console.log('Battle ended in a draw')
     }
   }
 

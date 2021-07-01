@@ -1,10 +1,11 @@
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
-import { Battle, BattleInstance, BattleResult } from './battle-types'
+import { Battle, BattleInstance, BattleWinner } from './battle-types'
 import { setupBattle, startBattle } from './battleSetup'
 import { BattleReport } from '.'
 import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE, ROLLS_WHEN_BUILDING_TEST_DATA } from './constant'
 import { ErrorReportUnsaved } from '../server/errorReportController'
+import { objectEntries } from '../util/util-object'
 
 //! To avoid isolatedModules error
 export default {}
@@ -26,8 +27,10 @@ function doWork(battle: Battle) {
 
   const finalData: BattleReport = {
     attacker: 0,
+    attackerSurvivers: {},
     draw: 0,
     defender: 0,
+    defenderSurvivers: {},
   }
 
   const parts = Math.ceil(NUMBER_OF_ROLLS / ROLLS_BETWEEN_UI_UPDATE)
@@ -37,8 +40,14 @@ function doWork(battle: Battle) {
   _times(parts, (index) => {
     const partialData = getPartialReport(battleInstance, partRolls)
     finalData.attacker += partialData.attacker
+    for (const [units, count] of objectEntries(partialData.attackerSurvivers)) {
+      finalData.attackerSurvivers[units] = (finalData.attackerSurvivers[units] ?? 0) + count
+    }
     finalData.draw += partialData.draw
     finalData.defender += partialData.defender
+    for (const [units, count] of objectEntries(partialData.defenderSurvivers)) {
+      finalData.defenderSurvivers[units] = (finalData.defenderSurvivers[units] ?? 0) + count
+    }
     const currentTime = new Date().getTime()
     const lastIteration = parts === index
     if (lastIteration || currentTime > lastMessageTime + MIN_TIME_BETWEEN_SENDING_UPDATES) {
@@ -55,21 +64,33 @@ function doWork(battle: Battle) {
 function getPartialReport(battleInstance: BattleInstance, times: number) {
   const data: BattleReport = {
     attacker: 0,
+    attackerSurvivers: {},
     draw: 0,
     defender: 0,
+    defenderSurvivers: {},
   }
   _times(times, () => {
     const tmp = _cloneDeep(battleInstance)
     const result = startBattle(tmp)
-    switch (result) {
-      case BattleResult.attacker:
+    switch (result.winner) {
+      case BattleWinner.attacker:
         data.attacker += 1
+        if (data.attackerSurvivers[result.units] === undefined) {
+          data.attackerSurvivers[result.units] = 1
+        } else {
+          data.attackerSurvivers[result.units]! += 1
+        }
         break
-      case BattleResult.draw:
+      case BattleWinner.draw:
         data.draw += 1
         break
-      case BattleResult.defender:
+      case BattleWinner.defender:
         data.defender += 1
+        if (data.defenderSurvivers[result.units] === undefined) {
+          data.defenderSurvivers[result.units] = 1
+        } else {
+          data.defenderSurvivers[result.units]! += 1
+        }
         break
     }
   })

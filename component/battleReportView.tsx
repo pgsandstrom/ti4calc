@@ -24,8 +24,10 @@ export function BattleReportView({ report, style }: Props) {
   if (!report) {
     report = {
       attacker: 0,
+      attackerSurvivers: {},
       defender: 0,
       draw: 1,
+      defenderSurvivers: {},
     }
   }
 

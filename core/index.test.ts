@@ -6,6 +6,7 @@ import { duraniumArmor } from './battleeffect/tech'
 export const DO_BATTLE_X_TIMES = 15000
 
 describe('core', () => {
+  // TODO add test for damaged units
   it('Make sure battle effect isnt used if set to 0', () => {
     const attacker = getTestParticipant(
       'attacker',

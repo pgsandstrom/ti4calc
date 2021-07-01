@@ -140,7 +140,12 @@ export interface HitsToAssign {
   hitsAssignedByEnemy: number
 }
 
-export enum BattleResult {
+export interface BattleResult {
+  winner: BattleWinner
+  units: string
+}
+
+export enum BattleWinner {
   attacker = 'attacker',
   draw = 'draw',
   defender = 'defender',
