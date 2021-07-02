@@ -1,5 +1,7 @@
+import { useRef } from 'react'
 import styled from 'styled-components'
 import { BattleReport } from '../core'
+import { useResize } from '../util/hooks'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
 import { objectEntries } from '../util/util-object'
 
@@ -109,8 +111,28 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
   const total = report.attacker + report.defender + report.draw
 
+  const ref = useRef<HTMLDivElement>(null)
+
+  useResize(
+    () => {
+      if (ref.current) {
+        const windowWidth =
+          window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
+        if (ref.current.offsetWidth > windowWidth) {
+          ref.current.style.alignSelf = 'start'
+        } else {
+          ref.current.style.alignSelf = ''
+        }
+      }
+    },
+    {
+      throttleTime: 200,
+    },
+  )
+
   return (
     <div
+      ref={ref}
       style={{
         display: 'flex',
         flexDirection: 'column',
@@ -132,7 +154,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
           background: '#E5ECF7',
         }}
       >
-        Result
+        Detailed result
       </h3>
 
       <BattleReportDiv>
