@@ -252,7 +252,7 @@ function getAfbHits(
   otherParticipant: ParticipantInstance,
 ) {
   p.onAfb.forEach((effect) => {
-    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+    if (canBattleEffectBeUsed(effect, p)) {
       effect.onAfb!(p, battle, otherParticipant, effect.name)
     }
   })
@@ -310,7 +310,7 @@ function doParticipantBattleRolls(
     .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
   p.onCombatRound.forEach((effect) => {
-    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+    if (canBattleEffectBeUsed(effect, p)) {
       effect.onCombatRound!(p, battle, otherParticipant, effect.name)
     }
   })
@@ -320,7 +320,7 @@ function doParticipantBattleRolls(
     // clone units before we modify them with temporary effects
     units = _cloneDeep(p.units)
     onCombatRoundStartAura.forEach((effect) => {
-      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      if (canBattleEffectBeUsed(effect, p)) {
         effect.onCombatRoundStart!(units, p, battle, effect.name)
       }
     })
