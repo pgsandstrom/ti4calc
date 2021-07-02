@@ -1,9 +1,11 @@
-import { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { useResize } from '../util/hooks'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
 import { objectEntries } from '../util/util-object'
+import ArrowSvg from './arrowSvg'
+import CoolButton from './coolButton'
 
 const BattleReportDiv = styled.div`
   display: flex;
@@ -26,10 +28,27 @@ const PercentageDiv = styled.div`
   }
 `
 
+const StyledExplanationTable = styled.div`
+  > div {
+    > div {
+      display: inline-block;
+
+      &:first-child {
+        width: 16px;
+        text-align: center;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    }
+  }
+`
+
 interface Props {
   report: BattleReport | undefined
   style?: React.CSSProperties
 }
+
+const UNIT_TYPE_LIST = ['F', 'W', 'D', 'C', 'c', 'd', 'f', 'M', 'i', 'p']
 
 const sortUnitStrings = (list: Array<[string, number]>) => {
   const helper = (a: string, b: string, unitType: string) => {
@@ -70,8 +89,7 @@ const sortUnitStrings = (list: Array<[string, number]>) => {
         }
       }
 
-      const unitTypeList = ['F', 'W', 'D', 'C', 'c', 'd', 'f', 'M', 'i', 'p']
-      for (const unitType of unitTypeList) {
+      for (const unitType of UNIT_TYPE_LIST) {
         const sortResult = helper(a!, b!, unitType)
         if (sortResult !== 0) {
           return sortResult
@@ -111,6 +129,8 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
   const total = report.attacker + report.defender + report.draw
 
+  const [show, setShow] = useState(false)
+
   const ref = useRef<HTMLDivElement>(null)
 
   useResize(
@@ -141,64 +161,147 @@ export function DetailedBattleReportView({ report, style }: Props) {
         ...style,
       }}
     >
-      <h3
+      <div
         style={{
+          display: 'flex',
           textAlign: 'center',
-          marginBottom: '0px',
-          marginTop: '0px',
           border: '1px solid black',
           borderBottom: 'none',
           alignSelf: 'center',
-          padding: '0 10px',
           borderRadius: '5px 5px 0 0',
           background: '#E5ECF7',
         }}
       >
-        Detailed result
-      </h3>
-
-      <BattleReportDiv>
-        {sortUnitStrings(objectEntries(report.attackerSurvivers)).map(([units, count]) => {
-          return (
-            <PercentageDiv
-              key={`attacker-${units}`}
-              style={{
-                flex: `${toPercentageNumber(total, count)} 0 0`,
-                background: '#B1B1FF',
-              }}
-            >
-              <div className="unit-string">{formatUnitString(units)}</div>
-              <div className="percentage">{toPercentageString(total, count)}</div>
-            </PercentageDiv>
-          )
-        })}
-        <PercentageDiv
-          key="draw"
+        <h3
           style={{
-            flex: `${toPercentageNumber(total, report.draw)} 0 0`,
-            background: '#CFCFCF',
+            marginBottom: '0px',
+            marginTop: '0px',
+            padding: '0 10px',
           }}
         >
-          <div className="unit-string">-</div>
-          <div className="percentage">{toPercentageString(total, report.draw)}</div>
-        </PercentageDiv>
-        {sortUnitStrings(objectEntries(report.defenderSurvivers))
-          .reverse()
-          .map(([units, count]) => {
-            return (
-              <PercentageDiv
-                key={`defender-${units}`}
-                style={{
-                  flex: `${toPercentageNumber(total, count)} 0 0`,
-                  background: '#FFB1B1',
-                }}
-              >
-                <div className="unit-string">{formatUnitString(units)}</div>
-                <div className="percentage">{toPercentageString(total, count)}</div>
-              </PercentageDiv>
-            )
-          })}
-      </BattleReportDiv>
+          Detailed result
+        </h3>
+        <CoolButton
+          onClick={() => setShow(!show)}
+          style={{
+            height: '24px',
+            marginTop: '3px',
+            marginBottom: '3px',
+            marginRight: '5px',
+            padding: '2px 5px',
+          }}
+        >
+          <div style={{ display: 'flex' }}>
+            <span style={{ width: '30px' }}>{show ? 'hide' : 'show'}</span>
+            <ArrowSvg
+              style={{
+                width: '16px',
+                height: '16px',
+                marginLeft: '5px',
+                transform: show ? 'scaleY(-1)' : undefined,
+              }}
+            />
+          </div>
+        </CoolButton>
+      </div>
+
+      {show && (
+        <>
+          <BattleReportDiv>
+            {sortUnitStrings(objectEntries(report.attackerSurvivers)).map(([units, count]) => {
+              return (
+                <PercentageDiv
+                  key={`attacker-${units}`}
+                  style={{
+                    flex: `${toPercentageNumber(total, count)} 0 0`,
+                    background: '#B1B1FF',
+                  }}
+                >
+                  <div className="unit-string">{formatUnitString(units)}</div>
+                  <div className="percentage">{toPercentageString(total, count)}</div>
+                </PercentageDiv>
+              )
+            })}
+            <PercentageDiv
+              key="draw"
+              style={{
+                flex: `${toPercentageNumber(total, report.draw)} 0 0`,
+                background: '#CFCFCF',
+              }}
+            >
+              <div className="unit-string">-</div>
+              <div className="percentage">{toPercentageString(total, report.draw)}</div>
+            </PercentageDiv>
+            {sortUnitStrings(objectEntries(report.defenderSurvivers))
+              .reverse()
+              .map(([units, count]) => {
+                return (
+                  <PercentageDiv
+                    key={`defender-${units}`}
+                    style={{
+                      flex: `${toPercentageNumber(total, count)} 0 0`,
+                      background: '#FFB1B1',
+                    }}
+                  >
+                    <div className="unit-string">{formatUnitString(units)}</div>
+                    <div className="percentage">{toPercentageString(total, count)}</div>
+                  </PercentageDiv>
+                )
+              })}
+          </BattleReportDiv>
+          <div style={{ background: 'white', padding: '10px' }}>
+            <div>
+              Here you can see the probability of individual units surviving combat. The units are
+              represented by individual characters according to this list:
+            </div>
+            <StyledExplanationTable style={{ marginTop: '10px' }}>
+              <div>
+                <div>F</div>
+                <div>Flagship</div>
+              </div>
+              <div>
+                <div>W</div>
+                <div>Warsun</div>
+              </div>
+              <div>
+                <div>D</div>
+                <div>dreadnough</div>
+              </div>
+              <div>
+                <div>C</div>
+                <div>Carrier</div>
+              </div>
+              <div>
+                <div>c</div>
+                <div>cruiser</div>
+              </div>
+              <div>
+                <div>d</div>
+                <div>destroyer</div>
+              </div>
+              <div>
+                <div>f</div>
+                <div>fighter</div>
+              </div>
+              <div>
+                <div>M</div>
+                <div>Mech</div>
+              </div>
+              <div>
+                <div>i</div>
+                <div>infantry</div>
+              </div>
+              <div>
+                <div>p</div>
+                <div>pds</div>
+              </div>
+            </StyledExplanationTable>
+            <div style={{ marginTop: '20px' }}>
+              A hyphen next to the character, such as F-, means that the unit has sustained damage.
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

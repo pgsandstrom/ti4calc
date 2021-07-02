@@ -362,8 +362,10 @@ export default function Home() {
           <DetailedBattleReportView
             report={battleReport}
             style={{
-              marginBottom: '55px',
+              marginTop: '20px',
+              marginBottom: '20px',
               width: 'unset',
+              zIndex: 300,
             }}
           />
           <OptionsView
