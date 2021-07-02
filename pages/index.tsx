@@ -186,6 +186,7 @@ export default function Home() {
     }
   }, [defender.race, touched])
 
+  // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
     // eslint-disable-next-line
     if (localStorage) {
@@ -253,7 +254,6 @@ export default function Home() {
         width: '100vw',
         maxWidth: '100%',
         height: '100%',
-        background: '#110F0B',
       }}
     >
       <Head>
@@ -363,7 +363,7 @@ export default function Home() {
             report={battleReport}
             style={{
               marginBottom: '55px',
-              zIndex: 200,
+              width: 'unset',
             }}
           />
           <OptionsView

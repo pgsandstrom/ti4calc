@@ -11,6 +11,12 @@ const BattleReportDiv = styled.div`
 const PercentageDiv = styled.div`
   transition: flex-grow 240ms;
   min-width: 30px;
+  display: flex;
+  flex-direction: column;
+
+  > .unit-string {
+    flex: 1 0 auto;
+  }
 
   > * {
     text-align: center;
@@ -87,7 +93,7 @@ const formatUnitString = (unitString: string) => {
       result = `${result}\n${u}`
     }
   })
-  return result
+  return result.substring(1) // remove leading newline
 }
 
 export function DetailedBattleReportView({ report, style }: Props) {
@@ -106,12 +112,10 @@ export function DetailedBattleReportView({ report, style }: Props) {
   return (
     <div
       style={{
-        position: 'sticky',
-        top: 0,
-        bottom: 0,
         display: 'flex',
         flexDirection: 'column',
         marginBottom: '5px',
+        minWidth: '100%',
         ...style,
       }}
     >
@@ -141,8 +145,8 @@ export function DetailedBattleReportView({ report, style }: Props) {
                 background: '#B1B1FF',
               }}
             >
-              <div>{formatUnitString(units)}</div>
-              <div>{toPercentageString(total, count)}</div>
+              <div className="unit-string">{formatUnitString(units)}</div>
+              <div className="percentage">{toPercentageString(total, count)}</div>
             </PercentageDiv>
           )
         })}
@@ -153,8 +157,8 @@ export function DetailedBattleReportView({ report, style }: Props) {
             background: '#CFCFCF',
           }}
         >
-          <div />
-          <div>{toPercentageString(total, report.draw)}</div>
+          <div className="unit-string">-</div>
+          <div className="percentage">{toPercentageString(total, report.draw)}</div>
         </PercentageDiv>
         {sortUnitStrings(objectEntries(report.defenderSurvivers))
           .reverse()
@@ -167,8 +171,8 @@ export function DetailedBattleReportView({ report, style }: Props) {
                   background: '#FFB1B1',
                 }}
               >
-                <div>{formatUnitString(units)}</div>
-                <div>{toPercentageString(total, count)}</div>
+                <div className="unit-string">{formatUnitString(units)}</div>
+                <div className="percentage">{toPercentageString(total, count)}</div>
               </PercentageDiv>
             )
           })}

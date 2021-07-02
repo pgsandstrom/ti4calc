@@ -5,6 +5,8 @@ import { setupBattle, startBattle } from './battleSetup'
 import { Place } from './enums'
 import { PartialRecord } from '../util/util-types'
 
+// TODO change tsconfig target... for all projects
+
 export interface BattleReport {
   attacker: number
   attackerSurvivers: PartialRecord<string, number>
