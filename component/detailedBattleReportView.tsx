@@ -1,7 +1,12 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { useResize } from '../util/hooks'
+import {
+  getLocalStorage,
+  LS_SHOW_DETAILED_REPORT,
+  setLocalStorage,
+} from '../util/localStorageWrapper'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
 import { objectEntries } from '../util/util-object'
 import ArrowSvg from './arrowSvg'
@@ -129,7 +134,27 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
   const total = report.attacker + report.defender + report.draw
 
-  const [show, setShow] = useState(false)
+  const [touched, setTouched] = useState(false)
+  const [show, setShowRaw] = useState(false)
+
+  const setShow = (newShowValue: boolean) => {
+    if (!touched) {
+      setTouched(true)
+    }
+    setShowRaw(newShowValue)
+  }
+
+  useEffect(() => {
+    if (touched) {
+      setLocalStorage(LS_SHOW_DETAILED_REPORT, show ? 'true' : 'false')
+    }
+  }, [show, touched])
+
+  useEffect(() => {
+    if (getLocalStorage(LS_SHOW_DETAILED_REPORT) === 'true') {
+      setShowRaw(true)
+    }
+  }, [])
 
   const ref = useRef<HTMLDivElement>(null)
 
