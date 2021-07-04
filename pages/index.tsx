@@ -17,6 +17,12 @@ import CoolButton from '../component/coolButton'
 import OptionsView from '../component/optionsView'
 import HelpView from '../component/helpView'
 import { DetailedBattleReportView } from '../component/detailedBattleReportView'
+import {
+  getLocalStorage,
+  LS_ATTACKER_RACE,
+  LS_DEFENDER_RACE,
+  setLocalStorage,
+} from '../util/localStorageWrapper'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -173,39 +179,34 @@ export default function Home() {
   }, [touched, attacker, defender, place, error])
 
   useEffect(() => {
-    // eslint-disable-next-line
-    if (localStorage && touched) {
-      localStorage.setItem('attacker.race', attacker.race)
+    if (touched) {
+      setLocalStorage(LS_ATTACKER_RACE, attacker.race)
     }
   }, [attacker.race, touched])
 
   useEffect(() => {
-    // eslint-disable-next-line
-    if (localStorage && touched) {
-      localStorage.setItem('defender.race', defender.race)
+    if (touched) {
+      setLocalStorage(LS_DEFENDER_RACE, defender.race)
     }
   }, [defender.race, touched])
 
   // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
-    // eslint-disable-next-line
-    if (localStorage) {
-      const attackerRace = localStorage.getItem('attacker.race') as Race | undefined
-      if (attackerRace) {
-        const newAttacker: Participant = {
-          ...attacker,
-          race: attackerRace,
-        }
-        setAttackerRaw(newAttacker)
+    const attackerRace = getLocalStorage<Race>(LS_ATTACKER_RACE)
+    if (attackerRace) {
+      const newAttacker: Participant = {
+        ...attacker,
+        race: attackerRace,
       }
-      const defenderRace = localStorage.getItem('defender.race') as Race | undefined
-      if (defenderRace) {
-        const newDefender: Participant = {
-          ...defender,
-          race: defenderRace,
-        }
-        setDefenderRaw(newDefender)
+      setAttackerRaw(newAttacker)
+    }
+    const defenderRace = getLocalStorage<Race>(LS_DEFENDER_RACE)
+    if (defenderRace) {
+      const newDefender: Participant = {
+        ...defender,
+        race: defenderRace,
       }
+      setDefenderRaw(newDefender)
     }
     // eslint-disable-next-line
   }, [])
