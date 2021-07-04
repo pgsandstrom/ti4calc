@@ -64,4 +64,28 @@ describe('Mentak', () => {
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.101)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.49)
   })
+
+  it('Check so preventEnemySustain works symmetrically', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 2,
+      },
+      Race.mentak,
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        flagship: 2,
+      },
+      Race.mentak,
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.323)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.354)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.323)
+  })
 })

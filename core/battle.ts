@@ -376,6 +376,8 @@ function resolveHits(battle: BattleInstance) {
   while (hasHitToAssign(battle.attacker) || hasHitToAssign(battle.defender)) {
     resolveParticipantHits(battle, battle.attacker)
     resolveParticipantHits(battle, battle.defender)
+    removeDeadUnits(battle.attacker, battle)
+    removeDeadUnits(battle.defender, battle)
   }
 }
 
@@ -428,8 +430,6 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
       applyHit(battle, p, true)
       p.hitsToAssign.hits -= 1
     }
-
-    removeDeadUnits(p, battle)
   }
 }
 
