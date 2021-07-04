@@ -366,7 +366,7 @@ export default function Home() {
               marginTop: '20px',
               marginBottom: '20px',
               width: 'unset',
-              zIndex: 300,
+              // zIndex: 300,
             }}
           />
           <OptionsView

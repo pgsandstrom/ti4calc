@@ -82,7 +82,7 @@ describe('Mentak', () => {
       Race.mentak,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.323)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.354)
