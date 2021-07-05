@@ -41,6 +41,7 @@ export default function RaceImage(props: Props) {
         width={640}
         height={828}
       /> */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={url}
         alt=""

@@ -9,7 +9,7 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    // 'prettier' disables linting rules that conflict with prettier (this is dependency eslint-config-prettier)
+    'plugin:@next/next/recommended',
     'prettier',
   ],
   parser: '@typescript-eslint/parser',
