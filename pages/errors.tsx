@@ -14,7 +14,7 @@ export const getServerSideProps: GetServerSideProps<ErrorProps> = async () => {
 
 export default function ErrorView(props: ErrorProps) {
   return (
-    <div>
+    <div style={{ color: 'white' }}>
       <Head>
         <title>TI4 Errors</title>
       </Head>
