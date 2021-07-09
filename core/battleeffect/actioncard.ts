@@ -1,4 +1,4 @@
-import { LOG } from '../battle'
+import { getOtherParticipant, LOG } from '../battle'
 import { ParticipantInstance, BattleInstance, EFFECT_LOW_PRIORITY } from '../battle-types'
 import { Place } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
@@ -18,7 +18,7 @@ export function getActioncards() {
     moraleBoost,
     // shieldsHolding,
     blitz,
-    // reflectiveShielding,
+    reflectiveShielding,
     // scrambleFrequency,
     solarFlare,
     // waylay,
@@ -248,7 +248,22 @@ export const reflectiveShielding: BattleEffect = {
     "When one of your ships uses SUSTAIN DAMAGE during combat: Produce 2 hits against your opponent's ships in the active system.",
   type: 'action-card',
   place: Place.space,
-  // TODO
+  onSustain: (
+    u: UnitInstance,
+    participant: ParticipantInstance,
+    battle: BattleInstance,
+    effectName: string,
+  ) => {
+    const otherParticipant = getOtherParticipant(battle, participant)
+    otherParticipant.hitsToAssign.hits += 2
+    registerUse(effectName, participant)
+    if (LOG) {
+      console.log(
+        `${participant.side} sustained damage on ${u.type} and played Reflective Shielding.`,
+      )
+    }
+  },
+  timesPerFight: 1,
 }
 
 export const scrambleFrequency: BattleEffect = {
