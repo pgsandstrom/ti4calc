@@ -122,7 +122,6 @@ export const defendingInNebula: BattleEffect = {
   },
 }
 
-// TODO add test to make sure this never returns duplicate names
 export function getAllBattleEffects() {
   const otherBattleEffects = getOtherBattleEffects()
   const techs = getTechBattleEffects()
