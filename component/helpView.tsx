@@ -71,7 +71,6 @@ export default function HelpView({ style }: Props) {
             <ul>
               <li>Nekro can&apos;t use other factions unit upgrades.</li>
               <li>Nekro can&apos;t steal techs mid battle.</li>
-              <li>Action card &quot;Experimental Battlestation&quot; is missing.</li>
               <li>Action card &quot;Maneuvering Jets&quot; is missing.</li>
               <li>Action card &quot;Shields Holding&quot; is missing.</li>
               <li>Action card &quot;Scramble Frequency&quot; is missing.</li>

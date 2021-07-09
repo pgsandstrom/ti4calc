@@ -142,7 +142,6 @@ export const antimassDeflectors: BattleEffect = {
 }
 
 // In theory graviton could cause problems. It gives permanent 'assignHitsToNonFighters' which is incorrect.
-// But currently it has no negative impact. But be wary when we implement experimental battlestation...
 export const gravitonLaserSystem: BattleEffect = {
   name: 'Graviton Laser System',
   description:

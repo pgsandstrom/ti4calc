@@ -6,6 +6,7 @@ import { defaultRoll, getUnitWithImproved, Roll, UnitInstance, UnitType } from '
 import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 import _times from 'lodash/times'
+import { createUnitAndApplyEffects } from '../battleSetup'
 
 export function getActioncards() {
   return [
@@ -14,7 +15,7 @@ export function getActioncards() {
     directHit,
     disable,
     emergencyRepairs,
-    // experimentalBattlestation
+    experimentalBattlestation,
     fighterPrototype,
     fireTeam,
     maneuveringJets,
@@ -192,11 +193,14 @@ export const experimentalBattlestation: BattleEffect = {
     'After another player moves ships into a system during a tactical action: Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.',
   type: 'action-card',
   place: Place.space,
-  onStart: () => {
-    // TODO currently this is very complex. It happens in it own phase and could theoretically be used with graviton laser system.
-    // But antimass should also be applied.
-    // and argent flight flagship should stop this.
-    // but pds upgrade should not affect it.
+  onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place)
+    planetUnit.spaceCannon = {
+      ...defaultRoll,
+      hit: 5,
+      count: 3,
+    }
+    p.units.push(planetUnit)
   },
 }
 
