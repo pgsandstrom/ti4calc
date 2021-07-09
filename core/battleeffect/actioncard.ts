@@ -1,13 +1,16 @@
-import { getOtherParticipant, LOG } from '../battle'
+import { destroyUnit, getOtherParticipant, LOG } from '../battle'
 import { ParticipantInstance, BattleInstance, EFFECT_LOW_PRIORITY } from '../battle-types'
 import { Place } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-import { doesUnitFitPlace } from '../unitGet'
+import { getHits } from '../roll'
+import { defaultRoll, getUnitWithImproved, Roll, UnitInstance, UnitType } from '../unit'
+import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
+import _times from 'lodash/times'
 
 export function getActioncards() {
   return [
     bunker,
+    courageousToTheEnd,
     directHit,
     disable,
     emergencyRepairs,
@@ -41,10 +44,58 @@ export const bunker: BattleEffect = {
   },
 }
 
-// TODO
-// Courageous to the End
-// After 1 of your ships is destroyed during a space combat:
-// Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships.
+export const courageousToTheEnd: BattleEffect = {
+  name: 'Courageous to the End',
+  description:
+    "After 1 of your ships is destroyed during a space combat: Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships. It will be played as soon as possible, even if it is just a fighter that is destroyed.",
+  type: 'action-card',
+  place: Place.space,
+  onDeath: (
+    deadUnits: UnitInstance[],
+    participant: ParticipantInstance,
+    otherParticipant: ParticipantInstance,
+    battle: BattleInstance,
+    isOwnUnit: boolean,
+    effectName: string,
+  ) => {
+    if (!isOwnUnit) {
+      return
+    }
+    const bestDeadUnit = deadUnits.reduce((a, b) => {
+      return (a.combat?.hit ?? 10) > (b.combat?.hit ?? 10) ? a : b
+    })
+    if (!bestDeadUnit.combat) {
+      return
+    }
+
+    const roll: Roll = {
+      ...defaultRoll,
+      hit: bestDeadUnit.combat.hit,
+      count: 2,
+    }
+
+    const hits = getHits(roll)
+
+    if (LOG) {
+      console.log(
+        `${participant.side} plays Courageous to the End on death of ${bestDeadUnit.type} and makes ${hits.hits} kill(s).`,
+      )
+    }
+
+    _times(hits.hits, () => {
+      const lowestWorthUnit = getLowestWorthUnit(otherParticipant, battle.place, true)
+      if (lowestWorthUnit) {
+        destroyUnit(battle, lowestWorthUnit)
+        if (LOG) {
+          console.log(`Courageous to the End destroyed ${lowestWorthUnit.type}`)
+        }
+      }
+    })
+
+    registerUse(effectName, participant)
+  },
+  timesPerFight: 1,
+}
 
 // TODO maybe add a test to direct hit
 // TODO also test riskDirectHit and that stuff there
