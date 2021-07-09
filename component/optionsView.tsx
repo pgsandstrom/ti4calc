@@ -134,21 +134,24 @@ function OptionsPartView({
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {title !== undefined && <h2 style={{ textAlign: 'center' }}>{title}</h2>}
       {battleEffects.map((effect) => {
-        const attackerView = getBattleEffectInput(
-          effect,
-          attacker,
-          attackerOnChange,
-          defender,
-          defenderOnChange,
+        const attackerView = (
+          <BattleEffectInput
+            effect={effect}
+            participant={attacker}
+            onUpdate={attackerOnChange}
+            otherParticipant={defender}
+            onOtherUpdate={defenderOnChange}
+          />
         )
-        const defenderView = getBattleEffectInput(
-          effect,
-          defender,
-          defenderOnChange,
-          attacker,
-          attackerOnChange,
+        const defenderView = (
+          <BattleEffectInput
+            effect={effect}
+            participant={defender}
+            onUpdate={defenderOnChange}
+            otherParticipant={attacker}
+            onOtherUpdate={attackerOnChange}
+          />
         )
-
         return (
           <OptionsRowView
             key={effect.name}
@@ -183,14 +186,21 @@ const getDirectHitCheckbox = (
   )
 }
 
-// TODO why get-function and not react component?
-const getBattleEffectInput = (
-  effect: BattleEffect,
-  participant: Participant,
-  onUpdate: (participant: Participant) => void,
-  otherParticipant: Participant,
-  onOtherUpdate: (participant: Participant) => void,
-) => {
+interface BattleEffectInputProps {
+  effect: BattleEffect
+  participant: Participant
+  onUpdate: (participant: Participant) => void
+  otherParticipant: Participant
+  onOtherUpdate: (participant: Participant) => void
+}
+
+const BattleEffectInput = ({
+  effect,
+  participant,
+  onUpdate,
+  otherParticipant,
+  onOtherUpdate,
+}: BattleEffectInputProps) => {
   if (effect.count !== undefined) {
     const updateEffectCount = (newVal: number) => {
       const newParticipant: Participant = {
