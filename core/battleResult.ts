@@ -3,6 +3,7 @@ import { UnitInstance, UnitType } from './unit'
 
 export function getBattleResultUnitString(p: ParticipantInstance) {
   return p.units
+    .filter((u) => u.type !== UnitType.other)
     .sort((a, b) => {
       if (a.type === b.type) {
         if (a.takenDamage) {
@@ -45,5 +46,7 @@ function getChar(u: UnitInstance): string {
       return 'i'
     case UnitType.pds:
       return 'p'
+    case UnitType.other:
+      return 'o' // should never happen
   }
 }

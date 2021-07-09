@@ -13,6 +13,7 @@ export enum UnitType {
   mech = 'mech',
   pds = 'pds',
   warsun = 'warsun',
+  other = 'other', // Used by for example experimental battle station and titans hero
 }
 
 export interface Unit {
@@ -282,6 +283,16 @@ const warsun: Readonly<Unit> = {
   ],
 }
 
+const other: Readonly<Unit> = {
+  type: UnitType.other,
+
+  sustainDamage: false,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: false,
+}
+
 export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   carrier,
   cruiser,
@@ -293,6 +304,7 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   mech,
   pds,
   warsun,
+  other,
 }
 
 export function getUnitWithImproved(

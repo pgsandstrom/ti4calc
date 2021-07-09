@@ -114,14 +114,12 @@ export const titansOfUl: BattleEffect[] = [
     name: 'Titans hero',
     place: 'both',
     onStart: (p: ParticipantInstance, battle: BattleInstance) => {
-      // TODO maybe this will be disabled by certain effects? It should have a unique unit type
-      const planetUnit = createUnitAndApplyEffects(UnitType.pds, p, battle.place)
-      planetUnit.spaceCannon!.hit = 5
-      planetUnit.spaceCannon!.count = 3
-      planetUnit.combat = undefined
-      planetUnit.planetaryShield = false
-      planetUnit.sustainDamage = false
-      planetUnit.isGroundForce = false
+      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place)
+      planetUnit.spaceCannon = {
+        ...defaultRoll,
+        hit: 5,
+        count: 3,
+      }
       p.units.push(planetUnit)
     },
   },
