@@ -2,7 +2,7 @@ import { destroyUnit, LOG } from '../battle'
 import { ParticipantInstance, BattleInstance } from '../battle-types'
 import { Place } from '../enums'
 import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-import { getHighestWorthUnit, getHighestHitUnit, getNonFighterShips } from '../unitGet'
+import { getHighestHitUnit, getNonFighterShips, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 
 export function getTechBattleEffects() {
@@ -88,11 +88,11 @@ export const assaultCannon: BattleEffect = {
     otherParticipant: ParticipantInstance,
   ) => {
     if (getNonFighterShips(participant).length >= 3) {
-      const bestShip = getHighestWorthUnit(otherParticipant, Place.space, false)
-      if (bestShip) {
-        destroyUnit(battle, bestShip)
+      const worstShip = getLowestWorthUnit(otherParticipant, Place.space, false)
+      if (worstShip) {
+        destroyUnit(battle, worstShip)
         if (LOG) {
-          console.log(`Assault cannon destroyed ${bestShip.type}`)
+          console.log(`Assault cannon destroyed ${worstShip.type}`)
         }
       }
     }
