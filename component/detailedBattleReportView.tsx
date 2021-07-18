@@ -7,6 +7,7 @@ import {
   LS_SHOW_DETAILED_REPORT,
   setLocalStorage,
 } from '../util/localStorageWrapper'
+import { getColorProgress } from '../util/util-color'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
 import { objectEntries } from '../util/util-object'
 import ArrowSvg from './arrowSvg'
@@ -175,6 +176,18 @@ export function DetailedBattleReportView({ report, style }: Props) {
     },
   )
 
+  // const r = getColorProgress('#0055bb', '#4455ff', 4)
+  // const r = getColorProgress('#0055bb', '#440055', 4)
+  // console.log(r)
+
+  const attackerCount = objectEntries(report.attackerSurvivers).length
+  const attackerColors = getColorProgress('#B1B1FF', '#8383FF', attackerCount)
+  // const attackerColors = getColorProgress('#B1B1FF', '#6363FF', attackerCount)
+
+  const defenderCount = objectEntries(report.defenderSurvivers).length
+  const defenderColors = getColorProgress('#FF8383', '#FFB1B1', defenderCount)
+  // const defenderColors = getColorProgress('#FF6363', '#FFB1B1', defenderCount)
+
   return (
     <div
       ref={ref}
@@ -233,20 +246,22 @@ export function DetailedBattleReportView({ report, style }: Props) {
       {show && (
         <>
           <BattleReportDiv>
-            {sortUnitStrings(objectEntries(report.attackerSurvivers)).map(([units, count]) => {
-              return (
-                <PercentageDiv
-                  key={`attacker-${units}`}
-                  style={{
-                    flex: `${toPercentageNumber(total, count)} 0 0`,
-                    background: '#B1B1FF',
-                  }}
-                >
-                  <div className="unit-string">{formatUnitString(units)}</div>
-                  <div className="percentage">{toPercentageString(total, count)}</div>
-                </PercentageDiv>
-              )
-            })}
+            {sortUnitStrings(objectEntries(report.attackerSurvivers)).map(
+              ([units, count], index) => {
+                return (
+                  <PercentageDiv
+                    key={`attacker-${units}`}
+                    style={{
+                      flex: `${toPercentageNumber(total, count)} 0 0`,
+                      background: attackerColors[index],
+                    }}
+                  >
+                    <div className="unit-string">{formatUnitString(units)}</div>
+                    <div className="percentage">{toPercentageString(total, count)}</div>
+                  </PercentageDiv>
+                )
+              },
+            )}
             <PercentageDiv
               key="draw"
               style={{
@@ -259,13 +274,13 @@ export function DetailedBattleReportView({ report, style }: Props) {
             </PercentageDiv>
             {sortUnitStrings(objectEntries(report.defenderSurvivers))
               .reverse()
-              .map(([units, count]) => {
+              .map(([units, count], index) => {
                 return (
                   <PercentageDiv
                     key={`defender-${units}`}
                     style={{
                       flex: `${toPercentageNumber(total, count)} 0 0`,
-                      background: '#FFB1B1',
+                      background: defenderColors[index],
                     }}
                   >
                     <div className="unit-string">{formatUnitString(units)}</div>
