@@ -110,7 +110,7 @@ export const baronyOfLetnev: BattleEffect[] = [
     name: 'War Funding',
     // TODO this could use the "worse than average" thingy
     description:
-      "After you and your opponent roll dice during space combat: You may reroll all of your opponent's dice.  You may reroll any number of your dice. (currently only rerolls your dice).",
+      "After you and your opponent roll dice during space combat: You may reroll all of your opponent's dice.  You may reroll any number of your dice. In this simulation it only rerolls your dice.",
     type: 'promissary',
     place: Place.space,
     transformUnit: (unit: UnitInstance) => {
