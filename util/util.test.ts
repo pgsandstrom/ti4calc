@@ -1,6 +1,6 @@
 import { Participant, Side } from '../core/battle-types'
 import { getUnitMap } from '../core/battleSetup'
-import { Race } from '../core/enums'
+import { Faction } from '../core/enums'
 import { DO_BATTLE_X_TIMES } from '../core/index.test'
 import { UnitType } from '../core/unit'
 import { PartialRecord } from './util-types'
@@ -8,12 +8,12 @@ import { PartialRecord } from './util-types'
 export function getTestParticipant(
   side: Side,
   units: PartialRecord<UnitType, number> = {},
-  race = Race.barony_of_letnev,
+  faction = Faction.barony_of_letnev,
   battleEffects: Record<string, number | undefined> = {},
   unitUpgrades: PartialRecord<UnitType, boolean> = {},
 ) {
   const p: Participant = {
-    race,
+    faction,
     units: getUnitMap(units),
     unitUpgrades,
     damagedUnits: {},

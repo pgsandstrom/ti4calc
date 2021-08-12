@@ -1,5 +1,5 @@
-import { Race } from '../enums'
-import { getRaceBattleEffects } from '../races/race'
+import { Faction } from '../enums'
+import { getFactionBattleEffects } from '../factions/faction'
 import { UnitInstance, UnitType } from '../unit'
 import { BattleEffect } from './battleEffects'
 
@@ -145,12 +145,14 @@ export const getAllUnitUpgrades = () => [
   pds,
 ]
 
-export function getUnitUpgrade(race: Race, unitType: UnitType) {
-  const raceTechs = getRaceBattleEffects(race).filter((effect) => effect.type === 'race-tech')
+export function getUnitUpgrade(faction: Faction, unitType: UnitType) {
+  const factionTechs = getFactionBattleEffects(faction).filter(
+    (effect) => effect.type === 'faction-tech',
+  )
 
-  const raceTech = raceTechs.find((tech) => tech.unit === unitType)
-  if (raceTech) {
-    return raceTech
+  const factionTech = factionTechs.find((tech) => tech.unit === unitType)
+  if (factionTech) {
+    return factionTech
   } else {
     return getAllUnitUpgrades().find((unitUpgrade) => unitUpgrade.unit === unitType)
   }

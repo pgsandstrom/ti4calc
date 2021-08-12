@@ -3,7 +3,7 @@ import { UnitInstance, UnitType, UNIT_MAP } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle, LOG } from './battle'
-import { getRaceBattleEffects } from './races/race'
+import { getFactionBattleEffects } from './factions/faction'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import {
   Battle,
@@ -13,7 +13,7 @@ import {
   ParticipantInstance,
   EFFECT_DEFAULT_PRIORITY,
 } from './battle-types'
-import { Place, Race } from './enums'
+import { Place, Faction } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 import { PartialRecord } from '../util/util-types'
 
@@ -78,7 +78,7 @@ function getParticipantUnits(participant: Participant) {
 function getParticipantBattleEffects(participant: Participant, place: Place): BattleEffect[] {
   const allBattleEffects = getAllBattleEffects()
 
-  // Say I select baron, choose their race tech, then switch to arborec. Here we filter out unviable techs like that:
+  // Say I select baron, choose their faction tech, then switch to arborec. Here we filter out unviable techs like that:
   const battleEffects: BattleEffect[] = []
   for (const effectName in participant.battleEffects) {
     const battleEffectCount = participant.battleEffects[effectName]
@@ -87,20 +87,22 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
     }
     const effect = allBattleEffects.find((e) => e.name === effectName)!
     if (
-      effect.race === undefined ||
-      effect.race === participant.race ||
-      participant.race === Race.nekro
+      effect.faction === undefined ||
+      effect.faction === participant.faction ||
+      participant.faction === Faction.nekro
     ) {
       battleEffects.push(effect)
     }
   }
 
-  const raceAbilities = getRaceBattleEffects(participant).filter((effect) => effect.type === 'race')
-  battleEffects.push(...raceAbilities)
+  const factionAbilities = getFactionBattleEffects(participant).filter(
+    (effect) => effect.type === 'faction',
+  )
+  battleEffects.push(...factionAbilities)
 
   objectEntries(participant.unitUpgrades).forEach(([unitType, upgraded]) => {
     if (upgraded) {
-      const unitUpgrade = getUnitUpgrade(participant.race, unitType)
+      const unitUpgrade = getUnitUpgrade(participant.faction, unitType)
       if (unitUpgrade) {
         battleEffects.push(unitUpgrade)
       }
@@ -122,7 +124,7 @@ function createParticipantInstance(
 
   const participantInstance: ParticipantInstance = {
     side,
-    race: participant.race,
+    faction: participant.faction,
     units,
     unitUpgrades: participant.unitUpgrades,
     newUnits: [],
@@ -204,8 +206,8 @@ function applyBattleEffects(
         (b.priority ?? EFFECT_DEFAULT_PRIORITY) - (a.priority ?? EFFECT_DEFAULT_PRIORITY)
 
       if (prioDiff === 0) {
-        // race abilities take priority
-        return a.type === 'race' ? -1 : 1
+        // faction abilities take priority
+        return a.type === 'faction' ? -1 : 1
       }
       return prioDiff
     })
@@ -259,9 +261,9 @@ function applyBattleEffects(
     })
 }
 
-export function createParticipant(side: Side, race?: Race): Participant {
+export function createParticipant(side: Side, faction?: Faction): Participant {
   const participant: Participant = {
-    race: race ?? Race.barony_of_letnev,
+    faction: faction ?? Faction.barony_of_letnev,
     side,
     units: getUnitMap(),
     unitUpgrades: {},

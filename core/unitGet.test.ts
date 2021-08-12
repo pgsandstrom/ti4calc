@@ -1,7 +1,7 @@
 import { getTestParticipant } from '../util/util.test'
 import { Battle, Participant } from './battle-types'
 import { setupBattle } from './battleSetup'
-import { Race, Place } from './enums'
+import { Faction, Place } from './enums'
 import { UnitType } from './unit'
 import {
   getHighestWorthNonSustainUnit,
@@ -188,7 +188,7 @@ describe('unitGet', () => {
         flagship: 1,
         dreadnought: 1,
       },
-      Race.l1z1x,
+      Faction.l1z1x,
       {},
       {
         dreadnought: true,

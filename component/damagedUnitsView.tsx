@@ -2,7 +2,7 @@ import React from 'react'
 import { Participant } from '../core/battle-types'
 import { UnitType } from '../core/unit'
 import _times from 'lodash/times'
-import { Race } from '../core/enums'
+import { Faction } from '../core/enums'
 import { OptionsRowView } from './optionsRowView'
 
 interface Props {
@@ -127,7 +127,7 @@ function showParticipantUnit(participant: Participant, unitType: UnitType) {
 
 function showParticipantCruiser(participant: Participant) {
   return (
-    participant.race === Race.titans_of_ul &&
+    participant.faction === Faction.titans_of_ul &&
     participant.unitUpgrades[UnitType.cruiser] &&
     participant.units[UnitType.cruiser] > 0
   )

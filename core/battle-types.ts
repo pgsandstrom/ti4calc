@@ -3,7 +3,7 @@
 
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
-import { Place, Race } from './enums'
+import { Place, Faction } from './enums'
 import { HitInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 
@@ -68,13 +68,13 @@ export interface Battle {
 }
 
 export interface Participant {
-  race: Race
+  faction: Faction
   side: Side
   units: {
     [key in UnitType]: number
   }
-  // unit upgrades needs to be a map like this, since race techs might replace unit upgrades
-  // this creates weird bugs if we attach battle effects that should be replaced when switching races
+  // unit upgrades needs to be a map like this, since faction techs might replace unit upgrades
+  // this creates weird bugs if we attach battle effects that should be replaced when switching factions
   unitUpgrades: PartialRecord<UnitType, boolean>
   damagedUnits: PartialRecord<UnitType, number>
   battleEffects: Record<string, number | undefined>
@@ -91,7 +91,7 @@ export interface BattleInstance {
 
 export interface ParticipantInstance {
   side: Side
-  race: Race
+  faction: Faction
   units: UnitInstance[]
 
   // we track what unit upgrades we have because it is required by some abilities.

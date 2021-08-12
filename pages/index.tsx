@@ -4,14 +4,14 @@ import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
 import { createParticipant } from '../core/battleSetup'
-import { Place, Race } from '../core/enums'
+import { Place, Faction } from '../core/enums'
 import { UnitType } from '../core/unit'
 import SwitchButton from '../component/switchButton'
-import RaceImage from '../component/raceImage'
+import FactionImage from '../component/factionImage'
 import { BattleReportView } from '../component/battleReportView'
 import getServerUrl from '../server/serverUrl'
 import { ErrorReportUnsaved } from '../server/errorReportController'
-import RacePicker from '../component/racePicker'
+import FactionPicker from '../component/factionPicker'
 import UnitRow from '../component/unitRow'
 import CoolButton from '../component/coolButton'
 import OptionsView from '../component/optionsView'
@@ -19,8 +19,8 @@ import HelpView from '../component/helpView'
 import { DetailedBattleReportView } from '../component/detailedBattleReportView'
 import {
   getLocalStorage,
-  LS_ATTACKER_RACE,
-  LS_DEFENDER_RACE,
+  LS_ATTACKER_FACTION,
+  LS_DEFENDER_FACTION,
   setLocalStorage,
 } from '../util/localStorageWrapper'
 
@@ -180,31 +180,31 @@ export default function Home() {
 
   useEffect(() => {
     if (touched) {
-      setLocalStorage(LS_ATTACKER_RACE, attacker.race)
+      setLocalStorage(LS_ATTACKER_FACTION, attacker.faction)
     }
-  }, [attacker.race, touched])
+  }, [attacker.faction, touched])
 
   useEffect(() => {
     if (touched) {
-      setLocalStorage(LS_DEFENDER_RACE, defender.race)
+      setLocalStorage(LS_DEFENDER_FACTION, defender.faction)
     }
-  }, [defender.race, touched])
+  }, [defender.faction, touched])
 
   // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
-    const attackerRace = getLocalStorage<Race>(LS_ATTACKER_RACE)
-    if (attackerRace) {
+    const attackerFaction = getLocalStorage<Faction>(LS_ATTACKER_FACTION)
+    if (attackerFaction) {
       const newAttacker: Participant = {
         ...attacker,
-        race: attackerRace,
+        faction: attackerFaction,
       }
       setAttackerRaw(newAttacker)
     }
-    const defenderRace = getLocalStorage<Race>(LS_DEFENDER_RACE)
-    if (defenderRace) {
+    const defenderFaction = getLocalStorage<Faction>(LS_DEFENDER_FACTION)
+    if (defenderFaction) {
       const newDefender: Participant = {
         ...defender,
-        race: defenderRace,
+        faction: defenderFaction,
       }
       setDefenderRaw(newDefender)
     }
@@ -263,7 +263,7 @@ export default function Home() {
       </Head>
 
       <StyledHolder>
-        <RaceImage race={attacker.race} side="left" style={{ flex: '1 0 0' }} />
+        <FactionImage faction={attacker.faction} side="left" style={{ flex: '1 0 0' }} />
         <StyledMain>
           <StyledMainController>
             <h1 className="main-title" style={{ textAlign: 'center', margin: '2px 0 10px' }}>
@@ -281,23 +281,23 @@ export default function Home() {
                   height: '48px',
                 }}
               >
-                <RacePicker
+                <FactionPicker
                   participant={attacker}
                   onChange={setAttacker}
-                  aria-labelledby="race"
+                  aria-labelledby="faction"
                   style={{ flex: '1 0 0' }}
                 />
                 <div
-                  id="race"
+                  id="faction"
                   style={{
                     flex: '1 0 0',
                     textAlign: 'center',
                     paddingTop: '10px',
                   }}
                 >
-                  race
+                  faction
                 </div>
-                <RacePicker
+                <FactionPicker
                   participant={defender}
                   onChange={setDefender}
                   style={{ flex: '1 0 0' }}
@@ -323,7 +323,7 @@ export default function Home() {
                 <div style={{ flex: '1 0 0' }} />
                 <StyledClearButton
                   onClick={() => {
-                    const newAttacker = createParticipant('attacker', attacker.race)
+                    const newAttacker = createParticipant('attacker', attacker.faction)
                     setAttacker(newAttacker)
                   }}
                 >
@@ -341,7 +341,7 @@ export default function Home() {
                 <div style={{ flex: '1 0 0' }} />
                 <StyledClearButton
                   onClick={() => {
-                    const newDefender = createParticipant('defender', defender.race)
+                    const newDefender = createParticipant('defender', defender.faction)
                     setDefender(newDefender)
                   }}
                 >
@@ -378,7 +378,7 @@ export default function Home() {
           />
           <HelpView style={{ marginTop: '10px', marginBottom: '10px' }} />
         </StyledMain>
-        <RaceImage race={defender.race} side="right" style={{ flex: '1 0 0' }} />
+        <FactionImage faction={defender.faction} side="right" style={{ flex: '1 0 0' }} />
       </StyledHolder>
     </div>
   )

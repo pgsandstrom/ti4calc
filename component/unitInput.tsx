@@ -12,7 +12,7 @@ interface UnitInputProps {
 }
 
 export default function UnitInput({ participant, unitType, onUpdate, style }: UnitInputProps) {
-  const unitUpgrade = getUnitUpgrade(participant.race, unitType)
+  const unitUpgrade = getUnitUpgrade(participant.faction, unitType)
 
   const updateUnitCount = (newVal: number) => {
     const newParticipant: Participant = {

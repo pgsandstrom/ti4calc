@@ -11,12 +11,12 @@ import {
 } from '../core/battleeffect/battleEffects'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import {
-  getGeneralEffectFromRaces,
-  getRaceStuffNonUnit,
+  getGeneralEffectFromFactions,
+  getFactionStuffNonUnit,
   getPromissary,
   getAgent,
   getCommanders,
-} from '../core/races/race'
+} from '../core/factions/faction'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
 import DamagedUnitsView from './damagedUnitsView'
@@ -48,12 +48,16 @@ const filterOutBattleEffects = (
 
 export default function OptionsView(props: OptionsProps) {
   const otherBattleEffects = filterOutBattleEffects(
-    [...getOtherBattleEffects(), ...getGeneralEffectFromRaces()],
+    [...getOtherBattleEffects(), ...getGeneralEffectFromFactions()],
     props.attacker,
     props.defender,
   )
   const techs = filterOutBattleEffects(getTechBattleEffects(), props.attacker, props.defender)
-  const raceTechs = filterOutBattleEffects(getRaceStuffNonUnit(), props.attacker, props.defender)
+  const factionTechs = filterOutBattleEffects(
+    getFactionStuffNonUnit(),
+    props.attacker,
+    props.defender,
+  )
   const promissary = filterOutBattleEffects(getPromissary(), props.attacker, props.defender)
   const agents = filterOutBattleEffects(getAgent(), props.attacker, props.defender)
   const commanders = filterOutBattleEffects(getCommanders(), props.attacker, props.defender)
@@ -100,7 +104,7 @@ export default function OptionsView(props: OptionsProps) {
           />
           <DamagedUnitsView {...props} />
           <OptionsPartView title="Tech" battleEffects={techs} {...props} />
-          <OptionsPartView title="Race specific" battleEffects={raceTechs} {...props} />
+          <OptionsPartView title="Faction specific" battleEffects={factionTechs} {...props} />
           <OptionsPartView title="Promissary note" battleEffects={promissary} {...props} />
           <OptionsPartView title="Agent" battleEffects={agents} {...props} />
           <OptionsPartView title="Commander" battleEffects={commanders} {...props} />

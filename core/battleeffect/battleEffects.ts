@@ -9,20 +9,20 @@ import {
   UnitAuraGroupEffect,
   OnDeathEffect,
 } from '../battle-types'
-import { Place, Race } from '../enums'
+import { Place, Faction } from '../enums'
 import {
-  getRaceStuffNonUnit,
+  getFactionStuffNonUnit,
   getPromissary,
   getAgent,
   getCommanders,
-  getGeneralEffectFromRaces,
-} from '../races/race'
+  getGeneralEffectFromFactions,
+} from '../factions/faction'
 import { UnitInstance, UnitType } from '../unit'
 import { getActioncards } from './actioncard'
 import { getAgendas } from './agenda'
 import { getTechBattleEffects } from './tech'
 
-export type BattleEffect = NormalBattleEffect | RaceBattleEffect
+export type BattleEffect = NormalBattleEffect | FactionBattleEffect
 
 export interface NormalBattleEffect extends SharedStuffBattleEffect {
   type:
@@ -35,17 +35,17 @@ export interface NormalBattleEffect extends SharedStuffBattleEffect {
     | 'action-card'
     | 'unit-upgrade'
     | 'other'
-    // 'race' is race-stuff that is automatically used
-    | 'race'
-  race?: undefined
+    // 'faction' is faction-stuff that is automatically used
+    | 'faction'
+  faction?: undefined
 }
 
-export interface RaceBattleEffect extends SharedStuffBattleEffect {
-  type: // race-tech is tech (can be stolen by nekro)
-  | 'race-tech'
-    // race-ability is something race-specific that is not automatically used (munitions reserves for example)
-    | 'race-ability'
-  race: Race
+export interface FactionBattleEffect extends SharedStuffBattleEffect {
+  type: // faction-tech is tech (can be stolen by nekro)
+  | 'faction-tech'
+    // faction-ability is something faction-specific that is not automatically used (munitions reserves for example)
+    | 'faction-ability'
+  faction: Faction
 }
 
 interface SharedStuffBattleEffect {
@@ -53,7 +53,7 @@ interface SharedStuffBattleEffect {
   description?: string
   side?: Side
   place: Place | 'both'
-  // "unit" signals where it should be placed in the ui. 'race-tech' will replace 'unit-upgrade' in the ui
+  // "unit" signals where it should be placed in the ui. 'faction-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
 
   count?: boolean // If the effect needs a counter. For example Letnevs racial ability Munitions reserves uses this.
@@ -62,7 +62,7 @@ interface SharedStuffBattleEffect {
 
   // priority rules:
   // transformEnemyUnits always happens last
-  // race abilities goes first when the priority is the same
+  // faction abilities goes first when the priority is the same
   priority?: number
 
   // transformUnit are done before battle (or whenever a unit appears, see mentak hero and yin agent)
@@ -125,17 +125,17 @@ export const defendingInNebula: BattleEffect = {
 export function getAllBattleEffects() {
   const otherBattleEffects = getOtherBattleEffects()
   const techs = getTechBattleEffects()
-  const raceTechs = getRaceStuffNonUnit()
+  const factionTechs = getFactionStuffNonUnit()
   const promissary = getPromissary()
   const agents = getAgent()
   const commanders = getCommanders()
-  const general = getGeneralEffectFromRaces()
+  const general = getGeneralEffectFromFactions()
   const actioncards = getActioncards()
   const agendas = getAgendas()
   return [
     ...otherBattleEffects,
     ...techs,
-    ...raceTechs,
+    ...factionTechs,
     ...promissary,
     ...agents,
     ...commanders,
@@ -157,13 +157,13 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
   if (effect.side !== undefined && effect.side !== participant.side) {
     return false
   }
-  if (effect.type === 'race' || effect.type === 'race-ability') {
-    if (participant.race !== effect.race) {
+  if (effect.type === 'faction' || effect.type === 'faction-ability') {
+    if (participant.faction !== effect.faction) {
       return false
     }
   }
-  if (effect.type === 'race-tech') {
-    if (participant.race !== effect.race && participant.race !== Race.nekro) {
+  if (effect.type === 'faction-tech') {
+    if (participant.faction !== effect.faction && participant.faction !== Faction.nekro) {
       return false
     }
   }

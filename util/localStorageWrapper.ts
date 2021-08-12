@@ -1,5 +1,5 @@
-export const LS_ATTACKER_RACE = 'attacker.race'
-export const LS_DEFENDER_RACE = 'defender.race'
+export const LS_ATTACKER_FACTION = 'attacker.faction'
+export const LS_DEFENDER_FACTION = 'defender.faction'
 export const LS_SHOW_DETAILED_REPORT = 'show_detailed_report'
 
 export const setLocalStorage = (key: string, value: string) => {
