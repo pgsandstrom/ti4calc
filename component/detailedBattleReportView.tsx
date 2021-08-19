@@ -176,17 +176,11 @@ export function DetailedBattleReportView({ report, style }: Props) {
     },
   )
 
-  // const r = getColorProgress('#0055bb', '#4455ff', 4)
-  // const r = getColorProgress('#0055bb', '#440055', 4)
-  // console.log(r)
-
   const attackerCount = objectEntries(report.attackerSurvivers).length
   const attackerColors = getColorProgress('#B1B1FF', '#8383FF', attackerCount)
-  // const attackerColors = getColorProgress('#B1B1FF', '#6363FF', attackerCount)
 
   const defenderCount = objectEntries(report.defenderSurvivers).length
-  const defenderColors = getColorProgress('#FF8383', '#FFB1B1', defenderCount)
-  // const defenderColors = getColorProgress('#FF6363', '#FFB1B1', defenderCount)
+  const defenderColors = getColorProgress('#FFB1B1', '#FF8383', defenderCount).reverse()
 
   return (
     <div

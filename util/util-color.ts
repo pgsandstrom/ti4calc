@@ -32,7 +32,11 @@ function breakUpHexColor(h: string): [number, number, number] {
   return [hexStringToDec(r), hexStringToDec(g), hexStringToDec(b)]
 }
 
-function getStepsBetweenNumber(start: number, finish: number, steps: number) {
+function getStepsBetweenNumber(start: number, finish: number, steps: number): number[] {
+  if (steps === 1) {
+    return [start]
+  }
+
   const diff = finish - start
   return _times(steps, (index) => {
     const progress = index / (steps - 1)
