@@ -30,7 +30,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
-    '@typescript-eslint/camelcase': 'off', // There are a few exceptions, like variables from the backend and stuff
     '@typescript-eslint/explicit-module-boundary-types': 'off', // This feels unnecessary and verbose
     '@typescript-eslint/no-inferrable-types': 'off', // I dont feel as if this makes the code much cleaner
 
