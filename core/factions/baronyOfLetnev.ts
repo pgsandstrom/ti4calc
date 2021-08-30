@@ -1,7 +1,7 @@
 import { ParticipantInstance, BattleInstance, EFFECT_LOW_PRIORITY } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place, Faction } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType, UNIT_MAP } from '../unit'
 import { getHighestHitUnit } from '../unitGet'
 
 export const baronyOfLetnev: BattleEffect[] = [
@@ -51,6 +51,43 @@ export const baronyOfLetnev: BattleEffect[] = [
         }
       } else {
         return unit
+      }
+    },
+  },
+  {
+    name: 'Mech deploy',
+    description:
+      'At the start of a round of ground combat, you may spend 2 resources to replace 1 of your infantry in that combat with 1 mech.',
+    type: 'faction-ability',
+    place: Place.ground,
+    faction: Faction.barony_of_letnev,
+    count: true,
+    onCombatRound: (
+      participant: ParticipantInstance,
+      _battle: BattleInstance,
+      _otherParticipant: ParticipantInstance,
+      effectName: string,
+    ) => {
+      if (participant.effects[effectName] > 0) {
+        const infantryIndex = participant.units.findIndex((u) => u.type === UnitType.infantry)
+        if (infantryIndex !== -1) {
+          const infantry = participant.units[infantryIndex]
+          const genericMech = UNIT_MAP[UnitType.mech]
+          participant.units[infantryIndex] = {
+            ...genericMech,
+            takenDamage: false,
+            isDestroyed: false,
+            combat: {
+              ...infantry.combat!,
+              hit: genericMech.combat!.hit,
+            },
+          }
+          console.log(
+            `${participant.side} used mech deploy ability to transform an infantry into a mech`,
+          )
+        }
+
+        participant.effects[effectName] -= 1
       }
     },
   },
