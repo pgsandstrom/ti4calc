@@ -51,4 +51,4 @@ export function checkResult(result: number, expected: number) {
 }
 
 // workaround for the "Your test suite must contain at least one test" error
-test.skip('Workaround', () => 1)
+test.skip('Workaround', () => undefined)
