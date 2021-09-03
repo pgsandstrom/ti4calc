@@ -259,7 +259,10 @@ export default function Home() {
     >
       <Head>
         <title>TI4 PoK battle calculator</title>
-        <meta name="description" content="Twilight Imperium 4 PoK battle calculator" />
+        <meta
+          name="description"
+          content="A battle calculator for Twilight Imperium 4. Includes Prophecy of Kings and all codex."
+        />
       </Head>
 
       <StyledHolder>
