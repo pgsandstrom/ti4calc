@@ -28,7 +28,7 @@ export const queryString = <T extends QueryResultRow = any>(stuff: string, value
   getDbPool().query<T>(stuff, values)
 
 export const querySingle = async <T extends QueryResultRow = any>(stuff: QueryConfig) => {
-  const result: QueryResult = await getDbPool().query(stuff)
+  const result: QueryResult<T> = await getDbPool().query<T>(stuff)
   return getSingle<T>(result)
 }
 
@@ -36,7 +36,7 @@ export const querySingleString = async <T extends QueryResultRow = any>(
   stuff: string,
   values?: any[],
 ) => {
-  const result: QueryResult = await getDbPool().query<T>(stuff, values)
+  const result: QueryResult<T> = await getDbPool().query<T>(stuff, values)
   return getSingle<T>(result)
 }
 

@@ -27,10 +27,7 @@ module.exports = {
   rules: {
     // turn off unwanted rules:
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/no-use-before-define': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off', // This feels unnecessary and verbose
     '@typescript-eslint/no-inferrable-types': 'off', // I dont feel as if this makes the code much cleaner
 
     // activate extra rules:

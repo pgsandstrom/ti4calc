@@ -164,7 +164,7 @@ export default function Home() {
               sendErrorReport(workerError)
             }
           } else {
-            setBattleReport(event.data)
+            setBattleReport(event.data as BattleReport)
           }
         })
 

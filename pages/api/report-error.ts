@@ -7,7 +7,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return
   }
 
-  const workerError = JSON.parse(req.body) as ErrorReportUnsaved
+  const workerError = JSON.parse(req.body as string) as ErrorReportUnsaved
 
   await createErrorReport(workerError)
 
