@@ -193,7 +193,7 @@ export default function Home() {
   // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
     const attackerFaction = getLocalStorage<Faction>(LS_ATTACKER_FACTION)
-    if (attackerFaction) {
+    if (attackerFaction && Object.values(Faction).includes(attackerFaction)) {
       const newAttacker: Participant = {
         ...attacker,
         faction: attackerFaction,
@@ -201,7 +201,7 @@ export default function Home() {
       setAttackerRaw(newAttacker)
     }
     const defenderFaction = getLocalStorage<Faction>(LS_DEFENDER_FACTION)
-    if (defenderFaction) {
+    if (defenderFaction && Object.values(Faction).includes(defenderFaction)) {
       const newDefender: Participant = {
         ...defender,
         faction: defenderFaction,
