@@ -16,10 +16,10 @@ We don't use a state machines or other smart algorithms, because certain mechani
 
 This is a [Next.js](https://nextjs.org/) project written in Typescript. The root interface can be found in `pages/index.tsx`. The battle simulation code can be found in the `core` folder.
 
-To run the project, first install all dependencies. `force` might be required since nextjs wants us to use an old version of typescript-eslint, and I refuse to do that.
+To run the project, first install all dependencies:
 
 ```bash
-npm install -- force
+npm install
 ```
 
 Then start the development server:
