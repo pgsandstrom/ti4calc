@@ -14,7 +14,7 @@ export enum Faction {
   mentak = 'Mentak',
   muaat = 'Muaat',
   naaz_rokha = 'Naaz-Rokha',
-  naluu = 'Naluu',
+  naalu = 'Naalu',
   nekro = 'Nekro',
   nomad = 'Nomad',
   sardakk_norr = 'Sardakk Norr',

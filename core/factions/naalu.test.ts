@@ -3,8 +3,8 @@ import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
-describe('Naluu', () => {
-  it('Naluu flagship should help in ground combat', () => {
+describe('Naalu', () => {
+  it('Naalu flagship should help in ground combat', () => {
     const attacker = getTestParticipant(
       'attacker',
       {
@@ -12,7 +12,7 @@ describe('Naluu', () => {
         fighter: 2,
         infantry: 1,
       },
-      Faction.naluu,
+      Faction.naalu,
     )
 
     const defender = getTestParticipant('defender', {
@@ -26,14 +26,14 @@ describe('Naluu', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.479)
   })
 
-  it('Naluu fighters should never be able to win ground combat', () => {
+  it('Naalu fighters should never be able to win ground combat', () => {
     const attacker = getTestParticipant(
       'attacker',
       {
         flagship: 1,
         fighter: 2,
       },
-      Faction.naluu,
+      Faction.naalu,
     )
 
     const defender = getTestParticipant('defender', {

@@ -4,12 +4,12 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place, Faction } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
-const opponentHasRelicFragment = 'Naluu mech bonus'
+const opponentHasRelicFragment = 'Naalu mech bonus'
 
-export const naluu: BattleEffect[] = [
+export const naalu: BattleEffect[] = [
   {
     type: 'faction',
-    name: 'Naluu flagship',
+    name: 'Naalu flagship',
     place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
@@ -22,7 +22,7 @@ export const naluu: BattleEffect[] = [
           },
           battleEffects: [
             {
-              name: 'Naluu flagship ability',
+              name: 'Naalu flagship ability',
               type: 'other',
               place: Place.ground,
               transformUnit: (unit: UnitInstance) => {
@@ -58,7 +58,7 @@ export const naluu: BattleEffect[] = [
   },
   {
     type: 'faction',
-    name: 'Naluu fighters',
+    name: 'Naalu fighters',
     place: 'both',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
@@ -71,7 +71,7 @@ export const naluu: BattleEffect[] = [
     type: 'faction-tech',
     name: 'Hybrid Crystal Fighter II',
     place: 'both',
-    faction: Faction.naluu,
+    faction: Faction.naalu,
     unit: UnitType.fighter,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
@@ -82,7 +82,7 @@ export const naluu: BattleEffect[] = [
   },
   {
     type: 'faction',
-    name: 'Naluu mech',
+    name: 'Naalu mech',
     place: Place.ground,
     transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
       if (unit.type === UnitType.mech && p.effects[opponentHasRelicFragment] > 0) {
@@ -95,8 +95,8 @@ export const naluu: BattleEffect[] = [
   {
     type: 'faction-ability',
     description:
-      "Naluu mech text is: During combat against an opponent who has at least 1 relic fragment, apply +2 to the results of this unit's combat rolls.",
-    faction: Faction.naluu,
+      "Naalu mech text is: During combat against an opponent who has at least 1 relic fragment, apply +2 to the results of this unit's combat rolls.",
+    faction: Faction.naalu,
     place: Place.ground,
     name: opponentHasRelicFragment,
   },
