@@ -43,7 +43,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   Naalu: naalu,
   Nekro: nekro,
   Nomad: nomad,
-  'Sardakk Norr': sardarkkNorr,
+  "Sardakk N'orr": sardarkkNorr,
   Sol: sol,
   'Titans of Ul': titansOfUl,
   "Vuil'Raith": vuilRaith,

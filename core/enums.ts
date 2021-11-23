@@ -17,7 +17,7 @@ export enum Faction {
   naalu = 'Naalu',
   nekro = 'Nekro',
   nomad = 'Nomad',
-  sardakk_norr = 'Sardakk Norr',
+  sardakk_norr = "Sardakk N'orr",
   sol = 'Sol',
   titans_of_ul = 'Titans of Ul',
   vuil_raith = "Vuil'Raith",
