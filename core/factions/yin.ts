@@ -1,9 +1,9 @@
-import { destroyUnit, LOG } from '../battle'
-import { ParticipantInstance, BattleInstance } from '../battle-types'
+import { LOG, destroyUnit } from '../battle'
+import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { createUnitAndApplyEffects } from '../battleSetup'
-import { Place, Faction } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { Faction, Place } from '../enums'
+import { UnitInstance, UnitType, defaultRoll } from '../unit'
 
 export const yin: BattleEffect[] = [
   {

@@ -1,7 +1,7 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { Place, Faction } from '../enums'
-import { defaultRoll, UnitInstance, UnitType, UnitWithCombat } from '../unit'
+import { Faction, Place } from '../enums'
+import { UnitInstance, UnitType, UnitWithCombat, defaultRoll } from '../unit'
 
 export const sol: BattleEffect[] = [
   {

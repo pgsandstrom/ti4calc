@@ -7,14 +7,14 @@ import {
 } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
-import { getHits, HitInfo } from './roll'
+import { HitInfo, getHits } from './roll'
 import { UnitInstance, UnitType } from './unit'
 import {
   doesUnitFitPlace,
-  getLowestWorthSustainUnit,
-  getLowestWorthUnit,
   getHighestWorthNonSustainUnit,
   getHighestWorthSustainUnit,
+  getLowestWorthSustainUnit,
+  getLowestWorthUnit,
 } from './unitGet'
 import _cloneDeep from 'lodash/cloneDeep'
 import { NUMBER_OF_ROLLS } from './constant'

@@ -1,21 +1,21 @@
 import {
-  Side,
-  UnitEffect,
-  UnitBattleEffect,
-  ParticipantInstance,
+  OnDeathEffect,
   Participant,
   ParticipantEffect,
+  ParticipantInstance,
+  Side,
   UnitAuraEffect,
   UnitAuraGroupEffect,
-  OnDeathEffect,
+  UnitBattleEffect,
+  UnitEffect,
 } from '../battle-types'
-import { Place, Faction } from '../enums'
+import { Faction, Place } from '../enums'
 import {
-  getFactionStuffNonUnit,
-  getPromissary,
   getAgent,
   getCommanders,
+  getFactionStuffNonUnit,
   getGeneralEffectFromFactions,
+  getPromissary,
 } from '../factions/faction'
 import { UnitInstance, UnitType } from '../unit'
 import { getActioncards } from './actioncard'

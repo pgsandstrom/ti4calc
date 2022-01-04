@@ -1,7 +1,7 @@
 import _, { cloneDeep } from 'lodash'
 import { checkResult } from '../util/util.test'
 import { getHits } from './roll'
-import { defaultRoll, Roll } from './unit'
+import { Roll, defaultRoll } from './unit'
 
 describe('battle', () => {
   it('should calculate hits correctly', () => {

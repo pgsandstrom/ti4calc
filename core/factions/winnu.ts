@@ -2,7 +2,7 @@ import { getOtherParticipant } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
 import { getNonFighterShips } from '../unitGet'
 
 // TODO fix test for flagship, since it has an aura...

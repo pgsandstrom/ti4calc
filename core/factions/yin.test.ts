@@ -1,6 +1,6 @@
 import getBattleReport from '..'
 import { getTestParticipant } from '../../util/util.test'
-import { Place, Faction } from '../enums'
+import { Faction, Place } from '../enums'
 
 describe('Yin', () => {
   it('suicided units should be cleaned up before they get to fire', () => {

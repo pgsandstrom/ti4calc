@@ -1,9 +1,9 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { UnitInstance, UnitType, defaultRoll } from '../unit'
 import _times from 'lodash/times'
-import { Place, Faction } from '../enums'
-import { getLowestWorthSustainUnit, getHighestHitUnit } from '../unitGet'
+import { Faction, Place } from '../enums'
+import { getHighestHitUnit, getLowestWorthSustainUnit } from '../unitGet'
 import { LOG } from '../battle'
 
 export const argentFlight: BattleEffect[] = [

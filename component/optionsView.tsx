@@ -11,11 +11,11 @@ import {
 } from '../core/battleeffect/battleEffects'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import {
-  getGeneralEffectFromFactions,
-  getFactionStuffNonUnit,
-  getPromissary,
   getAgent,
   getCommanders,
+  getFactionStuffNonUnit,
+  getGeneralEffectFromFactions,
+  getPromissary,
 } from '../core/factions/faction'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'

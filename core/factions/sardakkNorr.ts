@@ -1,8 +1,8 @@
-import { destroyUnit, getOtherParticipant, isParticipantAlive, LOG } from '../battle'
+import { LOG, destroyUnit, getOtherParticipant, isParticipantAlive } from '../battle'
 import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Place, Faction } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { Faction, Place } from '../enums'
+import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
 import { getHighestWorthUnit, getUnits } from '../unitGet'
 import _times from 'lodash/times'
 

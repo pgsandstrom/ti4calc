@@ -1,5 +1,5 @@
 import { Battle } from '../core/battle-types'
-import { query, SQL } from './db'
+import { SQL, query } from './db'
 
 export interface ErrorReportUnsaved {
   error: true

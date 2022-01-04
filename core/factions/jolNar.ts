@@ -1,8 +1,8 @@
-import { ParticipantInstance, BattleInstance, EFFECT_HIGH_PRIORITY } from '../battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
 import { HitInfo } from '../roll'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
 
 export const jolNar: BattleEffect[] = [
   {

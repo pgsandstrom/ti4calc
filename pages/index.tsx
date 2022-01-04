@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
 import { createParticipant } from '../core/battleSetup'
-import { Place, Faction } from '../core/enums'
+import { Faction, Place } from '../core/enums'
 import { UnitType } from '../core/unit'
 import SwitchButton from '../component/switchButton'
 import FactionImage from '../component/factionImage'
@@ -18,9 +18,9 @@ import OptionsView from '../component/optionsView'
 import HelpView from '../component/helpView'
 import { DetailedBattleReportView } from '../component/detailedBattleReportView'
 import {
-  getLocalStorage,
   LS_ATTACKER_FACTION,
   LS_DEFENDER_FACTION,
+  getLocalStorage,
   setLocalStorage,
 } from '../util/localStorageWrapper'
 

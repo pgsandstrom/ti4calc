@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { useResize } from '../util/hooks'
 import {
-  getLocalStorage,
   LS_SHOW_DETAILED_REPORT,
+  getLocalStorage,
   setLocalStorage,
 } from '../util/localStorageWrapper'
 import { getColorProgress } from '../util/util-color'

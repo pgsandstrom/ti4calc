@@ -1,8 +1,8 @@
-import { destroyUnit, LOG } from '../battle'
-import { ParticipantInstance, BattleInstance } from '../battle-types'
+import { LOG, destroyUnit } from '../battle'
+import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
-import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-import { getHighestHitUnit, getNonFighterShips, getLowestWorthUnit } from '../unitGet'
+import { UnitInstance, UnitType, getUnitWithImproved } from '../unit'
+import { getHighestHitUnit, getLowestWorthUnit, getNonFighterShips } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 
 export function getTechBattleEffects() {

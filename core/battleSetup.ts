@@ -1,19 +1,19 @@
 import { objectEntries } from '../util/util-object'
-import { UnitInstance, UnitType, UNIT_MAP } from './unit'
+import { UNIT_MAP, UnitInstance, UnitType } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
-import { doBattle, LOG } from './battle'
+import { LOG, doBattle } from './battle'
 import { getFactionBattleEffects } from './factions/faction'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import {
   Battle,
   BattleInstance,
-  Side,
+  EFFECT_DEFAULT_PRIORITY,
   Participant,
   ParticipantInstance,
-  EFFECT_DEFAULT_PRIORITY,
+  Side,
 } from './battle-types'
-import { Place, Faction } from './enums'
+import { Faction, Place } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 import { PartialRecord } from '../util/util-types'
 

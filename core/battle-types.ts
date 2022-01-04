@@ -3,7 +3,7 @@
 
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
-import { Place, Faction } from './enums'
+import { Faction, Place } from './enums'
 import { HitInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 

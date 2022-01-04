@@ -1,7 +1,7 @@
-import { ParticipantInstance, BattleInstance, EFFECT_LOW_PRIORITY } from '../battle-types'
+import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Place, Faction } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType, UNIT_MAP } from '../unit'
+import { Faction, Place } from '../enums'
+import { UNIT_MAP, UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
 import { getHighestHitUnit } from '../unitGet'
 
 export const baronyOfLetnev: BattleEffect[] = [
