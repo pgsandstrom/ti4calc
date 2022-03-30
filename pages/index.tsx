@@ -89,7 +89,6 @@ const StyledClearButton = styled(CoolButton)`
   }
 `
 
-// TODO add "units damaged before the battle"?
 // TODO add resource value
 
 export default function Home() {
