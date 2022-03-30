@@ -234,6 +234,9 @@ function doAfb(battle: BattleInstance) {
     }
   })
 
+  removeDeadUnits(battle.attacker, battle)
+  removeDeadUnits(battle.defender, battle)
+
   battle.attacker.hitsToAssign = {
     hits: 0,
     hitsToNonFighters: 0,

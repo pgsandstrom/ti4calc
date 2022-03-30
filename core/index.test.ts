@@ -1,6 +1,6 @@
 import getBattleReport from '.'
 import { checkResult, getTestParticipant } from '../util/util.test'
-import { Place } from './enums'
+import { Faction, Place } from './enums'
 import { duraniumArmor } from './battleeffect/tech'
 
 export const DO_BATTLE_X_TIMES = 15000
@@ -105,5 +105,29 @@ describe('core', () => {
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.82)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.028)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
+  })
+
+  it('Make sure units killed by anti fighter barrage does not get to shoot', () => {
+    const attacker = getTestParticipant('attacker', {
+      fighter: 1,
+    })
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        destroyer: 1,
+      },
+      Faction.argent_flight,
+      {},
+      {
+        destroyer: true,
+      },
+    )
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.0288)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.019)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.952)
   })
 })
