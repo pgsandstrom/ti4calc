@@ -9,6 +9,10 @@ import { UnitInstance, UnitType } from './unit'
 
 export type Side = 'attacker' | 'defender'
 
+export function isSide(value: unknown): value is Side {
+  return value === 'attacker' || value === 'defender'
+}
+
 // UnitEffect and UnitAuraEffect returns a new unit instead of modify, since their changes can be temporary
 export type UnitEffect = (
   u: UnitInstance,

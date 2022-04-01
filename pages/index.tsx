@@ -23,6 +23,8 @@ import {
   getLocalStorage,
   setLocalStorage,
 } from '../util/localStorageWrapper'
+import { createQueryParams, hasQueryParams } from '../util/query-params'
+import { GetServerSideProps } from 'next'
 
 const StyledHolder = styled.div`
   display: flex;
@@ -91,14 +93,33 @@ const StyledClearButton = styled(CoolButton)`
 
 // TODO add resource value
 
-export default function Home() {
-  const [attacker, setAttackerRaw] = useState<Participant>(createParticipant('attacker'))
-  const [defender, setDefenderRaw] = useState<Participant>(createParticipant('defender'))
+// eslint-disable-next-line @typescript-eslint/require-await
+export const getServerSideProps: GetServerSideProps<HomeProps> = async (_context) => {
+  const query = _context.query
+
+  return { props: { query } }
+}
+
+interface HomeProps {
+  query: Record<string, string | string[] | undefined>
+}
+
+export default function Home(props: HomeProps) {
+  const [attacker, setAttackerRaw] = useState<Participant>(() => {
+    return createParticipant('attacker', undefined, props.query)
+  })
+  const [defender, setDefenderRaw] = useState<Participant>(() => {
+    return createParticipant('defender', undefined, props.query)
+  })
   const [battleReport, setBattleReport] = useState<BattleReport>()
-  const [place, setPlace] = useState<Place>(Place.space)
+
+  const [place, setPlaceRaw] = useState<Place>(() => {
+    return props.query.place === Place.ground ? Place.ground : Place.space
+  })
+
   const [error, setError] = useState(false)
 
-  const [touched, setTouched] = useState(false)
+  const [touched, setTouched] = useState(hasQueryParams(props.query))
   const workerRef = useRef<Worker>()
 
   const registerUsage = () => {
@@ -122,6 +143,7 @@ export default function Home() {
       setTouched(true)
     }
     setAttackerRaw(p)
+    createQueryParams(p, defender, place)
   }
   const setDefender = (p: Participant) => {
     if (!touched) {
@@ -129,6 +151,12 @@ export default function Home() {
       setTouched(true)
     }
     setDefenderRaw(p)
+    createQueryParams(attacker, p, place)
+  }
+
+  const setPlace = (newPlace: Place) => {
+    setPlaceRaw(newPlace)
+    createQueryParams(attacker, defender, newPlace)
   }
 
   // Load the worker only to cache it

@@ -64,7 +64,14 @@ export default function OptionsView(props: OptionsProps) {
   const actioncards = filterOutBattleEffects(getActioncards(), props.attacker, props.defender)
   const agendas = filterOutBattleEffects(getAgendas(), props.attacker, props.defender)
 
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(() => {
+    return (
+      !props.attacker.riskDirectHit ||
+      !props.defender.riskDirectHit ||
+      Object.keys(props.attacker.battleEffects).length > 0 ||
+      Object.keys(props.defender.battleEffects).length > 0
+    )
+  })
 
   return (
     <div

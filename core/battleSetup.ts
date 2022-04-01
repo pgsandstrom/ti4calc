@@ -16,6 +16,7 @@ import {
 import { Faction, Place } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 import { PartialRecord } from '../util/util-types'
+import { applyQueryParams } from '../util/query-params'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -261,7 +262,11 @@ function applyBattleEffects(
     })
 }
 
-export function createParticipant(side: Side, faction?: Faction): Participant {
+export function createParticipant(
+  side: Side,
+  faction?: Faction,
+  query?: Record<string, string | string[] | undefined>,
+): Participant {
   const participant: Participant = {
     faction: faction ?? Faction.barony_of_letnev,
     side,
@@ -270,6 +275,9 @@ export function createParticipant(side: Side, faction?: Faction): Participant {
     damagedUnits: {},
     battleEffects: {},
     riskDirectHit: true,
+  }
+  if (query) {
+    applyQueryParams(participant, query)
   }
   return participant
 }
