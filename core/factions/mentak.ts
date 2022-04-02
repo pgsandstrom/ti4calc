@@ -2,8 +2,7 @@ import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { getHits } from '../roll'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
-import { createUnitAndApplyEffects } from '../battleSetup'
+import { UnitInstance, UnitType, createUnitAndApplyEffects, defaultRoll } from '../unit'
 
 export const mentak: BattleEffect[] = [
   {

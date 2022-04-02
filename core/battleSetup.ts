@@ -1,8 +1,8 @@
 import { objectEntries } from '../util/util-object'
-import { UNIT_MAP, UnitInstance, UnitType } from './unit'
+import { UnitInstance, UnitType, createUnit } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
-import { LOG, doBattle } from './battle'
+import { doBattle } from './battle'
 import { getFactionBattleEffects } from './factions/faction'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import {
@@ -300,31 +300,6 @@ export const getUnitMap = (units?: PartialRecord<UnitType, number>) => {
     ...units,
   }
   return unitMap
-}
-
-export function createUnit(type: UnitType) {
-  const unit = _cloneDeep(UNIT_MAP[type])
-  const unitInstance: UnitInstance = {
-    ...unit,
-    takenDamage: false,
-    isDestroyed: false,
-  }
-  return unitInstance
-}
-
-export function createUnitAndApplyEffects(
-  type: UnitType,
-  participant: ParticipantInstance,
-  place: Place,
-) {
-  let unit = createUnit(type)
-  participant.allUnitTransform.forEach((effect) => {
-    unit = effect(unit, participant, place, effect.name)
-  })
-  if (LOG) {
-    console.log(`${participant.side} created a new unit: ${unit.type}`)
-  }
-  return unit
 }
 
 function damageUnits(

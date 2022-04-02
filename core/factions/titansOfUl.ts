@@ -1,8 +1,7 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { createUnitAndApplyEffects } from '../battleSetup'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
+import { UnitInstance, UnitType, createUnitAndApplyEffects, defaultRoll } from '../unit'
 
 export const titansOfUl: BattleEffect[] = [
   {

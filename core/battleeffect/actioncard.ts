@@ -1,12 +1,19 @@
-import { LOG, destroyUnit, getOtherParticipant } from '../battle'
+import { destroyUnit, getOtherParticipant } from '../battle'
 import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
 import { getHits } from '../roll'
-import { Roll, UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
+import {
+  Roll,
+  UnitInstance,
+  UnitType,
+  createUnitAndApplyEffects,
+  defaultRoll,
+  getUnitWithImproved,
+} from '../unit'
 import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 import _times from 'lodash/times'
-import { createUnitAndApplyEffects } from '../battleSetup'
+import { LOG } from '../constant'
 
 export function getActioncards() {
   return [

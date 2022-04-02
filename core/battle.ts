@@ -17,14 +17,10 @@ import {
   getLowestWorthUnit,
 } from './unitGet'
 import _cloneDeep from 'lodash/cloneDeep'
-import { NUMBER_OF_ROLLS } from './constant'
-import { isTest } from '../util/util-debug'
 import { getBattleResultUnitString } from './battleResult'
+import { LOG } from './constant'
 
 // TODO add retreat?
-
-// eslint-disable-next-line
-export const LOG = NUMBER_OF_ROLLS === 1 && !isTest()
 
 export function doBattle(battle: BattleInstance): BattleResult {
   battle.attacker.onStartEffect.forEach((effect) => {

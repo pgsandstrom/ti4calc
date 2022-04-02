@@ -4,7 +4,7 @@ import { UnitInstance, UnitType, defaultRoll } from '../unit'
 import _times from 'lodash/times'
 import { Faction, Place } from '../enums'
 import { getHighestHitUnit, getLowestWorthSustainUnit } from '../unitGet'
-import { LOG } from '../battle'
+import { LOG } from '../constant'
 
 export const argentFlight: BattleEffect[] = [
   {

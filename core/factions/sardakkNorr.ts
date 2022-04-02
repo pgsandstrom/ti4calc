@@ -1,10 +1,11 @@
-import { LOG, destroyUnit, getOtherParticipant, isParticipantAlive } from '../battle'
+import { destroyUnit, getOtherParticipant, isParticipantAlive } from '../battle'
 import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
 import { getHighestWorthUnit, getUnits } from '../unitGet'
 import _times from 'lodash/times'
+import { LOG } from '../constant'
 
 export const sardarkkNorr: BattleEffect[] = [
   {

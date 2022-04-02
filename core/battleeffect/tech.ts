@@ -1,5 +1,6 @@
-import { LOG, destroyUnit } from '../battle'
+import { destroyUnit } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
+import { LOG } from '../constant'
 import { Place } from '../enums'
 import { UnitInstance, UnitType, getUnitWithImproved } from '../unit'
 import { getHighestHitUnit, getLowestWorthUnit, getNonFighterShips } from '../unitGet'

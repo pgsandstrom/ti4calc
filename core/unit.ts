@@ -1,5 +1,7 @@
-import { OnHitEffect } from './battle-types'
+import _cloneDeep from 'lodash/cloneDeep'
+import { OnHitEffect, ParticipantInstance } from './battle-types'
 import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
+import { LOG } from './constant'
 import { Place } from './enums'
 
 export enum UnitType {
@@ -333,4 +335,29 @@ export function getUnitWithImproved(
       [bonus]: unit[rollType]![bonus] + value,
     },
   }
+}
+
+export function createUnit(type: UnitType) {
+  const unit = _cloneDeep(UNIT_MAP[type])
+  const unitInstance: UnitInstance = {
+    ...unit,
+    takenDamage: false,
+    isDestroyed: false,
+  }
+  return unitInstance
+}
+
+export function createUnitAndApplyEffects(
+  type: UnitType,
+  participant: ParticipantInstance,
+  place: Place,
+) {
+  let unit = createUnit(type)
+  participant.allUnitTransform.forEach((effect) => {
+    unit = effect(unit, participant, place, effect.name)
+  })
+  if (LOG) {
+    console.log(`${participant.side} created a new unit: ${unit.type}`)
+  }
+  return unit
 }
