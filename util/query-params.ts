@@ -1,4 +1,4 @@
-import { Participant, isSide } from '../core/battle-types'
+import { Participant, Side, isSide } from '../core/battle-types'
 import { getAllBattleEffects } from '../core/battleeffect/battleEffects'
 import { Faction, Place } from '../core/enums'
 import { UnitType } from '../core/unit'
@@ -195,6 +195,13 @@ function hasUnits(p: Participant) {
   return Object.values(p.units).some((val) => val > 0)
 }
 
-export function hasQueryParams(query: Record<string, string | string[] | undefined>) {
+export function hasSomeQueryParams(query: Record<string, string | string[] | undefined>) {
   return Object.entries(query).length > 0
+}
+
+export function hasQueryParamForFaction(
+  query: Record<string, string | string[] | undefined>,
+  side: Side,
+) {
+  return Object.keys(query).some((key) => key === `${side}-faction`)
 }

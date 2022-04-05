@@ -23,7 +23,11 @@ import {
   getLocalStorage,
   setLocalStorage,
 } from '../util/localStorageWrapper'
-import { createQueryParams, hasQueryParams } from '../util/query-params'
+import {
+  createQueryParams,
+  hasQueryParamForFaction,
+  hasSomeQueryParams,
+} from '../util/query-params'
 import { GetServerSideProps } from 'next'
 
 const StyledHolder = styled.div`
@@ -119,7 +123,7 @@ export default function Home(props: HomeProps) {
 
   const [error, setError] = useState(false)
 
-  const [touched, setTouched] = useState(hasQueryParams(props.query))
+  const [touched, setTouched] = useState(hasSomeQueryParams(props.query))
   const workerRef = useRef<Worker>()
 
   const registerUsage = () => {
@@ -219,21 +223,25 @@ export default function Home(props: HomeProps) {
 
   // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
-    const attackerFaction = getLocalStorage<Faction>(LS_ATTACKER_FACTION)
-    if (attackerFaction && Object.values(Faction).includes(attackerFaction)) {
-      const newAttacker: Participant = {
-        ...attacker,
-        faction: attackerFaction,
+    if (!hasQueryParamForFaction(props.query, 'attacker')) {
+      const attackerFaction = getLocalStorage<Faction>(LS_ATTACKER_FACTION)
+      if (attackerFaction && Object.values(Faction).includes(attackerFaction)) {
+        const newAttacker: Participant = {
+          ...attacker,
+          faction: attackerFaction,
+        }
+        setAttackerRaw(newAttacker)
       }
-      setAttackerRaw(newAttacker)
     }
-    const defenderFaction = getLocalStorage<Faction>(LS_DEFENDER_FACTION)
-    if (defenderFaction && Object.values(Faction).includes(defenderFaction)) {
-      const newDefender: Participant = {
-        ...defender,
-        faction: defenderFaction,
+    if (!hasQueryParamForFaction(props.query, 'defender')) {
+      const defenderFaction = getLocalStorage<Faction>(LS_DEFENDER_FACTION)
+      if (defenderFaction && Object.values(Faction).includes(defenderFaction)) {
+        const newDefender: Participant = {
+          ...defender,
+          faction: defenderFaction,
+        }
+        setDefenderRaw(newDefender)
       }
-      setDefenderRaw(newDefender)
     }
     // eslint-disable-next-line
   }, [])
