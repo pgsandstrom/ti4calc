@@ -167,7 +167,7 @@ export default function Home(props: HomeProps) {
   useEffect(() => {
     void (async () => {
       const { default: Worker } = await import(
-        'worker-loader?filename=static/[hash].worker.js!../core/webworker'
+        'worker-loader?filename=static/[chunkhash].worker.js!../core/webworker'
       )
       new Worker()
     })()
@@ -177,7 +177,7 @@ export default function Home(props: HomeProps) {
     if (touched) {
       void (async () => {
         const { default: Worker } = await import(
-          'worker-loader?filename=static/[hash].worker.js!../core/webworker'
+          'worker-loader?filename=static/[chunkhash].worker.js!../core/webworker'
         )
         if (workerRef.current) {
           workerRef.current.terminate()
