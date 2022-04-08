@@ -69,7 +69,9 @@ export default function OptionsView(props: OptionsProps) {
       !props.attacker.riskDirectHit ||
       !props.defender.riskDirectHit ||
       Object.keys(props.attacker.battleEffects).length > 0 ||
-      Object.keys(props.defender.battleEffects).length > 0
+      Object.keys(props.defender.battleEffects).length > 0 ||
+      Object.keys(props.attacker.damagedUnits).length > 0 ||
+      Object.keys(props.defender.damagedUnits).length > 0
     )
   })
 
