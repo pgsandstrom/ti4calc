@@ -74,6 +74,7 @@ interface SharedStuffBattleEffect {
   onEnemySustain?: UnitBattleEffect
   onRepair?: UnitBattleEffect
   onCombatRoundEnd?: ParticipantEffect
+  onCombatRoundEndBeforeAssign?: ParticipantEffect
   afterAfb?: ParticipantEffect
   onDeath?: OnDeathEffect
 

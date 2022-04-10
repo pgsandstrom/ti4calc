@@ -45,6 +45,18 @@ export function doBattle(battle: BattleInstance): BattleResult {
   let battleResult: BattleResult | undefined = undefined
   while (!battleResult) {
     doBattleRolls(battle)
+
+    battle.attacker.onCombatRoundEndBeforeAssign.forEach((effect) => {
+      if (canBattleEffectBeUsed(effect, battle.attacker)) {
+        effect.onCombatRoundEndBeforeAssign!(battle.attacker, battle, battle.defender, effect.name)
+      }
+    })
+    battle.defender.onCombatRoundEndBeforeAssign.forEach((effect) => {
+      if (canBattleEffectBeUsed(effect, battle.defender)) {
+        effect.onCombatRoundEndBeforeAssign!(battle.defender, battle, battle.attacker, effect.name)
+      }
+    })
+
     resolveHits(battle)
     doRepairStep(battle)
 

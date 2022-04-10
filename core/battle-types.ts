@@ -115,6 +115,7 @@ export interface ParticipantInstance {
   onEnemySustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
   onCombatRoundEnd: BattleEffect[]
+  onCombatRoundEndBeforeAssign: BattleEffect[]
   afterAfbEffect: BattleEffect[]
 
   onSpaceCannon: BattleEffect[]

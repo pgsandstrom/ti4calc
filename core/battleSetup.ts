@@ -137,6 +137,7 @@ function createParticipantInstance(
     onEnemySustainEffect: [],
     onRepairEffect: [],
     onCombatRoundEnd: [],
+    onCombatRoundEndBeforeAssign: [],
     afterAfbEffect: [],
     onDeath: [],
 
@@ -227,6 +228,9 @@ function applyBattleEffects(
       }
       if (battleEffect.onCombatRoundEnd) {
         participantInstance.onCombatRoundEnd.push(battleEffect)
+      }
+      if (battleEffect.onCombatRoundEndBeforeAssign) {
+        participantInstance.onCombatRoundEndBeforeAssign.push(battleEffect)
       }
       if (battleEffect.afterAfb) {
         participantInstance.afterAfbEffect.push(battleEffect)

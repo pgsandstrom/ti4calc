@@ -27,7 +27,7 @@ export function getActioncards() {
     fireTeam,
     maneuveringJets,
     moraleBoost,
-    // shieldsHolding,
+    shieldsHolding,
     blitz,
     reflectiveShielding,
     // scrambleFrequency,
@@ -279,7 +279,45 @@ export const shieldsHolding: BattleEffect = {
   description: 'Before you assign hits to your ships during a space combat: Cancel up to 2 hits.',
   type: 'action-card',
   place: Place.space,
-  // TODO can only be played once per round per player
+  count: true,
+  timesPerRound: 1,
+  onCombatRoundEndBeforeAssign: (
+    participant: ParticipantInstance,
+    _battle: BattleInstance,
+    _otherParticipant: ParticipantInstance,
+    effectName: string,
+  ) => {
+    if (participant.effects[effectName] === 0) {
+      return
+    }
+
+    if (
+      participant.hitsToAssign.hitsAssignedByEnemy > 0 ||
+      participant.hitsToAssign.hitsToNonFighters > 0 ||
+      participant.hitsToAssign.hits > 0
+    ) {
+      let cancel = 2
+
+      const cancelHitsAssignedByEnemy = Math.min(
+        cancel,
+        participant.hitsToAssign.hitsAssignedByEnemy,
+      )
+      cancel -= cancelHitsAssignedByEnemy
+      participant.hitsToAssign.hitsAssignedByEnemy -= cancelHitsAssignedByEnemy
+
+      const cancelHitsToNonFighters = Math.min(cancel, participant.hitsToAssign.hitsToNonFighters)
+      cancel -= cancelHitsToNonFighters
+      participant.hitsToAssign.hitsToNonFighters -= cancelHitsToNonFighters
+
+      const cancelHits = Math.min(cancel, participant.hitsToAssign.hits)
+      cancel -= cancelHits
+      participant.hitsToAssign.hits -= cancelHits
+
+      registerUse(effectName, participant)
+
+      participant.effects[effectName] -= 1
+    }
+  },
 }
 
 export const blitz: BattleEffect = {
