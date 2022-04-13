@@ -55,6 +55,14 @@ module.exports = {
         ignoreDeclarationSort: true,
       },
     ],
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
 
     // here is frontend/backend exclusive rules
 
