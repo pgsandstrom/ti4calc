@@ -94,11 +94,11 @@ export const yin: BattleEffect[] = [
   {
     name: 'Yin agent',
     description:
-      "After a player's destroyer or cruiser is destroyed: You may exhaust this card; if you do, that player may place up to 2 fighters from their reinforcements in that unit's system.",
+      "After a player's unit is destroyed: You may exhaust this card to allow that player to place 2 fighters in the destroyed unit's system if it was a ship, or 2 infantry on its planet if it was a ground force.",
     type: 'agent',
-    place: Place.space,
+    place: 'both',
     onDeath: (
-      deadUnits: UnitInstance[],
+      _deadUnits: UnitInstance[],
       participant: ParticipantInstance,
       _otherParticipant: ParticipantInstance,
       battle: BattleInstance,
@@ -108,22 +108,28 @@ export const yin: BattleEffect[] = [
       if (!isOwnUnit) {
         return
       }
-      const deadUnit = deadUnits.find(
-        (u) => u.type === UnitType.destroyer || u.type === UnitType.cruiser,
-      )
-      if (!deadUnit) {
-        return
+      if (battle.place === Place.space) {
+        const newFigher1 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
+        const newFigher2 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
+        participant.newUnits.push(newFigher1)
+        participant.newUnits.push(newFigher2)
+        if (LOG) {
+          console.log(
+            `${participant.side} uses Yin agent to summon two fighters when a unit was destroyed`,
+          )
+        }
+      } else {
+        const newInfantry1 = createUnitAndApplyEffects(UnitType.infantry, participant, battle.place)
+        const newInfantry2 = createUnitAndApplyEffects(UnitType.infantry, participant, battle.place)
+        participant.newUnits.push(newInfantry1)
+        participant.newUnits.push(newInfantry2)
+        if (LOG) {
+          console.log(
+            `${participant.side} uses Yin agent to summon two infantry when a unit was destroyed`,
+          )
+        }
       }
-      const newFigher1 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
-      const newFigher2 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
-      participant.newUnits.push(newFigher1)
-      participant.newUnits.push(newFigher2)
       registerUse(effectName, participant)
-      if (LOG) {
-        console.log(
-          `${participant.side} uses Yin agent to summon two fighters when a ${deadUnit.type} was destroyed`,
-        )
-      }
     },
     timesPerFight: 1,
   },
