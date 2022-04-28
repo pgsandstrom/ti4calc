@@ -172,13 +172,13 @@ function fixUnitBattleEffects(
   other: ParticipantInstance,
   place: Place,
 ) {
-  const attackerUnitBattleEffects = participantInstance.units
+  const participantUnitBattleEffects = participantInstance.units
     .filter((u) => u.battleEffects)
     .map((u) => u.battleEffects!)
     .flat()
 
-  applyBattleEffects(participant, participantInstance, attackerUnitBattleEffects, place)
-  addOtherParticipantsBattleEffects(other, attackerUnitBattleEffects, place)
+  applyBattleEffects(participant, participantInstance, participantUnitBattleEffects, place)
+  addOtherParticipantsBattleEffects(other, participantUnitBattleEffects, place)
 }
 
 function addOtherParticipantsBattleEffects(
