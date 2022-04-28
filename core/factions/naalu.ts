@@ -2,9 +2,7 @@ import { isBattleOngoing } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
-
-const opponentHasRelicFragment = 'Naalu mech bonus'
+import { UnitInstance, UnitType, defaultRoll } from '../unit'
 
 export const naalu: BattleEffect[] = [
   {
@@ -83,21 +81,28 @@ export const naalu: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Naalu mech',
-    place: Place.ground,
+    place: 'both',
     transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
-      if (unit.type === UnitType.mech && p.effects[opponentHasRelicFragment] > 0) {
-        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
+      if (unit.type === UnitType.mech) {
+        return {
+          ...unit,
+          battleEffects: [
+            {
+              name: 'Naalu mech remove afb',
+              type: 'other',
+              place: 'both',
+              transformEnemyUnit: (u: UnitInstance) => {
+                return {
+                  ...u,
+                  afb: undefined,
+                }
+              },
+            },
+          ],
+        }
       } else {
         return unit
       }
     },
-  },
-  {
-    type: 'faction-ability',
-    description:
-      "Naalu mech text is: During combat against an opponent who has at least 1 relic fragment, apply +2 to the results of this unit's combat rolls.",
-    faction: Faction.naalu,
-    place: Place.ground,
-    name: opponentHasRelicFragment,
   },
 ]
