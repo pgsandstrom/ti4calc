@@ -9,6 +9,7 @@ import { creuss } from './creuss'
 import { empyrean } from './empyrean'
 import { hacan } from './hacan'
 import { jolNar } from './jolNar'
+import { keleres } from './keleres'
 import { l1z1x } from './l1z1x'
 import { mahact } from './mahact'
 import { mentak } from './mentak'
@@ -35,6 +36,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   Empyrean: empyrean,
   Hacan: hacan,
   'Jol-Nar': jolNar,
+  Keleres: keleres,
   L1z1x: l1z1x,
   Mahact: mahact,
   Mentak: mentak,

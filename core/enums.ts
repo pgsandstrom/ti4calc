@@ -9,6 +9,7 @@ export enum Faction {
   empyrean = 'Empyrean',
   hacan = 'Hacan',
   jol_nar = 'Jol-Nar',
+  keleres = 'Keleres',
   l1z1x = 'L1z1x',
   mahact = 'Mahact',
   mentak = 'Mentak',
