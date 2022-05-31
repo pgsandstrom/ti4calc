@@ -568,6 +568,9 @@ export function isBattleOngoing(battle: BattleInstance) {
 }
 
 export function isParticipantAlive(p: ParticipantInstance, place: Place) {
+  if (p.newUnits.length > 0) {
+    return true
+  }
   return p.units.some((u) => {
     if (!doesUnitFitPlace(u, place)) {
       return false
