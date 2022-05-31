@@ -46,4 +46,33 @@ describe('Naalu', () => {
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.908)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.092)
   })
+
+  it.only('Naalu fighters should not be sent back to space just because enemy temporarily have zero units', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        fighter: 10,
+        infantry: 1,
+      },
+      Faction.naalu,
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        infantry: 1,
+      },
+      Faction.yin,
+      {
+        'Yin agent': 1,
+      },
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 1)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0)
+  })
 })
