@@ -11,12 +11,13 @@ export function getTestParticipant(
   faction = Faction.barony_of_letnev,
   battleEffects: Record<string, number | undefined> = {},
   unitUpgrades: PartialRecord<UnitType, boolean> = {},
+  damagedUnits: PartialRecord<UnitType, number> = {},
 ) {
   const p: Participant = {
     faction,
     units: getUnitMap(units),
     unitUpgrades,
-    damagedUnits: {},
+    damagedUnits,
     // TODO change default to true
     riskDirectHit: false,
     side,

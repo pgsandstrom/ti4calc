@@ -141,6 +141,30 @@ describe('unitGet', () => {
     expect(unit?.type).toEqual(UnitType.fighter)
   })
 
+  it('getHighestWorthNonSustainUnit should fetch damaged units', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        fighter: 1,
+      },
+      Faction.barony_of_letnev,
+      {},
+      {},
+      {
+        flagship: 1,
+      },
+    )
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
+
+    expect(unit?.type).toEqual(UnitType.flagship)
+  })
+
   it('getLowestWorthUnit', () => {
     const attacker = getTestParticipant('attacker', {
       flagship: 1,
