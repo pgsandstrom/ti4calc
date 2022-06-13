@@ -102,7 +102,7 @@ export function getUnits(
     if (withSustain === true) {
       return u.sustainDamage && !u.takenDamage
     } else if (withSustain === false) {
-      return !u.sustainDamage
+      return !u.sustainDamage || u.takenDamage
     } else {
       return true
     }
