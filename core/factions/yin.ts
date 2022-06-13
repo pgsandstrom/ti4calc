@@ -1,4 +1,4 @@
-import { destroyUnit } from '../battle'
+import { destroyUnit, isParticipantAlive } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { LOG } from '../constant'
@@ -56,6 +56,19 @@ export const yin: BattleEffect[] = [
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
+      // Dont suicide if this is the last unit and all enemy units have sustain damage
+      if (
+        participant.units.length === 1 &&
+        otherParticipant.units.every((u) => u.sustainDamage && !u.takenDamage)
+      ) {
+        return
+      }
+
+      // since this is at end of round, make sure opponent is not dead already
+      if (!isParticipantAlive(otherParticipant, battle.place)) {
+        return
+      }
+
       let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
       if (!suicideUnit) {
         suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
@@ -81,6 +94,14 @@ export const yin: BattleEffect[] = [
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
+      // Dont suicide if this is the last unit and all enemy units have sustain damage
+      if (
+        participant.units.length === 1 &&
+        otherParticipant.units.every((u) => u.sustainDamage && !u.takenDamage)
+      ) {
+        return
+      }
+
       let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
       if (!suicideUnit) {
         suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
