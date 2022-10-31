@@ -20,6 +20,7 @@ export default function DamagedUnitsView(props: Props) {
   const showFlagships = showUnitRow(props.attacker, props.defender, UnitType.flagship)
   const showWarsuns = showUnitRow(props.attacker, props.defender, UnitType.warsun)
   const showDreadnoughts = showUnitRow(props.attacker, props.defender, UnitType.dreadnought)
+  const showCarriers = showUnitRow(props.attacker, props.defender, UnitType.carrier)
   const showCruisers = showUnitRow(props.attacker, props.defender, UnitType.cruiser)
   const showMechs = showUnitRow(props.attacker, props.defender, UnitType.mech)
 
@@ -32,6 +33,7 @@ export default function DamagedUnitsView(props: Props) {
       {showFlagships && <DamagedUnitsRow unitType={UnitType.flagship} {...props} />}
       {showWarsuns && <DamagedUnitsRow unitType={UnitType.warsun} {...props} />}
       {showDreadnoughts && <DamagedUnitsRow unitType={UnitType.dreadnought} {...props} />}
+      {showCarriers && <DamagedUnitsRow unitType={UnitType.carrier} {...props} />}
       {showCruisers && <DamagedUnitsRow unitType={UnitType.cruiser} {...props} />}
       {showMechs && <DamagedUnitsRow unitType={UnitType.mech} {...props} />}
     </div>
@@ -122,6 +124,9 @@ function showParticipantUnit(participant: Participant, unitType: UnitType) {
   if (unitType === UnitType.cruiser) {
     return showParticipantCruiser(participant)
   }
+  if (unitType === UnitType.carrier) {
+    return showParticipantCarrier(participant)
+  }
   return participant.units[unitType] > 0 || (participant.damagedUnits[unitType] ?? 0) > 0
 }
 
@@ -130,5 +135,13 @@ function showParticipantCruiser(participant: Participant) {
     participant.faction === Faction.titans_of_ul &&
     participant.unitUpgrades[UnitType.cruiser] &&
     participant.units[UnitType.cruiser] > 0
+  )
+}
+
+function showParticipantCarrier(participant: Participant) {
+  return (
+    participant.faction === Faction.sol &&
+    participant.unitUpgrades[UnitType.carrier] &&
+    participant.units[UnitType.carrier] > 0
   )
 }
