@@ -3,7 +3,7 @@ import { PartialRecord } from './util-types'
 /**
  * Object.keys but keeps type safety
  */
-export function objectKeys<T>(obj: T): Array<keyof T> {
+export function objectKeys<T extends object>(obj: T): Array<keyof T> {
   const entries = Object.keys(obj)
   return entries as Array<keyof T>
 }
