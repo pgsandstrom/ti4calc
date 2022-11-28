@@ -47,7 +47,7 @@ describe('Naalu', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.092)
   })
 
-  it.only('Naalu fighters should not be sent back to space just because enemy temporarily have zero units', () => {
+  it('Naalu fighters should not be sent back to space just because enemy temporarily have zero units', () => {
     const attacker = getTestParticipant(
       'attacker',
       {

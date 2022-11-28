@@ -1,6 +1,5 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import React from 'react'
 import { Usage, getUsage } from '../server/usageController'
 
 interface ErrorProps {

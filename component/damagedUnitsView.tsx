@@ -1,4 +1,3 @@
-import React from 'react'
 import { Participant } from '../core/battle-types'
 import { UnitType } from '../core/unit'
 import _times from 'lodash/times'

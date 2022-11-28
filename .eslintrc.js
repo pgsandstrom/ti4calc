@@ -6,6 +6,8 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:react/recommended',
+    'plugin:react/jsx-runtime', // disable rules not needed with jsx runtime
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
@@ -14,25 +16,27 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2017,
-    sourceType: 'module',
+    ecmaVersion: 2021,
     ecmaFeatures: {
       jsx: true,
-      generators: false,
-      experimentalObjectRestSpread: true,
     },
-    project: './tsconfig.json',
+    project: ['./tsconfig.json'],
+    sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'react-hooks', 'no-only-tests'],
   rules: {
     // turn off unwanted rules:
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/no-inferrable-types': 'off', // I dont feel as if this makes the code much cleaner
+    'react/display-name': 'off', // Complains about functions in strings-file that returns jsx
+    'react/prop-types': 'off', // unnecessary with typescript
+    '@typescript-eslint/restrict-template-expressions': 'off', // this feels too verbose
+    '@typescript-eslint/no-inferrable-types': 'off', // this brings very little value
 
-    // activate extra rules:
+    // activate or configure rules:
     eqeqeq: ['error', 'smart'],
     curly: ['error'],
+    // 'no-console': ['error', { allow: ['warn', 'error'] }],
     '@typescript-eslint/no-unnecessary-type-assertion': ['error'],
     '@typescript-eslint/no-extra-non-null-assertion': ['error'],
     '@typescript-eslint/no-unused-vars': [
@@ -49,6 +53,19 @@ module.exports = {
         allowNullableBoolean: true,
       },
     ],
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'react-router',
+            message: 'Please import from react-router-dom',
+          },
+        ],
+      },
+    ],
+    '@typescript-eslint/prefer-enum-initializers': ['error'],
+    'no-only-tests/no-only-tests': 'error',
     'sort-imports': [
       'error',
       {
@@ -63,18 +80,6 @@ module.exports = {
         },
       },
     ],
-
-    // here is frontend/backend exclusive rules
-
-    'react/display-name': 'off', // Complains about functions in strings-file that returns jsx
-    'react/no-find-dom-node': 'off', // We need to do this with d3
-    'react/prop-types': 'off', // unnecessary with typescript
-    '@typescript-eslint/no-empty-interface': 'off', // I use this sometimes in the frontend, to have some uniformity between components
-    'no-empty-pattern': 'off', // I want to be able to write like this when first creating an interface: const Header = ({}: Props) => {
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'error',
-    '@typescript-eslint/restrict-template-expressions': 'off', // in class strings I often write like "foo && 'selected'"
-    'react/react-in-jsx-scope': 'off', // not required with react 17
   },
   settings: {
     react: {

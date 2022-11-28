@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
