@@ -1,19 +1,6 @@
-import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
-
-const BattleReportDiv = styled.div`
-  display: flex;
-`
-
-// its good if animation time is lower than MIN_TIME_BETWEEN_SENDING_UPDATES, to avoid jerky animations
-const PercentageDiv = styled.div`
-  transition: flex-grow 240ms;
-
-  > * {
-    text-align: center;
-  }
-`
+import { container } from './battleReportView.css'
 
 interface Props {
   report: BattleReport | undefined
@@ -61,8 +48,9 @@ export function BattleReportView({ report, style }: Props) {
         Result
       </h3>
 
-      <BattleReportDiv>
-        <PercentageDiv
+      <div style={{ display: 'flex' }}>
+        <div
+          className={container}
           style={{
             flex: `${toPercentageNumber(total, report.attacker)} 0 0`,
             background: '#B1B1FF',
@@ -74,8 +62,9 @@ export function BattleReportView({ report, style }: Props) {
               <div>{toPercentageString(total, report.attacker)}</div>
             </>
           )}
-        </PercentageDiv>
-        <PercentageDiv
+        </div>
+        <div
+          className={container}
           style={{
             flex: `${toPercentageNumber(total, report.draw)} 0 0`,
             background: '#CFCFCF',
@@ -87,8 +76,9 @@ export function BattleReportView({ report, style }: Props) {
               <div>{toPercentageString(total, report.draw)}</div>
             </>
           )}
-        </PercentageDiv>
-        <PercentageDiv
+        </div>
+        <div
+          className={container}
           style={{
             flex: `${toPercentageNumber(total, report.defender)} 0 0`,
             background: '#FFB1B1',
@@ -100,8 +90,8 @@ export function BattleReportView({ report, style }: Props) {
               <div>{toPercentageString(total, report.defender)}</div>
             </>
           )}
-        </PercentageDiv>
-      </BattleReportDiv>
+        </div>
+      </div>
     </div>
   )
 }
