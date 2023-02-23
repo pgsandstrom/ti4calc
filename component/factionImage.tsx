@@ -1,19 +1,7 @@
 // import Image from 'next/image'
 import { useLayoutEffect, useState } from 'react'
-import styled from 'styled-components'
+import styles from './factionImage.module.scss'
 import { Faction } from '../core/enums'
-
-const StyledDiv = styled.div<Props>`
-  @media (max-width: 1023px) {
-    display: none;
-  }
-
-  img {
-    transform: ${(p) => (p.side === 'left' ? 'scaleX(-1)' : undefined)};
-    max-width: 100%;
-    height: auto;
-  }
-`
 
 interface Props {
   faction: Faction
@@ -39,7 +27,7 @@ export default function FactionImage(props: Props) {
   }, [props.faction])
 
   return (
-    <StyledDiv {...props}>
+    <div {...props} className={styles.container}>
       {/* <Image
         src={`/factions/${props.faction.replaceAll(' ', '_').replaceAll("'", '').toLowerCase()}.png`}
         alt=""
@@ -52,8 +40,9 @@ export default function FactionImage(props: Props) {
         alt=""
         width={640}
         height={828}
+        className={props.side === 'left' ? styles.left : styles.right}
         style={{ float: props.side === 'left' ? 'right' : 'left' }}
       />
-    </StyledDiv>
+    </div>
   )
 }

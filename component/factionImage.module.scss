@@ -1,0 +1,16 @@
+.container {
+  @media (max-width: 1023px) {
+    display: none;
+  }
+
+  img.left {
+    transform: scaleX(-1);
+    max-width: 100%;
+    height: auto;
+  }
+
+  img.right {
+    max-width: 100%;
+    height: auto;
+  }
+}

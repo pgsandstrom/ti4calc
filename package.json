@@ -41,7 +41,8 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jest": "27.5.1",
     "lint-staged": "13.0.3",
-    "prettier": "2.7.1"
+    "prettier": "2.7.1",
+    "sass": "^1.58.3"
   },
   "lint-staged": {
     "*.{json,md,css,scss}": [

@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
 import { createParticipant } from '../core/battleSetup'
@@ -29,71 +28,7 @@ import {
   hasSomeQueryParams,
 } from '../util/query-params'
 import { GetServerSideProps } from 'next'
-
-const StyledHolder = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  flex: 1 0 auto;
-  margin: 0 auto;
-  max-width: 100%;
-  min-height: 100vh;
-`
-
-const StyledMain = styled.main`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1 0 0;
-
-  max-width: 500px;
-  min-width: 360px;
-
-  > * {
-    width: 100%;
-  }
-`
-
-const StyledMainController = styled.div`
-  @media (max-height: 799px) {
-    .main-title {
-      visibility: hidden;
-      height: 10px;
-    }
-  }
-
-  border-image-source: url('/background.webp');
-  border-image-slice: 40 fill;
-  border-image-width: 20px;
-  border-image-outset: 0px;
-  border-image-repeat: round;
-
-  // some ios devices does not show the border-image, so we need a fallback background
-  // that is why we have this ugly hack
-  background: #e6edf8;
-  background-clip: content-box;
-
-  padding: 18px 20px 120px;
-  width: 100%;
-`
-
-const StyledClearButton = styled(CoolButton)`
-  @media (max-width: 410px) {
-    width: 60px;
-
-    .long-text {
-      display: none;
-    }
-  }
-
-  @media (min-width: 411px) {
-    width: 110px;
-
-    .short-text {
-      display: none;
-    }
-  }
-`
+import styles from './index.module.scss'
 
 // TODO add resource value
 
@@ -300,11 +235,11 @@ export default function Home(props: HomeProps) {
         />
       </Head>
 
-      <StyledHolder>
+      <div className={styles.holder}>
         <FactionImage faction={attacker.faction} side="left" style={{ flex: '1 0 0' }} />
-        <StyledMain>
-          <StyledMainController>
-            <h1 className="main-title" style={{ textAlign: 'center', margin: '2px 0 10px' }}>
+        <main className={styles.main}>
+          <div className={styles.mainController}>
+            <h1 className={styles.mainTitle} style={{ textAlign: 'center', margin: '2px 0 10px' }}>
               TI4 calculator
             </h1>
             <div
@@ -359,15 +294,16 @@ export default function Home(props: HomeProps) {
                 }}
               >
                 <div style={{ flex: '1 0 0' }} />
-                <StyledClearButton
+                <CoolButton
+                  className={styles.clearButton}
                   onClick={() => {
                     const newAttacker = createParticipant('attacker', attacker.faction)
                     setAttacker(newAttacker)
                   }}
                 >
-                  <span className="short-text">Clear</span>
-                  <span className="long-text">Clear attacker</span>
-                </StyledClearButton>
+                  <span className={styles.shortText}>Clear</span>
+                  <span className={styles.longText}>Clear attacker</span>
+                </CoolButton>
                 <div style={{ flex: '1 0 0' }} />
                 <SwitchButton
                   isLeftSelected={place === Place.space}
@@ -377,19 +313,20 @@ export default function Home(props: HomeProps) {
                   onRightClick={() => setPlace(Place.ground)}
                 />
                 <div style={{ flex: '1 0 0' }} />
-                <StyledClearButton
+                <CoolButton
+                  className={styles.clearButton}
                   onClick={() => {
                     const newDefender = createParticipant('defender', defender.faction)
                     setDefender(newDefender)
                   }}
                 >
-                  <span className="short-text">Clear</span>
-                  <span className="long-text">Clear defender</span>
-                </StyledClearButton>
+                  <span className={styles.shortText}>Clear</span>
+                  <span className={styles.longText}>Clear defender</span>
+                </CoolButton>
                 <div style={{ flex: '1 0 0' }} />
               </div>
             </div>
-          </StyledMainController>
+          </div>
           <BattleReportView
             report={battleReport}
             style={{
@@ -415,9 +352,9 @@ export default function Home(props: HomeProps) {
             style={{ marginTop: '10px' }}
           />
           <HelpView style={{ marginTop: '10px', marginBottom: '10px' }} />
-        </StyledMain>
+        </main>
         <FactionImage faction={defender.faction} side="right" style={{ flex: '1 0 0' }} />
-      </StyledHolder>
+      </div>
     </div>
   )
 }

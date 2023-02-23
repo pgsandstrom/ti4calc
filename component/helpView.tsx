@@ -1,18 +1,12 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
 import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE } from '../core/constant'
+import styles from './helpView.module.scss'
 
 interface Props {
   style?: React.CSSProperties
 }
-
-const StyledDiv = styled.div`
-  > * {
-    margin-top: 20px;
-  }
-`
 
 export default function HelpView({ style }: Props) {
   const [show, setShow] = useState(false)
@@ -39,7 +33,7 @@ export default function HelpView({ style }: Props) {
         </div>
       </CoolButton>
       {show && (
-        <StyledDiv>
+        <div className={styles.helpView}>
           <div>
             This is a tool to help calculate odds for the board game Twilight Imperium 4. All
             current expansions and codex are included, up and until codex 3 (april 2022).
@@ -95,7 +89,7 @@ export default function HelpView({ style }: Props) {
               </li>
             </ul>
           </div>
-        </StyledDiv>
+        </div>
       )}
     </div>
   )

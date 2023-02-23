@@ -1,0 +1,41 @@
+.container {
+  position: relative;
+
+  .hoverIcon {
+    background: black;
+    color: white;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    cursor: help;
+  }
+
+  .popover {
+    position: absolute;
+    z-index: 1000;
+    width: 300px;
+    pointer-events: none;
+
+    background: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+
+    bottom: 25px;
+    left: -230px;
+
+    &::after {
+      border-style: solid;
+      border-color: transparent;
+      content: '';
+      height: 0;
+      position: absolute;
+      width: 0;
+      border-width: 5px;
+      top: 100%;
+      border-top-color: black;
+      right: 55px;
+    }
+  }
+}

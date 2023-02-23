@@ -1,0 +1,12 @@
+.battleReport {
+  display: flex;
+}
+
+// its good if animation time is lower than MIN_TIME_BETWEEN_SENDING_UPDATES, to avoid jerky animations
+.percentage {
+  transition: flex-grow 240ms;
+
+  > * {
+    text-align: center;
+  }
+}

@@ -1,16 +1,9 @@
 import React, { ForwardedRef } from 'react'
-import styled from 'styled-components'
-
-const StyledButton = styled.button`
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-`
+import styles from './neutralButton.module.scss'
 
 const NeutralButton = (
   props: React.ButtonHTMLAttributes<HTMLButtonElement>,
   ref: ForwardedRef<HTMLButtonElement>,
-) => <StyledButton {...props} ref={ref} />
+) => <button {...props} ref={ref} className={`${styles.neutralButton} ${props.className}`} />
 
 export default React.forwardRef(NeutralButton)

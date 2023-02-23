@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { Participant } from '../core/battle-types'
 import { getActioncards } from '../core/battleeffect/actioncard'
 import { getAgendas } from '../core/battleeffect/agenda'
@@ -30,11 +29,6 @@ interface OptionsProps {
   defenderOnChange: (participant: Participant) => void
   style?: React.CSSProperties
 }
-
-const StyledCheckbox = styled.input`
-  height: 24px;
-  width: 24px;
-`
 
 const filterOutBattleEffects = (
   effects: BattleEffect[],
@@ -184,7 +178,7 @@ const getDirectHitCheckbox = (
   onChange: (participant: Participant) => void,
 ) => {
   return (
-    <StyledCheckbox
+    <input
       autoComplete="off"
       type="checkbox"
       checked={participant.riskDirectHit}
@@ -194,6 +188,10 @@ const getDirectHitCheckbox = (
           riskDirectHit: !participant.riskDirectHit,
         }
         onChange(newParticipant)
+      }}
+      style={{
+        height: '24px',
+        width: '24px',
       }}
     />
   )
@@ -255,7 +253,7 @@ const BattleEffectInput = ({
 
   const disabled = !isBattleEffectRelevant(effect, participant)
   return (
-    <StyledCheckbox
+    <input
       autoComplete="off"
       type="checkbox"
       checked={battleEffectCount !== undefined && battleEffectCount > 0}
@@ -267,6 +265,8 @@ const BattleEffectInput = ({
       }}
       style={{
         visibility: disabled ? 'hidden' : undefined,
+        height: '24px',
+        width: '24px',
       }}
     />
   )

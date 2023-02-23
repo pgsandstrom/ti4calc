@@ -1,0 +1,31 @@
+.options {
+  display: flex;
+  margin-top: 0px;
+
+  .controlContainer {
+    min-width: 48px;
+    max-width: 72px;
+    height: 48px;
+  }
+
+  .descriptionContainer {
+    display: flex;
+    flex: 0 0 auto;
+    width: 200px;
+    padding-top: 3px;
+
+    > span {
+      flex: 1 0 0;
+      text-align: center;
+    }
+  }
+
+  .spaceTakerOuter {
+    flex: 1 0 0;
+  }
+
+  .spaceTaker {
+    flex: 1 0 0;
+    max-width: 50px;
+  }
+}

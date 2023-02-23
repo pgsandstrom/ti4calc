@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styles from './detailedBattleReportView.module.scss'
 import { BattleReport } from '../core'
 import { useResize } from '../util/hooks'
 import {
@@ -12,42 +12,6 @@ import { toPercentageNumber, toPercentageString } from '../util/util-number'
 import { objectEntries } from '../util/util-object'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
-
-const BattleReportDiv = styled.div`
-  display: flex;
-`
-
-// its good if animation time is lower than MIN_TIME_BETWEEN_SENDING_UPDATES, to avoid jerky animations
-const PercentageDiv = styled.div`
-  transition: flex-grow 240ms;
-  min-width: 30px;
-  display: flex;
-  flex-direction: column;
-
-  > .unit-string {
-    flex: 1 0 auto;
-  }
-
-  > * {
-    text-align: center;
-    white-space: pre-wrap;
-  }
-`
-
-const StyledExplanationTable = styled.div`
-  > div {
-    > div {
-      display: inline-block;
-
-      &:first-child {
-        width: 16px;
-        text-align: center;
-        margin-right: 10px;
-        margin-left: 10px;
-      }
-    }
-  }
-`
 
 interface Props {
   report: BattleReport | undefined
@@ -239,56 +203,59 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
       {show && (
         <>
-          <BattleReportDiv>
+          <div className={styles.battleReport}>
             {sortUnitStrings(objectEntries(report.attackerSurvivers)).map(
               ([units, count], index) => {
                 return (
-                  <PercentageDiv
+                  <div
                     key={`attacker-${units}`}
+                    className={styles.percentage}
                     style={{
                       flex: `${toPercentageNumber(total, count)} 0 0`,
                       background: attackerColors[index],
                     }}
                   >
-                    <div className="unit-string">{formatUnitString(units)}</div>
-                    <div className="percentage">{toPercentageString(total, count)}</div>
-                  </PercentageDiv>
+                    <div className={styles.unitString}>{formatUnitString(units)}</div>
+                    <div>{toPercentageString(total, count)}</div>
+                  </div>
                 )
               },
             )}
-            <PercentageDiv
+            <div
               key="draw"
+              className={styles.percentage}
               style={{
                 flex: `${toPercentageNumber(total, report.draw)} 0 0`,
                 background: '#CFCFCF',
               }}
             >
-              <div className="unit-string">-</div>
-              <div className="percentage">{toPercentageString(total, report.draw)}</div>
-            </PercentageDiv>
+              <div className={styles.unitString}>-</div>
+              <div>{toPercentageString(total, report.draw)}</div>
+            </div>
             {sortUnitStrings(objectEntries(report.defenderSurvivers))
               .reverse()
               .map(([units, count], index) => {
                 return (
-                  <PercentageDiv
+                  <div
                     key={`defender-${units}`}
+                    className={styles.percentage}
                     style={{
                       flex: `${toPercentageNumber(total, count)} 0 0`,
                       background: defenderColors[index],
                     }}
                   >
-                    <div className="unit-string">{formatUnitString(units)}</div>
-                    <div className="percentage">{toPercentageString(total, count)}</div>
-                  </PercentageDiv>
+                    <div className={styles.unitString}>{formatUnitString(units)}</div>
+                    <div>{toPercentageString(total, count)}</div>
+                  </div>
                 )
               })}
-          </BattleReportDiv>
+          </div>
           <div style={{ background: 'white', padding: '10px' }}>
             <div>
               Here you can see the probability of individual units surviving combat. The units are
               represented by individual characters according to this list:
             </div>
-            <StyledExplanationTable style={{ marginTop: '10px' }}>
+            <div className={styles.explanationTable} style={{ marginTop: '10px' }}>
               <div>
                 <div>F</div>
                 <div>Flagship</div>
@@ -329,7 +296,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
                 <div>p</div>
                 <div>pds</div>
               </div>
-            </StyledExplanationTable>
+            </div>
             <div style={{ marginTop: '20px' }}>
               A hyphen next to the character, such as F-, means that the unit has sustained damage.
             </div>

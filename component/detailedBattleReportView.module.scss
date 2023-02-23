@@ -1,0 +1,35 @@
+.battleReport {
+  display: flex;
+}
+
+// its good if animation time is lower than MIN_TIME_BETWEEN_SENDING_UPDATES, to avoid jerky animations
+.percentage {
+  transition: flex-grow 240ms;
+  min-width: 30px;
+  display: flex;
+  flex-direction: column;
+
+  > .unitString {
+    flex: 1 0 auto;
+  }
+
+  > * {
+    text-align: center;
+    white-space: pre-wrap;
+  }
+}
+
+.explanationTable {
+  > div {
+    > div {
+      display: inline-block;
+
+      &:first-child {
+        width: 16px;
+        text-align: center;
+        margin-right: 10px;
+        margin-left: 10px;
+      }
+    }
+  }
+}

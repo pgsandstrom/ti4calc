@@ -1,25 +1,5 @@
-import styled from 'styled-components'
 import NeutralButton from './neutralButton'
-
-const StyledNeutralButton = styled(NeutralButton)`
-  padding: 5px;
-
-  &.selected {
-    background: rgba(0, 0, 0, 0.2);
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.23);
-    }
-  }
-
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  &:active {
-    background: rgba(0, 0, 0, 0.3) !important;
-  }
-`
+import styles from './switchButton.module.scss'
 
 interface Props {
   isLeftSelected: boolean
@@ -38,20 +18,20 @@ export default function SwitchSideButton({
 }: Props) {
   return (
     <>
-      <StyledNeutralButton
+      <NeutralButton
         onClick={onLeftClick}
-        className={isLeftSelected ? 'selected' : undefined}
+        className={`${styles.neutralButton} ${isLeftSelected ? styles.selected : undefined}`}
         style={{ border: '1px solid black', borderRadius: '5px 0 0 5px' }}
       >
         {leftLabel}
-      </StyledNeutralButton>
-      <StyledNeutralButton
+      </NeutralButton>
+      <NeutralButton
         onClick={onRightClick}
-        className={!isLeftSelected ? 'selected' : undefined}
+        className={`${styles.neutralButton} ${!isLeftSelected ? styles.selected : undefined}`}
         style={{ border: '1px solid black', borderLeft: 'none', borderRadius: '0 5px 5px 0' }}
       >
         {rightLabel}
-      </StyledNeutralButton>
+      </NeutralButton>
     </>
   )
 }
