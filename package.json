@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "format": "prettier --write \"{,!(.next|dist|node_modules)/**/}!(package-lock).{json,md,js,jsx,ts,tsx,css,scss}\"",
-    "lint": "node ./node_modules/eslint/bin/eslint.js --ext .ts --ext .tsx --fix .",
+    "lint": "eslint --ext .ts --ext .tsx --fix .",
     "pre-commit": "lint-staged",
     "pre-push": "npm run lint && cross-env CI=true npm run test && npm run typecheck",
     "start": "next start -p 8200",
@@ -47,7 +47,7 @@
       "prettier --write"
     ],
     "*.{ts,tsx}": [
-      "node ./node_modules/eslint/bin/eslint.js --ext .ts --ext .tsx --fix",
+      "eslint --ext .ts --ext .tsx --fix",
       "prettier --write"
     ]
   }
