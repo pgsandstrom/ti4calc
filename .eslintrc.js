@@ -86,4 +86,5 @@ module.exports = {
       version: 'detect',
     },
   },
+  ignorePatterns: ['.eslintrc.js', '*.config.js', '*.json', '*.local', '*.sql', '*.sh', '*.md'],
 }
