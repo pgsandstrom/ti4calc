@@ -55,6 +55,66 @@ describe('Sol', () => {
 
     check1v1InfantryResult(result, 0.5, 0.4)
   })
+
+  it('should have better ground combat odds with its agent', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        infantry: 1,
+      },
+      Faction.sol,
+      {
+        'Sol agent': 1,
+      },
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        infantry: 1,
+      },
+      Faction.muaat,
+      {},
+      {
+        infantry: true,
+      },
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    const attackerHitChance = 0.4
+    const defenderHitChance = 0.4
+    const aHit = attackerHitChance
+    const aMiss = 1 - aHit
+    const dHit = defenderHitChance
+    const dMiss = 1 - dHit
+    // using closed form for geometric series
+    // A = attacker, D = defender, h = hit, m = miss
+    // P(Ah Am Dm) +
+    // P(Am Ah Dm) +
+    // P(Ah Ah Dm) +
+    // P(Am Am Dm) * P(Ah Dm) / (1 - P(Am Dm))
+    const attackerWinChance =
+      aHit * aMiss * dMiss +
+      aMiss * aHit * dMiss +
+      aHit * aHit * dMiss +
+      (aMiss * aMiss * dMiss * aHit * dMiss) / (1 - aMiss * dMiss)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * attackerWinChance)
+    // P(Ah Am Dh) +
+    // P(Am Ah Dh) +
+    // P(Ah Ah Dh) +
+    // P(Am Am Dm) * P(Ah Dh) / (1 - P(Am Dm))
+    const drawChance =
+      aHit * aMiss * dHit +
+      aMiss * aHit * dHit +
+      aHit * aHit * dHit +
+      (aMiss * aMiss * dMiss * aHit * dHit) / (1 - aMiss * dMiss)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * drawChance)
+    // P(Am Am Dh) + P(Am Am Dm) * P(Am Dh) / (1 - P(Am Dm))
+    const defenderWinChance =
+      aMiss * aMiss * dHit + (aMiss * aMiss * dMiss * aMiss * dHit) / (1 - aMiss * dMiss)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
+  })
 })
 
 function check1v1InfantryResult(
