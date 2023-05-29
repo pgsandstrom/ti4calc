@@ -115,6 +115,61 @@ describe('Sol', () => {
       aMiss * aMiss * dHit + (aMiss * aMiss * dMiss * aMiss * dHit) / (1 - aMiss * dMiss)
     checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
   })
+
+  it('should have better space combat odds with its upgraded carrier', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        carrier: 1,
+      },
+      Faction.sol,
+      {},
+      {
+        carrier: true,
+      },
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        carrier: 1,
+      },
+      Faction.muaat,
+      {},
+      {
+        carrier: true,
+      },
+    )
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    const attackerHitChance = 0.2
+    const defenderHitChance = 0.2
+    const aHit = attackerHitChance
+    const aMiss = 1 - aHit
+    const dHit = defenderHitChance
+    const dMiss = 1 - dHit
+    // A = attacker, D = defender, h = hit, m = miss
+    // this is the more complicated case
+    // 1. defender always misses,
+    // 2. both hit at the same time
+    // 3. defender hits once before attacker hits at some point after
+    // double summation produces the squared denominator
+    // (P(Ah Dm) + P(Ah Dh)) / (1 - P(Am Dm)) + P(Am Dh) * P(Ah Dm) / (1 - P(Am Dm))^2
+    const attackerWinChance =
+      (aHit * dMiss + aHit * dHit) / (1 - aMiss * dMiss) +
+      (aMiss * dHit * aHit * dMiss) / (1 - aMiss * dMiss) / (1 - aMiss * dMiss)
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * attackerWinChance)
+    // defender hits once before they both hit at some point after
+    // P(Ah Dh) * P(Am Dh) / (1 - P(Am Dm))^2
+    const drawChance = (aHit * dHit * aMiss * dHit) / (1 - aMiss * dMiss) / (1 - aMiss * dMiss)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * drawChance)
+    // same as draw, but instead of ending on both hitting, it's only the defender hitting:
+    // P(Am Dh) * P(Am Dh) / (1 - P(Am Dm))^2
+    const defenderWinChance =
+      (aMiss * dHit * aMiss * dHit) / (1 - aMiss * dMiss) / (1 - aMiss * dMiss)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
+  })
 })
 
 function check1v1InfantryResult(
