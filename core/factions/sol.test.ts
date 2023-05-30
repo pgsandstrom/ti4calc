@@ -182,13 +182,13 @@ function check1v1InfantryResult(
   const dHitChance = defenderHitChance
   const dMissChance = 1 - dHitChance
   // using closed form for geometric series
-  // P(Muaat missing and Sol hitting) / (1 - P(both missing))
+  // P(defender missing and attacker hitting) / (1 - P(both missing))
   const attackerWinChance = (dMissChance * aHitChance) / (1 - dMissChance * aMissChance)
   checkResult(result.attacker, DO_BATTLE_X_TIMES * attackerWinChance)
   // P(both hitting) / (1 - P(both missing))
   const drawChance = (dHitChance * aHitChance) / (1 - dMissChance * aMissChance)
   checkResult(result.draw, DO_BATTLE_X_TIMES * drawChance)
-  // P(Muaat hitting and Sol missing) / (1 - P(both missing))
+  // P(defender hitting and attacker missing) / (1 - P(both missing))
   const defenderWinChance = (dHitChance * aMissChance) / (1 - dMissChance * aMissChance)
   checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
 }
