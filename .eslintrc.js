@@ -86,5 +86,5 @@ module.exports = {
       version: 'detect',
     },
   },
-  ignorePatterns: ['.eslintrc.js', '*.config.js', '*.json', '*.local', '*.sql', '*.sh', '*.md'],
+  ignorePatterns: ['.eslintrc.js', '*.config.js', '*.json', '*.local', '*.sql', '*.sh', '*.md', '*.tsbuildinfo'],
 }
