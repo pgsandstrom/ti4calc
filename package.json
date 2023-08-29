@@ -43,7 +43,7 @@
     "sass": "^1.58.3"
   },
   "lint-staged": {
-    "*.{json,md,css,scss}": [
+    "*.{json,md,css,scss,html}": [
       "prettier --write"
     ],
     "*.{ts,tsx}": [
