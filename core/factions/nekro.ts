@@ -43,24 +43,15 @@ export const nekro: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Nekro mech',
-    place: Place.ground,
-    transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
-      if (unit.type === UnitType.mech && p.effects[nekroMechBonus] > 0) {
-        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
-      } else {
-        return unit
-      }
-    },
-  },
-  {
     type: 'faction-ability',
     description:
       'Nekro mech text is: During combat against an opponent who has an "X" or "Y" token on 1 or more of their technologies, apply +2 to the result of each of this unit\'s combat rolls.',
     place: Place.ground,
     faction: Faction.nekro,
     name: nekroMechBonus,
+    transformUnit: (unit: UnitInstance, _p: ParticipantInstance) => {
+      return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
+    },
   },
   // TODO should we care about copying technology mid combat? No, right?
   // TODO should we fix so nekro can copy faction techs?
