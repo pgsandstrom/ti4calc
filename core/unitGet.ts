@@ -92,7 +92,7 @@ export function getUnits(
     if (!includeFighter && u.type === UnitType.fighter) {
       return false
     }
-    if (place && !doesUnitFitPlace(u, place)) {
+    if (place != null && !doesUnitFitPlace(u, place)) {
       return false
     }
     if (u.isDestroyed) {

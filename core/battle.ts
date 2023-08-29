@@ -113,9 +113,9 @@ export function doBattle(battle: BattleInstance): BattleResult {
 
   if (LOG) {
     console.log(`Battle resolved after ${battle.roundNumber - 1} rounds`)
-    if (battleResult.winner === 'attacker') {
+    if (battleResult.winner === BattleWinner.attacker) {
       console.log('Attacker won')
-    } else if (battleResult.winner === 'defender') {
+    } else if (battleResult.winner === BattleWinner.defender) {
       console.log('Defender won')
     } else {
       console.log('Battle ended in a draw')

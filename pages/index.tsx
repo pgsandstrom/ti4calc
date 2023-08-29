@@ -100,47 +100,39 @@ export default function Home(props: HomeProps) {
 
   // Load the worker only to cache it
   useEffect(() => {
-    void (async () => {
-      const { default: Worker } = await import(
-        'worker-loader?filename=static/[chunkhash].worker.js!../core/webworker'
-      )
-      new Worker()
-    })()
-  }, [])
+    if (!touched) {
+      new Worker(new URL('../core/webworker.ts', import.meta.url))
+    }
+  }, [touched])
 
   useEffect(() => {
     if (touched) {
-      void (async () => {
-        const { default: Worker } = await import(
-          'worker-loader?filename=static/[chunkhash].worker.js!../core/webworker'
-        )
-        if (workerRef.current) {
-          workerRef.current.terminate()
-        }
+      if (workerRef.current) {
+        workerRef.current.terminate()
+      }
 
-        const worker = new Worker()
-        workerRef.current = worker
+      const worker = new Worker(new URL('../core/webworker.ts', import.meta.url))
+      workerRef.current = worker
 
-        worker.addEventListener('message', (event) => {
-          // eslint-disable-next-line
-          if (event.data.error === true) {
-            if (!error) {
-              const workerError = event.data as ErrorReportUnsaved
-              setError(true)
-              sendErrorReport(workerError)
-            }
-          } else {
-            setBattleReport(event.data as BattleReport)
+      worker.addEventListener('message', (event) => {
+        // eslint-disable-next-line
+        if (event.data.error === true) {
+          if (!error) {
+            const workerError = event.data as ErrorReportUnsaved
+            setError(true)
+            sendErrorReport(workerError)
           }
-        })
-
-        const battle: Battle = {
-          attacker,
-          defender,
-          place,
+        } else {
+          setBattleReport(event.data as BattleReport)
         }
-        worker.postMessage(battle)
-      })()
+      })
+
+      const battle: Battle = {
+        attacker,
+        defender,
+        place,
+      }
+      worker.postMessage(battle)
     }
   }, [touched, attacker, defender, place, error])
 
@@ -160,7 +152,7 @@ export default function Home(props: HomeProps) {
   useLayoutEffect(() => {
     if (!hasQueryParamForFaction(props.query, 'attacker')) {
       const attackerFaction = getLocalStorage<Faction>(LS_ATTACKER_FACTION)
-      if (attackerFaction && Object.values(Faction).includes(attackerFaction)) {
+      if (attackerFaction != null && Object.values(Faction).includes(attackerFaction)) {
         const newAttacker: Participant = {
           ...attacker,
           faction: attackerFaction,
@@ -170,7 +162,7 @@ export default function Home(props: HomeProps) {
     }
     if (!hasQueryParamForFaction(props.query, 'defender')) {
       const defenderFaction = getLocalStorage<Faction>(LS_DEFENDER_FACTION)
-      if (defenderFaction && Object.values(Faction).includes(defenderFaction)) {
+      if (defenderFaction != null && Object.values(Faction).includes(defenderFaction)) {
         const newDefender: Participant = {
           ...defender,
           faction: defenderFaction,
