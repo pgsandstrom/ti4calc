@@ -1,17 +1,11 @@
-# This one only has the database, so we can run dev-mode on the local machine
+# Here we expose the ports so we can connect from our dev instance on our local machine
 version: '3.8'
 services:
   db:
-    image: postgres:16
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=ti4calc
-      - POSTGRES_PASSWORD=postgres
+    extends:
+      file: docker-compose.yml
+      service: db
     ports:
       - '5432:5432'
-    volumes:
-      - db:/var/lib/postgresql/data
-      - ./db/:/docker-entrypoint-initdb.d/
 volumes:
   db:

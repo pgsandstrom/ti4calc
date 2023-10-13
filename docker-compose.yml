@@ -12,9 +12,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=ti4calc
       - POSTGRES_PASSWORD=postgres
-    # "ports" are only needed if we want them exposed to the world at large:
-    # ports:
-    # - '5432:5432'
     volumes:
       - db:/var/lib/postgresql/data
       - ./db/:/docker-entrypoint-initdb.d/
