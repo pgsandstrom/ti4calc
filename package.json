@@ -5,11 +5,15 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
+    "dev-database": "docker compose -f docker-compose-dev.yml up -d",
+    "dev-database-build": "docker compose -f docker-compose-dev.yml build",
+    "docker-build": "docker compose build --no-cache",
+    "docker-up": "docker compose up",
     "format": "prettier --write \"{,!(.next|dist|node_modules)/**/}!(package-lock).{json,md,js,jsx,ts,tsx,css,scss}\"",
     "lint": "eslint --ext .ts --ext .tsx --fix .",
     "pre-commit": "lint-staged",
     "pre-push": "npm run lint && cross-env CI=true npm run test && npm run typecheck",
-    "start": "next start -p 8200",
+    "start": "next start -p 3000",
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "prepare": "husky install"
