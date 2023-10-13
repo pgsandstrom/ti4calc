@@ -62,17 +62,9 @@ const getSingle = <T extends QueryResultRow>(result: QueryResult<T>): T | undefi
 }
 
 // Use this to gain a client for multiple operations, such as transactions
-export const getClient = (): Promise<PoolClient> =>
-  new Promise((resolve, reject) => {
-    getDbPool().connect((err, client: PoolClient) => {
-      // eslint-disable-next-line
-      if (err !== undefined) {
-        reject(err)
-      } else {
-        resolve(client)
-      }
-    })
-  })
+export const getClient = (): Promise<PoolClient> => {
+  return getDbPool().connect()
+}
 
 export const SQL = (parts: TemplateStringsArray, ...values: any[]): QueryConfig => ({
   // eslint-disable-next-line
