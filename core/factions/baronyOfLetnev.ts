@@ -39,7 +39,7 @@ export const baronyOfLetnev: BattleEffect[] = [
               name: 'Barony flagship repair',
               type: 'other',
               place: Place.space,
-              onCombatRoundEnd: (participant: ParticipantInstance) => {
+              onCombatRound: (participant: ParticipantInstance) => {
                 participant.units.forEach((unit) => {
                   if (unit.type === UnitType.flagship) {
                     unit.takenDamage = false
