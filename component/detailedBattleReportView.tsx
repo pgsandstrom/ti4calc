@@ -18,19 +18,9 @@ interface Props {
   style?: React.CSSProperties
 }
 
-const UNIT_TYPE_LIST = ['F', 'W', 'D', 'C', 'c', 'd', 'f', 'M', 'i', 'p']
+const PREFERRED_SORT_ORDER_OF_UNITS = ['F', 'W', 'D', 'C', 'c', 'd', 'f', 'M', 'i', 'p']
 
 const sortUnitStrings = (list: Array<[string, number]>) => {
-  const helper = (a: string, b: string, unitType: string) => {
-    if (a === unitType) {
-      return -1
-    } else if (b === unitType) {
-      return 1
-    } else {
-      return 0
-    }
-  }
-
   const result = list.sort((aThingy, bThingy) => {
     const aString = aThingy[0]
     const bString = bThingy[0]
@@ -59,10 +49,11 @@ const sortUnitStrings = (list: Array<[string, number]>) => {
         }
       }
 
-      for (const unitType of UNIT_TYPE_LIST) {
-        const sortResult = helper(a!, b!, unitType)
-        if (sortResult !== 0) {
-          return sortResult
+      for (const unitType of PREFERRED_SORT_ORDER_OF_UNITS) {
+        if (a === unitType) {
+          return -1
+        } else if (b === unitType) {
+          return 1
         }
       }
     }
