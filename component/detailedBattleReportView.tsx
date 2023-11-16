@@ -20,16 +20,30 @@ interface Props {
 
 const PREFERRED_SORT_ORDER_OF_UNITS = ['F', 'W', 'D', 'C', 'c', 'd', 'f', 'M', 'i', 'p']
 
+const getUnitCount = (s: string) => s.replace(/-/g, '').length
+const getDamagedCount = (s: string) => s.match(/-/g)?.length ?? 0
+
 const sortUnitStrings = (list: Array<[string, number]>) => {
   const result = list.sort((aThingy, bThingy) => {
     const aString = aThingy[0]
     const bString = bThingy[0]
+
+    const unitCountDiff = getUnitCount(bString) - getUnitCount(aString)
+    if (unitCountDiff !== 0) {
+      return unitCountDiff
+    }
+
+    const damagedCountDiff = getDamagedCount(bString) - getDamagedCount(aString)
+    if (damagedCountDiff !== 0) {
+      return damagedCountDiff
+    }
+
     const length = Math.max(aString.length, bString.length)
     let i = -1
     while (i < length) {
       i++
-      const a = aString[i] as string | undefined
-      const b = bString[i] as string | undefined
+      const a = aString[i] === '-' ? aString[i + 1] : (aString[i] as string | undefined)
+      const b = bString[i] === '-' ? bString[i + 1] : (bString[i] as string | undefined)
 
       if (a === undefined && b !== undefined) {
         return 1
@@ -62,6 +76,12 @@ const sortUnitStrings = (list: Array<[string, number]>) => {
 
   return result
 }
+
+// const input: Array<[string, number]> = [
+//   ['WFD-D-', 100],
+//   ['WF-D-D-', 100],
+//   ['', 100],
+// ]
 
 const formatUnitString = (unitString: string) => {
   let result = ''
