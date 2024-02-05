@@ -3,8 +3,6 @@ import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
 
-const nekroMechBonus = 'Nekro mech bonus'
-
 export const nekro: BattleEffect[] = [
   {
     type: 'faction',
@@ -46,11 +44,15 @@ export const nekro: BattleEffect[] = [
     type: 'faction-ability',
     description:
       'Nekro mech text is: During combat against an opponent who has an "X" or "Y" token on 1 or more of their technologies, apply +2 to the result of each of this unit\'s combat rolls.',
-    place: Place.ground,
+    place: 'both',
     faction: Faction.nekro,
-    name: nekroMechBonus,
+    name: 'Nekro mech bonus',
     transformUnit: (unit: UnitInstance, _p: ParticipantInstance) => {
-      return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
+      if (unit.type === UnitType.mech) {
+        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
+      } else {
+        return unit
+      }
     },
   },
   // TODO should we care about copying technology mid combat? No, right?
