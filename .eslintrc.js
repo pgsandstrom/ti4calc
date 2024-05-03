@@ -80,6 +80,13 @@ module.exports = {
         },
       },
     ],
+    '@typescript-eslint/no-unnecessary-condition': ['error'],
+    '@typescript-eslint/prefer-ts-expect-error': ['error'],
+    'react/jsx-curly-brace-presence': ['error'],
+    '@typescript-eslint/no-useless-template-literals': ['error'],
+    '@typescript-eslint/prefer-reduce-type-parameter': ['error'],
+    '@typescript-eslint/no-meaningless-void-operator': ['error'],
+    '@typescript-eslint/no-invalid-void-type': ['error'],
   },
   settings: {
     react: {

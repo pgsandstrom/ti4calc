@@ -20,7 +20,7 @@ export function createQueryParams(attacker: Participant, defender: Participant, 
     const paramsNonEmpty = params.toString().length > 0
     window.history.replaceState({}, '', `${location.pathname}${paramsNonEmpty ? '?' : ''}${params}`)
   } else {
-    window.history.replaceState({}, '', `${location.pathname}`)
+    window.history.replaceState({}, '', location.pathname)
   }
 }
 
