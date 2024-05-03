@@ -104,7 +104,7 @@ export const sardarkkNorr: BattleEffect[] = [
     type: 'faction-ability',
     name: 'Exotrireme II should suicide',
     description:
-      'If the Sardakk dreadnought is upgraded, it will activate its ability after the first combat round. The ability reads: "After a round of space combat, you may destroy this unit to destroy up to 2 ships in this system."',
+      'If the Sardakk dreadnought is upgraded, it will activate its ability after the first combat round. The ability reads: "After a round of space combat, you may destroy this unit to destroy up to 2 ships in this system. Just enough ships will be sacrified to kill all enemy ships"',
     place: Place.space,
     faction: Faction.sardakk_norr,
     onCombatRoundEnd: (
@@ -116,19 +116,24 @@ export const sardarkkNorr: BattleEffect[] = [
         participant.unitUpgrades[UnitType.dreadnought] &&
         isParticipantAlive(otherParticipant, battle.place)
       ) {
+        const enemyCount = getUnits(otherParticipant, battle.place, true).length
+
         const units = getUnits(participant, battle.place, false)
-        const dreadNoughts = units.filter((u) => u.type === UnitType.dreadnought)
-        dreadNoughts.forEach((u) => {
+        const dreadNoughtsToSuicide = units
+          .filter((u) => u.type === UnitType.dreadnought)
+          .sort((u1) => (u1.takenDamage ? -1 : 1))
+          .slice(0, Math.ceil(enemyCount / 2))
+        dreadNoughtsToSuicide.forEach((u) => {
           destroyUnit(battle, u)
         })
 
         if (LOG) {
           console.log(
-            `${participant.side} used Exotrireme II ability for ${dreadNoughts.length} ships.`,
+            `${participant.side} used Exotrireme II ability for ${dreadNoughtsToSuicide.length} ships.`,
           )
         }
 
-        _times(dreadNoughts.length * 2, () => {
+        _times(dreadNoughtsToSuicide.length * 2, () => {
           const highestWorthUnit = getHighestWorthUnit(otherParticipant, battle.place, true)
           if (highestWorthUnit) {
             if (LOG) {

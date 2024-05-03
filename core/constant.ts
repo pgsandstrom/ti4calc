@@ -10,5 +10,4 @@ export const NUMBER_OF_ROLLS = 20000 as number
 
 export const ROLLS_BETWEEN_UI_UPDATE = 1000
 
-// eslint-disable-next-line
 export const LOG = NUMBER_OF_ROLLS === 1 && !isTest()
