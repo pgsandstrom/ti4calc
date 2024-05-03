@@ -14,6 +14,8 @@ On a more technical note, the implementation of the battle simulator should be a
 
 We don't use a state machines or other smart algorithms, because certain mechanics would make these algorithms very complex. So we just use the Monte Carlo method, simulating thousands of battles.
 
+### Code
+
 This is a [Next.js](https://nextjs.org/) project written in Typescript. The root interface can be found in `pages/index.tsx`. The battle simulation code can be found in the `core` folder.
 
 To run the project, first install all dependencies:
@@ -30,4 +32,10 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) and hopefully everything is working :)
 
-There is a bash script to deploy to production in `do_complete_deploy.sh` but it is only made to work on my personal server with pm2. Sorry!
+### Release
+
+We use docker, so this command will release created a container with a prod build:
+
+```
+docker compose up -d --build
+```
