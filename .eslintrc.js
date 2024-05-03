@@ -8,8 +8,8 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:react/jsx-runtime', // disable rules not needed with jsx runtime
     'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/recommended-type-checked',
+
     'plugin:@next/next/recommended',
     'prettier',
   ],
@@ -31,8 +31,10 @@ module.exports = {
     'react/prop-types': 'off', // unnecessary with typescript
     '@typescript-eslint/restrict-template-expressions': 'off', // this feels too verbose
     '@typescript-eslint/no-inferrable-types': 'off', // this brings very little value
+    '@typescript-eslint/no-unsafe-enum-comparison': 'off',
+    '@typescript-eslint/no-redundant-type-constituents': 'off', //Complains when we have type unknown
 
-    // activate or configure rules:
+    // activate extra rules:
     eqeqeq: ['error', 'smart'],
     curly: ['error'],
     // 'no-console': ['error', { allow: ['warn', 'error'] }],
@@ -45,7 +47,6 @@ module.exports = {
         args: 'none',
       },
     ],
-    '@typescript-eslint/no-unnecessary-condition': ['error'],
     '@typescript-eslint/strict-boolean-expressions': [
       'error',
       {
@@ -68,7 +69,7 @@ module.exports = {
     'sort-imports': [
       'error',
       {
-        ignoreDeclarationSort: true,
+        ignoreDeclarationSort: true, // disabled since it does not have a '--fix' option
       },
     ],
     '@typescript-eslint/no-misused-promises': [
