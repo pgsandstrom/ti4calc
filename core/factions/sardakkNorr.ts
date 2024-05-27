@@ -48,8 +48,14 @@ export const sardarkkNorr: BattleEffect[] = [
     type: 'faction',
     name: 'Sardakk mech ability',
     place: Place.ground,
-    onSustain: (u: UnitInstance, participant: ParticipantInstance, battle: BattleInstance) => {
-      if (u.type === UnitType.mech) {
+    onSustain: (
+      u: UnitInstance,
+      participant: ParticipantInstance,
+      battle: BattleInstance,
+      _effectName: string,
+      isDuringCombat: boolean,
+    ) => {
+      if (u.type === UnitType.mech && isDuringCombat) {
         const otherParticipant = getOtherParticipant(battle, participant)
         otherParticipant.hitsToAssign.hits += 1
         if (LOG) {

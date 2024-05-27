@@ -28,5 +28,30 @@ describe('Sardakk', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.18)
   })
 
+  it('Sardakk mech ability should not trigger during space cannon phase', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        mech: 1,
+      },
+      Faction.sardakk_norr,
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        infantry: 1,
+        pds: 1,
+      },
+      Faction.arborec,
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.8)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.12)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.08)
+  })
+
   // TODO add test to ensure that sardakk flagship does not affect ground combat
 })
