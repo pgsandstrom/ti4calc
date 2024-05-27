@@ -51,7 +51,7 @@ export const l1z1x: BattleEffect[] = [
       _otherParticipant: ParticipantInstance,
     ) => {
       if (participant.side === 'attacker') {
-        doBombardment(battle)
+        doBombardment(battle, true)
       }
     },
   },

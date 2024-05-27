@@ -23,6 +23,8 @@ import { LOG } from './constant'
 // TODO add retreat?
 
 export function doBattle(battle: BattleInstance): BattleResult {
+  let isDuringCombat = false
+
   battle.attacker.onStartEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, battle.attacker)) {
       effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
@@ -33,12 +35,14 @@ export function doBattle(battle: BattleInstance): BattleResult {
       effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
     }
   })
-  resolveHits(battle)
+  resolveHits(battle, isDuringCombat)
 
-  doBombardment(battle)
+  doBombardment(battle, isDuringCombat)
 
   doSpaceCannon(battle)
-  resolveHits(battle)
+  resolveHits(battle, isDuringCombat)
+
+  isDuringCombat = true
 
   doAfb(battle)
 
@@ -57,8 +61,8 @@ export function doBattle(battle: BattleInstance): BattleResult {
       }
     })
 
-    resolveHits(battle)
-    doRepairStep(battle)
+    resolveHits(battle, isDuringCombat)
+    doRepairStep(battle, isDuringCombat)
 
     battle.attacker.onCombatRoundEnd.forEach((effect) => {
       if (canBattleEffectBeUsed(effect, battle.attacker)) {
@@ -71,7 +75,7 @@ export function doBattle(battle: BattleInstance): BattleResult {
       }
     })
 
-    resolveHits(battle)
+    resolveHits(battle, isDuringCombat)
 
     battle.roundNumber += 1
 
@@ -132,7 +136,7 @@ function addNewUnits(p: ParticipantInstance) {
   }
 }
 
-export function doBombardment(battle: BattleInstance) {
+export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
   if (battle.place !== Place.ground) {
     return
   }
@@ -158,7 +162,7 @@ export function doBombardment(battle: BattleInstance) {
     console.log(`bombardment produced ${result} hits.`)
   }
   battle.defender.hitsToAssign.hits += result
-  resolveHits(battle)
+  resolveHits(battle, isDuringCombat)
 }
 
 function doSpaceCannon(battle: BattleInstance) {
@@ -383,10 +387,10 @@ function doParticipantBattleRolls(
   otherParticipant.hitsToAssign = hits
 }
 
-function resolveHits(battle: BattleInstance) {
+function resolveHits(battle: BattleInstance, isDuringCombat: boolean) {
   while (hasHitToAssign(battle.attacker) || hasHitToAssign(battle.defender)) {
-    resolveParticipantHits(battle, battle.attacker)
-    resolveParticipantHits(battle, battle.defender)
+    resolveParticipantHits(battle, battle.attacker, isDuringCombat)
+    resolveParticipantHits(battle, battle.defender, isDuringCombat)
     removeDeadUnits(battle.attacker, battle)
     removeDeadUnits(battle.defender, battle)
   }
@@ -400,7 +404,11 @@ function hasHitToAssign(p: ParticipantInstance) {
   )
 }
 
-function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) {
+function resolveParticipantHits(
+  battle: BattleInstance,
+  p: ParticipantInstance,
+  isDuringCombat: boolean,
+) {
   while (hasHitToAssign(p)) {
     if (p.soakHits > 0) {
       soakHit(p)
@@ -426,19 +434,19 @@ function resolveParticipantHits(battle: BattleInstance, p: ParticipantInstance) 
         // This happens when all units have sustain. We pick the best sustain unit in case we have direct hit.
         const highestWorthSustainUnit = getHighestWorthSustainUnit(p, battle.place, true)
         if (highestWorthSustainUnit) {
-          doSustainDamage(battle, p, highestWorthSustainUnit)
+          doSustainDamage(battle, p, highestWorthSustainUnit, isDuringCombat)
         }
       }
 
       p.hitsToAssign.hitsAssignedByEnemy -= 1
     } else if (p.hitsToAssign.hitsToNonFighters > 0) {
-      const appliedHitToNonFighter = applyHit(battle, p, false)
+      const appliedHitToNonFighter = applyHit(battle, p, false, isDuringCombat)
       if (!appliedHitToNonFighter) {
-        applyHit(battle, p, true)
+        applyHit(battle, p, true, isDuringCombat)
       }
       p.hitsToAssign.hitsToNonFighters -= 1
     } else {
-      applyHit(battle, p, true)
+      applyHit(battle, p, true, isDuringCombat)
       p.hitsToAssign.hits -= 1
     }
   }
@@ -491,6 +499,7 @@ function applyHit(
   battle: BattleInstance,
   p: ParticipantInstance,
   includeFighter: boolean,
+  isDuringCombat: boolean,
 ): boolean {
   const sustainDisabled = isSustainDisabled(battle, p)
 
@@ -505,13 +514,13 @@ function applyHit(
     !sustainDisabled &&
     (battle.place === Place.ground || p.riskDirectHit || bestSustainUnit.immuneToDirectHit)
   ) {
-    doSustainDamage(battle, p, bestSustainUnit)
+    doSustainDamage(battle, p, bestSustainUnit, isDuringCombat)
     return true
   } else {
     const bestDieUnit = getLowestWorthUnit(p, battle.place, includeFighter)
     if (bestDieUnit) {
       if (!sustainDisabled && bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
-        doSustainDamage(battle, p, bestDieUnit)
+        doSustainDamage(battle, p, bestDieUnit, isDuringCombat)
       } else {
         bestDieUnit.isDestroyed = true
         if (LOG) {
@@ -524,18 +533,23 @@ function applyHit(
   }
 }
 
-function doSustainDamage(battle: BattleInstance, p: ParticipantInstance, unit: UnitInstance) {
+function doSustainDamage(
+  battle: BattleInstance,
+  p: ParticipantInstance,
+  unit: UnitInstance,
+  isDuringCombat: boolean,
+) {
   unit.takenDamage = true
   unit.takenDamageRound = battle.roundNumber
   p.onSustainEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
-      effect.onSustain!(unit, p, battle, effect.name)
+      effect.onSustain!(unit, p, battle, effect.name, isDuringCombat)
     }
   })
   const otherP = getOtherParticipant(battle, p)
   otherP.onEnemySustainEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, otherP)) {
-      effect.onEnemySustain!(unit, otherP, battle, effect.name)
+      effect.onEnemySustain!(unit, otherP, battle, effect.name, isDuringCombat)
     }
   })
   if (LOG) {
@@ -543,17 +557,28 @@ function doSustainDamage(battle: BattleInstance, p: ParticipantInstance, unit: U
   }
 }
 
-function doRepairStep(battle: BattleInstance) {
-  doRepairStepForParticipant(battle, battle.attacker)
-  doRepairStepForParticipant(battle, battle.defender)
+function doRepairStep(battle: BattleInstance, isDuringCombat: boolean) {
+  doRepairStepForParticipant(battle, battle.attacker, isDuringCombat)
+  doRepairStepForParticipant(battle, battle.defender, isDuringCombat)
 }
 
-function doRepairStepForParticipant(battle: BattleInstance, participant: ParticipantInstance) {
+function doRepairStepForParticipant(
+  battle: BattleInstance,
+  participant: ParticipantInstance,
+  isDuringCombat: boolean,
+) {
   if (participant.onRepairEffect.length > 0) {
     participant.units.forEach((unit) => {
       participant.onRepairEffect.forEach((effect) => {
         if (canBattleEffectBeUsed(effect, participant)) {
-          effect.onRepair!(unit, participant, battle, effect.name)
+          effect.onRepair!(
+            unit,
+            participant,
+            battle,
+            effect.name,
+
+            isDuringCombat,
+          )
         }
       })
     })

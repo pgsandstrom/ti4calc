@@ -40,6 +40,7 @@ export type UnitBattleEffect = (
   participant: ParticipantInstance,
   battle: BattleInstance,
   effectName: string,
+  isDuringCombat: boolean,
 ) => void
 
 export type ParticipantEffect = (
