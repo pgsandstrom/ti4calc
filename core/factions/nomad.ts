@@ -1,4 +1,4 @@
-import { ParticipantInstance } from '../battle-types'
+import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { UnitInstance, UnitType, defaultRoll } from '../unit'
@@ -61,7 +61,14 @@ export const nomad: BattleEffect[] = [
       "At the start of a space combat against a player other than the Nomad: During this combat, treat 1 of your non-fighter ships as if it has the SUSTAIN DAMAGE ability, combat value, and ANTI-FIGHTER BARRAGE value of the Nomad's flagship",
     type: 'promissary',
     place: Place.space,
-    onStart: (participant: ParticipantInstance) => {
+    onStart: (
+      participant: ParticipantInstance,
+      _battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      if (otherParticipant.faction === Faction.nomad) {
+        return
+      }
       const worstNonFighterShip = getLowestWorthUnit(participant, Place.space, false)
       if (!worstNonFighterShip) {
         return
@@ -85,7 +92,14 @@ export const nomad: BattleEffect[] = [
       "At the start of a space combat against a player other than the Nomad: During this combat, treat 1 of your non-fighter ships as if it has the SUSTAIN DAMAGE ability, combat value, and ANTI-FIGHTER BARRAGE value of the Nomad's flagship",
     type: 'promissary',
     place: Place.space,
-    onStart: (participant: ParticipantInstance) => {
+    onStart: (
+      participant: ParticipantInstance,
+      _battle: BattleInstance,
+      otherParticipant: ParticipantInstance,
+    ) => {
+      if (otherParticipant.faction === Faction.nomad) {
+        return
+      }
       const worstNonFighterShip = getLowestWorthUnit(participant, Place.space, false)
       if (!worstNonFighterShip) {
         return
