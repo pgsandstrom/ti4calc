@@ -91,9 +91,6 @@ export function doBattle(battle: BattleInstance): BattleResult {
       }
     }
 
-    clearSustains(battle.attacker)
-    clearSustains(battle.defender)
-
     addNewUnits(battle.attacker)
     addNewUnits(battle.defender)
 
@@ -401,6 +398,8 @@ function resolveHits(battle: BattleInstance, isDuringCombat: boolean) {
     removeDeadUnits(battle.attacker, battle)
     removeDeadUnits(battle.defender, battle)
   }
+  clearSustains(battle.attacker)
+  clearSustains(battle.defender)
 }
 
 function hasHitToAssign(p: ParticipantInstance) {
