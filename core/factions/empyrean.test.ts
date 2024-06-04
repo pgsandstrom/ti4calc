@@ -6,7 +6,7 @@ import { DO_BATTLE_X_TIMES } from '../index.test'
 const ENDLESS_REPAIR = 1000
 
 describe('Empyrean', () => {
-  it('Empyrean flagship with endless repairs should win a 1v1 vs a dread', () => {
+  it('Empyrean flagship with endless repairs should always win vs a dread and PDS', () => {
     const attacker = getTestParticipant(
       'attacker',
       {
@@ -22,11 +22,41 @@ describe('Empyrean', () => {
       'defender',
       {
         dreadnought: 1,
+        pds: 1,
       },
       Faction.muaat,
     )
 
     const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES)
+    checkResult(result.draw, 0)
+    checkResult(result.defender, 0)
+  })
+
+  it('Empyrean flagship with endless repairs and mech should always win vs a mech and PDS', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        flagship: 1,
+        mech: 1,
+      },
+      Faction.empyrean,
+      {
+        'Empyrean flagship repair': ENDLESS_REPAIR,
+      },
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        pds: 1,
+        mech: 1,
+      },
+      Faction.muaat,
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
 
     checkResult(result.attacker, DO_BATTLE_X_TIMES)
     checkResult(result.draw, 0)
