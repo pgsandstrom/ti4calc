@@ -36,15 +36,6 @@ export const empyrean: BattleEffect[] = [
       _battle: BattleInstance,
       effectName: string,
     ) => {
-      // TODO currently we have no good way of determining if we already used this ability
-      // we need to refactor the assign hit step somehow.
-      // or maybe add some weird id system to ships, I dunno.
-
-      // if (u.takenDamageRound === battle.roundNumber) {
-      // prevent ability from being used several times the same round
-      // return false
-      // }
-
       if (participant.effects[effectName] > 0) {
         u.takenDamage = false
         participant.effects[effectName] -= 1
