@@ -77,11 +77,12 @@ export default function HelpView({ style }: Props) {
                 capacity is ignored.
               </li>
               <li>
-                If the mentak hero kills a war sun, Mentak must have the war sun technology to steal
+                If the Mentak hero kills a war sun, Mentak must have the war sun technology to steal
                 it. In the simulation we always steal it.
               </li>
               <li>
-                Baronys &quot;War Funding&quot; only rerolls their own dice, never their opponents
+                Barony&apos;s &quot;War Funding&quot; only rerolls their own dice, never their
+                opponents
               </li>
             </ul>
           </div>
