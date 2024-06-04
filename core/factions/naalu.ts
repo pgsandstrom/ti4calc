@@ -23,8 +23,8 @@ export const naalu: BattleEffect[] = [
               name: 'Naalu flagship ability',
               type: 'other',
               place: Place.ground,
-              transformUnit: (unit: UnitInstance) => {
-                if (unit.type === UnitType.fighter) {
+              transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
+                if (unit.type === UnitType.fighter && p.side === 'attacker') {
                   return {
                     ...unit,
                     isGroundForce: true,
