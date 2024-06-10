@@ -10,8 +10,11 @@ export function getHighestWorthUnit(p: ParticipantInstance, place: Place, includ
   }
 
   return units.reduce((a, b) => {
-    if (a.diePriority === b.diePriority && a.takenDamage !== b.takenDamage) {
-      return a.takenDamage ? b : a
+    if (a.diePriority === b.diePriority) {
+      if (a.takenDamage !== b.takenDamage) {
+        return a.takenDamage ? b : a
+      }
+      return a.usedSustain ? a : b
     }
     return a.diePriority! > b.diePriority! ? b : a
   })
@@ -75,10 +78,10 @@ export function getLowestWorthUnit(p: ParticipantInstance, place: Place, include
   } else {
     return units.reduce((a, b) => {
       if (a.diePriority === b.diePriority) {
-        if (a.usedSustain !== b.usedSustain) {
-          return a.usedSustain ? b : a
+        if (a.takenDamage !== b.takenDamage) {
+          return a.takenDamage && !b.usedSustain ? b : a
         }
-        return a.takenDamage ? b : a
+        return a.usedSustain ? b : a
       }
       return a.diePriority! > b.diePriority! ? a : b
     })
