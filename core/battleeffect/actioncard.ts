@@ -25,7 +25,7 @@ export function getActioncards() {
     experimentalBattlestation,
     fighterPrototype,
     fireTeam,
-    maneuveringJets,
+    // maneuveringJets,
     moraleBoost,
     shieldsHolding,
     blitz,

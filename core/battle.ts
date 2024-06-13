@@ -129,6 +129,10 @@ export function doBattle(battle: BattleInstance): BattleResult {
   return battleResult
 }
 
+function clearSustains(p: ParticipantInstance) {
+  p.units.forEach((u) => (u.usedSustain = false))
+}
+
 function addNewUnits(p: ParticipantInstance) {
   if (p.newUnits.length > 0) {
     p.units = [...p.units, ...p.newUnits]
@@ -394,6 +398,8 @@ function resolveHits(battle: BattleInstance, isDuringCombat: boolean) {
     removeDeadUnits(battle.attacker, battle)
     removeDeadUnits(battle.defender, battle)
   }
+  clearSustains(battle.attacker)
+  clearSustains(battle.defender)
 }
 
 function hasHitToAssign(p: ParticipantInstance) {
@@ -519,7 +525,12 @@ function applyHit(
   } else {
     const bestDieUnit = getLowestWorthUnit(p, battle.place, includeFighter)
     if (bestDieUnit) {
-      if (!sustainDisabled && bestDieUnit.sustainDamage && !bestDieUnit.takenDamage) {
+      if (
+        !sustainDisabled &&
+        bestDieUnit.sustainDamage &&
+        !bestDieUnit.takenDamage &&
+        !bestDieUnit.usedSustain
+      ) {
         doSustainDamage(battle, p, bestDieUnit, isDuringCombat)
       } else {
         bestDieUnit.isDestroyed = true
@@ -541,6 +552,7 @@ function doSustainDamage(
 ) {
   unit.takenDamage = true
   unit.takenDamageRound = battle.roundNumber
+  unit.usedSustain = true
   p.onSustainEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
       effect.onSustain!(unit, p, battle, effect.name, isDuringCombat)

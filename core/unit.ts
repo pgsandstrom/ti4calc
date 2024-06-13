@@ -54,6 +54,7 @@ export interface Unit {
 
 export interface UnitInstance extends Unit {
   takenDamage: boolean
+  usedSustain: boolean
   takenDamageRound?: number
   isDestroyed: boolean
 }
@@ -343,6 +344,7 @@ export function createUnit(type: UnitType) {
     ...unit,
     takenDamage: false,
     isDestroyed: false,
+    usedSustain: false,
   }
   return unitInstance
 }

@@ -73,19 +73,16 @@ export default function HelpView({ style }: Props) {
               <li>Relic &quot;The Crown of Thalnos&quot; is missing</li>
               <li>L1z1x mech can&apos;t be used to bombard during a ground invasion.</li>
               <li>
-                Empyrean flagship can repair the same unit several times during the same combat
-                round. This is not supposed to happen.
-              </li>
-              <li>
                 If a carrier is killed by a PDS then fighters without capacity should die. Currently
                 capacity is ignored.
               </li>
               <li>
-                If the mentak hero kills a war sun, Mentak must have the war sun technology to steal
+                If the Mentak hero kills a war sun, Mentak must have the war sun technology to steal
                 it. In the simulation we always steal it.
               </li>
               <li>
-                Baronys &quot;War Funding&quot; only rerolls their own dice, never their opponents
+                Barony&apos;s &quot;War Funding&quot; only rerolls their own dice, never their
+                opponents
               </li>
             </ul>
           </div>

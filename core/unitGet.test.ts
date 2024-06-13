@@ -64,6 +64,37 @@ describe('unitGet', () => {
     expect(unit?.takenDamage).toEqual(false)
   })
 
+  it('getHighestWorthUnit should return an undamaged sustained', () => {
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 5,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    participantInstance.units.forEach((u, index) => {
+      if (index === 0) {
+        // No damage
+        u.usedSustain = true
+      }
+      if (index === 1) {
+        // No damage
+        // No sustain
+      }
+      if (index > 1) {
+        u.takenDamage = true
+        u.takenDamageRound = 0
+      }
+    })
+
+    const unit = getHighestWorthUnit(participantInstance, Place.space, true)
+
+    expect(unit?.type).toEqual(UnitType.dreadnought)
+    expect(unit?.takenDamage).toEqual(false)
+    expect(unit?.usedSustain).toEqual(true)
+  })
+
   it('getHighestWorthUnit should respect place', () => {
     const attacker = getTestParticipant('attacker', {
       destroyer: 1,
@@ -111,6 +142,22 @@ describe('unitGet', () => {
     expect(unit).toEqual(undefined)
   })
 
+  it('getHighestWorthSustainUnit should ignore units that just sustained', () => {
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 1,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    participantInstance.units[0].usedSustain = true
+
+    const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
+
+    expect(unit).toBeUndefined()
+  })
+
   it('getLowestWorthSustainUnit', () => {
     const attacker = getTestParticipant('attacker', {
       flagship: 1,
@@ -124,6 +171,22 @@ describe('unitGet', () => {
     const unit = getLowestWorthSustainUnit(participantInstance, Place.space, true)
 
     expect(unit?.type).toEqual(UnitType.dreadnought)
+  })
+
+  it('getLowestWorthSustainUnit should ignore units that just sustained', () => {
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 1,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    participantInstance.units[0].usedSustain = true
+
+    const unit = getLowestWorthSustainUnit(participantInstance, Place.space, true)
+
+    expect(unit).toBeUndefined()
   })
 
   it('getHighestWorthNonSustainUnit', () => {
@@ -165,6 +228,23 @@ describe('unitGet', () => {
     expect(unit?.type).toEqual(UnitType.flagship)
   })
 
+  it('getHighestWorthNonSustainUnit should fetch sustained units', () => {
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 1,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    participantInstance.units[0].usedSustain = true
+
+    const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
+
+    expect(unit?.type).toEqual(UnitType.dreadnought)
+    expect(unit?.usedSustain).toEqual(true)
+  })
+
   it('getLowestWorthUnit', () => {
     const attacker = getTestParticipant('attacker', {
       flagship: 1,
@@ -178,6 +258,36 @@ describe('unitGet', () => {
     const unit = getLowestWorthUnit(participantInstance, Place.space, true)
 
     expect(unit?.type).toEqual(UnitType.dreadnought)
+  })
+
+  it('getLowestWorthUnit should fetch damaged units before sustained', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 2,
+      },
+      Faction.barony_of_letnev,
+      {},
+      {},
+      {
+        dreadnought: 1,
+      },
+    )
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    participantInstance.units.forEach((u) => {
+      if (!u.takenDamage) {
+        u.usedSustain = true
+      }
+    })
+
+    const unit = getLowestWorthUnit(participantInstance, Place.space, true)
+
+    expect(unit?.type).toEqual(UnitType.dreadnought)
+    expect(unit?.takenDamage).toEqual(true)
   })
 
   it('getHighestHitUnit', () => {
