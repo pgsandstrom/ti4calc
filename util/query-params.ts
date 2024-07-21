@@ -1,4 +1,4 @@
-import { Participant, Side, isSide } from '../core/battle-types'
+import { isSide, Participant, Side } from '../core/battle-types'
 import { getAllBattleEffects } from '../core/battleeffect/battleEffects'
 import { Faction, Place } from '../core/enums'
 import { UnitType } from '../core/unit'

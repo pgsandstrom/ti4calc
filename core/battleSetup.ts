@@ -1,5 +1,5 @@
 import { objectEntries } from '../util/util-object'
-import { UnitInstance, UnitType, createUnit } from './unit'
+import { createUnit, UnitInstance, UnitType } from './unit'
 import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
 import { doBattle } from './battle'

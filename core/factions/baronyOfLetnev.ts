@@ -1,7 +1,8 @@
+import { logWrapper } from '../../util/util-log'
 import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
-import { UNIT_MAP, UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
+import { defaultRoll, getUnitWithImproved, UNIT_MAP, UnitInstance, UnitType } from '../unit'
 import { getHighestHitUnit } from '../unitGet'
 
 export const baronyOfLetnev: BattleEffect[] = [
@@ -83,7 +84,7 @@ export const baronyOfLetnev: BattleEffect[] = [
               hit: genericMech.combat!.hit,
             },
           }
-          console.log(
+          logWrapper(
             `${participant.side} used mech deploy ability to transform an infantry into a mech`,
           )
         }

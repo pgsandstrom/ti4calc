@@ -2,7 +2,7 @@ import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../ba
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
 import { HitInfo } from '../roll'
-import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const jolNar: BattleEffect[] = [
   {

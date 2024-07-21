@@ -1,10 +1,10 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import _times from 'lodash/times'
 import { Faction, Place } from '../enums'
 import { getHighestHitUnit, getLowestWorthSustainUnit } from '../unitGet'
-import { LOG } from '../constant'
+import { logWrapper } from '../../util/util-log'
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -65,13 +65,11 @@ export const argentFlight: BattleEffect[] = [
       _times(otherParticipant.hitsToAssign.hits, () => {
         const bestSustainUnit = getLowestWorthSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
-          if (LOG) {
-            console.log(
-              `${
-                p.side === 'attacker' ? 'defender' : 'attacker'
-              } used sustain damage from Argent anti fighter barrage`,
-            )
-          }
+          logWrapper(
+            `${
+              p.side === 'attacker' ? 'defender' : 'attacker'
+            } used sustain damage from Argent anti fighter barrage`,
+          )
           bestSustainUnit.takenDamage = true
           bestSustainUnit.takenDamageRound = 0
         }
@@ -109,13 +107,11 @@ export const argentFlight: BattleEffect[] = [
       _times(otherParticipant.hitsToAssign.hits, () => {
         const bestSustainUnit = getLowestWorthSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
-          if (LOG) {
-            console.log(
-              `${
-                p.side === 'attacker' ? 'defender' : 'attacker'
-              } used sustain damage from Argent anti fighter barrage`,
-            )
-          }
+          logWrapper(
+            `${
+              p.side === 'attacker' ? 'defender' : 'attacker'
+            } used sustain damage from Argent anti fighter barrage`,
+          )
           bestSustainUnit.takenDamage = true
           bestSustainUnit.takenDamageRound = 0
         }

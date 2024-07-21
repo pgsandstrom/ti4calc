@@ -34,7 +34,7 @@ export default function FactionImage(props: Props) {
         width={640}
         height={828}
       /> */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      {/* this row should require this rule when we re-add next eslint plugin: @next/next/no-img-element */}
       <img
         src={url}
         alt=""

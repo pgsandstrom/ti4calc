@@ -1,8 +1,8 @@
+import { logWrapper } from '../../util/util-log'
 import { destroyUnit } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { LOG } from '../constant'
 import { Place } from '../enums'
-import { UnitInstance, UnitType, getUnitWithImproved } from '../unit'
+import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { getHighestHitUnit, getLowestWorthUnit, getNonFighterShips } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 
@@ -69,9 +69,7 @@ export const duraniumArmor: BattleEffect = {
     if (unit.takenDamage && unit.takenDamageRound !== battle.roundNumber) {
       unit.takenDamage = false
       registerUse(effectName, participant)
-      if (LOG) {
-        console.log(`${participant.side} used duranium armor in round ${battle.roundNumber}`)
-      }
+      logWrapper(`${participant.side} used duranium armor in round ${battle.roundNumber}`)
     }
   },
   timesPerRound: 1,
@@ -92,9 +90,7 @@ export const assaultCannon: BattleEffect = {
       const worstShip = getLowestWorthUnit(otherParticipant, Place.space, false)
       if (worstShip) {
         destroyUnit(battle, worstShip)
-        if (LOG) {
-          console.log(`Assault cannon destroyed ${worstShip.type}`)
-        }
+        logWrapper(`Assault cannon destroyed ${worstShip.type}`)
       }
     }
   },

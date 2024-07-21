@@ -1,7 +1,7 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, createUnitAndApplyEffects, defaultRoll } from '../unit'
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const keleres: BattleEffect[] = [
   {

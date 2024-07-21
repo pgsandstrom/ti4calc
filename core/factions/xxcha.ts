@@ -1,6 +1,6 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const xxcha: BattleEffect[] = [
   {

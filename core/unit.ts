@@ -1,8 +1,8 @@
 import _cloneDeep from 'lodash/cloneDeep'
 import { OnHitEffect, ParticipantInstance } from './battle-types'
 import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
-import { LOG } from './constant'
 import { Place } from './enums'
+import { logWrapper } from '../util/util-log'
 
 export enum UnitType {
   cruiser = 'cruiser',
@@ -333,7 +333,7 @@ export function getUnitWithImproved(
     ...unit,
     [rollType]: {
       ...unit[rollType],
-      [bonus]: unit[rollType]![bonus] + value,
+      [bonus]: unit[rollType][bonus] + value,
     },
   }
 }
@@ -358,8 +358,6 @@ export function createUnitAndApplyEffects(
   participant.allUnitTransform.forEach((effect) => {
     unit = effect(unit, participant, place, effect.name)
   })
-  if (LOG) {
-    console.log(`${participant.side} created a new unit: ${unit.type}`)
-  }
+  logWrapper(`${participant.side} created a new unit: ${unit.type}`)
   return unit
 }

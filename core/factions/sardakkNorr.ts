@@ -1,11 +1,11 @@
+import { logWrapper } from '../../util/util-log'
 import { destroyUnit, getOtherParticipant, isParticipantAlive } from '../battle'
 import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
 import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { getHighestWorthUnit, getUnits } from '../unitGet'
 import _times from 'lodash/times'
-import { LOG } from '../constant'
 
 export const sardarkkNorr: BattleEffect[] = [
   {
@@ -58,9 +58,7 @@ export const sardarkkNorr: BattleEffect[] = [
       if (u.type === UnitType.mech && isDuringCombat) {
         const otherParticipant = getOtherParticipant(battle, participant)
         otherParticipant.hitsToAssign.hits += 1
-        if (LOG) {
-          console.log(`${participant.side} assigned hit to enemy due to mech sustain.`)
-        }
+        logWrapper(`${participant.side} assigned hit to enemy due to mech sustain.`)
       }
     },
   },
@@ -133,18 +131,14 @@ export const sardarkkNorr: BattleEffect[] = [
           destroyUnit(battle, u)
         })
 
-        if (LOG) {
-          console.log(
-            `${participant.side} used Exotrireme II ability for ${dreadNoughtsToSuicide.length} ships.`,
-          )
-        }
+        logWrapper(
+          `${participant.side} used Exotrireme II ability for ${dreadNoughtsToSuicide.length} ships.`,
+        )
 
         _times(dreadNoughtsToSuicide.length * 2, () => {
           const highestWorthUnit = getHighestWorthUnit(otherParticipant, battle.place, true)
           if (highestWorthUnit) {
-            if (LOG) {
-              console.log(`${highestWorthUnit.type} was destroyed by Exotrireme II ability.`)
-            }
+            logWrapper(`${highestWorthUnit.type} was destroyed by Exotrireme II ability.`)
             destroyUnit(battle, highestWorthUnit)
           }
         })
@@ -171,9 +165,7 @@ export const sardarkkNorr: BattleEffect[] = [
       }
       otherParticipant.hitsToAssign.hits += 1
       registerUse(effectName, participant)
-      if (LOG) {
-        console.log(`${participant.side} uses Valkyrie Particle Weave to produce 1 hit`)
-      }
+      logWrapper(`${participant.side} uses Valkyrie Particle Weave to produce 1 hit`)
     },
     onSustain: (
       _u: UnitInstance,
@@ -184,9 +176,7 @@ export const sardarkkNorr: BattleEffect[] = [
       const otherParticipant = getOtherParticipant(battle, participant)
       otherParticipant.hitsToAssign.hits += 1
       registerUse(effectName, participant)
-      if (LOG) {
-        console.log(`${participant.side} uses Valkyrie Particle Weave to produce 1 hit`)
-      }
+      logWrapper(`${participant.side} uses Valkyrie Particle Weave to produce 1 hit`)
     },
     timesPerRound: 1,
   },

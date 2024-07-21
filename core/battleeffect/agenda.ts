@@ -1,6 +1,6 @@
 import { EFFECT_LOW_PRIORITY } from '../battle-types'
 import { Place } from '../enums'
-import { UnitInstance, UnitType, getUnitWithImproved } from '../unit'
+import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { BattleEffect } from './battleEffects'
 
 export function getAgendas() {

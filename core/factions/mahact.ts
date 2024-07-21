@@ -1,7 +1,7 @@
 import { EFFECT_LOW_PRIORITY } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll, getUnitWithImproved } from '../unit'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 
 export const mahact: BattleEffect[] = [
   {

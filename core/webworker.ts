@@ -57,6 +57,7 @@ function doWork(battle: Battle) {
   })
 
   if (NUMBER_OF_ROLLS === ROLLS_WHEN_BUILDING_TEST_DATA) {
+    // eslint-disable-next-line no-console
     console.log(JSON.stringify(finalData))
   }
 }

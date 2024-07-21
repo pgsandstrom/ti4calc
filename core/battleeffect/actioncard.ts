@@ -1,19 +1,19 @@
+import { logWrapper } from '../../util/util-log'
 import { destroyUnit, getOtherParticipant } from '../battle'
 import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
 import { getHits } from '../roll'
 import {
-  Roll,
-  UnitInstance,
-  UnitType,
   createUnitAndApplyEffects,
   defaultRoll,
   getUnitWithImproved,
+  Roll,
+  UnitInstance,
+  UnitType,
 } from '../unit'
 import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 import _times from 'lodash/times'
-import { LOG } from '../constant'
 
 export function getActioncards() {
   return [
@@ -84,19 +84,15 @@ export const courageousToTheEnd: BattleEffect = {
 
     const hits = getHits(roll)
 
-    if (LOG) {
-      console.log(
-        `${participant.side} plays Courageous to the End on death of ${bestDeadUnit.type} and makes ${hits.hits} kill(s).`,
-      )
-    }
+    logWrapper(
+      `${participant.side} plays Courageous to the End on death of ${bestDeadUnit.type} and makes ${hits.hits} kill(s).`,
+    )
 
     _times(hits.hits, () => {
       const lowestWorthUnit = getLowestWorthUnit(otherParticipant, battle.place, true)
       if (lowestWorthUnit) {
         destroyUnit(battle, lowestWorthUnit)
-        if (LOG) {
-          console.log(`Courageous to the End destroyed ${lowestWorthUnit.type}`)
-        }
+        logWrapper(`Courageous to the End destroyed ${lowestWorthUnit.type}`)
       }
     })
 
@@ -123,9 +119,7 @@ export const directHit: BattleEffect = {
     if (participant.effects[effectName] > 0) {
       if (!u.immuneToDirectHit && !u.isDestroyed) {
         u.isDestroyed = true
-        if (LOG) {
-          console.log(`${participant.side} used direct hit to destroy ${u.type}`)
-        }
+        logWrapper(`${participant.side} used direct hit to destroy ${u.type}`)
         participant.effects[effectName] -= 1
       }
     }
@@ -169,9 +163,7 @@ export const emergencyRepairs: BattleEffect = {
       participant.units.forEach((u) => {
         u.takenDamage = false
       })
-      if (LOG) {
-        console.log(`${participant.side} used Emergency repair`)
-      }
+      logWrapper(`${participant.side} used Emergency repair`)
       registerUse(effectName, participant)
     }
   },
@@ -185,9 +177,7 @@ export const emergencyRepairs: BattleEffect = {
       participant.units.forEach((u) => {
         u.takenDamage = false
       })
-      if (LOG) {
-        console.log(`${participant.side} used Emergency repair`)
-      }
+      logWrapper(`${participant.side} used Emergency repair`)
       registerUse(effectName, participant)
     }
   },
@@ -357,11 +347,7 @@ export const reflectiveShielding: BattleEffect = {
     const otherParticipant = getOtherParticipant(battle, participant)
     otherParticipant.hitsToAssign.hits += 2
     registerUse(effectName, participant)
-    if (LOG) {
-      console.log(
-        `${participant.side} sustained damage on ${u.type} and played Reflective Shielding.`,
-      )
-    }
+    logWrapper(`${participant.side} sustained damage on ${u.type} and played Reflective Shielding.`)
   },
   timesPerFight: 1,
 }

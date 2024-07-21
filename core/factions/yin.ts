@@ -1,9 +1,9 @@
+import { logWrapper } from '../../util/util-log'
 import { destroyUnit, isParticipantAlive } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { LOG } from '../constant'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, createUnitAndApplyEffects, defaultRoll } from '../unit'
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const yin: BattleEffect[] = [
   {
@@ -76,9 +76,7 @@ export const yin: BattleEffect[] = [
       if (suicideUnit) {
         destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsAssignedByEnemy += 1
-        if (LOG) {
-          console.log(`${participant.side} uses devotion to destroy their own ${suicideUnit.type}`)
-        }
+        logWrapper(`${participant.side} uses devotion to destroy their own ${suicideUnit.type}`)
       }
     },
   },
@@ -134,21 +132,17 @@ export const yin: BattleEffect[] = [
         const newFigher2 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
         participant.newUnits.push(newFigher1)
         participant.newUnits.push(newFigher2)
-        if (LOG) {
-          console.log(
-            `${participant.side} uses Yin agent to summon two fighters when a unit was destroyed`,
-          )
-        }
+        logWrapper(
+          `${participant.side} uses Yin agent to summon two fighters when a unit was destroyed`,
+        )
       } else {
         const newInfantry1 = createUnitAndApplyEffects(UnitType.infantry, participant, battle.place)
         const newInfantry2 = createUnitAndApplyEffects(UnitType.infantry, participant, battle.place)
         participant.newUnits.push(newInfantry1)
         participant.newUnits.push(newInfantry2)
-        if (LOG) {
-          console.log(
-            `${participant.side} uses Yin agent to summon two infantry when a unit was destroyed`,
-          )
-        }
+        logWrapper(
+          `${participant.side} uses Yin agent to summon two infantry when a unit was destroyed`,
+        )
       }
       registerUse(effectName, participant)
     },

@@ -3,8 +3,8 @@ import styles from './detailedBattleReportView.module.scss'
 import { BattleReport } from '../core'
 import { useResize } from '../util/hooks'
 import {
-  LS_SHOW_DETAILED_REPORT,
   getLocalStorage,
+  LS_SHOW_DETAILED_REPORT,
   setLocalStorage,
 } from '../util/localStorageWrapper'
 import { getColorProgress } from '../util/util-color'

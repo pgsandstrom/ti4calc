@@ -1,6 +1,6 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
-import { Usage, getUsage } from '../server/usageController'
+import { getUsage, Usage } from '../server/usageController'
 
 interface ErrorProps {
   usage: Usage[]

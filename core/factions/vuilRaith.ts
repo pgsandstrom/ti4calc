@@ -1,5 +1,5 @@
 import { BattleEffect } from '../battleeffect/battleEffects'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const vuilRaith: BattleEffect[] = [
   {

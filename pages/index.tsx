@@ -17,9 +17,9 @@ import OptionsView from '../component/optionsView'
 import HelpView from '../component/helpView'
 import { DetailedBattleReportView } from '../component/detailedBattleReportView'
 import {
+  getLocalStorage,
   LS_ATTACKER_FACTION,
   LS_DEFENDER_FACTION,
-  getLocalStorage,
   setLocalStorage,
 } from '../util/localStorageWrapper'
 import {

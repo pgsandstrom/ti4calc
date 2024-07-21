@@ -7,7 +7,7 @@ import {
 } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
 import { Place } from './enums'
-import { HitInfo, getHits } from './roll'
+import { getHits, HitInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 import {
   doesUnitFitPlace,
@@ -18,6 +18,7 @@ import {
 } from './unitGet'
 import _cloneDeep from 'lodash/cloneDeep'
 import { getBattleResultUnitString } from './battleResult'
+import { logWrapper } from '../util/util-log'
 import { LOG } from './constant'
 
 // TODO add retreat?
@@ -115,15 +116,13 @@ export function doBattle(battle: BattleInstance): BattleResult {
     }
   }
 
-  if (LOG) {
-    console.log(`Battle resolved after ${battle.roundNumber - 1} rounds`)
-    if (battleResult.winner === BattleWinner.attacker) {
-      console.log('Attacker won')
-    } else if (battleResult.winner === BattleWinner.defender) {
-      console.log('Defender won')
-    } else {
-      console.log('Battle ended in a draw')
-    }
+  logWrapper(`Battle resolved after ${battle.roundNumber - 1} rounds`)
+  if (battleResult.winner === BattleWinner.attacker) {
+    logWrapper('Attacker won')
+  } else if (battleResult.winner === BattleWinner.defender) {
+    logWrapper('Defender won')
+  } else {
+    logWrapper('Battle ended in a draw')
   }
 
   return battleResult
@@ -162,9 +161,7 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
   const result = hits.reduce((a, b) => {
     return a + b
   }, 0)
-  if (LOG) {
-    console.log(`bombardment produced ${result} hits.`)
-  }
+  logWrapper(`bombardment produced ${result} hits.`)
   battle.defender.hitsToAssign.hits += result
   resolveHits(battle, isDuringCombat)
 }
@@ -291,9 +288,7 @@ function resolveAfbHits(p: ParticipantInstance) {
     if (aliveFighter) {
       aliveFighter.isDestroyed = true
       p.hitsToAssign.hits -= 1
-      if (LOG) {
-        console.log(`${p.side} lost fighter to anti fighter barrage`)
-      }
+      logWrapper(`${p.side} lost fighter to anti fighter barrage`)
     } else {
       break
     }
@@ -430,11 +425,9 @@ function resolveParticipantHits(
       }
       const highestWorthNonSustainUnit = getHighestWorthNonSustainUnit(p, battle.place, true)
       if (highestWorthNonSustainUnit) {
-        if (LOG) {
-          console.log(
-            `${p.side} loses ${highestWorthNonSustainUnit.type} after hits assigned by opponent.`,
-          )
-        }
+        logWrapper(
+          `${p.side} loses ${highestWorthNonSustainUnit.type} after hits assigned by opponent.`,
+        )
         highestWorthNonSustainUnit.isDestroyed = true
       } else {
         // This happens when all units have sustain. We pick the best sustain unit in case we have direct hit.
@@ -495,9 +488,7 @@ function soakHit(p: ParticipantInstance) {
   } else {
     throw new Error('soak hits called without reason')
   }
-  if (LOG) {
-    console.log(`${p.side} soaked a hit. ${p.soakHits} soaks remaining.`)
-  }
+  logWrapper(`${p.side} soaked a hit. ${p.soakHits} soaks remaining.`)
 }
 
 // returns if the hit was applied to a unit
@@ -534,9 +525,7 @@ function applyHit(
         doSustainDamage(battle, p, bestDieUnit, isDuringCombat)
       } else {
         bestDieUnit.isDestroyed = true
-        if (LOG) {
-          console.log(`${p.side} loses ${bestDieUnit.type}`)
-        }
+        logWrapper(`${p.side} loses ${bestDieUnit.type}`)
       }
       return true
     }
@@ -564,9 +553,7 @@ function doSustainDamage(
       effect.onEnemySustain!(unit, otherP, battle, effect.name, isDuringCombat)
     }
   })
-  if (LOG) {
-    console.log(`${p.side} uses sustain on ${unit.type}`)
-  }
+  logWrapper(`${p.side} uses sustain on ${unit.type}`)
 }
 
 function doRepairStep(battle: BattleInstance, isDuringCombat: boolean) {
@@ -625,6 +612,7 @@ export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstan
   return p.side === 'attacker' ? battle.defender : battle.attacker
 }
 
+/* eslint-disable no-console */
 function logAttack(
   p: ParticipantInstance,
   unit: UnitInstance,

@@ -1,7 +1,7 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
 import { getLowestWorthUnit } from '../unitGet'
 
 export const nomad: BattleEffect[] = [

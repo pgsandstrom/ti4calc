@@ -1,7 +1,7 @@
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Place } from '../enums'
-import { UnitInstance, UnitType, defaultRoll } from '../unit'
+import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const empyrean: BattleEffect[] = [
   {
