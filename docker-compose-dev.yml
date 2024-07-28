@@ -1,5 +1,4 @@
 # Here we expose the ports so we can connect from our dev instance on our local machine
-version: '3.8'
 services:
   db:
     extends:
