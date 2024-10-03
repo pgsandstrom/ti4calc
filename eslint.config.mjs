@@ -94,6 +94,7 @@ export default tseslint.config(
         {
           vars: 'all',
           args: 'none',
+          caughtErrorsIgnorePattern: '^_',
         },
       ],
       '@typescript-eslint/no-confusing-void-expression': [

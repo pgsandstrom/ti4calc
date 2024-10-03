@@ -173,10 +173,7 @@ function OptionsPartView({
   )
 }
 
-const getDirectHitCheckbox = (
-  participant: Participant,
-  onChange: (participant: Participant) => void,
-) => {
+const getDirectHitCheckbox = (participant: Participant, onChange: (p: Participant) => void) => {
   return (
     <input
       autoComplete="off"

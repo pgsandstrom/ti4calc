@@ -16,7 +16,7 @@ export function getHits(roll: Roll): HitInfo {
   const hit = roll.hit - roll.hitBonus - roll.hitBonusTmp
 
   const rollInfo: RollInfo[] = []
-  const result = _times(count, () => {
+  const allResults = _times(count, () => {
     let reroll = roll.reroll + roll.rerollBonus + roll.rerollBonusTmp
     let result = false
     while (!result && reroll >= 0) {
@@ -35,5 +35,5 @@ export function getHits(roll: Roll): HitInfo {
   roll.countBonusTmp = 0
   roll.rerollBonusTmp = 0
 
-  return { hits: result, rollInfoList: rollInfo }
+  return { hits: allResults, rollInfoList: rollInfo }
 }

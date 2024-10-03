@@ -9,10 +9,10 @@ export const setLocalStorage = (key: string, value: string) => {
   }
 }
 
-export const getLocalStorage = <T extends string | symbol>(key: string) => {
+export const getLocalStorage = (key: string) => {
   // eslint-disable-next-line
   if (localStorage) {
-    const value = localStorage.getItem(key) as T | null
+    const value = localStorage.getItem(key)
     if (value == null) {
       return undefined
     } else {

@@ -151,7 +151,7 @@ export default function Home(props: HomeProps) {
   // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
     if (!hasQueryParamForFaction(props.query, 'attacker')) {
-      const attackerFaction = getLocalStorage<Faction>(LS_ATTACKER_FACTION)
+      const attackerFaction = getLocalStorage(LS_ATTACKER_FACTION) as Faction | undefined
       if (attackerFaction != null && Object.values(Faction).includes(attackerFaction)) {
         const newAttacker: Participant = {
           ...attacker,
@@ -161,7 +161,7 @@ export default function Home(props: HomeProps) {
       }
     }
     if (!hasQueryParamForFaction(props.query, 'defender')) {
-      const defenderFaction = getLocalStorage<Faction>(LS_DEFENDER_FACTION)
+      const defenderFaction = getLocalStorage(LS_DEFENDER_FACTION) as Faction | undefined
       if (defenderFaction != null && Object.values(Faction).includes(defenderFaction)) {
         const newDefender: Participant = {
           ...defender,

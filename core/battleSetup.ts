@@ -253,10 +253,10 @@ function applyBattleEffects(
       }
 
       if (battleEffect.transformUnit) {
-        participantInstance.allUnitTransform.push(battleEffect.transformUnit),
-          (participantInstance.units = participantInstance.units.map((u) =>
-            battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
-          ))
+        participantInstance.allUnitTransform.push(battleEffect.transformUnit)
+        participantInstance.units = participantInstance.units.map((u) =>
+          battleEffect.transformUnit!(u, participantInstance, place, battleEffect.name),
+        )
       }
 
       const effectNumber = participant.battleEffects[battleEffect.name]
