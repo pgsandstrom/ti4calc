@@ -25,6 +25,7 @@ import { LOG } from './constant'
 
 export function doBattle(battle: BattleInstance): BattleResult {
   let isDuringCombat = false
+  const isDuringBombardment = false
 
   battle.attacker.onStartEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, battle.attacker)) {
@@ -36,12 +37,12 @@ export function doBattle(battle: BattleInstance): BattleResult {
       effect.onStart!(battle.defender, battle, battle.attacker, effect.name)
     }
   })
-  resolveHits(battle, isDuringCombat)
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
 
   doBombardment(battle, isDuringCombat)
 
   doSpaceCannon(battle)
-  resolveHits(battle, isDuringCombat)
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
 
   isDuringCombat = true
 
@@ -62,7 +63,7 @@ export function doBattle(battle: BattleInstance): BattleResult {
       }
     })
 
-    resolveHits(battle, isDuringCombat)
+    resolveHits(battle, isDuringCombat, isDuringBombardment)
     doRepairStep(battle, isDuringCombat)
 
     battle.attacker.onCombatRoundEnd.forEach((effect) => {
@@ -76,7 +77,7 @@ export function doBattle(battle: BattleInstance): BattleResult {
       }
     })
 
-    resolveHits(battle, isDuringCombat)
+    resolveHits(battle, isDuringCombat, isDuringBombardment)
 
     battle.roundNumber += 1
 
@@ -140,6 +141,7 @@ function addNewUnits(p: ParticipantInstance) {
 }
 
 export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
+  const isDuringBombardment = true
   if (battle.place !== Place.ground) {
     return
   }
@@ -163,7 +165,7 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
   }, 0)
   logWrapper(`bombardment produced ${result} hits.`)
   battle.defender.hitsToAssign.hits += result
-  resolveHits(battle, isDuringCombat)
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
 }
 
 function doSpaceCannon(battle: BattleInstance) {
@@ -386,10 +388,14 @@ function doParticipantBattleRolls(
   otherParticipant.hitsToAssign = hits
 }
 
-function resolveHits(battle: BattleInstance, isDuringCombat: boolean) {
+function resolveHits(
+  battle: BattleInstance,
+  isDuringCombat: boolean,
+  isDuringBombardment: boolean,
+) {
   while (hasHitToAssign(battle.attacker) || hasHitToAssign(battle.defender)) {
-    resolveParticipantHits(battle, battle.attacker, isDuringCombat)
-    resolveParticipantHits(battle, battle.defender, isDuringCombat)
+    resolveParticipantHits(battle, battle.attacker, isDuringCombat, isDuringBombardment)
+    resolveParticipantHits(battle, battle.defender, isDuringCombat, isDuringBombardment)
     removeDeadUnits(battle.attacker, battle)
     removeDeadUnits(battle.defender, battle)
   }
@@ -409,6 +415,7 @@ function resolveParticipantHits(
   battle: BattleInstance,
   p: ParticipantInstance,
   isDuringCombat: boolean,
+  isDuringBombardment: boolean,
 ) {
   while (hasHitToAssign(p)) {
     if (p.soakHits > 0) {
@@ -439,13 +446,13 @@ function resolveParticipantHits(
 
       p.hitsToAssign.hitsAssignedByEnemy -= 1
     } else if (p.hitsToAssign.hitsToNonFighters > 0) {
-      const appliedHitToNonFighter = applyHit(battle, p, false, isDuringCombat)
+      const appliedHitToNonFighter = applyHit(battle, p, false, isDuringCombat, isDuringBombardment)
       if (!appliedHitToNonFighter) {
-        applyHit(battle, p, true, isDuringCombat)
+        applyHit(battle, p, true, isDuringCombat, isDuringBombardment)
       }
       p.hitsToAssign.hitsToNonFighters -= 1
     } else {
-      applyHit(battle, p, true, isDuringCombat)
+      applyHit(battle, p, true, isDuringCombat, isDuringBombardment)
       p.hitsToAssign.hits -= 1
     }
   }
@@ -497,8 +504,9 @@ function applyHit(
   p: ParticipantInstance,
   includeFighter: boolean,
   isDuringCombat: boolean,
+  isDuringBombardment: boolean,
 ): boolean {
-  const sustainDisabled = isSustainDisabled(battle, p)
+  const sustainDisabled = isSustainDisabled(battle, p, isDuringBombardment)
 
   // If we ever desired to speed up the code, this could be done in a single passover of all units
 
@@ -603,9 +611,17 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
   })
 }
 
-export function isSustainDisabled(battle: BattleInstance, p: ParticipantInstance) {
+export function isSustainDisabled(
+  battle: BattleInstance,
+  p: ParticipantInstance,
+  isDuringBombardment: boolean,
+) {
   const other = getOtherParticipant(battle, p)
-  return other.units.some((u) => u.preventEnemySustain === true)
+  return other.units.some(
+    (u) =>
+      u.preventEnemySustain === true ||
+      (!isDuringBombardment && u.preventEnemySustainOnPlanet === true),
+  )
 }
 
 export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstance) {

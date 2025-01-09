@@ -88,4 +88,54 @@ describe('Mentak', () => {
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.354)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.323)
   })
+
+  it('Mentak mech should not affect sustain during bombardment', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        mech: 1,
+        dreadnought: 1,
+      },
+      Faction.mentak,
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        mech: 1,
+      },
+      Faction.mentak,
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.333)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.333)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.333)
+  })
+
+  it('Mentak mech should affect sustain during PDS defence', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        mech: 1,
+      },
+      Faction.mentak,
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        mech: 1,
+        pds: 1,
+      },
+      Faction.mentak,
+    )
+
+    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES / 6)
+    checkResult(result.draw, DO_BATTLE_X_TIMES / 6)
+    checkResult(result.defender, (DO_BATTLE_X_TIMES * 2) / 3)
+  })
 })
