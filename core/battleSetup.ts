@@ -173,7 +173,7 @@ function fixUnitBattleEffects(
   place: Place,
 ) {
   const participantUnitBattleEffects = participantInstance.units
-    .filter((u) => u.battleEffects)
+    .filter((u) => !!u.battleEffects)
     .map((u) => u.battleEffects!)
     .flat()
 
