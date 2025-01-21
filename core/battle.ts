@@ -169,13 +169,13 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
 function doSpaceCannon(battle: BattleInstance) {
   if (battle.place === Place.space) {
     const attackerHits = getSpaceCannonHits(battle.attacker, battle, battle.defender)
-    if (LOG && battle.attacker.units.some((u) => u.spaceCannon)) {
+    if (LOG && battle.attacker.units.some((u) => !!u.spaceCannon)) {
       logHits(battle.attacker, attackerHits, 'spaceCannon')
     }
     battle.defender.hitsToAssign = attackerHits
   }
   const defenderHits = getSpaceCannonHits(battle.defender, battle, battle.attacker)
-  if (LOG && battle.defender.units.some((u) => u.spaceCannon)) {
+  if (LOG && battle.defender.units.some((u) => !!u.spaceCannon)) {
     logHits(battle.defender, defenderHits, 'spaceCannon')
   }
   battle.attacker.hitsToAssign = defenderHits
@@ -306,21 +306,21 @@ function doParticipantBattleRolls(
   otherParticipant: ParticipantInstance,
 ) {
   const friendlyUnitTransformEffects = p.units
-    .filter((unit) => unit.aura && unit.aura.length > 0)
+    .filter((unit) => !!unit.aura && unit.aura.length > 0)
     .map((unit) => unit.aura!)
     .flat()
     .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
-  const friendlyAuras = friendlyUnitTransformEffects.filter((effect) => effect.transformUnit)
+  const friendlyAuras = friendlyUnitTransformEffects.filter((effect) => !!effect.transformUnit)
   const onCombatRoundStartAura = friendlyUnitTransformEffects.filter(
-    (effect) => effect.onCombatRoundStart,
+    (effect) => !!effect.onCombatRoundStart,
   )
 
   const enemyAuras = otherParticipant.units
-    .filter((unit) => unit.aura && unit.aura.length > 0)
+    .filter((unit) => !!unit.aura && unit.aura.length > 0)
     .map((unit) => unit.aura!)
     .flat()
-    .filter((effect) => effect.transformEnemyUnit)
+    .filter((effect) => !!effect.transformEnemyUnit)
     .filter((aura) => aura.place === battle.place || aura.place === 'both')
 
   p.onCombatRound.forEach((effect) => {
@@ -605,7 +605,7 @@ export function isParticipantAlive(p: ParticipantInstance, place: Place) {
 
 export function isSustainDisabled(battle: BattleInstance, p: ParticipantInstance) {
   const other = getOtherParticipant(battle, p)
-  return other.units.some((u) => u.preventEnemySustain)
+  return other.units.some((u) => u.preventEnemySustain === true)
 }
 
 export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstance) {

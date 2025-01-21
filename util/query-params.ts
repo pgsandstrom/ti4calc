@@ -53,7 +53,9 @@ function addParticipant(params: URLSearchParams, p: Participant) {
 
   for (const battleEffects of objectEntries(p.battleEffects)) {
     if (battleEffects[1] > 0) {
-      const symmetrical = allBattleEffects.some((e) => e.name === battleEffects[0] && e.symmetrical)
+      const symmetrical = allBattleEffects.some(
+        (e) => e.name === battleEffects[0] && !!e.symmetrical,
+      )
       if (symmetrical) {
         params.set(`effect-${battleEffects[0]}`, `${battleEffects[1]}`)
       } else {

@@ -138,7 +138,7 @@ export function getHighestHitUnit(
   attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
   place: Place | undefined,
 ) {
-  const units = getUnits(p, place, true).filter((u) => u[attackType])
+  const units = getUnits(p, place, true).filter((u) => !!u[attackType])
   if (units.length === 0) {
     return undefined
   }
