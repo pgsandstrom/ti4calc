@@ -231,9 +231,7 @@ export default function Home(props: HomeProps) {
         <FactionImage faction={attacker.faction} side="left" style={{ flex: '1 0 0' }} />
         <main className={styles.main}>
           <div className={styles.mainController}>
-            <h1 className={styles.mainTitle} style={{ textAlign: 'center', margin: '2px 0 10px' }}>
-              TI4 calculator
-            </h1>
+            <h1 style={{ textAlign: 'center', margin: '2px 0 10px' }}>TI4 calculator</h1>
             <div
               style={{
                 display: 'flex',

@@ -23,13 +23,6 @@
 }
 
 .mainController {
-  @media (max-height: 799px) {
-    .mainTitle {
-      visibility: hidden;
-      height: 10px;
-    }
-  }
-
   border-image-source: url('/background.webp');
   border-image-slice: 40 fill;
   border-image-width: 20px;
