@@ -31,6 +31,7 @@ export interface Unit {
   planetaryShield: boolean
   assignHitsToNonFighters?: boolean
   preventEnemySustain?: boolean
+  preventEnemySustainOnPlanet?: boolean
 
   isShip: boolean
   isGroundForce: boolean

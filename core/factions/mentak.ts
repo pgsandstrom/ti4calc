@@ -36,7 +36,7 @@ export const mentak: BattleEffect[] = [
       if (u.type === UnitType.mech) {
         return {
           ...u,
-          preventEnemySustain: true,
+          preventEnemySustainOnPlanet: true,
         }
       } else {
         return u
