@@ -59,7 +59,7 @@ export default function Home(props: HomeProps) {
   const [error, setError] = useState(false)
 
   const [touched, setTouched] = useState(hasSomeQueryParams(props.query))
-  const workerRef = useRef<Worker>()
+  const workerRef = useRef<Worker>(undefined)
 
   const registerUsage = () => {
     void fetch(`${getServerUrl()}/api/usage`, {
