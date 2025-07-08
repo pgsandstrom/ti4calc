@@ -9,8 +9,8 @@ const allBattleEffects = getAllBattleEffects()
 export function createQueryParams(attacker: Participant, defender: Participant, place: Place) {
   const params = new URLSearchParams()
 
-  addParticipant(params, attacker)
-  addParticipant(params, defender)
+  addParticipant(params, attacker, 'attacker')
+  addParticipant(params, defender, 'defender')
 
   if (place !== Place.space) {
     params.set('place', place)
@@ -24,12 +24,12 @@ export function createQueryParams(attacker: Participant, defender: Participant, 
   }
 }
 
-function addParticipant(params: URLSearchParams, p: Participant) {
-  params.set(p.side + '-faction', p.faction)
+function addParticipant(params: URLSearchParams, p: Omit<Participant, 'side'>, side: Side) {
+  params.set(side + '-faction', p.faction)
 
   for (const unit of objectEntries(p.units)) {
     if (unit[1] > 0) {
-      params.set(`${p.side}-unit-${unit[0]}`, `${unit[1]}`)
+      params.set(`${side}-unit-${unit[0]}`, `${unit[1]}`)
     }
   }
 
@@ -37,17 +37,17 @@ function addParticipant(params: URLSearchParams, p: Participant) {
     const ownedUnits = p.units[unit[0]]
     const actualNumber = Math.min(unit[1], ownedUnits)
     if (actualNumber) {
-      params.set(`${p.side}-damaged-${unit[0]}`, `${actualNumber}`)
+      params.set(`${side}-damaged-${unit[0]}`, `${actualNumber}`)
     }
   }
 
   if (!p.riskDirectHit) {
-    params.set(`${p.side}-risk-direct-hit`, 'false')
+    params.set(`${side}-risk-direct-hit`, 'false')
   }
 
   for (const unitUpgrades of objectEntries(p.unitUpgrades)) {
     if (unitUpgrades[1]) {
-      params.set(`${p.side}-upgrade-${unitUpgrades[0]}`, 'true')
+      params.set(`${side}-upgrade-${unitUpgrades[0]}`, 'true')
     }
   }
 
@@ -59,7 +59,7 @@ function addParticipant(params: URLSearchParams, p: Participant) {
       if (symmetrical) {
         params.set(`effect-${battleEffects[0]}`, `${battleEffects[1]}`)
       } else {
-        params.set(`${p.side}-effect-${battleEffects[0]}`, `${battleEffects[1]}`)
+        params.set(`${side}-effect-${battleEffects[0]}`, `${battleEffects[1]}`)
       }
     }
   }

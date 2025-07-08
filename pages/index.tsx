@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
@@ -96,6 +97,17 @@ export default function Home(props: HomeProps) {
   const setPlace = (newPlace: Place) => {
     setPlaceRaw(newPlace)
     createQueryParams(attacker, defender, newPlace)
+  }
+
+  const switchParticipants = () => {
+    if (!touched) {
+      setTouched(true)
+    }
+    const newDefender: Participant = { ...attacker, side: 'defender' }
+    const newAttacker: Participant = { ...defender, side: 'attacker' }
+    setAttackerRaw(newAttacker)
+    setDefenderRaw(newDefender)
+    createQueryParams(newAttacker, newDefender, place)
   }
 
   // Load the worker only to cache it
@@ -247,18 +259,19 @@ export default function Home(props: HomeProps) {
                 <FactionPicker
                   participant={attacker}
                   onChange={setAttacker}
-                  aria-labelledby="faction"
                   style={{ flex: '1 0 0' }}
                 />
                 <div
-                  id="faction"
                   style={{
+                    display: 'flex',
                     flex: '1 0 0',
-                    textAlign: 'center',
-                    paddingTop: '10px',
+                    placeContent: 'center',
+                    padding: '5px 0',
                   }}
                 >
-                  faction
+                  <button onClick={switchParticipants}>
+                    <Image src="/switch.svg" width={30} height={30} alt="Switch factions" />
+                  </button>
                 </div>
                 <FactionPicker
                   participant={defender}

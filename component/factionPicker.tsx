@@ -4,7 +4,6 @@ import { Faction } from '../core/enums'
 interface Props {
   participant: Participant
   onChange: (participant: Participant) => void
-  'aria-labelledby'?: string
   style?: React.CSSProperties
 }
 
@@ -23,7 +22,6 @@ export default function FactionPicker(props: Props) {
           onChange(newParticipant)
         }}
         value={participant.faction}
-        aria-labelledby={props['aria-labelledby']}
         style={{
           flex: '1 0 auto',
           width: '0px',
