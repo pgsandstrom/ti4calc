@@ -110,7 +110,6 @@ export const x89BacterialWeapon: BattleEffect = {
     "Double the hits produced by your units' BOMBARDMENT and ground combat rolls. Exhaust each planet you use BOMBARDMENT against.",
   type: 'tech',
   place: Place.ground,
-  side: 'attacker',
   onBombardmentHit: (
     _participant: ParticipantInstance,
     _battle: BattleInstance,
