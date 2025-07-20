@@ -36,7 +36,7 @@ export default function HelpView({ style }: Props) {
         <div className={styles.helpView}>
           <div>
             This is a tool to help calculate odds for the board game Twilight Imperium 4. All
-            current expansions and codex are included, up and until codex 3 (april 2022).
+            current expansions and codex are included, up and until codex 4 (june 2025).
           </div>
           <div>Upgrade units by selecting the checkbox next to them.</div>
           <div>
