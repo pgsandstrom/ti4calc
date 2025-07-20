@@ -67,6 +67,13 @@ export const duraniumArmor: BattleEffect = {
     effectName: string,
   ) => {
     if (unit.takenDamage && unit.takenDamageRound !== battle.roundNumber) {
+      // make sure we dont repair something that is not participating in battle
+      if (!unit.isGroundForce && battle.place === Place.ground) {
+        return
+      }
+      if (!unit.isShip && battle.place === Place.space) {
+        return
+      }
       unit.takenDamage = false
       registerUse(effectName, participant)
       logWrapper(`${participant.side} used duranium armor in round ${battle.roundNumber}`)
