@@ -141,6 +141,9 @@ function createParticipantInstance(
     afterAfbEffect: [],
     onDeath: [],
 
+    onHit: [],
+    onBombardmentHit: [],
+
     onSpaceCannon: [],
     onBombardment: [],
     onAfb: [],
@@ -250,6 +253,12 @@ function applyBattleEffects(
       }
       if (battleEffect.onCombatRound) {
         participantInstance.onCombatRound.push(battleEffect)
+      }
+      if (battleEffect.onHit) {
+        participantInstance.onHit.push(battleEffect)
+      }
+      if (battleEffect.onBombardmentHit) {
+        participantInstance.onBombardmentHit.push(battleEffect)
       }
 
       if (battleEffect.transformUnit) {

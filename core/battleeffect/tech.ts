@@ -2,7 +2,8 @@ import { logWrapper } from '../../util/util-log'
 import { destroyUnit } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
-import { getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { HitInfo } from '../roll'
+import { getUnitWithImproved, UnitInstance } from '../unit'
 import { getHighestHitUnit, getLowestWorthUnit, getNonFighterShips } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
 
@@ -106,26 +107,30 @@ export const assaultCannon: BattleEffect = {
 export const x89BacterialWeapon: BattleEffect = {
   name: 'X-89 Bacterial Weapon',
   description:
-    "After 1 or more of your units use BOMBARDMENT against a planet, if at least 1 of your opponent's infantry was destroyed, you may destroy all of your opponent's infantry on that planet.",
+    "Double the hits produced by your units' BOMBARDMENT and ground combat rolls. Exhaust each planet you use BOMBARDMENT against.",
   type: 'tech',
   place: Place.ground,
   side: 'attacker',
-  onDeath: (
-    deadUnits: UnitInstance[],
+  onBombardmentHit: (
     _participant: ParticipantInstance,
-    otherParticipant: ParticipantInstance,
-    battle: BattleInstance,
-    isOwnUnit: boolean,
+    _battle: BattleInstance,
+    _otherParticipant: ParticipantInstance,
+    hitInfo: HitInfo,
   ) => {
-    if (isOwnUnit) {
-      return
+    if (hitInfo.hits > 0) {
+      logWrapper(`X-89 Bacterial Weapon adds ${hitInfo.hits} hits to bombardment`)
+      hitInfo.hits *= 2
     }
-    if (deadUnits.some((u) => u.type === UnitType.infantry)) {
-      otherParticipant.units.forEach((unit) => {
-        if (unit.type === UnitType.infantry) {
-          destroyUnit(battle, unit)
-        }
-      })
+  },
+  onHit: (
+    _participant: ParticipantInstance,
+    _battle: BattleInstance,
+    _otherParticipant: ParticipantInstance,
+    hitInfo: HitInfo,
+  ) => {
+    if (hitInfo.hits > 0) {
+      logWrapper(`X-89 Bacterial Weapon adds ${hitInfo.hits} hits to ground combat hit.`)
+      hitInfo.hits *= 2
     }
   },
 }

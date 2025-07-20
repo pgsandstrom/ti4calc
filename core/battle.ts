@@ -156,15 +156,25 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
     return
   }
 
-  const hits = battle.attacker.units.map((u) => {
-    logAttack(battle.attacker, u, 'bombardment')
-    return u.bombardment ? getHits(u.bombardment).hits : 0
+  const hits = battle.attacker.units
+    .filter((u) => u.bombardment !== undefined)
+    .map((u) => {
+      logAttack(battle.attacker, u, 'bombardment')
+      return getHits(u.bombardment!)
+    })
+  battle.attacker.onBombardmentHit.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      hits.forEach((hit) => {
+        effect.onBombardmentHit!(battle.attacker, battle, battle.defender, hit)
+      })
+    }
   })
-  const result = hits.reduce((a, b) => {
-    return a + b
+
+  const totalHits = hits.reduce((a, b) => {
+    return a + b.hits
   }, 0)
-  logWrapper(`bombardment produced ${result} hits.`)
-  battle.defender.hitsToAssign.hits += result
+  logWrapper(`bombardment produced ${totalHits} hits.`)
+  battle.defender.hitsToAssign.hits += totalHits
   resolveHits(battle, isDuringCombat, isDuringBombardment)
 }
 
@@ -361,6 +371,11 @@ function doParticipantBattleRolls(
       if (unit.onHit) {
         unit.onHit(p, battle, otherParticipant, hitInfo)
       }
+      p.onHit.forEach((effect) => {
+        if (canBattleEffectBeUsed(effect, battle.attacker)) {
+          effect.onHit!(battle.attacker, battle, battle.defender, hitInfo)
+        }
+      })
 
       const hits = hitInfo.hits
       return {

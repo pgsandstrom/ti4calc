@@ -125,6 +125,9 @@ export interface ParticipantInstance {
   onCombatRound: BattleEffect[]
   onDeath: BattleEffect[]
 
+  onHit: BattleEffect[]
+  onBombardmentHit: BattleEffect[]
+
   // keep tracks of effects in play. For example Mahact flagship depends on a battle effect.
   // the number is important for effects that are used up, for example hacan flagship
   effects: Record<string, number>

@@ -1,5 +1,6 @@
 import {
   OnDeathEffect,
+  OnHitEffect,
   Participant,
   ParticipantEffect,
   ParticipantInstance,
@@ -82,6 +83,9 @@ interface SharedStuffBattleEffect {
   onBombardment?: ParticipantEffect
   onAfb?: ParticipantEffect
   onCombatRound?: ParticipantEffect
+
+  onHit?: OnHitEffect
+  onBombardmentHit?: OnHitEffect
 
   // these restrictors does not work for transformUnit, they always happen to all units
   timesPerRound?: number
