@@ -88,6 +88,26 @@ export function getLowestWorthUnit(p: ParticipantInstance, place: Place, include
   }
 }
 
+export function getWeakestCombatUnit(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+) {
+  const units = getUnits(p, place, includeFighter)
+  if (units.length === 0) {
+    return undefined
+  }
+  return units.reduce((a, b) => {
+    if (a.combat?.hit === b.combat?.hit) {
+      if (a.afb?.hit === b.afb?.hit) {
+        return a.sustainDamage > b.sustainDamage ? a : b
+      }
+      return (a.afb?.hit ?? 10) > (b.afb?.hit ?? 10) ? a : b
+    }
+    return (a.combat?.hit ?? 10) > (b.combat?.hit ?? 10) ? a : b
+  })
+}
+
 export function getUnits(
   p: ParticipantInstance,
   place: Place | undefined,

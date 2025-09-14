@@ -2,7 +2,7 @@ import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getLowestWorthUnit } from '../unitGet'
+import { getLowestWorthUnit, getWeakestCombatUnit } from '../unitGet'
 
 export const nomad: BattleEffect[] = [
   {
@@ -100,7 +100,7 @@ export const nomad: BattleEffect[] = [
       if (otherParticipant.faction === Faction.nomad) {
         return
       }
-      const worstNonFighterShip = getLowestWorthUnit(participant, Place.space, false)
+      const worstNonFighterShip = getWeakestCombatUnit(participant, Place.space, false)
       if (!worstNonFighterShip) {
         return
       }
