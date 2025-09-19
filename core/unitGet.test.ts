@@ -9,6 +9,7 @@ import {
   getHighestWorthUnit,
   getLowestWorthSustainUnit,
   getLowestWorthUnit,
+  getWeakestCombatUnit,
   isHighestHitUnit,
 } from './unitGet'
 
@@ -288,6 +289,22 @@ describe('unitGet', () => {
 
     expect(unit?.type).toEqual(UnitType.dreadnought)
     expect(unit?.takenDamage).toEqual(true)
+  })
+
+  it('getWeakestCombatUnit should return the unit that has the worst hit', () => {
+    const attacker = getTestParticipant('attacker', {
+      carrier: 1,
+      cruiser: 1,
+      mech: 1,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    const unit = getWeakestCombatUnit(participantInstance, Place.space, true)
+
+    expect(unit?.type).toEqual(UnitType.carrier)
   })
 
   it('getHighestHitUnit', () => {
