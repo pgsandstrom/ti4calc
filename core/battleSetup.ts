@@ -159,6 +159,10 @@ function createParticipantInstance(
       hitsToNonFighters: 0,
       hitsAssignedByEnemy: 0,
     },
+    afbHitsToAssign: {
+      fighterHitsToAssign: 0,
+      rollInfoList: [],
+    },
 
     roundActionTracker: {},
     fightActionTracker: {},
