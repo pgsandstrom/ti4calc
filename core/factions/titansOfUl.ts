@@ -102,7 +102,7 @@ export const titansOfUl: BattleEffect[] = [
       'When a hit is produced against a unit: You may exhaust this card to cancel that hit.',
     name: 'Titans agent',
     place: 'both',
-    onStart: (p: ParticipantInstance) => {
+    beforeStart: (p: ParticipantInstance) => {
       p.soakHits += 1
     },
   },
@@ -112,7 +112,7 @@ export const titansOfUl: BattleEffect[] = [
       'The Titans hero gives their home system planet SPACE CANNON 5 (x3) ability as if it were a unit.',
     name: 'Titans hero',
     place: 'both',
-    onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+    beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
       const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place)
       planetUnit.spaceCannon = {
         ...defaultRoll,

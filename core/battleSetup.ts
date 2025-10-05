@@ -132,6 +132,7 @@ function createParticipantInstance(
 
     allUnitTransform: [],
 
+    beforeStartEffect: [],
     onStartEffect: [],
     onSustainEffect: [],
     onEnemySustainEffect: [],
@@ -217,6 +218,9 @@ function applyBattleEffects(
       return prioDiff
     })
     .forEach((battleEffect) => {
+      if (battleEffect.beforeStart) {
+        participantInstance.beforeStartEffect.push(battleEffect)
+      }
       if (battleEffect.onStart) {
         participantInstance.onStartEffect.push(battleEffect)
       }

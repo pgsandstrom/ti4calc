@@ -25,8 +25,8 @@ export const plasmaScoring: BattleEffect = {
     'When 1 or more of your units use BOMBARDMENT or SPACE CANNON, 1 of those units may roll 1 additional die.',
   type: 'tech',
   place: 'both',
-  onStart: (participant: ParticipantInstance) => {
-    // TODO when we do these things on onStart... maybe this unit is destroyed by assault cannon or something similar.
+  beforeStart: (participant: ParticipantInstance) => {
+    // TODO when we do these things on beforeStart... maybe this unit is destroyed by assault cannon or something similar.
     // It would be more correct to do it at the appropriate time. Like onBombard and onSpaceCannon
     const bestBomber = getHighestHitUnit(participant, 'bombardment', undefined)
     if (bestBomber?.bombardment) {

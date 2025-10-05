@@ -191,16 +191,15 @@ export const sardarkkNorr: BattleEffect[] = [
       _battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
+      participant.units.forEach((unit) => {
+        if (unit.combat) {
+          unit.combat.hitBonus += 1
+        }
+      })
       if (otherParticipant.faction === Faction.sardakk_norr) {
         otherParticipant.units.forEach((unit) => {
           if (unit.combat) {
             unit.combat.hitBonus -= 1
-          }
-        })
-      } else {
-        participant.units.forEach((unit) => {
-          if (unit.combat) {
-            unit.combat.hitBonus += 1
           }
         })
       }
