@@ -30,6 +30,47 @@ describe('Argent flight', () => {
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.111)
   })
 
+  it('Argent flight upgraded destroyers should destroy infantry', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        dreadnought: 5,
+        infantry: 5,
+      },
+      Faction.jol_nar,
+      {},
+      {
+        dreadnought: true,
+      },
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        destroyer: 1,
+      },
+      Faction.argent_flight,
+      {},
+      {
+        destroyer: true,
+      },
+    )
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    checkResult(result.attacker, DO_BATTLE_X_TIMES * 1.0)
+    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0)
+    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.0)
+    let noInfantryDestroyed = 0
+    for (const [survivors, count] of Object.entries(result.attackerSurvivers)) {
+      if (survivors.endsWith('iiiii') && count !== undefined) {
+        noInfantryDestroyed += count
+      }
+    }
+    // 80% chans to not kill infantry. 3 AFB shots. 1 - 0.8^3 = 0.488
+    checkResult(noInfantryDestroyed, DO_BATTLE_X_TIMES * 0.488)
+  })
+
   it('Argent flight flagship prevents pds fire in space', () => {
     const attacker = getTestParticipant(
       'attacker',
