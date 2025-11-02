@@ -16,10 +16,8 @@ export const getUsage = async (): Promise<Usage[]> => {
   )
   return queryResult.rows.map((row) => {
     return {
-      /* eslint-disable */
       users: row.users,
       usage_date: (row.usage_date as Date).toString(),
-      /* eslint-enable */
     }
   })
 }

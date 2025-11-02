@@ -69,10 +69,9 @@ export const yin: BattleEffect[] = [
         return
       }
 
-      let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
-      if (!suicideUnit) {
-        suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
-      }
+      const suicideUnit =
+        participant.units.find((u) => u.type === UnitType.destroyer) ??
+        participant.units.find((u) => u.type === UnitType.cruiser)
       if (suicideUnit) {
         destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsAssignedByEnemy += 1
@@ -100,10 +99,9 @@ export const yin: BattleEffect[] = [
         return
       }
 
-      let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
-      if (!suicideUnit) {
-        suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
-      }
+      const suicideUnit =
+        participant.units.find((u) => u.type === UnitType.destroyer) ??
+        participant.units.find((u) => u.type === UnitType.cruiser)
       if (suicideUnit) {
         destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsToNonFighters += 1

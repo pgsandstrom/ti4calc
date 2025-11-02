@@ -14,7 +14,7 @@ import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
 
 interface Props {
-  report: BattleReport | undefined
+  report: BattleReport
   style?: React.CSSProperties
 }
 
@@ -98,16 +98,6 @@ const formatUnitString = (unitString: string) => {
 }
 
 export function DetailedBattleReportView({ report, style }: Props) {
-  if (!report) {
-    report = {
-      attacker: 0,
-      attackerSurvivers: {},
-      defender: 0,
-      draw: 1,
-      defenderSurvivers: {},
-    }
-  }
-
   const total = report.attacker + report.defender + report.draw
 
   const [touched, setTouched] = useState(false)

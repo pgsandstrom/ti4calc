@@ -51,7 +51,13 @@ export default function Home(props: HomeProps) {
   const [defender, setDefenderRaw] = useState<Participant>(() => {
     return createParticipant('defender', undefined, props.query)
   })
-  const [battleReport, setBattleReport] = useState<BattleReport>()
+  const [battleReport, setBattleReport] = useState<BattleReport>({
+    attacker: 0,
+    attackerSurvivers: {},
+    defender: 0,
+    draw: 1,
+    defenderSurvivers: {},
+  })
 
   const [place, setPlaceRaw] = useState<Place>(() => {
     return props.query.place === Place.ground ? Place.ground : Place.space
@@ -127,7 +133,6 @@ export default function Home(props: HomeProps) {
       workerRef.current = worker
 
       worker.addEventListener('message', (event) => {
-        // eslint-disable-next-line
         if (event.data.error === true) {
           if (!error) {
             const workerError = event.data as ErrorReportUnsaved
