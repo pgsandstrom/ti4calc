@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+
+import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE } from '../core/constant'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
-import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE } from '../core/constant'
 import styles from './helpView.module.scss'
 
 interface Props {

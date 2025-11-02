@@ -1,6 +1,6 @@
-import styles from './battleReportView.module.scss'
 import { BattleReport } from '../core'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
+import styles from './battleReportView.module.scss'
 
 interface Props {
   report: BattleReport

@@ -1,7 +1,8 @@
-import { Participant } from '../core/battle-types'
-import { UnitType } from '../core/unit'
 import _times from 'lodash/times'
+
+import { Participant } from '../core/battle-types'
 import { Faction } from '../core/enums'
+import { UnitType } from '../core/unit'
 import { OptionsRowView } from './optionsRowView'
 
 interface Props {

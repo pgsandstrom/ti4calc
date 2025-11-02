@@ -1,5 +1,5 @@
-import getBattleReport from '..'
 import { getTestParticipant } from '../../util/util.test'
+import getBattleReport from '..'
 import { duraniumArmor } from '../battleeffect/tech'
 import { Faction, Place } from '../enums'
 

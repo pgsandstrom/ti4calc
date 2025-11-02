@@ -1,22 +1,24 @@
+import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+
+import { BattleReportView } from '../component/battleReportView'
+import CoolButton from '../component/coolButton'
+import { DetailedBattleReportView } from '../component/detailedBattleReportView'
+import FactionImage from '../component/factionImage'
+import FactionPicker from '../component/factionPicker'
+import HelpView from '../component/helpView'
+import OptionsView from '../component/optionsView'
+import SwitchButton from '../component/switchButton'
+import UnitRow from '../component/unitRow'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
 import { createParticipant } from '../core/battleSetup'
 import { Faction, Place } from '../core/enums'
 import { UnitType } from '../core/unit'
-import SwitchButton from '../component/switchButton'
-import FactionImage from '../component/factionImage'
-import { BattleReportView } from '../component/battleReportView'
-import getServerUrl from '../server/serverUrl'
 import { ErrorReportUnsaved } from '../server/errorReportController'
-import FactionPicker from '../component/factionPicker'
-import UnitRow from '../component/unitRow'
-import CoolButton from '../component/coolButton'
-import OptionsView from '../component/optionsView'
-import HelpView from '../component/helpView'
-import { DetailedBattleReportView } from '../component/detailedBattleReportView'
+import getServerUrl from '../server/serverUrl'
 import {
   getLocalStorage,
   LS_ATTACKER_FACTION,
@@ -28,7 +30,6 @@ import {
   hasQueryParamForFaction,
   hasSomeQueryParams,
 } from '../util/query-params'
-import { GetServerSideProps } from 'next'
 import styles from './index.module.scss'
 
 // TODO add resource value

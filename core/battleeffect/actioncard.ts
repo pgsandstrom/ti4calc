@@ -1,3 +1,5 @@
+import _times from 'lodash/times'
+
 import { logWrapper } from '../../util/util-log'
 import { destroyUnit, getOtherParticipant } from '../battle'
 import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
@@ -13,7 +15,6 @@ import {
 } from '../unit'
 import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
-import _times from 'lodash/times'
 
 export function getActioncards() {
   return [

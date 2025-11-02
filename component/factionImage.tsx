@@ -1,7 +1,8 @@
 // import Image from 'next/image'
 import { useLayoutEffect, useState } from 'react'
-import styles from './factionImage.module.scss'
+
 import { Faction } from '../core/enums'
+import styles from './factionImage.module.scss'
 
 interface Props {
   faction: Faction

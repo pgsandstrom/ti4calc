@@ -1,5 +1,6 @@
 import { isArray } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import sha256 from '../../server/sha256'
 import { registerUsage } from '../../server/usageController'
 

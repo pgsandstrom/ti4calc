@@ -4,7 +4,7 @@ import eslint from '@eslint/js'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
-// import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
@@ -32,14 +32,16 @@ export default tseslint.config(
     },
     plugins: {
       'no-only-tests': noOnlyTests,
-      // 'simple-import-sort': simpleImportSort,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       // bugged in current version of eslint, crashes. Test in the future.
+      // https://github.com/typescript-eslint/typescript-eslint/issues/11732
+      // https://github.com/eslint/eslint/issues/20272
       '@typescript-eslint/unified-signatures': 'off',
 
-      // 'no-only-tests/no-only-tests': 'error',
-      // 'simple-import-sort/imports': 'error',
+      'no-only-tests/no-only-tests': 'error',
+      'simple-import-sort/imports': 'error',
 
       // turn off unwanted rules:
       '@typescript-eslint/no-non-null-assertion': 'off', // too strict

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import styles from './detailedBattleReportView.module.scss'
+
 import { BattleReport } from '../core'
 import { useResize } from '../util/hooks'
 import {
@@ -12,6 +12,7 @@ import { toPercentageNumber, toPercentageString } from '../util/util-number'
 import { objectEntries } from '../util/util-object'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
+import styles from './detailedBattleReportView.module.scss'
 
 interface Props {
   report: BattleReport

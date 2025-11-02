@@ -1,11 +1,12 @@
-import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
-import { Battle, BattleInstance, BattleWinner } from './battle-types'
-import { setupBattle, startBattle } from './battleSetup'
-import { BattleReport } from '.'
-import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE, ROLLS_WHEN_BUILDING_TEST_DATA } from './constant'
+import _times from 'lodash/times'
+
 import { ErrorReportUnsaved } from '../server/errorReportController'
 import { objectEntries } from '../util/util-object'
+import { BattleReport } from '.'
+import { Battle, BattleInstance, BattleWinner } from './battle-types'
+import { setupBattle, startBattle } from './battleSetup'
+import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE, ROLLS_WHEN_BUILDING_TEST_DATA } from './constant'
 
 //! To avoid isolatedModules error
 export default {}

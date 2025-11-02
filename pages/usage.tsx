@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
+
 import { getUsage, Usage } from '../server/usageController'
 
 interface ErrorProps {

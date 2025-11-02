@@ -1,4 +1,5 @@
 import React, { ForwardedRef } from 'react'
+
 import styles from './neutralButton.module.scss'
 
 const NeutralButton = (

@@ -1,4 +1,5 @@
 import _, { cloneDeep } from 'lodash'
+
 import { checkResult } from '../util/util.test'
 import { getHits } from './roll'
 import { defaultRoll, Roll } from './unit'

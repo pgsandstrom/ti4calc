@@ -1,3 +1,6 @@
+import _cloneDeep from 'lodash/cloneDeep'
+
+import { logWrapper } from '../util/util-log'
 import {
   BattleInstance,
   BattleResult,
@@ -6,6 +9,8 @@ import {
   ParticipantInstance,
 } from './battle-types'
 import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
+import { getBattleResultUnitString } from './battleResult'
+import { LOG } from './constant'
 import { Place } from './enums'
 import { getHits, HitInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
@@ -16,10 +21,6 @@ import {
   getLowestWorthSustainUnit,
   getLowestWorthUnit,
 } from './unitGet'
-import _cloneDeep from 'lodash/cloneDeep'
-import { getBattleResultUnitString } from './battleResult'
-import { logWrapper } from '../util/util-log'
-import { LOG } from './constant'
 
 // TODO add retreat?
 
