@@ -9,7 +9,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['.next'],
+    ignores: ['.next', 'next-env.d.ts'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
