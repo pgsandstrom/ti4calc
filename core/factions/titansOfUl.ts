@@ -113,12 +113,14 @@ export const titansOfUl: BattleEffect[] = [
     name: 'Titans hero',
     place: 'both',
     onStart: (p: ParticipantInstance, battle: BattleInstance) => {
-      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place)
-      planetUnit.spaceCannon = {
-        ...defaultRoll,
-        hit: 5,
-        count: 3,
+      const modify = (instance: UnitInstance) => {
+        instance.spaceCannon = {
+          ...defaultRoll,
+          hit: 5,
+          count: 3,
+        }
       }
+      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
       p.units.push(planetUnit)
     },
   },

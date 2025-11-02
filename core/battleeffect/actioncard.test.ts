@@ -2,7 +2,12 @@ import getBattleReport from '..'
 import { checkResult, getTestParticipant } from '../../util/util.test'
 import { Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { emergencyRepairs, shieldsHolding } from './actioncard'
+import {
+  emergencyRepairs,
+  experimentalBattlestation,
+  shieldsHolding,
+  solarFlare,
+} from './actioncard'
 
 describe('Action card', () => {
   it('Emergency Repairs', () => {
@@ -47,5 +52,28 @@ describe('Action card', () => {
     checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.562)
     checkResult(result.draw, DO_BATTLE_X_TIMES * 0.033)
     checkResult(result.defender, DO_BATTLE_X_TIMES * 0.405)
+  })
+
+  it('Experimental battlestation and solar flare', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 1,
+      },
+      undefined,
+      {
+        [solarFlare.name]: 1,
+      },
+    )
+    const defender = getTestParticipant('defender', {}, undefined, {
+      [experimentalBattlestation.name]: 1,
+    })
+
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+
+    // solar flare should disable experimental battlestation, thus attacker should always win
+    expect(result.attacker).toEqual(DO_BATTLE_X_TIMES)
+    expect(result.draw).toEqual(0)
+    expect(result.defender).toEqual(0)
   })
 })

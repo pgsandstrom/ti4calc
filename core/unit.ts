@@ -339,7 +339,7 @@ export function getUnitWithImproved(
   }
 }
 
-export function createUnit(type: UnitType) {
+export function createUnit(type: UnitType): UnitInstance {
   const unit = _cloneDeep(UNIT_MAP[type])
   const unitInstance: UnitInstance = {
     ...unit,
@@ -350,12 +350,21 @@ export function createUnit(type: UnitType) {
   return unitInstance
 }
 
+/**
+ * This function takes a `modify` function and returns `Readonly` since it will apply battle effects to the
+ * unit, and all modifications needs to be done BEFORE battle effects.
+ * So if you want to modify the unit, do it in the `modify` function.
+ * `Readonly` is only to prevent accidental modification directly after using this function.
+ */
 export function createUnitAndApplyEffects(
   type: UnitType,
   participant: ParticipantInstance,
   place: Place,
-) {
+  modify: (instance: UnitInstance) => void,
+): Readonly<UnitInstance> {
   let unit = createUnit(type)
+  modify(unit)
+
   participant.allUnitTransform.forEach((effect) => {
     unit = effect(unit, participant, place, effect.name)
   })
