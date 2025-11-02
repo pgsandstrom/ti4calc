@@ -169,6 +169,7 @@ export default function Home(props: HomeProps) {
           ...attacker,
           faction: attackerFaction,
         }
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setAttackerRaw(newAttacker)
       }
     }

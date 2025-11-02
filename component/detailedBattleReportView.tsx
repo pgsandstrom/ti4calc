@@ -128,6 +128,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
   useEffect(() => {
     if (getLocalStorage(LS_SHOW_DETAILED_REPORT) === 'true') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowRaw(true)
     }
   }, [])

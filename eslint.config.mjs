@@ -2,17 +2,18 @@
 
 import eslint from '@eslint/js'
 import tseslint from 'typescript-eslint'
-import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
 
 import noOnlyTests from 'eslint-plugin-no-only-tests'
-import { fixupPluginRules } from '@eslint/compat'
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
+  reactPlugin.configs.flat.recommended,
+  reactPlugin.configs.flat['jsx-runtime'],
+  reactHooks.configs.flat.recommended,
   // TODO in the future, revisit using next eslint plugin when it supports v9
-  reactRecommended,
   {
     // TODO someday I should make a simpler type-less linting for all config files
     ignores: ['jest.config.js', 'next.config.js', 'prettier.config.js', '.next/*'],
@@ -30,11 +31,11 @@ export default tseslint.config(
       },
     },
     plugins: {
-      'react-hooks': fixupPluginRules(eslintPluginReactHooks),
-      'no-only-tests': fixupPluginRules(noOnlyTests),
+      'no-only-tests': noOnlyTests,
     },
     rules: {
-      ...eslintPluginReactHooks.configs.recommended.rules,
+      // bugged in current version of eslint, crashes. Test in the future.
+      '@typescript-eslint/unified-signatures': 'off',
 
       // turn off unwanted rules:
       '@typescript-eslint/no-explicit-any': 'off',
@@ -45,6 +46,7 @@ export default tseslint.config(
       '@typescript-eslint/no-inferrable-types': 'off', // this brings very little value
       '@typescript-eslint/no-unsafe-enum-comparison': 'off',
       '@typescript-eslint/no-redundant-type-constituents': 'off', // complains when we have type unknown
+      '@typescript-eslint/no-deprecated': 'off', // too strict
 
       // these are turned off, but differs from other projects
       '@typescript-eslint/only-throw-error': 'off', // needlessly strict
