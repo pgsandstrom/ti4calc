@@ -17,6 +17,7 @@ export enum Faction {
   naaz_rokha = 'Naaz-Rokha',
   naalu = 'Naalu',
   nekro = 'Nekro',
+  neutral = 'Neutral',
   nomad = 'Nomad',
   sardakk_norr = "Sardakk N'orr",
   sol = 'Sol',

@@ -17,6 +17,7 @@ import { muaat } from './muaat'
 import { naalu } from './naalu'
 import { naazRokha } from './naazRokha'
 import { nekro } from './nekro'
+import { neutral } from './neutral'
 import { nomad } from './nomad'
 import { sardarkkNorr } from './sardakkNorr'
 import { sol } from './sol'
@@ -44,6 +45,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   'Naaz-Rokha': naazRokha,
   Naalu: naalu,
   Nekro: nekro,
+  Neutral: neutral,
   Nomad: nomad,
   "Sardakk N'orr": sardarkkNorr,
   Sol: sol,
