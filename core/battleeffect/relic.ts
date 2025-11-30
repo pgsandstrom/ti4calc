@@ -23,25 +23,28 @@ export function getRelics() {
   ]
 }
 
-//Does effectively the same thing as Experimental Battlestation, but has a count. Hopefully it works?
+//Does effectively the same thing as Experimental Battlestation, but has a count (by analogy to Shields Holding). Hopefully it works?
 export const lightrailOrdnance: BattleEffect = {
   name: 'Lightrail Ordnance',
   description:
-    'Your space docks gain SPSACE CANNON 5 (x2). You may use your space dock\'s SPACE CANNON against ships that are adjacent to their system.',
+    'Your space docks gain SPACE CANNON 5 (x2). You may use your space dock\'s SPACE CANNON against ships that are adjacent to their system.',
   type: 'relic',
   place: Place.space,
   count: true,
-  onStart: (p: ParticipantInstance, battle: BattleInstance) => {
-    const modify = (instance: UnitInstance) => {
-      instance.spaceCannon = {
-        ...defaultRoll,
-        hit: 5,
-        count: 2,
+  onStart: (p: ParticipantInstance, battle: BattleInstance, effectName: string) => {
+    if (p.effects[effectName] > 0 {
+      const modify = (instance: UnitInstance) => {
+        instance.spaceCannon = {
+          ...defaultRoll,
+          hit: 5,
+          count: 2,
+        }
       }
+  
+      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
+      p.units.push(planetUnit)
+      p.effects[effectName] -= 1
     }
-
-    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
-    p.units.push(planetUnit)
   },
 }
 
@@ -52,7 +55,7 @@ export const metaliVoidArmaments: BattleEffect = {
     'During the "Anti Fighter Barrage" step of space combat, you may resolve ANTI-FIGHTER BARRAGE 6 (x3) against your opponent\'s units.',
   type: 'relic',
   place: Place.space,
-  onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+  onAfb: (p: ParticipantInstance, battle: BattleInstance) => {
     const modify = (instance: UnitInstance) => {
       instance.afb = {
         ...defaultRoll,
