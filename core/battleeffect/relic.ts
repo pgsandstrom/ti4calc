@@ -23,7 +23,7 @@ export function getRelics() {
   ]
 }
 
-//Does effectively the same thing as Experimental Battlestation, but has a count (by analogy to Shields Holding). Hopefully it works?
+//Does effectively the same thing as Experimental Battlestation, but has a count (by stupid means). Hopefully it works?
 export const lightrailOrdnance: BattleEffect = {
   name: 'Lightrail Ordnance',
   description:
@@ -32,19 +32,22 @@ export const lightrailOrdnance: BattleEffect = {
   place: Place.space,
   count: true,
   onStart: (p: ParticipantInstance, battle: BattleInstance, effectName: string) => {
+    var rollCount = 0
     if (p.effects[effectName] > 0) {
-      const modify = (instance: UnitInstance) => {
-        instance.spaceCannon = {
-          ...defaultRoll,
-          hit: 5,
-          count: 2,
-        }
-      }
-  
-      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
-      p.units.push(planetUnit)
+      rollCount += 2
       p.effects[effectName] -= 1
     }
+    
+    const modify = (instance: UnitInstance) => {
+      instance.spaceCannon = {
+        ...defaultRoll,
+        hit: 5,
+        count: rollCount,
+      }
+    }
+
+    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
+    p.units.push(planetUnit)
   },
 }
 
