@@ -32,7 +32,7 @@ export const lightrailOrdnance: BattleEffect = {
   place: Place.space,
   count: true,
   onStart: (p: ParticipantInstance, battle: BattleInstance, effectName: string) => {
-    if (p.effects[effectName] > 0 {
+    if (p.effects[effectName] > 0) {
       const modify = (instance: UnitInstance) => {
         instance.spaceCannon = {
           ...defaultRoll,
