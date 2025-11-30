@@ -23,7 +23,7 @@ export function getRelics() {
   ]
 }
 
-//Does effectively the same thing as Experimental Battlestation, but has a count (by stupid means). Hopefully it works?
+//Does effectively the same thing as Experimental Battlestation, just with a count.
 export const lightrailOrdnance: BattleEffect = {
   name: 'Lightrail Ordnance',
   description:
@@ -31,18 +31,12 @@ export const lightrailOrdnance: BattleEffect = {
   type: 'relic',
   place: Place.space,
   count: true,
-  onStart: (p: ParticipantInstance, battle: BattleInstance, effectName: string) => {
-    var rollCount = 0
-    if (p.effects[effectName] > 0) {
-      rollCount += 2
-      p.effects[effectName] -= 1
-    }
-    
+  onStart: (p: ParticipantInstance, battle: BattleInstance, op: ParticipantInstance, effectName: string) => {
     const modify = (instance: UnitInstance) => {
       instance.spaceCannon = {
         ...defaultRoll,
         hit: 5,
-        count: rollCount,
+        count: p.effects[effectName]*2,
       }
     }
 
