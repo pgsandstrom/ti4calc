@@ -17,6 +17,7 @@ import {
   getGeneralEffectFromFactions,
   getPromissary,
 } from '../core/factions/faction'
+import { getRelics } from '../core/battleeffect/relic'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
 import DamagedUnitsView from './damagedUnitsView'
@@ -58,6 +59,7 @@ export default function OptionsView(props: OptionsProps) {
   const commanders = filterOutBattleEffects(getCommanders(), props.attacker, props.defender)
   const actioncards = filterOutBattleEffects(getActioncards(), props.attacker, props.defender)
   const agendas = filterOutBattleEffects(getAgendas(), props.attacker, props.defender)
+  const relics = filterOutBattleEffects(getRelics(), props.attacker, props.defender)
 
   const [show, setShow] = useState(() => {
     return (
@@ -113,6 +115,7 @@ export default function OptionsView(props: OptionsProps) {
           <OptionsPartView title="Agent" battleEffects={agents} {...props} />
           <OptionsPartView title="Commander" battleEffects={commanders} {...props} />
           <OptionsPartView title="Action card" battleEffects={actioncards} {...props} />
+          <OptionsPartView title="Relics" battleEffects={relics} {...props} />
           <OptionsPartView title="Agenda" battleEffects={agendas} {...props} />
           <OptionsPartView title="Other" battleEffects={otherBattleEffects} {...props} />
         </div>
