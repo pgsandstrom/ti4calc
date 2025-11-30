@@ -160,7 +160,7 @@ export const emergencyRepairs: BattleEffect = {
     _otherParticipant: ParticipantInstance,
     effectName: string,
   ) => {
-    if (participant.units.some((u) => u.takenDamage)) {
+    if (participant.units.some((u) => u.takenDamage && u.sustainDamage)) {
       participant.units.forEach((u) => {
         u.takenDamage = false
       })
@@ -174,7 +174,7 @@ export const emergencyRepairs: BattleEffect = {
     _otherParticipant: ParticipantInstance,
     effectName: string,
   ) => {
-    if (participant.units.some((u) => u.takenDamage)) {
+    if (participant.units.some((u) => u.takenDamage && u.sustainDamage)) {
       participant.units.forEach((u) => {
         u.takenDamage = false
       })

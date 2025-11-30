@@ -71,6 +71,22 @@ export function getHighestWorthNonSustainUnit(
   })
 }
 
+export function getHighestWorthNonSustainUndamagedUnit(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+) {
+  const units = getUndamagedUnits(p, place, includeFighter, false)
+
+  if (units.length === 0) {
+    return undefined
+  }
+
+  return units.reduce((a, b) => {
+    return a.diePriority! > b.diePriority! ? b : a
+  })
+}
+
 export function getLowestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnits(p, place, includeFighter)
   if (units.length === 0) {
@@ -105,6 +121,33 @@ export function getWeakestCombatUnit(
       return (a.afb?.hit ?? 10) > (b.afb?.hit ?? 10) ? a : b
     }
     return (a.combat?.hit ?? 10) > (b.combat?.hit ?? 10) ? a : b
+  })
+}
+
+export function getUndamagedUnits(
+  p: ParticipantInstance,
+  place: Place | undefined,
+  includeFighter: boolean,
+  withSustain?: boolean,
+) {
+  return p.units.filter((u) => {
+    if (!includeFighter && u.type === UnitType.fighter) {
+      return false
+    }
+    if (place != null && !doesUnitFitPlace(u, place)) {
+      return false
+    }
+    if (u.isDestroyed) {
+      return false
+    }
+
+    if (withSustain === true) {
+      return u.sustainDamage && !u.takenDamage && !u.usedSustain
+    } else if (withSustain === false) {
+      return !u.sustainDamage && !u.takenDamage && !u.usedSustain
+    } else {
+      return true
+    }
   })
 }
 

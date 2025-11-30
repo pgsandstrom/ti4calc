@@ -9,6 +9,7 @@ import {
   isBattleEffectRelevant,
   isBattleEffectRelevantForSome,
 } from '../core/battleeffect/battleEffects'
+import { getRelics } from '../core/battleeffect/relic'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import {
   getAgent,
@@ -17,7 +18,6 @@ import {
   getGeneralEffectFromFactions,
   getPromissary,
 } from '../core/factions/faction'
-import { getRelics } from '../core/battleeffect/relic'
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
 import DamagedUnitsView from './damagedUnitsView'

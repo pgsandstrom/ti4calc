@@ -21,8 +21,8 @@ import {
 import { UnitInstance, UnitType } from '../unit'
 import { getActioncards } from './actioncard'
 import { getAgendas } from './agenda'
-import { getTechBattleEffects } from './tech'
 import { getRelics } from './relic'
+import { getTechBattleEffects } from './tech'
 
 export type BattleEffect = NormalBattleEffect | FactionBattleEffect
 
