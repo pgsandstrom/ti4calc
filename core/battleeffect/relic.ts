@@ -3,12 +3,9 @@ import _times from 'lodash/times'
 import { logWrapper } from '../../util/util-log'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
-// import { getHits } from '../roll'
 import {
   createUnitAndApplyEffects,
   defaultRoll,
-  // getUnitWithImproved,
-  // Roll,
   UnitInstance,
   UnitType,
 } from '../unit'
