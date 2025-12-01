@@ -1,15 +1,11 @@
 import _times from 'lodash/times'
 
 import { logWrapper } from '../../util/util-log'
-// import { doSustainDamage } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
-// import { getHits } from '../roll'
 import {
   createUnitAndApplyEffects,
   defaultRoll,
-  // getUnitWithImproved,
-  // Roll,
   UnitInstance,
   UnitType,
 } from '../unit'
@@ -47,7 +43,7 @@ export const lightrailOrdnance: BattleEffect = {
   },
 }
 
-//
+//forces the highest worth, non-fighter, undamaged ship without sustain to become damaged and reduce incoming hits by 1 (once per round)
 export const metaliVoidShielding: BattleEffect = {
   name: 'Metali Void Shielding',
   description:
@@ -67,14 +63,6 @@ export const metaliVoidShielding: BattleEffect = {
     }
   },
   timesPerRound: 1,
-  // transformUnit: (u: UnitInstance, p: ParticipantInstance) => {
-  //   if(u.type !== UnitType.fighter && !u.sustainDamage) {
-  //     return {
-  //       ...u,
-
-  //     }
-  //   }
-  // },
 }
 
 //Does an AFB 6x3 by analogy to Experimental Battlestation (i.e., giving the planet AFB 6x3).

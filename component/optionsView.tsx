@@ -115,7 +115,7 @@ export default function OptionsView(props: OptionsProps) {
           <OptionsPartView title="Agent" battleEffects={agents} {...props} />
           <OptionsPartView title="Commander" battleEffects={commanders} {...props} />
           <OptionsPartView title="Action card" battleEffects={actioncards} {...props} />
-          <OptionsPartView title="Relics" battleEffects={relics} {...props} />
+          <OptionsPartView title="Relic" battleEffects={relics} {...props} />
           <OptionsPartView title="Agenda" battleEffects={agendas} {...props} />
           <OptionsPartView title="Other" battleEffects={otherBattleEffects} {...props} />
         </div>
