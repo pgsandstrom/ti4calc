@@ -79,9 +79,12 @@ export const naalu: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Naalu mech',
+    type: 'faction-ability',
+    name: 'Codex mech',
+    description:
+      "Use Naalu's Codex III Mech: Other players cannot use ANTI-FIGHTER BARRAGE against your units in this system.",
     place: 'both',
+    faction: Faction.naalu,
     transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
       if (unit.type === UnitType.mech) {
         return {
