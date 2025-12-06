@@ -4,7 +4,7 @@
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
 import { Faction, Place } from './enums'
-import { HitInfo } from './roll'
+import { HitInfo, RollInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 
 export type Side = 'attacker' | 'defender'
@@ -136,6 +136,7 @@ export interface ParticipantInstance {
 
   soakHits: number // number of hits that can be cancelled
   hitsToAssign: HitsToAssign
+  afbHitsToAssign: AfbHitsToAssign // to track what happened in anti-fighter barrage separately from combat
 
   // used to track stuff that can only happen a limited number of times per turn
   roundActionTracker: PartialRecord<string, number>
@@ -147,6 +148,11 @@ export interface HitsToAssign {
   hits: number
   hitsToNonFighters: number
   hitsAssignedByEnemy: number
+}
+
+export interface AfbHitsToAssign {
+  fighterHitsToAssign: number
+  rollInfoList: RollInfo[]
 }
 
 export interface BattleResult {
