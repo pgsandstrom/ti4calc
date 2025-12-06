@@ -32,6 +32,8 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) and hopefully everything is working :)
 
+You will find the simulation code is in the "core" package, and all other stuff is frontend stuff. If you are interesting in helping out, make sure to check out the `constant.ts` file. It has some helpful suggestions for testing out the code.
+
 ### Release
 
 We use docker, so this command will release created a container with a prod build:
