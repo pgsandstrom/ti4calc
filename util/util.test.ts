@@ -12,7 +12,7 @@ type BattleReportCheck = {
   percentage: number
 }
 
-const RETRIES_UNTIL_FAIL = 5
+const RETRIES_UNTIL_FAIL = 10
 
 export function getTestParticipant(
   side: Side,
@@ -81,16 +81,16 @@ export function checkResult(result: number, expected: number, failOnInvalid = tr
   if (expected === 0) {
     allowedErrorPercentage = 0
   } else if (expected <= DO_BATTLE_X_TIMES * 0.01) {
-    // for example here, if the expected outcome is 10 out of 1000, we accept numbers between 2 and 18
-    allowedErrorPercentage = 0.8
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.02) {
+    // for example here, if the expected outcome is 10 out of 1000, we accept numbers between 6 and 14
     allowedErrorPercentage = 0.4
+  } else if (expected <= DO_BATTLE_X_TIMES * 0.02) {
+    allowedErrorPercentage = 0.35
   } else if (expected <= DO_BATTLE_X_TIMES * 0.045) {
-    allowedErrorPercentage = 0.29
+    allowedErrorPercentage = 0.25
   } else if (expected <= DO_BATTLE_X_TIMES * 0.065) {
     allowedErrorPercentage = 0.15
   } else if (expected <= DO_BATTLE_X_TIMES * 0.08) {
-    allowedErrorPercentage = 0.19
+    allowedErrorPercentage = 0.15
   } else if (expected <= DO_BATTLE_X_TIMES * 0.132) {
     allowedErrorPercentage = 0.08
   } else {

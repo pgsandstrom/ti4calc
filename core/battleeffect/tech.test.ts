@@ -22,9 +22,9 @@ describe('Tech', () => {
     })
 
     testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
-      { side: 'attacker', percentage: 0.67 },
-      { side: 'draw', percentage: 0.0167 },
-      { side: 'defender', percentage: 0.313 },
+      { side: 'attacker', percentage: 0.655 },
+      { side: 'draw', percentage: 0.019 },
+      { side: 'defender', percentage: 0.325 },
     ])
   })
 

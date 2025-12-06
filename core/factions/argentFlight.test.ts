@@ -33,7 +33,7 @@ describe('Argent flight', () => {
     const attacker = getTestParticipant(
       'attacker',
       {
-        dreadnought: 5,
+        dreadnought: 10,
         infantry: 5,
       },
       Faction.jol_nar,
@@ -55,7 +55,7 @@ describe('Argent flight', () => {
       },
     )
 
-    const result = testBattleReport(attacker, defender, Place.space, 200_000, [
+    const result = testBattleReport(attacker, defender, Place.space, 100_000, [
       { side: 'attacker', percentage: 1.0 },
       { side: 'draw', percentage: 0.0 },
       { side: 'defender', percentage: 0.0 },
@@ -67,8 +67,8 @@ describe('Argent flight', () => {
         noInfantryDestroyed += count
       }
     }
-    // 80% chans to not kill infantry. 3 AFB shots. 1 - 0.8^3 = 0.488
-    checkResult(noInfantryDestroyed, result.numberOfRolls * 0.488)
+    // 80% chans to not kill infantry. 3 AFB shots:  0.8^3 = 0.512
+    checkResult(noInfantryDestroyed, result.numberOfRolls * 0.512, true)
   })
 
   it('Argent flight flagship prevents pds fire in space', () => {

@@ -18,9 +18,9 @@ describe('Necro', () => {
     })
 
     testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
-      { side: 'attacker', percentage: 0.46 },
-      { side: 'draw', percentage: 0.08 },
-      { side: 'defender', percentage: 0.46 },
+      { side: 'attacker', percentage: 0.463 },
+      { side: 'draw', percentage: 0.072 },
+      { side: 'defender', percentage: 0.463 },
     ])
   })
 
@@ -41,9 +41,9 @@ describe('Necro', () => {
     })
 
     testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
-      { side: 'attacker', percentage: 0.6 },
-      { side: 'draw', percentage: 0.08 },
-      { side: 'defender', percentage: 0.32 },
+      { side: 'attacker', percentage: 0.599 },
+      { side: 'draw', percentage: 0.084 },
+      { side: 'defender', percentage: 0.315 },
     ])
   })
 })

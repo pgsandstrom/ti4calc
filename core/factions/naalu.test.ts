@@ -51,7 +51,7 @@ describe('Naalu', () => {
       'attacker',
       {
         flagship: 1,
-        fighter: 10,
+        fighter: 20,
         infantry: 1,
       },
       Faction.naalu,
