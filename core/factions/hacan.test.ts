@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -26,18 +25,18 @@ describe('Hacan', () => {
       Faction.muaat,
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.386)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.106)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.507)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.386 },
+      { side: 'draw', percentage: 0.106 },
+      { side: 'defender', percentage: 0.507 },
+    ])
 
     attacker.battleEffects['Hacan flagship trade goods'] = 100
 
-    const result2 = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result2.attacker, DO_BATTLE_X_TIMES * 0.469)
-    checkResult(result2.draw, DO_BATTLE_X_TIMES * 0.117)
-    checkResult(result2.defender, DO_BATTLE_X_TIMES * 0.413)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.469 },
+      { side: 'draw', percentage: 0.117 },
+      { side: 'defender', percentage: 0.413 },
+    ])
   })
 })

@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -21,10 +20,10 @@ describe('Mahact', () => {
       dreadnought: 5,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.305)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.102)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.592)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.305 },
+      { side: 'draw', percentage: 0.102 },
+      { side: 'defender', percentage: 0.592 },
+    ])
   })
 })

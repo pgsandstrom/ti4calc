@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -23,22 +22,22 @@ describe('Mentak', () => {
       destroyer: 4,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.642)
-    checkResult(result.draw, 0)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.358)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.642 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 0.358 },
+    ])
 
     // and the results should be equal even with attacker/defender flipped:
 
     defender.side = 'attacker'
     attacker.side = 'defender'
 
-    const result2 = getBattleReport(defender, attacker, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result2.attacker, DO_BATTLE_X_TIMES * 0.358)
-    checkResult(result2.draw, 0)
-    checkResult(result2.defender, DO_BATTLE_X_TIMES * 0.642)
+    testBattleReport(defender, attacker, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.358 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 0.642 },
+    ])
   })
 
   it('Mentak flagship should not affect ground combat', () => {
@@ -58,11 +57,11 @@ describe('Mentak', () => {
       mech: 1,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.41)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.101)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.49)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.41 },
+      { side: 'draw', percentage: 0.101 },
+      { side: 'defender', percentage: 0.49 },
+    ])
   })
 
   it('Check so preventEnemySustain works symmetrically', () => {
@@ -82,11 +81,11 @@ describe('Mentak', () => {
       Faction.mentak,
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.323)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.354)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.323)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.323 },
+      { side: 'draw', percentage: 0.354 },
+      { side: 'defender', percentage: 0.323 },
+    ])
   })
 
   it('Mentak mech should not affect sustain during bombardment', () => {
@@ -107,11 +106,11 @@ describe('Mentak', () => {
       Faction.mentak,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.333)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.333)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.333)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.333 },
+      { side: 'draw', percentage: 0.333 },
+      { side: 'defender', percentage: 0.333 },
+    ])
   })
 
   it('Mentak mech should affect sustain during PDS defence', () => {
@@ -132,10 +131,10 @@ describe('Mentak', () => {
       Faction.mentak,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES / 6)
-    checkResult(result.draw, DO_BATTLE_X_TIMES / 6)
-    checkResult(result.defender, (DO_BATTLE_X_TIMES * 2) / 3)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 1 / 6 },
+      { side: 'draw', percentage: 1 / 6 },
+      { side: 'defender', percentage: 2 / 3 },
+    ])
   })
 })

@@ -71,6 +71,7 @@ export function testBattleReport(
       }
     }
   })
+  return battleReport
 }
 
 export function checkResult(result: number, expected: number, failOnInvalid = true): boolean {
@@ -80,20 +81,20 @@ export function checkResult(result: number, expected: number, failOnInvalid = tr
   if (expected === 0) {
     allowedErrorPercentage = 0
   } else if (expected <= DO_BATTLE_X_TIMES * 0.01) {
-    // for example here, if the expected outcome is 10 out of 1000, we accept numbers between 1 and 19
-    allowedErrorPercentage = 0.9
+    // for example here, if the expected outcome is 10 out of 1000, we accept numbers between 2 and 18
+    allowedErrorPercentage = 0.8
   } else if (expected <= DO_BATTLE_X_TIMES * 0.02) {
-    allowedErrorPercentage = 0.5
+    allowedErrorPercentage = 0.4
   } else if (expected <= DO_BATTLE_X_TIMES * 0.045) {
-    allowedErrorPercentage = 0.25
+    allowedErrorPercentage = 0.29
   } else if (expected <= DO_BATTLE_X_TIMES * 0.065) {
-    allowedErrorPercentage = 0.2
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.08) {
     allowedErrorPercentage = 0.15
+  } else if (expected <= DO_BATTLE_X_TIMES * 0.08) {
+    allowedErrorPercentage = 0.19
   } else if (expected <= DO_BATTLE_X_TIMES * 0.132) {
-    allowedErrorPercentage = 0.1
+    allowedErrorPercentage = 0.08
   } else {
-    allowedErrorPercentage = 0.06
+    allowedErrorPercentage = 0.05
   }
   const uppenBound = expected + expected * allowedErrorPercentage
   const lowerBound = expected - expected * allowedErrorPercentage

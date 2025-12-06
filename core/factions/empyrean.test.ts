@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -27,11 +26,11 @@ describe('Empyrean', () => {
       Faction.muaat,
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES)
-    checkResult(result.draw, 0)
-    checkResult(result.defender, 0)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 1 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 0 },
+    ])
   })
 
   it('Empyrean flagship with endless repairs and mech should always win vs a mech and PDS', () => {
@@ -56,13 +55,17 @@ describe('Empyrean', () => {
       Faction.muaat,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES)
-    checkResult(result.draw, 0)
-    checkResult(result.defender, 0)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 1 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 0 },
+    ])
   })
 
+  // TODO this test name doesnt match the content.
+  // Also I am pretty sure this is a bug. See this rule:
+  // 1.18 Each ability can be resolved once for each occurrence of that ability’s timing event. For example, if an ability is resolved “At the start of combat,” it can be resolved at the start of each combat.
+  // But it might be difficult to fix...
   it('Empyrean flagship and dread risking direct hit with endless repairs should always beat 2 dread', () => {
     const attacker = getTestParticipant(
       'attacker',
@@ -84,11 +87,11 @@ describe('Empyrean', () => {
       Faction.muaat,
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES)
-    checkResult(result.draw, 0)
-    checkResult(result.defender, 0)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 1 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 0 },
+    ])
   })
 
   it('Empyrean flagship with endless repairs should lose more times than it wins vs 1 dread with direct hit', () => {
@@ -129,11 +132,11 @@ describe('Empyrean', () => {
 
     const totalChance = attackerWin + draw + defenderWinChance
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, (DO_BATTLE_X_TIMES * attackerWin) / totalChance)
-    checkResult(result.draw, (DO_BATTLE_X_TIMES * draw) / totalChance)
-    checkResult(result.defender, (DO_BATTLE_X_TIMES * defenderWinChance) / totalChance)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: attackerWin / totalChance },
+      { side: 'draw', percentage: draw / totalChance },
+      { side: 'defender', percentage: defenderWinChance / totalChance },
+    ])
   })
 
   it("Empyrean flagship with endless repairs should lose a 1v20 fighters, since it can't use sustain multiple times in the same combat round", () => {
@@ -156,10 +159,10 @@ describe('Empyrean', () => {
       Faction.sardakk_norr,
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, 0)
-    checkResult(result.draw, 0)
-    checkResult(result.defender, DO_BATTLE_X_TIMES)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 1 },
+    ])
   })
 })

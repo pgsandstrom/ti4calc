@@ -1,6 +1,6 @@
 import { isTest } from '../util/util-debug'
 
-export const ROLLS_WHEN_BUILDING_TEST_DATA = 200000
+export const ROLLS_WHEN_BUILDING_TEST_DATA = 1_000_000
 
 // This is the default number of simulatons when using the site. Make sure this is used when you are done with your PR.
 export const NUMBER_OF_ROLLS = 20000 as number

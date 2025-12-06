@@ -34,6 +34,8 @@ Open [http://localhost:3000](http://localhost:3000) and hopefully everything is 
 
 You will find the simulation code is in the "core" package, and all other stuff is frontend stuff. If you are interesting in helping out, make sure to check out the `constant.ts` file. It has some helpful suggestions for testing out the code.
 
+BE AWARE: Sometimes the test suite will fail, simply because it works by running the simulation hundred of thousands of times, and sometimes due to randomness it gets result outside of an accepted limit and fails. Most tests use a system where they will iterate several times on failure to ensure it wasn't an anomaly. So if your tests fails, try to run them again. They should almost always pass. If they fail often, then something in the code is wrong.
+
 ### Release
 
 We use docker, so this command will release created a container with a prod build:

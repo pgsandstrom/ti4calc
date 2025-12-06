@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -18,11 +17,11 @@ describe('Necro', () => {
       infantry: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.46)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.08)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.46)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.46 },
+      { side: 'draw', percentage: 0.08 },
+      { side: 'defender', percentage: 0.46 },
+    ])
   })
 
   it('mech ability should affect mech', () => {
@@ -41,10 +40,10 @@ describe('Necro', () => {
       mech: 1,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.6)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.08)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.32)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.6 },
+      { side: 'draw', percentage: 0.08 },
+      { side: 'defender', percentage: 0.32 },
+    ])
   })
 })

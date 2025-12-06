@@ -1,4 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import getBattleReport from '..'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
@@ -21,11 +21,11 @@ describe('Tech', () => {
       dreadnought: 5,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.67 },
+      { side: 'draw', percentage: 0.0167 },
+      { side: 'defender', percentage: 0.313 },
+    ])
   })
 
   it('Assault cannon should not snipe mech', () => {
@@ -70,11 +70,11 @@ describe('Tech', () => {
       Faction.mentak,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.33)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.33)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.33)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.33 },
+      { side: 'draw', percentage: 0.33 },
+      { side: 'defender', percentage: 0.33 },
+    ])
   })
 
   it('x89BacterialWeapon bombardment', () => {
@@ -93,10 +93,10 @@ describe('Tech', () => {
       infantry: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.6)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.4)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0 },
+      { side: 'draw', percentage: 0.6 },
+      { side: 'defender', percentage: 0.4 },
+    ])
   })
 })

@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -19,11 +18,11 @@ describe('Naalu', () => {
       infantry: 3,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.477)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.044)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.479)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.477 },
+      { side: 'draw', percentage: 0.044 },
+      { side: 'defender', percentage: 0.479 },
+    ])
   })
 
   it('Naalu fighters should never be able to win ground combat', () => {
@@ -40,11 +39,11 @@ describe('Naalu', () => {
       infantry: 1,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, 0)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.908)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.092)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0 },
+      { side: 'draw', percentage: 0.908 },
+      { side: 'defender', percentage: 0.092 },
+    ])
   })
 
   it('Naalu fighters should not be sent back to space just because enemy temporarily have zero units', () => {
@@ -69,10 +68,10 @@ describe('Naalu', () => {
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 1)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 1 },
+      { side: 'draw', percentage: 0 },
+      { side: 'defender', percentage: 0 },
+    ])
   })
 })
