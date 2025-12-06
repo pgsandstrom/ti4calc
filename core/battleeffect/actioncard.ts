@@ -1,3 +1,5 @@
+import _times from 'lodash/times'
+
 import { logWrapper } from '../../util/util-log'
 import { destroyUnit, getOtherParticipant } from '../battle'
 import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
@@ -13,7 +15,6 @@ import {
 } from '../unit'
 import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
 import { BattleEffect, registerUse } from './battleEffects'
-import _times from 'lodash/times'
 
 export function getActioncards() {
   return [
@@ -190,13 +191,16 @@ export const experimentalBattlestation: BattleEffect = {
     'After another player moves ships into a system during a tactical action: Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.',
   type: 'action-card',
   place: Place.space,
-  beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
-    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place)
-    planetUnit.spaceCannon = {
-      ...defaultRoll,
-      hit: 5,
-      count: 3,
+  onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+    const modify = (instance: UnitInstance) => {
+      instance.spaceCannon = {
+        ...defaultRoll,
+        hit: 5,
+        count: 3,
+      }
     }
+
+    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
     p.units.push(planetUnit)
   },
 }

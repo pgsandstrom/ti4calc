@@ -1,6 +1,7 @@
 import React from 'react'
-import NeutralButton from './neutralButton'
+
 import styles from './coolButton.module.scss'
+import NeutralButton from './neutralButton'
 
 interface Props {
   children: React.ReactNode

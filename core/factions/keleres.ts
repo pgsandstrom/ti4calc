@@ -31,12 +31,14 @@ export const keleres: BattleEffect[] = [
     place: 'both',
     faction: Faction.keleres,
     beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
-      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place)
-      planetUnit.spaceCannon = {
-        ...defaultRoll,
-        hit: 5,
-        count: 1,
+      const modify = (instance: UnitInstance) => {
+        instance.spaceCannon = {
+          ...defaultRoll,
+          hit: 5,
+          count: 1,
+        }
       }
+      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
       p.units.push(planetUnit)
     },
   },

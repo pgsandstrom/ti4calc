@@ -1,22 +1,21 @@
 // TODO add "@ts-check" when we have properly migrated to esm modules
 
 import eslint from '@eslint/js'
-import tseslint from 'typescript-eslint'
-import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
-import reactRecommended from 'eslint-plugin-react/configs/recommended.js'
-
 import noOnlyTests from 'eslint-plugin-no-only-tests'
-import { fixupPluginRules } from '@eslint/compat'
+import reactPlugin from 'eslint-plugin-react'
+import reactHooks from 'eslint-plugin-react-hooks'
+import simpleImportSort from 'eslint-plugin-simple-import-sort'
+import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
+  {
+    ignores: ['.next', 'next-env.d.ts'],
+  },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
-  // TODO in the future, revisit using next eslint plugin when it supports v9
-  reactRecommended,
-  {
-    // TODO someday I should make a simpler type-less linting for all config files
-    ignores: ['jest.config.js', 'next.config.js', 'prettier.config.js', '.next/*'],
-  },
+  reactPlugin.configs.flat.recommended,
+  reactPlugin.configs.flat['jsx-runtime'],
+  reactHooks.configs.flat.recommended,
   {
     settings: {
       react: {
@@ -24,36 +23,67 @@ export default tseslint.config(
       },
     },
     languageOptions: {
+      ...reactPlugin.configs.flat.recommended.languageOptions,
       parserOptions: {
-        project: true,
+        ...reactPlugin.configs.flat.recommended.languageOptions.parserOptions,
+        projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
     plugins: {
-      'react-hooks': fixupPluginRules(eslintPluginReactHooks),
-      'no-only-tests': fixupPluginRules(noOnlyTests),
+      'no-only-tests': noOnlyTests,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
-      ...eslintPluginReactHooks.configs.recommended.rules,
+      // bugged in current version of eslint, crashes. Test in the future.
+      // https://github.com/typescript-eslint/typescript-eslint/issues/11732
+      // https://github.com/eslint/eslint/issues/20272
+      '@typescript-eslint/unified-signatures': 'off',
+
+      'no-only-tests/no-only-tests': 'error',
+      'simple-import-sort/imports': 'error',
 
       // turn off unwanted rules:
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-non-null-assertion': 'off',
-      'react/react-in-jsx-scope': 'off',
-      'react/prop-types': 'off', // unnecessary with typescript
-      '@typescript-eslint/restrict-template-expressions': 'off', // this feels too verbose
-      '@typescript-eslint/no-inferrable-types': 'off', // this brings very little value
-      '@typescript-eslint/no-unsafe-enum-comparison': 'off',
-      '@typescript-eslint/no-redundant-type-constituents': 'off', // complains when we have type unknown
-
-      // these are turned off, but differs from other projects
-      '@typescript-eslint/only-throw-error': 'off', // needlessly strict
-      '@typescript-eslint/prefer-promise-reject-errors': 'off', // extension of 'only-throw-error' rule
+      '@typescript-eslint/no-non-null-assertion': 'off', // too strict
+      'react/prop-types': 'off', // very buggy and unnecessary with TypeScript
+      '@typescript-eslint/restrict-template-expressions': 'off', // too strict
+      '@typescript-eslint/no-unsafe-enum-comparison': 'off', // we shouldnt be using enum either way
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off', // this is just stylistic and unnecessary
+      '@typescript-eslint/no-deprecated': 'off', // too strict
+      '@typescript-eslint/restrict-plus-operands': 'off', // too strict
+
+      // these rules are perfect for small simply projects that can avoid `any` type. But not for this project.
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
 
       // activate extra rules:
-      'no-only-tests/no-only-tests': 'error',
+      '@typescript-eslint/prefer-nullish-coalescing': [
+        'error',
+        {
+          // we want || for boolean logic and ?? for missing data.
+          // Ignoring mixed logical expressions makes this rule ignore most boolean logic, so thats nice.
+          ignoreMixedLogicalExpressions: true,
+        },
+      ],
       eqeqeq: ['error', 'smart'],
+      'no-restricted-globals': [
+        'error',
+        // call them explicitly with `window.close` instead of just `close`. This is to prevent accidental calls to these functions.
+        'alert',
+        'blur',
+        'close',
+        'confirm',
+        'event',
+        'focus',
+        'open',
+        'scroll',
+        'scrollBy',
+        'scrollTo',
+        'stop',
+      ],
       curly: ['error'],
       'no-console': ['error', { allow: ['warn', 'error'] }],
       '@typescript-eslint/strict-boolean-expressions': [
@@ -62,25 +92,7 @@ export default tseslint.config(
           allowNullableBoolean: true,
         },
       ],
-      'no-restricted-imports': [
-        'error',
-        {
-          paths: [
-            {
-              name: 'react-router',
-              message: 'Please import from react-router-dom',
-            },
-          ],
-        },
-      ],
       '@typescript-eslint/prefer-enum-initializers': ['error'],
-      'sort-imports': [
-        'error',
-        {
-          ignoreCase: true,
-          ignoreDeclarationSort: true, // disabled since it does not have a '--fix' option
-        },
-      ],
       'react/jsx-curly-brace-presence': [
         'error',
         {
@@ -92,9 +104,12 @@ export default tseslint.config(
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
-          vars: 'all',
           args: 'none',
+          caughtErrors: 'all',
           caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
         },
       ],
       '@typescript-eslint/no-confusing-void-expression': [
@@ -108,7 +123,9 @@ export default tseslint.config(
         'error',
         {
           checksVoidReturn: {
+            arguments: false,
             attributes: false,
+            returns: false,
           },
         },
       ],
@@ -117,6 +134,14 @@ export default tseslint.config(
       // re-evaluate when this issue has been settled:
       // https://github.com/typescript-eslint/typescript-eslint/issues/8113
       '@typescript-eslint/no-invalid-void-type': ['off'],
+    },
+  },
+  // in this object we fix so files not included in tsconfig can still be linted. We skip rules that require typechecking.
+  {
+    files: ['*.js', '*.mjs', '*.ts'],
+    extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      'no-undef': 'off',
     },
   },
 )

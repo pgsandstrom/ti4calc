@@ -1,5 +1,6 @@
 import { GetServerSideProps } from 'next'
 import Head from 'next/head'
+
 import { ErrorReport, getErrorReports } from '../server/errorReportController'
 
 interface ErrorProps {

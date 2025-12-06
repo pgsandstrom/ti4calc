@@ -1,7 +1,8 @@
 // import Image from 'next/image'
 import { useLayoutEffect, useState } from 'react'
-import styles from './factionImage.module.scss'
+
 import { Faction } from '../core/enums'
+import styles from './factionImage.module.scss'
 
 interface Props {
   faction: Faction
@@ -18,6 +19,7 @@ export default function FactionImage(props: Props) {
   // the faction is retrieved from localstorage. Showing the faction before that would result in an ugly flash.
   // So here we make sure no image is set in ssr.
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setUrl(
       `/factions/small/${props.faction
         .replaceAll(' ', '_')

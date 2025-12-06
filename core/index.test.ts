@@ -1,7 +1,7 @@
-import getBattleReport from '.'
 import { checkResult, getTestParticipant } from '../util/util.test'
-import { Faction, Place } from './enums'
+import getBattleReport from '.'
 import { duraniumArmor } from './battleeffect/tech'
+import { Faction, Place } from './enums'
 
 export const DO_BATTLE_X_TIMES = 15000
 

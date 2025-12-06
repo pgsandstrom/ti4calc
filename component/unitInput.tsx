@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Participant } from '../core/battle-types'
 import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
 import { UnitType } from '../core/unit'

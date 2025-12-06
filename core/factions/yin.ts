@@ -69,10 +69,9 @@ export const yin: BattleEffect[] = [
         return
       }
 
-      let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
-      if (!suicideUnit) {
-        suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
-      }
+      const suicideUnit =
+        participant.units.find((u) => u.type === UnitType.destroyer) ??
+        participant.units.find((u) => u.type === UnitType.cruiser)
       if (suicideUnit) {
         destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsAssignedByEnemy += 1
@@ -100,10 +99,9 @@ export const yin: BattleEffect[] = [
         return
       }
 
-      let suicideUnit = participant.units.find((u) => u.type === UnitType.destroyer)
-      if (!suicideUnit) {
-        suicideUnit = participant.units.find((u) => u.type === UnitType.cruiser)
-      }
+      const suicideUnit =
+        participant.units.find((u) => u.type === UnitType.destroyer) ??
+        participant.units.find((u) => u.type === UnitType.cruiser)
       if (suicideUnit) {
         destroyUnit(battle, suicideUnit)
         otherParticipant.hitsToAssign.hitsToNonFighters += 1
@@ -128,16 +126,36 @@ export const yin: BattleEffect[] = [
         return
       }
       if (battle.place === Place.space) {
-        const newFigher1 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
-        const newFigher2 = createUnitAndApplyEffects(UnitType.fighter, participant, battle.place)
+        const newFigher1 = createUnitAndApplyEffects(
+          UnitType.fighter,
+          participant,
+          battle.place,
+          () => {},
+        )
+        const newFigher2 = createUnitAndApplyEffects(
+          UnitType.fighter,
+          participant,
+          battle.place,
+          () => {},
+        )
         participant.newUnits.push(newFigher1)
         participant.newUnits.push(newFigher2)
         logWrapper(
           `${participant.side} uses Yin agent to summon two fighters when a unit was destroyed`,
         )
       } else {
-        const newInfantry1 = createUnitAndApplyEffects(UnitType.infantry, participant, battle.place)
-        const newInfantry2 = createUnitAndApplyEffects(UnitType.infantry, participant, battle.place)
+        const newInfantry1 = createUnitAndApplyEffects(
+          UnitType.infantry,
+          participant,
+          battle.place,
+          () => {},
+        )
+        const newInfantry2 = createUnitAndApplyEffects(
+          UnitType.infantry,
+          participant,
+          battle.place,
+          () => {},
+        )
         participant.newUnits.push(newInfantry1)
         participant.newUnits.push(newInfantry2)
         logWrapper(

@@ -1,22 +1,25 @@
+import { GetServerSideProps } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+
+import { BattleReportView } from '../component/battleReportView'
+import CoolButton from '../component/coolButton'
+import { DetailedBattleReportView } from '../component/detailedBattleReportView'
+import FactionImage from '../component/factionImage'
+import FactionPicker from '../component/factionPicker'
+import HelpView from '../component/helpView'
+import OptionsView from '../component/optionsView'
+import SwitchButton from '../component/switchButton'
+import ThundersEdgeView from '../component/thundersEdgeView'
+import UnitRow from '../component/unitRow'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
 import { createParticipant } from '../core/battleSetup'
 import { Faction, Place } from '../core/enums'
 import { UnitType } from '../core/unit'
-import SwitchButton from '../component/switchButton'
-import FactionImage from '../component/factionImage'
-import { BattleReportView } from '../component/battleReportView'
-import getServerUrl from '../server/serverUrl'
 import { ErrorReportUnsaved } from '../server/errorReportController'
-import FactionPicker from '../component/factionPicker'
-import UnitRow from '../component/unitRow'
-import CoolButton from '../component/coolButton'
-import OptionsView from '../component/optionsView'
-import HelpView from '../component/helpView'
-import { DetailedBattleReportView } from '../component/detailedBattleReportView'
+import getServerUrl from '../server/serverUrl'
 import {
   getLocalStorage,
   LS_ATTACKER_FACTION,
@@ -28,7 +31,6 @@ import {
   hasQueryParamForFaction,
   hasSomeQueryParams,
 } from '../util/query-params'
-import { GetServerSideProps } from 'next'
 import styles from './index.module.scss'
 
 // TODO add resource value
@@ -51,7 +53,13 @@ export default function Home(props: HomeProps) {
   const [defender, setDefenderRaw] = useState<Participant>(() => {
     return createParticipant('defender', undefined, props.query)
   })
-  const [battleReport, setBattleReport] = useState<BattleReport>()
+  const [battleReport, setBattleReport] = useState<BattleReport>({
+    attacker: 0,
+    attackerSurvivers: {},
+    defender: 0,
+    draw: 1,
+    defenderSurvivers: {},
+  })
 
   const [place, setPlaceRaw] = useState<Place>(() => {
     return props.query.place === Place.ground ? Place.ground : Place.space
@@ -127,7 +135,6 @@ export default function Home(props: HomeProps) {
       workerRef.current = worker
 
       worker.addEventListener('message', (event) => {
-        // eslint-disable-next-line
         if (event.data.error === true) {
           if (!error) {
             const workerError = event.data as ErrorReportUnsaved
@@ -169,6 +176,7 @@ export default function Home(props: HomeProps) {
           ...attacker,
           faction: attackerFaction,
         }
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setAttackerRaw(newAttacker)
       }
     }
@@ -355,6 +363,7 @@ export default function Home(props: HomeProps) {
             style={{ marginTop: '10px' }}
           />
           <HelpView style={{ marginTop: '10px', marginBottom: '10px' }} />
+          <ThundersEdgeView style={{ marginTop: '10px', marginBottom: '10px' }} />
         </main>
         <FactionImage faction={defender.faction} side="right" style={{ flex: '1 0 0' }} />
       </div>

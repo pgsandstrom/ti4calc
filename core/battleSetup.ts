@@ -1,10 +1,10 @@
-import { objectEntries } from '../util/util-object'
-import { createUnit, UnitInstance, UnitType } from './unit'
-import _times from 'lodash/times'
 import _cloneDeep from 'lodash/cloneDeep'
+import _times from 'lodash/times'
+
+import { applyQueryParams } from '../util/query-params'
+import { objectEntries } from '../util/util-object'
+import { PartialRecord } from '../util/util-types'
 import { doBattle } from './battle'
-import { getFactionBattleEffects } from './factions/faction'
-import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import {
   Battle,
   BattleInstance,
@@ -13,10 +13,11 @@ import {
   ParticipantInstance,
   Side,
 } from './battle-types'
-import { Faction, Place } from './enums'
 import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
-import { PartialRecord } from '../util/util-types'
-import { applyQueryParams } from '../util/query-params'
+import { getUnitUpgrade } from './battleeffect/unitUpgrades'
+import { Faction, Place } from './enums'
+import { getFactionBattleEffects } from './factions/faction'
+import { createUnit, UnitInstance, UnitType } from './unit'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -159,6 +160,10 @@ function createParticipantInstance(
       hits: 0,
       hitsToNonFighters: 0,
       hitsAssignedByEnemy: 0,
+    },
+    afbHitsToAssign: {
+      fighterHitsToAssign: 0,
+      rollInfoList: [],
     },
 
     roundActionTracker: {},

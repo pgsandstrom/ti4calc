@@ -1,3 +1,5 @@
+import _times from 'lodash/times'
+
 import { logWrapper } from '../../util/util-log'
 import { destroyUnit, getOtherParticipant, isParticipantAlive } from '../battle'
 import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
@@ -5,7 +7,6 @@ import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEff
 import { Faction, Place } from '../enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
 import { getHighestWorthUnit, getUnits } from '../unitGet'
-import _times from 'lodash/times'
 
 export const sardarkkNorr: BattleEffect[] = [
   {
@@ -37,7 +38,7 @@ export const sardarkkNorr: BattleEffect[] = [
             hit: 6,
             count: 2,
           },
-          aura: [...(unit.aura ? unit.aura : []), flagshipBuff],
+          aura: [...(unit.aura ?? []), flagshipBuff],
         }
       } else {
         return unit

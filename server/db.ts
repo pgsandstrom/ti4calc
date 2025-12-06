@@ -67,7 +67,6 @@ export const getClient = (): Promise<PoolClient> => {
 }
 
 export const SQL = (parts: TemplateStringsArray, ...values: any[]): QueryConfig => ({
-  // eslint-disable-next-line
   text: parts.reduce((prev, curr, i) => prev + '$' + i + curr),
   values,
 })

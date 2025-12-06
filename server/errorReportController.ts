@@ -31,12 +31,10 @@ export const getErrorReports = async (): Promise<ErrorReport[]> => {
   )
   return queryResult.rows.map((row) => {
     return {
-      /* eslint-disable */
       message: row.error_message,
       stack: row.stack,
       battle: row.battle,
       created: (row.created as Date).toString(),
-      /* eslint-enable */
     }
   })
 }

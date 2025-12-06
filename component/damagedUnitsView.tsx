@@ -1,7 +1,8 @@
-import { Participant } from '../core/battle-types'
-import { UnitType } from '../core/unit'
 import _times from 'lodash/times'
+
+import { Participant } from '../core/battle-types'
 import { Faction } from '../core/enums'
+import { UnitType } from '../core/unit'
 import { OptionsRowView } from './optionsRowView'
 
 interface Props {
@@ -117,7 +118,7 @@ function DamagedUnitSelector(props: DamagedUnitSelectorProps) {
   )
 }
 
-function showUnitRow(p1: Participant, p2: Participant, unitType: UnitType) {
+function showUnitRow(p1: Participant, p2: Participant, unitType: UnitType): boolean {
   return showParticipantUnit(p1, unitType) || showParticipantUnit(p2, unitType)
 }
 
@@ -137,7 +138,7 @@ function showParticipantUnit(participant: Participant, unitType: UnitType) {
 function showParticipantCruiser(participant: Participant) {
   return (
     participant.faction === Faction.titans_of_ul &&
-    participant.unitUpgrades[UnitType.cruiser] &&
+    participant.unitUpgrades[UnitType.cruiser] === true &&
     participant.units[UnitType.cruiser] > 0
   )
 }
@@ -145,7 +146,7 @@ function showParticipantCruiser(participant: Participant) {
 function showParticipantCarrier(participant: Participant) {
   return (
     participant.faction === Faction.sol &&
-    participant.unitUpgrades[UnitType.carrier] &&
+    participant.unitUpgrades[UnitType.carrier] === true &&
     participant.units[UnitType.carrier] > 0
   )
 }

@@ -1,23 +1,13 @@
-import styles from './battleReportView.module.scss'
 import { BattleReport } from '../core'
 import { toPercentageNumber, toPercentageString } from '../util/util-number'
+import styles from './battleReportView.module.scss'
 
 interface Props {
-  report: BattleReport | undefined
+  report: BattleReport
   style?: React.CSSProperties
 }
 
 export function BattleReportView({ report, style }: Props) {
-  if (!report) {
-    report = {
-      attacker: 0,
-      attackerSurvivers: {},
-      defender: 0,
-      draw: 1,
-      defenderSurvivers: {},
-    }
-  }
-
   const total = report.attacker + report.defender + report.draw
 
   return (

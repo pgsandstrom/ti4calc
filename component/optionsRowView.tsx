@@ -1,6 +1,7 @@
 import React from 'react'
-import Popover from './popover'
+
 import styles from './optionsRowView.module.scss'
+import Popover from './popover'
 
 interface OptionsRowProps {
   left: React.ReactNode

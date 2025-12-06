@@ -1,4 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
+
 import usePrevious from '../util/usePrevious'
 
 interface NumberInputProps {
@@ -30,6 +31,7 @@ export default function NumberInput(props: NumberInputProps) {
   const previousValue = usePrevious(currentValue)
   useEffect(() => {
     if (previousValue !== currentValue && currentValue.toString() !== val) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setVal(currentValue.toString())
     }
   }, [previousValue, currentValue, val])
