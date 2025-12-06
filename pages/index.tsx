@@ -59,6 +59,7 @@ export default function Home(props: HomeProps) {
     defender: 0,
     draw: 1,
     defenderSurvivers: {},
+    numberOfRolls: 0,
   })
 
   const [place, setPlaceRaw] = useState<Place>(() => {

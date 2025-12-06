@@ -1,4 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
+import { checkResult, getTestParticipant, testBattleReport } from '../../util/util.test'
 import getBattleReport from '..'
 import { Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
@@ -25,11 +25,20 @@ describe('Action card', () => {
       dreadnought: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.778)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.07)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      {
+        side: 'attacker',
+        percentage: 0.778,
+      },
+      {
+        side: 'draw',
+        percentage: 0.07,
+      },
+      {
+        side: 'defender',
+        percentage: 0.152,
+      },
+    ])
   })
 
   it('Shields holding', () => {

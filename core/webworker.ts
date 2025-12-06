@@ -32,6 +32,7 @@ function doWork(battle: Battle) {
     draw: 0,
     defender: 0,
     defenderSurvivers: {},
+    numberOfRolls: 0,
   }
 
   const parts = Math.ceil(NUMBER_OF_ROLLS / ROLLS_BETWEEN_UI_UPDATE)
@@ -70,6 +71,7 @@ function getPartialReport(battleInstance: BattleInstance, times: number) {
     draw: 0,
     defender: 0,
     defenderSurvivers: {},
+    numberOfRolls: 0,
   }
   _times(times, () => {
     const tmp = _cloneDeep(battleInstance)
@@ -96,6 +98,7 @@ function getPartialReport(battleInstance: BattleInstance, times: number) {
         break
     }
   })
+  data.numberOfRolls += times
   return data
 }
 

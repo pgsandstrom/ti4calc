@@ -12,13 +12,15 @@ export interface BattleReport {
   draw: number
   defender: number
   defenderSurvivers: PartialRecord<string, number>
+  numberOfRolls: number
 }
 
 export default function getBattleReport(
   attacker: Participant,
   defender: Participant,
   place: Place,
-  times = 1000,
+  times: number,
+  addToBattleReport?: BattleReport,
 ): BattleReport {
   if (attacker.side !== 'attacker' || defender.side !== 'defender') {
     throw new Error(`side error: ${attacker.side}, ${defender.side}`)
@@ -30,12 +32,13 @@ export default function getBattleReport(
     place,
   }
 
-  const data: BattleReport = {
+  const data: BattleReport = addToBattleReport ?? {
     attacker: 0,
     attackerSurvivers: {},
     draw: 0,
     defender: 0,
     defenderSurvivers: {},
+    numberOfRolls: 0,
   }
 
   const battleInstance = setupBattle(battle)
@@ -65,5 +68,6 @@ export default function getBattleReport(
         break
     }
   })
+  data.numberOfRolls += times
   return data
 }
