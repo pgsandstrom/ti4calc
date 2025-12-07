@@ -44,7 +44,7 @@ export const lightrailOrdnance: BattleEffect = {
   },
 }
 
-//forces the highest worth, non-fighter, undamaged ship without sustain to become damaged and reduce incoming hits by 1 (once per round)
+//Generously grants the lowest worth, non-fighter, undamaged ship without sustain a very high Sustain Damage priority to force the battle code to sustain it.
 export const metaliVoidShielding: BattleEffect = {
   name: 'Metali Void Shielding',
   description:
