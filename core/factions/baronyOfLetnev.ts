@@ -189,7 +189,7 @@ export const baronyOfLetnev: BattleEffect[] = [
       const highestHitUnit = getHighestHitUnit(p, 'combat', Place.space)
       if (highestHitUnit && highestHitUnit.combat) {
         const units = getUnits(p, Place.space, true)
-        const numUniqueUnits = [...new Set(units)].length
+        const numUniqueUnits = [...new Set(units.map((unit: UnitInstance) => unit.type))].length
         highestHitUnit.combat.hitBonus += numUniqueUnits
         logWrapper(
           `${p.side} used Gravleash Maneuvers to give ${highestHitUnit.type} a +${numUniqueUnits} to hit.`,

@@ -3,13 +3,8 @@ import _times from 'lodash/times'
 import { logWrapper } from '../../util/util-log'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
-import {
-  createUnitAndApplyEffects,
-  defaultRoll,
-  UnitInstance,
-  UnitType,
-} from '../unit'
-import { getHighestWorthNonSustainUndamagedUnit } from '../unitGet'
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '../unit'
+import { getLowestWorthNonSustainUndamagedUnit } from '../unitGet'
 import { BattleEffect } from './battleEffects'
 
 export function getRelics() {
@@ -22,22 +17,28 @@ export const lightrailOrdnance: BattleEffect = {
   description:
     "Your space docks gain SPACE CANNON 5 (x2). You may use your space dock's SPACE CANNON against ships that are adjacent to their system.",
   type: 'relic',
-  place: Place.space,
+  place: 'both',
   count: true,
   onStart: (
     p: ParticipantInstance,
     battle: BattleInstance,
-    op: ParticipantInstance,
+    _op: ParticipantInstance,
     effectName: string,
   ) => {
+    // Make sure only one Space Dock rolls for Space Cannon in ground combat
+    let spaceCannonCount = 0
+    if (battle.place === Place.ground) {
+      spaceCannonCount = 2
+    } else {
+      spaceCannonCount = p.effects[effectName] * 2
+    }
     const modify = (instance: UnitInstance) => {
       instance.spaceCannon = {
         ...defaultRoll,
         hit: 5,
-        count: p.effects[effectName] * 2,
+        count: spaceCannonCount,
       }
     }
-
     const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
     p.units.push(planetUnit)
   },
@@ -55,7 +56,7 @@ export const metaliVoidShielding: BattleEffect = {
     battle: BattleInstance,
     op: ParticipantInstance,
   ) => {
-    const bestShieldingTarget = getHighestWorthNonSustainUndamagedUnit(p, battle.place, false)
+    const bestShieldingTarget = getLowestWorthNonSustainUndamagedUnit(p, battle.place, false)
     if (bestShieldingTarget && p.hitsToAssign.hits > 0) {
       bestShieldingTarget.takenDamage = true
       p.hitsToAssign.hits -= 1

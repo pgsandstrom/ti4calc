@@ -116,6 +116,7 @@ export const naazRokha: BattleEffect[] = [
                   if (u.type === UnitType.mech) {
                     logWrapper(`Eidolon Maximum repaired!`)
                     u.takenDamage = false
+                    u.takenDamageRound = undefined
                   }
                 })
               },
