@@ -185,9 +185,9 @@ export function getUnits(
     }
 
     if (withSustain === true) {
-      return u.sustainDamage && !u.takenDamage && !u.usedSustain
+      return u.useSustainDamagePriority !== undefined && !u.takenDamage && !u.usedSustain
     } else if (withSustain === false) {
-      return !u.sustainDamage || u.takenDamage || u.usedSustain
+      return u.useSustainDamagePriority === undefined || u.takenDamage || u.usedSustain
     } else {
       return true
     }

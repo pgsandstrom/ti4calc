@@ -272,6 +272,7 @@ const warsun: Readonly<Unit> = {
   isShip: true,
 
   diePriority: 10,
+  useSustainDamagePriority: 10,
 
   battleEffects: [
     {

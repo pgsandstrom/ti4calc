@@ -58,8 +58,7 @@ export const metaliVoidShielding: BattleEffect = {
   ) => {
     const bestShieldingTarget = getLowestWorthNonSustainUndamagedUnit(p, battle.place, false)
     if (bestShieldingTarget && p.hitsToAssign.hits > 0) {
-      bestShieldingTarget.takenDamage = true
-      p.hitsToAssign.hits -= 1
+      bestShieldingTarget.useSustainDamagePriority = 500
       logWrapper(`${p.side} uses Metali Void Shielding to sustain ${bestShieldingTarget.type}!`)
     }
   },
