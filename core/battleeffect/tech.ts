@@ -26,7 +26,7 @@ export const plasmaScoring: BattleEffect = {
   type: 'tech',
   place: 'both',
   beforeStart: (participant: ParticipantInstance) => {
-    // TODO when we do these things on beforeStart... maybe this unit is destroyed by assault cannon or something similar.
+    // TODO doing this on beforeStart might not be correct... maybe this unit is destroyed by some other effect before the relevant step.
     // It would be more correct to do it at the appropriate time. Like onBombard and onSpaceCannon
     const bestBomber = getHighestHitUnit(participant, 'bombardment', undefined)
     if (bestBomber?.bombardment) {

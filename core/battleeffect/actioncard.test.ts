@@ -8,6 +8,7 @@ import {
   shieldsHolding,
   solarFlare,
 } from './actioncard'
+import { assaultCannon } from './tech'
 
 describe('Action card', () => {
   it('Emergency Repairs', () => {
@@ -75,5 +76,29 @@ describe('Action card', () => {
     expect(result.attacker).toEqual(DO_BATTLE_X_TIMES)
     expect(result.draw).toEqual(0)
     expect(result.defender).toEqual(0)
+  })
+  it('Experimental battlestation can prevent assault cannon', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 3,
+      },
+      undefined,
+      {
+        [assaultCannon.name]: 1,
+      },
+    )
+    const defender = getTestParticipant(
+      'defender',
+      {
+        warsun: 1,
+      },
+      undefined,
+      {
+        [experimentalBattlestation.name]: 1,
+      },
+    )
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+    expect(result.attacker).toBeLessThan(DO_BATTLE_X_TIMES / 2)
   })
 })
