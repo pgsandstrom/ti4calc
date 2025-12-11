@@ -106,6 +106,27 @@ export interface BattleAura {
   timesPerFight?: number
 }
 
+//A symmetrical effect that disables every text ability on units: AFB, bombard, space cannon, sustain, and planetary shield. Deploy needs to be done manually
+//TODO: Write tests
+export const entropicScar: BattleEffect = {
+  name: 'Entropic Scar',
+  description:
+    'All unit abilities (AFB, Bombardment, Space Cannon, Planetary Shield, Sustain Damage, Deploy) cannot be used by or against units inside of an entropic scar. Text abilities are unaffected.',
+  type: 'general',
+  place: 'both',
+  symmetrical: true,
+  transformUnit: (unit: UnitInstance) => {
+    return {
+      ...unit,
+      afb: undefined,
+      bombardment: undefined,
+      spaceCannon: undefined,
+      sustainDamage: false,
+      planetaryShield: false, //this is technically not necessary since the Scar disables Bombard too, but I've added it for completeness
+    }
+  },
+}
+
 export const defendingInNebula: BattleEffect = {
   name: 'Defending in nebula',
   description:
@@ -152,7 +173,7 @@ export function getAllBattleEffects() {
 }
 
 export function getOtherBattleEffects(): BattleEffect[] {
-  return [defendingInNebula]
+  return [defendingInNebula, entropicScar]
 }
 
 export function isBattleEffectRelevantForSome(effect: BattleEffect, participant: Participant[]) {

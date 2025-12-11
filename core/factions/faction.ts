@@ -6,6 +6,7 @@ import { argentFlight } from './argentFlight'
 import { baronyOfLetnev } from './baronyOfLetnev'
 import { clanOfSaar } from './clanOfSaar'
 import { creuss } from './creuss'
+import { crimsonRebellion } from './crimsonRebellion'
 import { deepwrought } from './deepwrought'
 import { empyrean } from './empyrean'
 import { hacan } from './hacan'
@@ -35,6 +36,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   'Barony of Letnev': baronyOfLetnev,
   'Clan of Saar': clanOfSaar,
   Creuss: creuss,
+  'Crimson Rebellion': crimsonRebellion,
   Deepwrought: deepwrought,
   Empyrean: empyrean,
   Hacan: hacan,
