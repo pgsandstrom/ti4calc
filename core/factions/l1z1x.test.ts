@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -18,11 +17,11 @@ describe('L1z1x', () => {
       infantry: 8,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.803)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.063)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.132)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.803 },
+      { side: 'draw', percentage: 0.063 },
+      { side: 'defender', percentage: 0.132 },
+    ])
   })
 
   it('L1z1x flagship makes flagship and dreadnoughts target non-fighter ships', () => {
@@ -40,10 +39,10 @@ describe('L1z1x', () => {
       fighter: 3,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.296)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.021)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.682)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.296 },
+      { side: 'draw', percentage: 0.021 },
+      { side: 'defender', percentage: 0.682 },
+    ])
   })
 })

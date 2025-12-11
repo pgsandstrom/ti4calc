@@ -25,8 +25,8 @@ export const plasmaScoring: BattleEffect = {
     'When 1 or more of your units use BOMBARDMENT or SPACE CANNON, 1 of those units may roll 1 additional die.',
   type: 'tech',
   place: 'both',
-  onStart: (participant: ParticipantInstance) => {
-    // TODO when we do these things on onStart... maybe this unit is destroyed by assault cannon or something similar.
+  beforeStart: (participant: ParticipantInstance) => {
+    // TODO doing this on beforeStart might not be correct... maybe this unit is destroyed by some other effect before the relevant step.
     // It would be more correct to do it at the appropriate time. Like onBombard and onSpaceCannon
     const bestBomber = getHighestHitUnit(participant, 'bombardment', undefined)
     if (bestBomber?.bombardment) {
@@ -42,7 +42,7 @@ export const plasmaScoring: BattleEffect = {
 export const magenDefenseGrid: BattleEffect = {
   name: 'Magen Defense Grid',
   description:
-    "When any player activates a system that contains 1 or more of your structures, place 1 infantry from your reinforcements with each of those structures. At the start of ground combat on a planet that contains 1 or more of your structures, produce 1 hit and assign it to 1 of your opponent's ground forces.\nPLEASE NOTE: We dont place extra infantry, increase the count yourself. Checking this assumes you have at least one building.",
+    "When any player activates a system that contains 1 or more of your structures, place 1 infantry from your reinforcements with each of those structures. At the start of ground combat on a planet that contains 1 or more of your structures, produce 1 hit and assign it to 1 of your opponent's ground forces.\nPLEASE NOTE: We dont place extra infantry, increase the count yourself. Checking this assumes you have at least one structure.",
   type: 'tech',
   place: Place.ground,
   side: 'defender',

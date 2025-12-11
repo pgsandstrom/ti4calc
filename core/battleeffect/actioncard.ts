@@ -191,7 +191,7 @@ export const experimentalBattlestation: BattleEffect = {
     'After another player moves ships into a system during a tactical action: Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.',
   type: 'action-card',
   place: Place.space,
-  onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+  beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
     const modify = (instance: UnitInstance) => {
       instance.spaceCannon = {
         ...defaultRoll,

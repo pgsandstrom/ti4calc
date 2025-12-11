@@ -1,8 +1,8 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { getBattleReport } from '..'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { assaultCannon, duraniumArmor, x89BacterialWeapon } from './tech'
+import { assaultCannon, duraniumArmor, plasmaScoring, x89BacterialWeapon } from './tech'
 
 describe('Tech', () => {
   it('5v5 dreadnought with duranium', () => {
@@ -21,11 +21,11 @@ describe('Tech', () => {
       dreadnought: 5,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.67)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.0167)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.313)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.655 },
+      { side: 'draw', percentage: 0.019 },
+      { side: 'defender', percentage: 0.325 },
+    ])
   })
 
   it('Assault cannon should not snipe mech', () => {
@@ -50,6 +50,32 @@ describe('Tech', () => {
     expect(result.attacker).toEqual(100)
   })
 
+  it('Assault cannon should not happen if PDS destroys one of the 3 ships', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 3,
+      },
+      undefined,
+      {
+        [assaultCannon.name]: 1,
+      },
+    )
+    const defender = getTestParticipant(
+      'defender',
+      {
+        pds: 1,
+        warsun: 1,
+      },
+      undefined,
+      {
+        [plasmaScoring.name]: 1,
+      },
+    )
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+    expect(result.attacker).toBeLessThan(DO_BATTLE_X_TIMES / 2)
+  })
+
   it('x89BacterialWeapon simple', () => {
     const attacker = getTestParticipant(
       'attacker',
@@ -70,11 +96,11 @@ describe('Tech', () => {
       Faction.mentak,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.33)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.33)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.33)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.33 },
+      { side: 'draw', percentage: 0.33 },
+      { side: 'defender', percentage: 0.33 },
+    ])
   })
 
   it('x89BacterialWeapon bombardment', () => {
@@ -93,10 +119,10 @@ describe('Tech', () => {
       infantry: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.6)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.4)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0 },
+      { side: 'draw', percentage: 0.6 },
+      { side: 'defender', percentage: 0.4 },
+    ])
   })
 })

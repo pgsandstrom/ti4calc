@@ -2,6 +2,7 @@ import _cloneDeep from 'lodash/cloneDeep'
 
 import { logWrapper } from '../util/util-log'
 import {
+  AfbHitsToAssign,
   BattleInstance,
   BattleResult,
   BattleWinner,
@@ -28,6 +29,23 @@ export function doBattle(battle: BattleInstance): BattleResult {
   let isDuringCombat = false
   const isDuringBombardment = false
 
+  battle.attacker.beforeStartEffect.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.beforeStart!(battle.attacker, battle, battle.defender, effect.name)
+    }
+  })
+  battle.defender.beforeStartEffect.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.defender)) {
+      effect.beforeStart!(battle.defender, battle, battle.attacker, effect.name)
+    }
+  })
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
+
+  doBombardment(battle, isDuringCombat)
+
+  doSpaceCannon(battle)
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
+
   battle.attacker.onStartEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, battle.attacker)) {
       effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
@@ -40,13 +58,7 @@ export function doBattle(battle: BattleInstance): BattleResult {
   })
   resolveHits(battle, isDuringCombat, isDuringBombardment)
 
-  doBombardment(battle, isDuringCombat)
-
-  doSpaceCannon(battle)
-  resolveHits(battle, isDuringCombat, isDuringBombardment)
-
   isDuringCombat = true
-
   doAfb(battle)
 
   let battleResult: BattleResult | undefined = undefined
@@ -241,10 +253,8 @@ function doAfb(battle: BattleInstance) {
     return
   }
 
-  const attackerAfbHits = getAfbHits(battle.attacker, battle, battle.defender)
-  battle.defender.hitsToAssign.hits += attackerAfbHits
-  const defenderAfbHits = getAfbHits(battle.defender, battle, battle.attacker)
-  battle.attacker.hitsToAssign.hits += defenderAfbHits
+  battle.defender.afbHitsToAssign = getAfbHits(battle.attacker, battle, battle.defender)
+  battle.attacker.afbHitsToAssign = getAfbHits(battle.defender, battle, battle.attacker)
 
   resolveAfbHits(battle.attacker)
   resolveAfbHits(battle.defender)
@@ -262,45 +272,39 @@ function doAfb(battle: BattleInstance) {
 
   removeDeadUnits(battle.attacker, battle)
   removeDeadUnits(battle.defender, battle)
-
-  battle.attacker.hitsToAssign = {
-    hits: 0,
-    hitsToNonFighters: 0,
-    hitsAssignedByEnemy: 0,
-  }
-  battle.defender.hitsToAssign = {
-    hits: 0,
-    hitsToNonFighters: 0,
-    hitsAssignedByEnemy: 0,
-  }
 }
 
 function getAfbHits(
   p: ParticipantInstance,
   battle: BattleInstance,
   otherParticipant: ParticipantInstance,
-) {
+): AfbHitsToAssign {
   p.onAfb.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
       effect.onAfb!(p, battle, otherParticipant, effect.name)
     }
   })
 
-  const hits = p.units.map((u) => {
+  const hits = p.units.flatMap((u) => {
     logAttack(p, u, 'afb')
-    return u.afb ? getHits(u.afb).hits : 0
+    return u.afb ? [getHits(u.afb)] : []
   })
-  return hits.reduce((a, b) => {
-    return a + b
+  const fighterHits = hits.reduce((a, b) => {
+    return a + b.hits
   }, 0)
+  const rollInfoList = hits.flatMap((h) => h.rollInfoList)
+  return {
+    fighterHitsToAssign: fighterHits,
+    rollInfoList: rollInfoList,
+  }
 }
 
 function resolveAfbHits(p: ParticipantInstance) {
-  while (p.hitsToAssign.hits > 0) {
+  while (p.afbHitsToAssign.fighterHitsToAssign > 0) {
     const aliveFighter = p.units.find((u) => u.type === UnitType.fighter && !u.isDestroyed)
     if (aliveFighter) {
       aliveFighter.isDestroyed = true
-      p.hitsToAssign.hits -= 1
+      p.afbHitsToAssign.fighterHitsToAssign -= 1
       logWrapper(`${p.side} lost fighter to anti fighter barrage`)
     } else {
       break

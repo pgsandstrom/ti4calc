@@ -30,7 +30,7 @@ export const keleres: BattleEffect[] = [
     name: 'I.I.H.Q. MODERNIZATION space cannon',
     place: 'both',
     faction: Faction.keleres,
-    onStart: (p: ParticipantInstance, battle: BattleInstance) => {
+    beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
       const modify = (instance: UnitInstance) => {
         instance.spaceCannon = {
           ...defaultRoll,
