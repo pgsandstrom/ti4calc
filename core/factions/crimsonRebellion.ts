@@ -24,6 +24,7 @@ export const crimsonRebellion: BattleEffect[] = [
     },
   },
   {
+    // TODO units should regain abilities when the flagship is destroyed. Currently they do not. If we fix so "battle aura" can affect all abilites, it should be used instead.
     name: 'Flagship active',
     description:
       "While this unit is in a system that contains an active breach, other players' units in systems with active breaches lose all their unit abilities.",

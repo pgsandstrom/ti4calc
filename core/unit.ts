@@ -41,7 +41,7 @@ export interface Unit {
   diePriority?: number
 
   // this is an effect that is only present while the unit is alive (i.e. sardakk flagship)
-  // the implementation is a bit weird. We create a temporary version of the unit before firing with the aura
+  // the battleaura implementation is currently a bit weird. We create a temporary version of the unit before firing with the aura
   // this is to make sure that we can apply complex auras, without them leaving permanent changes to the units
   // This means that auras can ONLY do things that affect attack!
   aura?: BattleAura[]
