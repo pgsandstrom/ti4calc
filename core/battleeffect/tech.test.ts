@@ -2,7 +2,7 @@ import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import getBattleReport from '..'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
-import { assaultCannon, duraniumArmor, x89BacterialWeapon } from './tech'
+import { assaultCannon, duraniumArmor, plasmaScoring, x89BacterialWeapon } from './tech'
 
 describe('Tech', () => {
   it('5v5 dreadnought with duranium', () => {
@@ -48,6 +48,32 @@ describe('Tech', () => {
     const result = getBattleReport(attacker, defender, Place.space, 100)
 
     expect(result.attacker).toEqual(100)
+  })
+
+  it('Assault cannon should not happen if PDS destroys one of the 3 ships', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        destroyer: 3,
+      },
+      undefined,
+      {
+        [assaultCannon.name]: 1,
+      },
+    )
+    const defender = getTestParticipant(
+      'defender',
+      {
+        pds: 1,
+        warsun: 1,
+      },
+      undefined,
+      {
+        [plasmaScoring.name]: 1,
+      },
+    )
+    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+    expect(result.attacker).toBeLessThan(DO_BATTLE_X_TIMES / 2)
   })
 
   it('x89BacterialWeapon simple', () => {

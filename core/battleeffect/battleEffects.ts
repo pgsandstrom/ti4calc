@@ -70,6 +70,7 @@ interface SharedStuffBattleEffect {
   transformUnit?: UnitEffect
   transformEnemyUnit?: UnitEffect
 
+  beforeStart?: ParticipantEffect
   onStart?: ParticipantEffect
   onSustain?: UnitBattleEffect
   onEnemySustain?: UnitBattleEffect

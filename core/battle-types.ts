@@ -111,7 +111,8 @@ export interface ParticipantInstance {
   // it holds both participants own permanent battleeffect, and the opponents "enemy battle effects"
   allUnitTransform: UnitEffect[]
 
-  onStartEffect: BattleEffect[]
+  beforeStartEffect: BattleEffect[] // for applying effects that should already be present at the start of combat (and bombardment and space cannon)
+  onStartEffect: BattleEffect[] // the actual in-game "At start of combat" timing window
   onSustainEffect: BattleEffect[]
   onEnemySustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]

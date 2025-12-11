@@ -29,6 +29,23 @@ export function doBattle(battle: BattleInstance): BattleResult {
   let isDuringCombat = false
   const isDuringBombardment = false
 
+  battle.attacker.beforeStartEffect.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.attacker)) {
+      effect.beforeStart!(battle.attacker, battle, battle.defender, effect.name)
+    }
+  })
+  battle.defender.beforeStartEffect.forEach((effect) => {
+    if (canBattleEffectBeUsed(effect, battle.defender)) {
+      effect.beforeStart!(battle.defender, battle, battle.attacker, effect.name)
+    }
+  })
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
+
+  doBombardment(battle, isDuringCombat)
+
+  doSpaceCannon(battle)
+  resolveHits(battle, isDuringCombat, isDuringBombardment)
+
   battle.attacker.onStartEffect.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, battle.attacker)) {
       effect.onStart!(battle.attacker, battle, battle.defender, effect.name)
@@ -41,13 +58,7 @@ export function doBattle(battle: BattleInstance): BattleResult {
   })
   resolveHits(battle, isDuringCombat, isDuringBombardment)
 
-  doBombardment(battle, isDuringCombat)
-
-  doSpaceCannon(battle)
-  resolveHits(battle, isDuringCombat, isDuringBombardment)
-
   isDuringCombat = true
-
   doAfb(battle)
 
   let battleResult: BattleResult | undefined = undefined
