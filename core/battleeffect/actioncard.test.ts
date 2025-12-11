@@ -1,4 +1,5 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { getBattleReport } from '..'
 import { Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 import {

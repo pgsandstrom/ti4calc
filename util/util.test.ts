@@ -1,4 +1,4 @@
-import getBattleReport, { BattleReport } from '../core'
+import { BattleReport, getBattleReport } from '../core'
 import { Participant, Side } from '../core/battle-types'
 import { getUnitMap } from '../core/battleSetup'
 import { Faction, Place } from '../core/enums'

@@ -15,7 +15,7 @@ export interface BattleReport {
   numberOfRolls: number
 }
 
-export default function getBattleReport(
+export function getBattleReport(
   attacker: Participant,
   defender: Participant,
   place: Place,

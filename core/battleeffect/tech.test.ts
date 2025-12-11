@@ -1,5 +1,5 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import getBattleReport from '..'
+import { getBattleReport } from '..'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 import { assaultCannon, duraniumArmor, plasmaScoring, x89BacterialWeapon } from './tech'
