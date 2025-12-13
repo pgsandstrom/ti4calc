@@ -48,5 +48,7 @@ function getChar(u: UnitInstance): string {
       return 'p'
     case UnitType.other:
       return 'o' // should never happen
+    case UnitType.nonunit:
+      return 'n' // should never happen
   }
 }

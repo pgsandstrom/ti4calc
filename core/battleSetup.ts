@@ -319,6 +319,7 @@ export const getUnitMap = (units?: PartialRecord<UnitType, number>) => {
     infantry: 0,
     pds: 0,
     other: 0,
+    nonunit: 0,
     ...units,
   }
   return unitMap
