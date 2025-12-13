@@ -71,22 +71,6 @@ export function getHighestWorthNonSustainUnit(
   })
 }
 
-export function getHighestWorthNonSustainUndamagedUnit(
-  p: ParticipantInstance,
-  place: Place,
-  includeFighter: boolean,
-) {
-  const units = getUndamagedUnits(p, place, includeFighter, false)
-
-  if (units.length === 0) {
-    return undefined
-  }
-
-  return units.reduce((a, b) => {
-    return a.diePriority! > b.diePriority! ? b : a
-  })
-}
-
 export function getLowestWorthNonSustainUndamagedUnit(
   p: ParticipantInstance,
   place: Place,
