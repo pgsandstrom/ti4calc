@@ -44,7 +44,7 @@ export const lightrailOrdnance: BattleEffect = {
   },
 }
 
-//Generously grants the lowest worth, non-fighter, undamaged ship without sustain a very high Sustain Damage priority to force the battle code to sustain it.
+// Generously grants the lowest worth, non-fighter, undamaged ship without sustain a very high Sustain Damage priority to force the battle code to sustain it.
 export const metaliVoidShielding: BattleEffect = {
   name: 'Metali Void Shielding',
   description:
@@ -54,11 +54,12 @@ export const metaliVoidShielding: BattleEffect = {
   onCombatRoundEndBeforeAssign: (
     p: ParticipantInstance,
     battle: BattleInstance,
-    op: ParticipantInstance,
+    _op: ParticipantInstance,
   ) => {
     const bestShieldingTarget = getLowestWorthNonSustainUndamagedUnit(p, battle.place, false)
     if (bestShieldingTarget && p.hitsToAssign.hits > 0) {
       bestShieldingTarget.useSustainDamagePriority = 500
+      bestShieldingTarget.sustainDamage = true
       logWrapper(`${p.side} uses Metali Void Shielding to sustain ${bestShieldingTarget.type}!`)
     }
   },
