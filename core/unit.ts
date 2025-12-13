@@ -17,6 +17,7 @@ export enum UnitType {
   pds = 'pds',
   warsun = 'warsun',
   other = 'other', // Used by for example experimental battle station and titans hero
+  nonunit = 'nonunit', // Used when an ability is used without being tied to a unit, for example Metali Void Armaments.
 }
 
 export interface Unit {
@@ -299,6 +300,16 @@ const other: Readonly<Unit> = {
   isShip: false,
 }
 
+const nonunit: Readonly<Unit> = {
+  type: UnitType.nonunit,
+
+  sustainDamage: false,
+  planetaryShield: false,
+
+  isGroundForce: false,
+  isShip: false,
+}
+
 export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   carrier,
   cruiser,
@@ -311,6 +322,7 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
   pds,
   warsun,
   other,
+  nonunit,
 }
 
 export function getUnitWithImproved(

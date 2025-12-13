@@ -1,7 +1,7 @@
 import _times from 'lodash/times'
 
 import { logWrapper } from '../../util/util-log'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
 import { Place } from '../enums'
 import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '../unit'
 import { getLowestWorthNonSustainUndamagedUnit } from '../unitGet'
@@ -82,7 +82,8 @@ export const metaliVoidArmaments: BattleEffect = {
       }
     }
 
-    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
+    const planetUnit = createUnitAndApplyEffects(UnitType.nonunit, p, battle.place, modify)
     p.units.push(planetUnit)
   },
+  priority: EFFECT_HIGH_PRIORITY,
 }

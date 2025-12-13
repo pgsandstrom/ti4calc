@@ -2,6 +2,9 @@ import { ParticipantInstance } from './battle-types'
 import { Place } from './enums'
 import { UnitInstance, UnitType } from './unit'
 
+// INFO: Always use these helper functions instead of "manually" getting units.
+// Because these functions for example makes sure you never accidentally retrieve a unit of type "nonunit", and other stuff that is hard to keep track of
+
 export function getHighestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnits(p, place, includeFighter)
 
@@ -141,6 +144,10 @@ export function getUndamagedUnits(
       return false
     }
 
+    if (u.type === 'nonunit') {
+      return false
+    }
+
     if (withSustain === true) {
       return u.sustainDamage && !u.takenDamage && !u.usedSustain
     } else if (withSustain === false) {
@@ -165,6 +172,10 @@ export function getUnits(
       return false
     }
     if (u.isDestroyed) {
+      return false
+    }
+
+    if (u.type === 'nonunit') {
       return false
     }
 
