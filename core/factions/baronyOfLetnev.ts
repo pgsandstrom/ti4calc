@@ -3,7 +3,7 @@ import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../bat
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { defaultRoll, getUnitWithImproved, UNIT_MAP, UnitInstance, UnitType } from '../unit'
-import { getHighestHitUnit, getUnits } from '../unitGet'
+import { getHighestDiceCountUnit, getHighestHitUnit, getUnits } from '../unitGet'
 
 export const baronyOfLetnev: BattleEffect[] = [
   {
@@ -177,7 +177,7 @@ export const baronyOfLetnev: BattleEffect[] = [
     timesPerFight: 1,
   },
 
-  //TODO: Needs better logic about switching the bonus to worse hit ships if the +X causes the highestHitUnit to go over guaranteed hits
+  //TODO: Currently just picks the unit with the highest dice count. It could be smarter and include the "cap" on hit-bonus, reroll-value and stuff like that.
   {
     name: 'Gravleash Maneuvers',
     description:
@@ -186,15 +186,16 @@ export const baronyOfLetnev: BattleEffect[] = [
     place: Place.space,
     faction: Faction.barony_of_letnev,
     onStart: (p: ParticipantInstance, _b: BattleInstance, _op: ParticipantInstance) => {
-      const highestHitUnit = getHighestHitUnit(p, 'combat', Place.space)
-      if (highestHitUnit && highestHitUnit.combat) {
+      const highestDiceCountUnit = getHighestDiceCountUnit(p, 'combat', Place.space)
+      if (highestDiceCountUnit && highestDiceCountUnit.combat) {
         const units = getUnits(p, Place.space, true)
         const numUniqueUnits = [...new Set(units.map((unit: UnitInstance) => unit.type))].length
-        highestHitUnit.combat.hitBonus += numUniqueUnits
+        highestDiceCountUnit.combat.hitBonus += numUniqueUnits
         logWrapper(
-          `${p.side} used Gravleash Maneuvers to give ${highestHitUnit.type} a +${numUniqueUnits} to hit.`,
+          `${p.side} used Gravleash Maneuvers to give ${highestDiceCountUnit.type} with their ${highestDiceCountUnit.combat.count + highestDiceCountUnit.combat.countBonus + highestDiceCountUnit.combat.countBonusTmp} dice a +${numUniqueUnits} to hit.`,
         )
       }
     },
+    priority: EFFECT_LOW_PRIORITY,
   },
 ]

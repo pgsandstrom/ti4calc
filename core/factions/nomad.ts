@@ -1,3 +1,4 @@
+import { logWrapper } from '../../util/util-log'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
@@ -73,6 +74,9 @@ export const nomad: BattleEffect[] = [
       if (!worstNonFighterShip) {
         return
       }
+      logWrapper(
+        `${participant.side} used nomad promissary to transform ${worstNonFighterShip.type} into the Memoria I!`,
+      )
       worstNonFighterShip.combat = {
         ...defaultRoll,
         hit: 7,
@@ -104,6 +108,9 @@ export const nomad: BattleEffect[] = [
       if (!worstNonFighterShip) {
         return
       }
+      logWrapper(
+        `${participant.side} used nomad promissary to transform ${worstNonFighterShip.type} into the Memoria II!`,
+      )
       worstNonFighterShip.combat = {
         ...defaultRoll,
         hit: 5,

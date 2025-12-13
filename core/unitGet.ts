@@ -229,6 +229,28 @@ export function getHighestHitUnit(
   return bestUnit
 }
 
+export function getHighestDiceCountUnit(
+  p: ParticipantInstance,
+  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  place: Place | undefined,
+) {
+  const units = getUnits(p, place, true).filter((u) => !!u[attackType])
+  if (units.length === 0) {
+    return undefined
+  }
+  const bestUnit = units.reduce((a, b) => {
+    if (
+      a[attackType]!.count + a[attackType]!.countBonus + a[attackType]!.countBonusTmp >
+      b[attackType]!.count + b[attackType]!.countBonus + b[attackType]!.countBonusTmp
+    ) {
+      return a
+    } else {
+      return b
+    }
+  })
+  return bestUnit
+}
+
 export function hasAttackType(
   p: ParticipantInstance,
   type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
