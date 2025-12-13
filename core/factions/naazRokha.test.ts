@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -20,11 +19,11 @@ describe('Naaz-Rokha', () => {
       infantry: 5,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.44)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.086)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.474)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.44 },
+      { side: 'draw', percentage: 0.086 },
+      { side: 'defender', percentage: 0.474 },
+    ])
   })
 
   it('Naaz-Rokha mech should help in space combat', () => {
@@ -41,10 +40,10 @@ describe('Naaz-Rokha', () => {
       dreadnought: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.796)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.062)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.142)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.796 },
+      { side: 'draw', percentage: 0.062 },
+      { side: 'defender', percentage: 0.142 },
+    ])
   })
 })

@@ -4,7 +4,7 @@
 import { PartialRecord } from '../util/util-types'
 import { BattleEffect } from './battleeffect/battleEffects'
 import { Faction, Place } from './enums'
-import { HitInfo } from './roll'
+import { HitInfo, RollInfo } from './roll'
 import { UnitInstance, UnitType } from './unit'
 
 export type Side = 'attacker' | 'defender'
@@ -111,7 +111,8 @@ export interface ParticipantInstance {
   // it holds both participants own permanent battleeffect, and the opponents "enemy battle effects"
   allUnitTransform: UnitEffect[]
 
-  onStartEffect: BattleEffect[]
+  beforeStartEffect: BattleEffect[] // for applying effects that should already be present at the start of combat (and bombardment and space cannon)
+  onStartEffect: BattleEffect[] // the actual in-game "At start of combat" timing window
   onSustainEffect: BattleEffect[]
   onEnemySustainEffect: BattleEffect[]
   onRepairEffect: BattleEffect[]
@@ -136,6 +137,7 @@ export interface ParticipantInstance {
 
   soakHits: number // number of hits that can be cancelled
   hitsToAssign: HitsToAssign
+  afbHitsToAssign: AfbHitsToAssign // to track what happened in anti-fighter barrage separately from combat
 
   // used to track stuff that can only happen a limited number of times per turn
   roundActionTracker: PartialRecord<string, number>
@@ -147,6 +149,11 @@ export interface HitsToAssign {
   hits: number
   hitsToNonFighters: number
   hitsAssignedByEnemy: number
+}
+
+export interface AfbHitsToAssign {
+  fighterHitsToAssign: number
+  rollInfoList: RollInfo[]
 }
 
 export interface BattleResult {

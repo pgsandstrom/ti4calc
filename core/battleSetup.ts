@@ -133,6 +133,7 @@ function createParticipantInstance(
 
     allUnitTransform: [],
 
+    beforeStartEffect: [],
     onStartEffect: [],
     onSustainEffect: [],
     onEnemySustainEffect: [],
@@ -159,6 +160,10 @@ function createParticipantInstance(
       hits: 0,
       hitsToNonFighters: 0,
       hitsAssignedByEnemy: 0,
+    },
+    afbHitsToAssign: {
+      fighterHitsToAssign: 0,
+      rollInfoList: [],
     },
 
     roundActionTracker: {},
@@ -218,6 +223,9 @@ function applyBattleEffects(
       return prioDiff
     })
     .forEach((battleEffect) => {
+      if (battleEffect.beforeStart) {
+        participantInstance.beforeStartEffect.push(battleEffect)
+      }
       if (battleEffect.onStart) {
         participantInstance.onStartEffect.push(battleEffect)
       }

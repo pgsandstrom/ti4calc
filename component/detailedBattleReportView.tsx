@@ -269,7 +269,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
               </div>
               <div>
                 <div>D</div>
-                <div>dreadnough</div>
+                <div>Dreadnought</div>
               </div>
               <div>
                 <div>C</div>

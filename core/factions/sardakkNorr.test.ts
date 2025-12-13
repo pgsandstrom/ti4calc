@@ -1,5 +1,4 @@
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { Faction, Place } from '../enums'
 import { DO_BATTLE_X_TIMES } from '../index.test'
 
@@ -21,11 +20,11 @@ describe('Sardakk', () => {
       Faction.arborec,
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.56)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.26)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.18)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.56 },
+      { side: 'draw', percentage: 0.26 },
+      { side: 'defender', percentage: 0.18 },
+    ])
   })
 
   it('Sardakk mech ability should not trigger during space cannon phase', () => {
@@ -46,11 +45,11 @@ describe('Sardakk', () => {
       Faction.arborec,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.8)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.12)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.08)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.8 },
+      { side: 'draw', percentage: 0.12 },
+      { side: 'defender', percentage: 0.08 },
+    ])
   })
 
   // TODO add test to ensure that sardakk flagship does not affect ground combat

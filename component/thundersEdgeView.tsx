@@ -42,6 +42,8 @@ export default function HelpView({ style }: Props) {
           <div>
             <span>Implemented features:</span>
             <ul>
+              <li>Faction: The Deepwrought Scholarate</li>
+              <li>Faction: The Crimson Rebellion</li>
               <li>Neutral faction</li>
               <li>Relic: Metali Void Shielding</li>
               <li>Relic: Lightrail Ordnance</li>
@@ -55,9 +57,7 @@ export default function HelpView({ style }: Props) {
             <span>Planned features:</span>
             <ul>
               <li>Faction: Last Bastion</li>
-              <li>Faction: The Deepwrought Scholarate</li>
               <li>Faction: The Ral Nel Consortium</li>
-              <li>Faction: The Crimson Rebellion</li>
               <li>Faction: The Firmament / The Obsidian</li>
               <li>Relic: Heart of Ixth</li>
             </ul>

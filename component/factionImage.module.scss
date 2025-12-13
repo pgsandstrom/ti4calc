@@ -3,6 +3,10 @@
     display: none;
   }
 
+  img {
+    aspect-ratio: 640 / 828;
+  }
+
   img.left {
     transform: scaleX(-1);
     max-width: 100%;

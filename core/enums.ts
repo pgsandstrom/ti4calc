@@ -6,6 +6,8 @@ export enum Faction {
   barony_of_letnev = 'Barony of Letnev',
   clan_of_saar = 'Clan of Saar',
   creuss = 'Creuss',
+  crimson_rebellion = 'Crimson Rebellion',
+  deepwrought = 'Deepwrought',
   empyrean = 'Empyrean',
   hacan = 'Hacan',
   jol_nar = 'Jol-Nar',

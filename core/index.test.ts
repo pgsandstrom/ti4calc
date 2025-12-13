@@ -1,9 +1,8 @@
-import { checkResult, getTestParticipant } from '../util/util.test'
-import getBattleReport from '.'
+import { getTestParticipant, testBattleReport } from '../util/util.test'
 import { duraniumArmor } from './battleeffect/tech'
 import { Faction, Place } from './enums'
 
-export const DO_BATTLE_X_TIMES = 15000
+export const DO_BATTLE_X_TIMES = 20_000
 
 describe('core', () => {
   // TODO add test for damaged units
@@ -23,11 +22,11 @@ describe('core', () => {
       dreadnought: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.438)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.123)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.438)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.438 },
+      { side: 'draw', percentage: 0.123 },
+      { side: 'defender', percentage: 0.438 },
+    ])
   })
 
   it('basic ground combat', () => {
@@ -47,11 +46,11 @@ describe('core', () => {
       mech: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.033)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.017)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.949)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.033 },
+      { side: 'draw', percentage: 0.017 },
+      { side: 'defender', percentage: 0.949 },
+    ])
   })
 
   it('ground combat with bombardment', () => {
@@ -64,11 +63,11 @@ describe('core', () => {
       infantry: 3,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.904)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.014)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.081)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.904 },
+      { side: 'draw', percentage: 0.014 },
+      { side: 'defender', percentage: 0.081 },
+    ])
   })
 
   it('ground combat with bombardment but also planetary shield', () => {
@@ -82,11 +81,11 @@ describe('core', () => {
       pds: 1,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.316)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.037)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.646)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.316 },
+      { side: 'draw', percentage: 0.037 },
+      { side: 'defender', percentage: 0.646 },
+    ])
   })
 
   it('ground combat with bombardment but also planetary shield... but the planetary shield is DISABLED', () => {
@@ -100,11 +99,11 @@ describe('core', () => {
       pds: 1,
     })
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.82)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.028)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.152)
+    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.82 },
+      { side: 'draw', percentage: 0.028 },
+      { side: 'defender', percentage: 0.152 },
+    ])
   })
 
   it('Make sure units killed by anti fighter barrage does not get to shoot', () => {
@@ -124,10 +123,10 @@ describe('core', () => {
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * 0.0288)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * 0.019)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * 0.952)
+    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+      { side: 'attacker', percentage: 0.0288 },
+      { side: 'draw', percentage: 0.019 },
+      { side: 'defender', percentage: 0.952 },
+    ])
   })
 })

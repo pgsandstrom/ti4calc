@@ -1,5 +1,5 @@
 import { getTestParticipant } from '../../util/util.test'
-import getBattleReport from '..'
+import { getBattleReport } from '..'
 import { Faction, Place } from '../enums'
 
 describe('Yin', () => {

@@ -5,7 +5,7 @@ import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getHighestHitUnit, getLowestWorthSustainUnit } from '../unitGet'
+import { getHighestHitUnit, getLowestWorthSustainUnit, getUnits } from '../unitGet'
 
 export const argentFlight: BattleEffect[] = [
   {
@@ -63,7 +63,8 @@ export const argentFlight: BattleEffect[] = [
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
-      _times(otherParticipant.hitsToAssign.hits, () => {
+      // raid formation
+      _times(otherParticipant.afbHitsToAssign.fighterHitsToAssign, () => {
         const bestSustainUnit = getLowestWorthSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
           logWrapper(
@@ -105,7 +106,8 @@ export const argentFlight: BattleEffect[] = [
       battle: BattleInstance,
       otherParticipant: ParticipantInstance,
     ) => {
-      _times(otherParticipant.hitsToAssign.hits, () => {
+      // raid formation
+      _times(otherParticipant.afbHitsToAssign.fighterHitsToAssign, () => {
         const bestSustainUnit = getLowestWorthSustainUnit(otherParticipant, battle.place, true)
         if (bestSustainUnit) {
           logWrapper(
@@ -117,6 +119,21 @@ export const argentFlight: BattleEffect[] = [
           bestSustainUnit.takenDamageRound = 0
         }
       })
+      // strike wing alpha II
+      for (const rollInfo of otherParticipant.afbHitsToAssign.rollInfoList) {
+        if (rollInfo.roll >= 9) {
+          const infantryToDestroy = getUnits(otherParticipant, undefined, false) // place must be undefined or infantry are filtered out
+            .find((u) => u.type === UnitType.infantry && !u.isDestroyed)
+          if (infantryToDestroy) {
+            logWrapper(
+              `${
+                p.side === 'attacker' ? 'defender' : 'attacker'
+              } destroyed infantry from Strike Wing Alpha II`,
+            )
+            infantryToDestroy.isDestroyed = true
+          }
+        }
+      }
     },
   },
   {

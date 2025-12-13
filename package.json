@@ -2,6 +2,10 @@
   "name": "ti4-calc",
   "version": "0.1.0",
   "private": false,
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbopack",
