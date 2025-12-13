@@ -86,6 +86,10 @@ export default function HelpView({ style }: Props) {
                 Barony&apos;s &quot;War Funding&quot; only rerolls their own dice, never their
                 opponents
               </li>
+              <li>
+                Naaz-Rokha Breakthrough: Supposed to be immune to unit abilities, that is currently
+                not implemented.
+              </li>
             </ul>
           </div>
         </div>

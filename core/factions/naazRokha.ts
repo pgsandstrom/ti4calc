@@ -86,11 +86,11 @@ export const naazRokha: BattleEffect[] = [
     },
   },
 
-  //TODO: Cannot be assigned hits from Unit abilities
+  // TODO: Cannot be assigned hits from Unit abilities. Suggestion: Add "immuneToabilities" property to units and check for that in all relevant places
   {
     name: 'Eidolon Maximum',
     description:
-      'Naaz-Rokha Breakthrough: This unit is both a ship and a ground force. It cannot be assigned hits from unit abilities. Repair it at the start of every combat round.',
+      'Naaz-Rokha Breakthrough: This unit is both a ship and a ground force. It cannot be assigned hits from unit abilities. Repair it at the start of every combat round. WARNING: Immunity to abilities is not yet implemented',
     type: 'faction-ability',
     place: 'both',
     faction: Faction.naaz_rokha,
