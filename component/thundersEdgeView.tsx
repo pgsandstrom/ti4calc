@@ -45,6 +45,12 @@ export default function HelpView({ style }: Props) {
               <li>Faction: The Deepwrought Scholarate</li>
               <li>Faction: The Crimson Rebellion</li>
               <li>Neutral faction</li>
+              <li>Relic: Metali Void Shielding</li>
+              <li>Relic: Lightrail Ordnance</li>
+              <li>Relic: Metali Void Armaments</li>
+              <li>Breakthrough: The Barony of Letnev</li>
+              <li>Breakthrough: The Naaz-Rokha Alliance</li>
+              <li>Breakthrough: The Winnu</li>
             </ul>
           </div>
           <div>
@@ -54,12 +60,6 @@ export default function HelpView({ style }: Props) {
               <li>Faction: The Ral Nel Consortium</li>
               <li>Faction: The Firmament / The Obsidian</li>
               <li>Relic: Heart of Ixth</li>
-              <li>Relic: Metali Void Shielding</li>
-              <li>Relic: Lightrail Ordnance</li>
-              <li>Relic: Metal Void Armaments</li>
-              <li>Breakthrough: The Barony of Letnev</li>
-              <li>Breakthrough: The Naaz-Rokha Alliance</li>
-              <li>Breakthrough: The Winnu</li>
             </ul>
           </div>
           <div>

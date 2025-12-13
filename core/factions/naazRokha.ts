@@ -1,3 +1,4 @@
+import { logWrapper } from '../../util/util-log'
 import { ParticipantInstance } from '../battle-types'
 import { BattleEffect } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
@@ -82,6 +83,49 @@ export const naazRokha: BattleEffect[] = [
     faction: Faction.naaz_rokha,
     transformUnit: (unit: UnitInstance) => {
       return getUnitWithImproved(unit, 'combat', 'hit', 'temp')
+    },
+  },
+
+  // TODO: Cannot be assigned hits from Unit abilities. Suggestion: Add "immuneToabilities" property to units and check for that in all relevant places
+  {
+    name: 'Eidolon Maximum',
+    description:
+      'Naaz-Rokha Breakthrough: This unit is both a ship and a ground force. It cannot be assigned hits from unit abilities. Repair it at the start of every combat round. WARNING: Immunity to abilities is not yet implemented',
+    type: 'faction-ability',
+    place: 'both',
+    faction: Faction.naaz_rokha,
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.mech) {
+        return {
+          ...unit,
+          combat: {
+            ...defaultRoll,
+            hit: 4,
+            count: 4,
+          },
+          sustainDamage: true,
+          isShip: true,
+          isGroundForce: true,
+          battleEffects: [
+            {
+              name: 'Eidolon Maximum repair',
+              type: 'other',
+              place: 'both',
+              onCombatRound: (p: ParticipantInstance) => {
+                p.units.forEach((u) => {
+                  if (u.type === UnitType.mech) {
+                    logWrapper(`Eidolon Maximum repaired!`)
+                    u.takenDamage = false
+                    u.takenDamageRound = undefined
+                  }
+                })
+              },
+            },
+          ],
+        }
+      } else {
+        return unit
+      }
     },
   },
 ]

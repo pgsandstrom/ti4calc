@@ -21,6 +21,7 @@ import {
 import { UnitInstance, UnitType } from '../unit'
 import { getActioncards } from './actioncard'
 import { getAgendas } from './agenda'
+import { getRelics } from './relic'
 import { getTechBattleEffects } from './tech'
 
 export type BattleEffect = NormalBattleEffect | FactionBattleEffect
@@ -34,6 +35,7 @@ export interface NormalBattleEffect extends SharedStuffBattleEffect {
     | 'tech'
     | 'agenda'
     | 'action-card'
+    | 'relic'
     | 'unit-upgrade'
     | 'other'
     // 'faction' is faction-stuff that is automatically used
@@ -159,6 +161,7 @@ export function getAllBattleEffects() {
   const general = getGeneralEffectFromFactions()
   const actioncards = getActioncards()
   const agendas = getAgendas()
+  const relics = getRelics()
   return [
     ...otherBattleEffects,
     ...techs,
@@ -169,6 +172,7 @@ export function getAllBattleEffects() {
     ...general,
     ...actioncards,
     ...agendas,
+    ...relics,
   ]
 }
 

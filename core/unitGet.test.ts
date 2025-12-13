@@ -4,6 +4,7 @@ import { setupBattle } from './battleSetup'
 import { Faction, Place } from './enums'
 import { UnitType } from './unit'
 import {
+  getHighestDiceCountUnit,
   getHighestWorthNonSustainUnit,
   getHighestWorthSustainUnit,
   getHighestWorthUnit,
@@ -362,5 +363,24 @@ describe('unitGet', () => {
       Place.space,
     )
     expect(isDreadnoughtHighest).toEqual(true)
+  })
+
+  it('getHighestDiceCountUnit', () => {
+    const attacker = getTestParticipant('attacker', {
+      warsun: 1,
+      cruiser: 1,
+      destroyer: 1,
+    })
+
+    const defender = getTestParticipant('defender')
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    let highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, 'combat', Place.space)
+    expect(highestDiceCountUnit?.type).toEqual('warsun')
+
+    participantInstance.units.find((u) => u.type === 'cruiser')!.combat!.countBonusTmp = 10
+
+    highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, 'combat', Place.space)
+    expect(highestDiceCountUnit?.type).toEqual('cruiser')
   })
 })

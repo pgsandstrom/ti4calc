@@ -2,6 +2,9 @@ import { ParticipantInstance } from './battle-types'
 import { Place } from './enums'
 import { UnitInstance, UnitType } from './unit'
 
+// INFO: Always use these helper functions instead of "manually" getting units.
+// Because these functions for example makes sure you never accidentally retrieve a unit of type "nonunit", and other stuff that is hard to keep track of
+
 export function getHighestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnits(p, place, includeFighter)
 
@@ -71,6 +74,22 @@ export function getHighestWorthNonSustainUnit(
   })
 }
 
+export function getLowestWorthNonSustainUndamagedUnit(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+) {
+  const units = getUndamagedUnits(p, place, includeFighter, false)
+
+  if (units.length === 0) {
+    return undefined
+  }
+
+  return units.reduce((a, b) => {
+    return a.diePriority! > b.diePriority! ? a : b
+  })
+}
+
 export function getLowestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnits(p, place, includeFighter)
   if (units.length === 0) {
@@ -108,6 +127,37 @@ export function getWeakestCombatUnit(
   })
 }
 
+export function getUndamagedUnits(
+  p: ParticipantInstance,
+  place: Place | undefined,
+  includeFighter: boolean,
+  withSustain?: boolean,
+) {
+  return p.units.filter((u) => {
+    if (!includeFighter && u.type === UnitType.fighter) {
+      return false
+    }
+    if (place != null && !doesUnitFitPlace(u, place)) {
+      return false
+    }
+    if (u.isDestroyed) {
+      return false
+    }
+
+    if (u.type === 'nonunit') {
+      return false
+    }
+
+    if (withSustain === true) {
+      return u.sustainDamage && !u.takenDamage && !u.usedSustain
+    } else if (withSustain === false) {
+      return !u.sustainDamage && !u.takenDamage && !u.usedSustain
+    } else {
+      return true
+    }
+  })
+}
+
 export function getUnits(
   p: ParticipantInstance,
   place: Place | undefined,
@@ -122,6 +172,10 @@ export function getUnits(
       return false
     }
     if (u.isDestroyed) {
+      return false
+    }
+
+    if (u.type === 'nonunit') {
       return false
     }
 
@@ -166,6 +220,28 @@ export function getHighestHitUnit(
     if (
       a[attackType]!.hit - a[attackType]!.hitBonus - a[attackType]!.hitBonusTmp <
       b[attackType]!.hit - b[attackType]!.hitBonus - b[attackType]!.hitBonusTmp
+    ) {
+      return a
+    } else {
+      return b
+    }
+  })
+  return bestUnit
+}
+
+export function getHighestDiceCountUnit(
+  p: ParticipantInstance,
+  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  place: Place | undefined,
+) {
+  const units = getUnits(p, place, true).filter((u) => !!u[attackType])
+  if (units.length === 0) {
+    return undefined
+  }
+  const bestUnit = units.reduce((a, b) => {
+    if (
+      a[attackType]!.count + a[attackType]!.countBonus + a[attackType]!.countBonusTmp >
+      b[attackType]!.count + b[attackType]!.countBonus + b[attackType]!.countBonusTmp
     ) {
       return a
     } else {

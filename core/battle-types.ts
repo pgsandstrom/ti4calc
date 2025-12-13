@@ -168,6 +168,7 @@ export enum BattleWinner {
 }
 
 // things that set combat to an absolute value should be done early, so high priority
+// also things that add units should be high priority
 export const EFFECT_HIGH_PRIORITY = 75
 export const EFFECT_DEFAULT_PRIORITY = 50
 // effects that removes spacecannon or bombardment should have low prio, so it happens after "+1 to spacecannon" stuff

@@ -9,6 +9,7 @@ import {
   isBattleEffectRelevant,
   isBattleEffectRelevantForSome,
 } from '../core/battleeffect/battleEffects'
+import { getRelics } from '../core/battleeffect/relic'
 import { getTechBattleEffects } from '../core/battleeffect/tech'
 import {
   getAgent,
@@ -58,6 +59,7 @@ export default function OptionsView(props: OptionsProps) {
   const commanders = filterOutBattleEffects(getCommanders(), props.attacker, props.defender)
   const actioncards = filterOutBattleEffects(getActioncards(), props.attacker, props.defender)
   const agendas = filterOutBattleEffects(getAgendas(), props.attacker, props.defender)
+  const relics = filterOutBattleEffects(getRelics(), props.attacker, props.defender)
 
   const [show, setShow] = useState(() => {
     return (
@@ -113,6 +115,7 @@ export default function OptionsView(props: OptionsProps) {
           <OptionsPartView title="Agent" battleEffects={agents} {...props} />
           <OptionsPartView title="Commander" battleEffects={commanders} {...props} />
           <OptionsPartView title="Action card" battleEffects={actioncards} {...props} />
+          <OptionsPartView title="Relic" battleEffects={relics} {...props} />
           <OptionsPartView title="Agenda" battleEffects={agendas} {...props} />
           <OptionsPartView title="Other" battleEffects={otherBattleEffects} {...props} />
         </div>
