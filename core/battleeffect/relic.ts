@@ -11,7 +11,7 @@ export function getRelics() {
   return [lightrailOrdnance, metaliVoidShielding, metaliVoidArmaments]
 }
 
-//Does effectively the same thing as Experimental Battlestation, just with a count.
+// Does effectively the same thing as Experimental Battlestation, just with a count.
 export const lightrailOrdnance: BattleEffect = {
   name: 'Lightrail Ordnance',
   description:
@@ -19,28 +19,30 @@ export const lightrailOrdnance: BattleEffect = {
   type: 'relic',
   place: 'both',
   count: true,
-  onStart: (
+  beforeStart: (
     p: ParticipantInstance,
     battle: BattleInstance,
     _op: ParticipantInstance,
     effectName: string,
   ) => {
     // Make sure only one Space Dock rolls for Space Cannon in ground combat
-    let spaceCannonCount = 0
+    let spacedockCount = 0
     if (battle.place === Place.ground) {
-      spaceCannonCount = 2
+      spacedockCount = 1
     } else {
-      spaceCannonCount = p.effects[effectName] * 2
+      spacedockCount = p.effects[effectName]
     }
     const modify = (instance: UnitInstance) => {
       instance.spaceCannon = {
         ...defaultRoll,
         hit: 5,
-        count: spaceCannonCount,
+        count: 2,
       }
     }
-    const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
-    p.units.push(planetUnit)
+    _times(spacedockCount, () => {
+      const planetUnit = createUnitAndApplyEffects(UnitType.other, p, battle.place, modify)
+      p.units.push(planetUnit)
+    })
   },
 }
 
