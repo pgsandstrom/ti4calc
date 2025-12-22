@@ -12,7 +12,7 @@
     "dev-database": "docker compose -f docker-compose-dev.yml up -d",
     "dev-database-build": "docker compose -f docker-compose-dev.yml build",
     "docker-build": "docker compose build --no-cache",
-    "docker-up": "docker compose up",
+    "docker-up": "docker compose up -d",
     "format": "prettier --write \"{,!(.next|dist|node_modules)/**/}!(package-lock).{json,md,js,jsx,ts,tsx,css,scss}\"",
     "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx,js}\"",
     "pre-commit": "lint-staged",
