@@ -1,8 +1,8 @@
 import { BattleReport, getBattleReport } from '../core'
 import { Participant, Side } from '../core/battle-types'
 import { getUnitMap } from '../core/battleSetup'
+import { TEST_NUMBER_OF_ROLLS } from '../core/constant'
 import { Faction, Place } from '../core/enums'
-import { DO_BATTLE_X_TIMES } from '../core/index.test'
 import { UnitType } from '../core/unit'
 import { PartialRecord } from './util-types'
 
@@ -80,18 +80,18 @@ export function checkResult(result: number, expected: number, failOnInvalid = tr
   let allowedErrorPercentage: number
   if (expected === 0) {
     allowedErrorPercentage = 0
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.01) {
+  } else if (expected <= TEST_NUMBER_OF_ROLLS * 0.01) {
     // for example here, if the expected outcome is 10 out of 1000, we accept numbers between 6 and 14
     allowedErrorPercentage = 0.4
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.02) {
+  } else if (expected <= TEST_NUMBER_OF_ROLLS * 0.02) {
     allowedErrorPercentage = 0.35
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.045) {
+  } else if (expected <= TEST_NUMBER_OF_ROLLS * 0.045) {
     allowedErrorPercentage = 0.25
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.065) {
+  } else if (expected <= TEST_NUMBER_OF_ROLLS * 0.065) {
     allowedErrorPercentage = 0.15
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.08) {
+  } else if (expected <= TEST_NUMBER_OF_ROLLS * 0.08) {
     allowedErrorPercentage = 0.15
-  } else if (expected <= DO_BATTLE_X_TIMES * 0.132) {
+  } else if (expected <= TEST_NUMBER_OF_ROLLS * 0.132) {
     allowedErrorPercentage = 0.08
   } else {
     allowedErrorPercentage = 0.05

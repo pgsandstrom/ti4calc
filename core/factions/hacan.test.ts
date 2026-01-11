@@ -1,6 +1,6 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Hacan', () => {
   it('Hacan flagship should give different results with different numbers of trade goods bonuses', () => {
@@ -25,7 +25,7 @@ describe('Hacan', () => {
       Faction.muaat,
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.386 },
       { side: 'draw', percentage: 0.106 },
       { side: 'defender', percentage: 0.507 },
@@ -33,7 +33,7 @@ describe('Hacan', () => {
 
     attacker.battleEffects['Hacan flagship trade goods'] = 100
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.469 },
       { side: 'draw', percentage: 0.117 },
       { side: 'defender', percentage: 0.413 },

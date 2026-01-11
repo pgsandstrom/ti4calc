@@ -1,6 +1,6 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 const ENDLESS_REPAIR = 1000
 
@@ -26,7 +26,7 @@ describe('Empyrean', () => {
       Faction.muaat,
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -55,7 +55,7 @@ describe('Empyrean', () => {
       Faction.muaat,
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -87,7 +87,7 @@ describe('Empyrean', () => {
       Faction.muaat,
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -132,7 +132,7 @@ describe('Empyrean', () => {
 
     const totalChance = attackerWin + draw + defenderWinChance
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: attackerWin / totalChance },
       { side: 'draw', percentage: draw / totalChance },
       { side: 'defender', percentage: defenderWinChance / totalChance },
@@ -159,7 +159,7 @@ describe('Empyrean', () => {
       Faction.sardakk_norr,
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 1 },

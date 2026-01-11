@@ -1,6 +1,6 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Mentak', () => {
   it('Mentak hero should resurrect upgraded units if mentak has the upgrade', () => {
@@ -22,7 +22,7 @@ describe('Mentak', () => {
       destroyer: 4,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.642 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0.358 },
@@ -33,7 +33,7 @@ describe('Mentak', () => {
     defender.side = 'attacker'
     attacker.side = 'defender'
 
-    testBattleReport(defender, attacker, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(defender, attacker, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.358 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0.642 },
@@ -57,7 +57,7 @@ describe('Mentak', () => {
       mech: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.41 },
       { side: 'draw', percentage: 0.101 },
       { side: 'defender', percentage: 0.49 },
@@ -81,7 +81,7 @@ describe('Mentak', () => {
       Faction.mentak,
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.323 },
       { side: 'draw', percentage: 0.354 },
       { side: 'defender', percentage: 0.323 },
@@ -106,7 +106,7 @@ describe('Mentak', () => {
       Faction.mentak,
     )
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.333 },
       { side: 'draw', percentage: 0.333 },
       { side: 'defender', percentage: 0.333 },
@@ -131,7 +131,7 @@ describe('Mentak', () => {
       Faction.mentak,
     )
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 / 6 },
       { side: 'draw', percentage: 1 / 6 },
       { side: 'defender', percentage: 2 / 3 },

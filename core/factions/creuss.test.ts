@@ -1,6 +1,6 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('creuss', () => {
   it('Dimensional splicer should work', () => {
@@ -20,7 +20,7 @@ describe('creuss', () => {
       cruiser: 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.479 },
       { side: 'draw', percentage: 0.042 },
       { side: 'defender', percentage: 0.479 },

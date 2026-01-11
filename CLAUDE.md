@@ -81,12 +81,16 @@ testBattleReport(attacker, defender, Place.space, 500, [
 
 Do NOT guess percentages and iterate based on test failures. Instead:
 
-1. In `core/constant.ts`, set `NUMBER_OF_ROLLS = ROLLS_WHEN_BUILDING_TEST_DATA`
+1. In `core/constant.ts`, set `TEST_NUMBER_OF_ROLLS = ROLLS_WHEN_BUILDING_TEST_DATA`
 2. Write your test with placeholder percentages (e.g., 0.5, 0.25, 0.25)
 3. Run `npm run test -- path/to/your.test.ts` - the test will fail and show actual vs expected values
 4. Calculate percentages from the failure output (e.g., "Expected 150000 to be between..." means 150000/220000 ≈ 0.68)
 5. Update your test with the accurate percentages
-6. Reset `NUMBER_OF_ROLLS = 20000` before committing
+6. Reset `TEST_NUMBER_OF_ROLLS = 20_000` before committing
+
+**Debugging a single battle in tests:**
+
+Set `TEST_NUMBER_OF_ROLLS = 1` in `core/constant.ts` to enable detailed battle logging in test output. This shows the step-by-step battle flow (bombardment, combat rounds, damage, etc.).
 
 Prefer simple, symmetric test setups where possible (e.g., 2v2 same units) - the effect being tested becomes clearer.
 

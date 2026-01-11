@@ -1,7 +1,7 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { solarFlare } from '../battleeffect/actioncard'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('keleres', () => {
   it('mecatol space cannon to work', () => {
@@ -13,7 +13,7 @@ describe('keleres', () => {
       'I.I.H.Q. MODERNIZATION space cannon': 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.4 },
       { side: 'draw', percentage: 0.6 },
       { side: 'defender', percentage: 0 },
@@ -36,7 +36,7 @@ describe('keleres', () => {
       'I.I.H.Q. MODERNIZATION space cannon': 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },

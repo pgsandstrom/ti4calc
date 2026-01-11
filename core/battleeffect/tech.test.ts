@@ -1,7 +1,7 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { getBattleReport } from '..'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 import { assaultCannon, duraniumArmor, plasmaScoring, x89BacterialWeapon } from './tech'
 
 describe('Tech', () => {
@@ -21,7 +21,7 @@ describe('Tech', () => {
       dreadnought: 5,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.655 },
       { side: 'draw', percentage: 0.019 },
       { side: 'defender', percentage: 0.325 },
@@ -72,8 +72,8 @@ describe('Tech', () => {
         [plasmaScoring.name]: 1,
       },
     )
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
-    expect(result.attacker).toBeLessThan(DO_BATTLE_X_TIMES / 2)
+    const result = getBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS)
+    expect(result.attacker).toBeLessThan(TEST_NUMBER_OF_ROLLS / 2)
   })
 
   it('x89BacterialWeapon simple', () => {
@@ -96,7 +96,7 @@ describe('Tech', () => {
       Faction.mentak,
     )
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.33 },
       { side: 'draw', percentage: 0.33 },
       { side: 'defender', percentage: 0.33 },
@@ -119,7 +119,7 @@ describe('Tech', () => {
       infantry: 2,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.6 },
       { side: 'defender', percentage: 0.4 },

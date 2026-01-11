@@ -1,8 +1,7 @@
 import { getTestParticipant, testBattleReport } from '../util/util.test'
 import { duraniumArmor } from './battleeffect/tech'
+import { TEST_NUMBER_OF_ROLLS } from './constant'
 import { Faction, Place } from './enums'
-
-export const DO_BATTLE_X_TIMES = 20_000
 
 describe('core', () => {
   // TODO add test for damaged units
@@ -22,7 +21,7 @@ describe('core', () => {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.438 },
       { side: 'draw', percentage: 0.123 },
       { side: 'defender', percentage: 0.438 },
@@ -46,7 +45,7 @@ describe('core', () => {
       mech: 2,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.033 },
       { side: 'draw', percentage: 0.017 },
       { side: 'defender', percentage: 0.949 },
@@ -63,7 +62,7 @@ describe('core', () => {
       infantry: 3,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.904 },
       { side: 'draw', percentage: 0.014 },
       { side: 'defender', percentage: 0.081 },
@@ -81,7 +80,7 @@ describe('core', () => {
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.316 },
       { side: 'draw', percentage: 0.037 },
       { side: 'defender', percentage: 0.646 },
@@ -99,7 +98,7 @@ describe('core', () => {
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.82 },
       { side: 'draw', percentage: 0.028 },
       { side: 'defender', percentage: 0.152 },
@@ -123,7 +122,7 @@ describe('core', () => {
       },
     )
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.0288 },
       { side: 'draw', percentage: 0.019 },
       { side: 'defender', percentage: 0.952 },

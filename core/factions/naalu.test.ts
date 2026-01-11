@@ -1,6 +1,6 @@
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Naalu', () => {
   it('Naalu flagship should help in ground combat', () => {
@@ -18,7 +18,7 @@ describe('Naalu', () => {
       infantry: 3,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.477 },
       { side: 'draw', percentage: 0.044 },
       { side: 'defender', percentage: 0.479 },
@@ -39,7 +39,7 @@ describe('Naalu', () => {
       infantry: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.908 },
       { side: 'defender', percentage: 0.092 },
@@ -68,7 +68,7 @@ describe('Naalu', () => {
       },
     )
 
-    testBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },

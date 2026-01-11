@@ -1,6 +1,6 @@
 import { checkResult, getTestParticipant, testBattleReport } from '../../util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Argent flight', () => {
   it('Argent flight destroyers should destroy sustain', () => {
@@ -22,7 +22,7 @@ describe('Argent flight', () => {
       cruiser: 3,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.863 },
       { side: 'draw', percentage: 0.026 },
       { side: 'defender', percentage: 0.111 },
@@ -86,7 +86,7 @@ describe('Argent flight', () => {
       pds: 10,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.99 },
     ])
   })
@@ -108,7 +108,7 @@ describe('Argent flight', () => {
       cruiser: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.443 },
       { side: 'draw', percentage: 0.113 },
       { side: 'defender', percentage: 0.443 },
@@ -132,7 +132,7 @@ describe('Argent flight', () => {
       destroyer: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES, [
+    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.8 },
       { side: 'draw', percentage: 0.024 },
       { side: 'defender', percentage: 0.176 },

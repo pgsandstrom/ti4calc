@@ -1,7 +1,7 @@
 import { checkResult, getTestParticipant } from '../../util/util.test'
 import { BattleReport, getBattleReport } from '..'
+import { TEST_NUMBER_OF_ROLLS } from '../constant'
 import { Faction, Place } from '../enums'
-import { DO_BATTLE_X_TIMES } from '../index.test'
 
 describe('Sol', () => {
   it('should have stronger infantry', () => {
@@ -21,7 +21,7 @@ describe('Sol', () => {
       Faction.muaat,
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS)
 
     check1v1InfantryResult(result, 0.4, 0.3)
   })
@@ -51,7 +51,7 @@ describe('Sol', () => {
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS)
 
     check1v1InfantryResult(result, 0.5, 0.4)
   })
@@ -80,7 +80,7 @@ describe('Sol', () => {
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS)
 
     const attackerHitChance = 0.4
     const defenderHitChance = 0.4
@@ -99,7 +99,7 @@ describe('Sol', () => {
       aMiss * aHit * dMiss +
       aHit * aHit * dMiss +
       (aMiss * aMiss * dMiss * aHit * dMiss) / (1 - aMiss * dMiss)
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * attackerWinChance)
+    checkResult(result.attacker, TEST_NUMBER_OF_ROLLS * attackerWinChance)
     // P(Ah Am Dh) +
     // P(Am Ah Dh) +
     // P(Ah Ah Dh) +
@@ -109,11 +109,11 @@ describe('Sol', () => {
       aMiss * aHit * dHit +
       aHit * aHit * dHit +
       (aMiss * aMiss * dMiss * aHit * dHit) / (1 - aMiss * dMiss)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * drawChance)
+    checkResult(result.draw, TEST_NUMBER_OF_ROLLS * drawChance)
     // P(Am Am Dh) + P(Am Am Dm) * P(Am Dh) / (1 - P(Am Dm))
     const defenderWinChance =
       aMiss * aMiss * dHit + (aMiss * aMiss * dMiss * aMiss * dHit) / (1 - aMiss * dMiss)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
+    checkResult(result.defender, TEST_NUMBER_OF_ROLLS * defenderWinChance)
   })
 
   it('should have better space combat odds with its upgraded carrier', () => {
@@ -141,7 +141,7 @@ describe('Sol', () => {
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, DO_BATTLE_X_TIMES)
+    const result = getBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS)
 
     const attackerHitChance = 0.2
     const defenderHitChance = 0.2
@@ -159,16 +159,16 @@ describe('Sol', () => {
     const attackerWinChance =
       (aHit * dMiss + aHit * dHit) / (1 - aMiss * dMiss) +
       (aMiss * dHit * aHit * dMiss) / (1 - aMiss * dMiss) / (1 - aMiss * dMiss)
-    checkResult(result.attacker, DO_BATTLE_X_TIMES * attackerWinChance)
+    checkResult(result.attacker, TEST_NUMBER_OF_ROLLS * attackerWinChance)
     // defender hits once before they both hit at some point after
     // P(Ah Dh) * P(Am Dh) / (1 - P(Am Dm))^2
     const drawChance = (aHit * dHit * aMiss * dHit) / (1 - aMiss * dMiss) / (1 - aMiss * dMiss)
-    checkResult(result.draw, DO_BATTLE_X_TIMES * drawChance)
+    checkResult(result.draw, TEST_NUMBER_OF_ROLLS * drawChance)
     // same as draw, but instead of ending on both hitting, it's only the defender hitting:
     // P(Am Dh) * P(Am Dh) / (1 - P(Am Dm))^2
     const defenderWinChance =
       (aMiss * dHit * aMiss * dHit) / (1 - aMiss * dMiss) / (1 - aMiss * dMiss)
-    checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
+    checkResult(result.defender, TEST_NUMBER_OF_ROLLS * defenderWinChance)
   })
 })
 
@@ -184,11 +184,11 @@ function check1v1InfantryResult(
   // using closed form for geometric series
   // P(defender missing and attacker hitting) / (1 - P(both missing))
   const attackerWinChance = (dMissChance * aHitChance) / (1 - dMissChance * aMissChance)
-  checkResult(result.attacker, DO_BATTLE_X_TIMES * attackerWinChance)
+  checkResult(result.attacker, TEST_NUMBER_OF_ROLLS * attackerWinChance)
   // P(both hitting) / (1 - P(both missing))
   const drawChance = (dHitChance * aHitChance) / (1 - dMissChance * aMissChance)
-  checkResult(result.draw, DO_BATTLE_X_TIMES * drawChance)
+  checkResult(result.draw, TEST_NUMBER_OF_ROLLS * drawChance)
   // P(defender hitting and attacker missing) / (1 - P(both missing))
   const defenderWinChance = (dHitChance * aMissChance) / (1 - dMissChance * aMissChance)
-  checkResult(result.defender, DO_BATTLE_X_TIMES * defenderWinChance)
+  checkResult(result.defender, TEST_NUMBER_OF_ROLLS * defenderWinChance)
 }
