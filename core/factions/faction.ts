@@ -9,6 +9,7 @@ import { creuss } from './creuss'
 import { crimsonRebellion } from './crimsonRebellion'
 import { deepwrought } from './deepwrought'
 import { empyrean } from './empyrean'
+import { firmament } from './firmament'
 import { hacan } from './hacan'
 import { jolNar } from './jolNar'
 import { keleres } from './keleres'
@@ -21,6 +22,7 @@ import { naazRokha } from './naazRokha'
 import { nekro } from './nekro'
 import { neutral } from './neutral'
 import { nomad } from './nomad'
+import { obsidian } from './obsidian'
 import { sardarkkNorr } from './sardakkNorr'
 import { sol } from './sol'
 import { titansOfUl } from './titansOfUl'
@@ -39,6 +41,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   'Crimson Rebellion': crimsonRebellion,
   Deepwrought: deepwrought,
   Empyrean: empyrean,
+  Firmament: firmament,
   Hacan: hacan,
   'Jol-Nar': jolNar,
   Keleres: keleres,
@@ -51,6 +54,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   Nekro: nekro,
   Neutral: neutral,
   Nomad: nomad,
+  Obsidian: obsidian,
   "Sardakk N'orr": sardarkkNorr,
   Sol: sol,
   'Titans of Ul': titansOfUl,
