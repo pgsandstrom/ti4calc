@@ -8,7 +8,7 @@ import { getLowestWorthNonSustainUndamagedUnit } from '../unitGet'
 import { BattleEffect } from './battleEffects'
 
 export function getRelics() {
-  return [lightrailOrdnance, metaliVoidShielding, metaliVoidArmaments]
+  return [lightrailOrdnance, metaliVoidShielding, metaliVoidArmaments, heartOfIxth]
 }
 
 // Does effectively the same thing as Experimental Battlestation, just with a count.
@@ -88,4 +88,71 @@ export const metaliVoidArmaments: BattleEffect = {
     p.units.push(planetUnit)
   },
   priority: EFFECT_HIGH_PRIORITY,
+}
+
+// Modifies dice rolls by +1 for the owner and -1 for the opponent
+export const heartOfIxth: BattleEffect = {
+  name: 'Heart of Ixth',
+  description:
+    'After any die is rolled, you may exhaust this card to add or subtract 1 from its results.',
+  type: 'relic',
+  place: 'both',
+  transformUnit: (unit: UnitInstance, _p: ParticipantInstance, _place: Place) => {
+    // Add +1 to hit bonus for friendly units' combat, bombardment, space cannon, and AFB rolls
+    const newUnit = { ...unit }
+    if (unit.combat) {
+      newUnit.combat = {
+        ...unit.combat,
+        hitBonus: unit.combat.hitBonus + 1,
+      }
+    }
+    if (unit.bombardment) {
+      newUnit.bombardment = {
+        ...unit.bombardment,
+        hitBonus: unit.bombardment.hitBonus + 1,
+      }
+    }
+    if (unit.spaceCannon) {
+      newUnit.spaceCannon = {
+        ...unit.spaceCannon,
+        hitBonus: unit.spaceCannon.hitBonus + 1,
+      }
+    }
+    if (unit.afb) {
+      newUnit.afb = {
+        ...unit.afb,
+        hitBonus: unit.afb.hitBonus + 1,
+      }
+    }
+    return newUnit
+  },
+  transformEnemyUnit: (unit: UnitInstance, _p: ParticipantInstance, _place: Place) => {
+    // Modify enemy combat, bombardment, space cannon, and AFB rolls by -1 (making them worse)
+    const newUnit = { ...unit }
+    if (unit.combat) {
+      newUnit.combat = {
+        ...unit.combat,
+        hitBonus: unit.combat.hitBonus - 1, // Subtracting bonus makes it harder to hit
+      }
+    }
+    if (unit.bombardment) {
+      newUnit.bombardment = {
+        ...unit.bombardment,
+        hitBonus: unit.bombardment.hitBonus - 1,
+      }
+    }
+    if (unit.spaceCannon) {
+      newUnit.spaceCannon = {
+        ...unit.spaceCannon,
+        hitBonus: unit.spaceCannon.hitBonus - 1,
+      }
+    }
+    if (unit.afb) {
+      newUnit.afb = {
+        ...unit.afb,
+        hitBonus: unit.afb.hitBonus - 1,
+      }
+    }
+    return newUnit
+  },
 }

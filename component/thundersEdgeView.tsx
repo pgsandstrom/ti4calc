@@ -48,6 +48,7 @@ export default function HelpView({ style }: Props) {
               <li>Relic: Metali Void Shielding</li>
               <li>Relic: Lightrail Ordnance</li>
               <li>Relic: Metali Void Armaments</li>
+              <li>Relic: Heart of Ixth</li>
               <li>Breakthrough: The Barony of Letnev</li>
               <li>Breakthrough: The Naaz-Rokha Alliance</li>
               <li>Breakthrough: The Winnu</li>
@@ -59,7 +60,6 @@ export default function HelpView({ style }: Props) {
               <li>Faction: Last Bastion</li>
               <li>Faction: The Ral Nel Consortium</li>
               <li>Faction: The Firmament / The Obsidian</li>
-              <li>Relic: Heart of Ixth</li>
             </ul>
           </div>
           <div>
