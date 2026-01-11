@@ -58,7 +58,7 @@ Next.js app with React. Main UI in `pages/index.tsx`. Components handle unit inp
 
 ## Testing
 
-Tests use Monte Carlo simulation, so **tests may occasionally fail due to randomness**. The test framework retries up to 10 times before actually failing. If a test fails, run it again before investigating.
+Tests use Monte Carlo simulation, so **tests may occasionally fail due to randomness**. The test framework retries up to 10 times before actually failing, so it is very unlikely to fail by chance.
 
 **Test patterns:**
 
@@ -77,12 +77,41 @@ testBattleReport(attacker, defender, Place.space, 500, [
 ])
 ```
 
+**Writing new tests - getting accurate percentages:**
+
+Do NOT guess percentages and iterate based on test failures. Instead:
+
+1. In `core/constant.ts`, set `NUMBER_OF_ROLLS = ROLLS_WHEN_BUILDING_TEST_DATA`
+2. Write your test with placeholder percentages (e.g., 0.5, 0.25, 0.25)
+3. Run `npm run test -- path/to/your.test.ts` - the test will fail and show actual vs expected values
+4. Calculate percentages from the failure output (e.g., "Expected 150000 to be between..." means 150000/220000 ≈ 0.68)
+5. Update your test with the accurate percentages
+6. Reset `NUMBER_OF_ROLLS = 20000` before committing
+
+Prefer simple, symmetric test setups where possible (e.g., 2v2 same units) - the effect being tested becomes clearer.
+
+## Dice Mechanics
+
+TI4 uses **d10 dice (1-10)**. A unit's hit value means it hits on that number or higher:
+
+- Hit on 10+ = 10% (just 10)
+- Hit on 9+ = 20% (9, 10)
+- Hit on 8+ = 30% (8, 9, 10)
+- Hit on 7+ = 40% (7, 8, 9, 10)
+- Hit on 6+ = 50% (6, 7, 8, 9, 10)
+- Hit on 5+ = 60% (5, 6, 7, 8, 9, 10)
+- Hit on 4+ = 70% (4, 5, 6, 7, 8, 9, 10)
+- Hit on 3+ = 80% (3, 4, 5, 6, 7, 8, 9, 10)
+- Hit on 2+ = 90% (2, 3, 4, 5, 6, 7, 8, 9, 10)
+- Hit on 1+ = 100% (always hits)
+
+A +1 combat bonus improves the hit value by 1 (e.g., 5+ becomes 4+, increasing from 60% to 70%).
+
 ## Debugging Tips
 
 In `core/constant.ts`:
 
 - Set `NUMBER_OF_ROLLS = 1` for detailed logging of a single battle
-- Set `NUMBER_OF_ROLLS = ROLLS_WHEN_BUILDING_TEST_DATA` (1M rolls) to generate precise percentages for new tests - results print to console
 - Default for production: `NUMBER_OF_ROLLS = 20000`
 
-The `LOG` constant enables verbose battle logging when running single simulations.
+The `LOG` constant enables verbose battle logging when running single simulations (in browser console).
