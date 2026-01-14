@@ -23,6 +23,7 @@ import { nekro } from './nekro'
 import { neutral } from './neutral'
 import { nomad } from './nomad'
 import { obsidian } from './obsidian'
+import { ralNelConsortium } from './ralNelConsortium'
 import { sardarkkNorr } from './sardakkNorr'
 import { sol } from './sol'
 import { titansOfUl } from './titansOfUl'
@@ -55,6 +56,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   Neutral: neutral,
   Nomad: nomad,
   Obsidian: obsidian,
+  'Ral Nel Consortium': ralNelConsortium,
   "Sardakk N'orr": sardarkkNorr,
   Sol: sol,
   'Titans of Ul': titansOfUl,
