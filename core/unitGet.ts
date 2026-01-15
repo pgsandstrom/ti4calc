@@ -5,21 +5,28 @@ import { UnitInstance, UnitType } from './unit'
 // INFO: Always use these helper functions instead of "manually" getting units.
 // Because these functions for example makes sure you never accidentally retrieve a unit of type "nonunit", and other stuff that is hard to keep track of
 
+// TODO several of these method could be optimized to take more stuff info account. Like how number of dices determine worth, and stuf like that.
+// Maybe we could even get rid of diePriority? And just determine that on the fly by how powerful stuff is?
+
 export function getHighestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
   const units = getUnits(p, place, includeFighter)
-
   if (units.length === 0) {
     return undefined
   }
-
   return units.reduce((a, b) => {
-    if (a.diePriority === b.diePriority) {
-      if (a.takenDamage !== b.takenDamage) {
-        return a.takenDamage ? b : a
-      }
-      return a.usedSustain ? a : b
+    if (a.diePriority !== b.diePriority) {
+      return a.diePriority! > b.diePriority! ? b : a
     }
-    return a.diePriority! > b.diePriority! ? b : a
+    if (a.takenDamage !== b.takenDamage) {
+      return a.takenDamage ? b : a
+    }
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? a : b
+    }
+    if (a.usedSustainThisTimingWindow !== b.usedSustainThisTimingWindow) {
+      return a.usedSustainThisTimingWindow ? a : b
+    }
+    return a
   })
 }
 
@@ -35,12 +42,16 @@ export function getHighestWorthSustainUnit(
   const units = getUnits(p, place, includeFighter, true)
   if (units.length === 0) {
     return undefined
-  } else {
-    // TODO should I replace all these reduces with a lodash maxby?
-    return units.reduce((a, b) => {
-      return (a.useSustainDamagePriority ?? 50) > (b.useSustainDamagePriority ?? 50) ? b : a
-    })
   }
+  return units.reduce((a, b) => {
+    if ((a.useSustainDamagePriority ?? 50) !== (b.useSustainDamagePriority ?? 50)) {
+      return (a.useSustainDamagePriority ?? 50) > (b.useSustainDamagePriority ?? 50) ? b : a
+    }
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? a : b
+    }
+    return a
+  })
 }
 
 export function getLowestWorthSustainUnit(
@@ -51,11 +62,16 @@ export function getLowestWorthSustainUnit(
   const units = getUnits(p, place, includeFighter, true)
   if (units.length === 0) {
     return undefined
-  } else {
-    return units.reduce((a, b) => {
-      return (a.useSustainDamagePriority ?? 50) > (b.useSustainDamagePriority ?? 50) ? a : b
-    })
   }
+  return units.reduce((a, b) => {
+    if ((a.useSustainDamagePriority ?? 50) !== (b.useSustainDamagePriority ?? 50)) {
+      return (a.useSustainDamagePriority ?? 50) > (b.useSustainDamagePriority ?? 50) ? a : b
+    }
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? b : a
+    }
+    return a
+  })
 }
 
 export function getHighestWorthNonSustainUnit(
@@ -64,13 +80,17 @@ export function getHighestWorthNonSustainUnit(
   includeFighter: boolean,
 ) {
   const units = getUnits(p, place, includeFighter, false)
-
   if (units.length === 0) {
     return undefined
   }
-
   return units.reduce((a, b) => {
-    return a.diePriority! > b.diePriority! ? b : a
+    if (a.diePriority !== b.diePriority) {
+      return a.diePriority! > b.diePriority! ? b : a
+    }
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? a : b
+    }
+    return a
   })
 }
 
@@ -80,13 +100,17 @@ export function getLowestWorthNonSustainUndamagedUnit(
   includeFighter: boolean,
 ) {
   const units = getUndamagedUnits(p, place, includeFighter, false)
-
   if (units.length === 0) {
     return undefined
   }
-
   return units.reduce((a, b) => {
-    return a.diePriority! > b.diePriority! ? a : b
+    if (a.diePriority !== b.diePriority) {
+      return a.diePriority! > b.diePriority! ? a : b
+    }
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? b : a
+    }
+    return a
   })
 }
 
@@ -94,17 +118,22 @@ export function getLowestWorthUnit(p: ParticipantInstance, place: Place, include
   const units = getUnits(p, place, includeFighter)
   if (units.length === 0) {
     return undefined
-  } else {
-    return units.reduce((a, b) => {
-      if (a.diePriority === b.diePriority) {
-        if (a.takenDamage !== b.takenDamage) {
-          return a.takenDamage && !b.usedSustain ? b : a
-        }
-        return a.usedSustain ? b : a
-      }
-      return a.diePriority! > b.diePriority! ? a : b
-    })
   }
+  return units.reduce((a, b) => {
+    if (a.diePriority !== b.diePriority) {
+      return a.diePriority! > b.diePriority! ? a : b
+    }
+    if (a.takenDamage !== b.takenDamage) {
+      return a.takenDamage && !b.usedSustainThisTimingWindow ? b : a
+    }
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? b : a
+    }
+    if (a.usedSustainThisTimingWindow !== b.usedSustainThisTimingWindow) {
+      return a.usedSustainThisTimingWindow ? b : a
+    }
+    return a
+  })
 }
 
 export function getWeakestCombatUnit(
@@ -117,13 +146,20 @@ export function getWeakestCombatUnit(
     return undefined
   }
   return units.reduce((a, b) => {
-    if (a.combat?.hit === b.combat?.hit) {
-      if (a.afb?.hit === b.afb?.hit) {
-        return a.sustainDamage > b.sustainDamage ? a : b
-      }
+    if (a.combat?.hit !== b.combat?.hit) {
+      return (a.combat?.hit ?? 10) > (b.combat?.hit ?? 10) ? a : b
+    }
+    if (a.afb?.hit !== b.afb?.hit) {
       return (a.afb?.hit ?? 10) > (b.afb?.hit ?? 10) ? a : b
     }
-    return (a.combat?.hit ?? 10) > (b.combat?.hit ?? 10) ? a : b
+    if (a.sustainDamage !== b.sustainDamage) {
+      return a.sustainDamage > b.sustainDamage ? a : b
+    }
+    // TODO: We sort by galvanized here, but really we should check dice count
+    if (a.galvanized !== b.galvanized) {
+      return a.galvanized ? b : a
+    }
+    return a
   })
 }
 
@@ -149,9 +185,9 @@ export function getUndamagedUnits(
     }
 
     if (withSustain === true) {
-      return u.sustainDamage && !u.takenDamage && !u.usedSustain
+      return u.sustainDamage && !u.takenDamage && !u.usedSustainThisTimingWindow
     } else if (withSustain === false) {
-      return !u.sustainDamage && !u.takenDamage && !u.usedSustain
+      return !u.sustainDamage && !u.takenDamage && !u.usedSustainThisTimingWindow
     } else {
       return true
     }
@@ -180,9 +216,9 @@ export function getUnits(
     }
 
     if (withSustain === true) {
-      return u.sustainDamage && !u.takenDamage && !u.usedSustain
+      return u.sustainDamage && !u.takenDamage && !u.usedSustainThisTimingWindow
     } else if (withSustain === false) {
-      return !u.sustainDamage || u.takenDamage || u.usedSustain
+      return !u.sustainDamage || u.takenDamage || u.usedSustainThisTimingWindow
     } else {
       return true
     }

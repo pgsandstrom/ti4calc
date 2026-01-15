@@ -78,7 +78,7 @@ describe('unitGet', () => {
     participantInstance.units.forEach((u, index) => {
       if (index === 0) {
         // No damage
-        u.usedSustain = true
+        u.usedSustainThisTimingWindow = true
       }
       if (index === 1) {
         // No damage
@@ -94,7 +94,7 @@ describe('unitGet', () => {
 
     expect(unit?.type).toEqual(UnitType.dreadnought)
     expect(unit?.takenDamage).toEqual(false)
-    expect(unit?.usedSustain).toEqual(true)
+    expect(unit?.usedSustainThisTimingWindow).toEqual(true)
   })
 
   it('getHighestWorthUnit should respect place', () => {
@@ -153,7 +153,7 @@ describe('unitGet', () => {
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    participantInstance.units[0].usedSustain = true
+    participantInstance.units[0].usedSustainThisTimingWindow = true
 
     const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
 
@@ -184,7 +184,7 @@ describe('unitGet', () => {
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    participantInstance.units[0].usedSustain = true
+    participantInstance.units[0].usedSustainThisTimingWindow = true
 
     const unit = getLowestWorthSustainUnit(participantInstance, Place.space, true)
 
@@ -239,12 +239,12 @@ describe('unitGet', () => {
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    participantInstance.units[0].usedSustain = true
+    participantInstance.units[0].usedSustainThisTimingWindow = true
 
     const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
 
     expect(unit?.type).toEqual(UnitType.dreadnought)
-    expect(unit?.usedSustain).toEqual(true)
+    expect(unit?.usedSustainThisTimingWindow).toEqual(true)
   })
 
   it('getLowestWorthUnit', () => {
@@ -282,7 +282,7 @@ describe('unitGet', () => {
 
     participantInstance.units.forEach((u) => {
       if (!u.takenDamage) {
-        u.usedSustain = true
+        u.usedSustainThisTimingWindow = true
       }
     })
 

@@ -77,7 +77,7 @@ export const baronyOfLetnev: BattleEffect[] = [
           participant.units[infantryIndex] = {
             ...genericMech,
             takenDamage: false,
-            usedSustain: false,
+            usedSustainThisTimingWindow: false,
             isDestroyed: false,
             galvanized: false,
             combat: {
