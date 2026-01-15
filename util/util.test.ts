@@ -21,12 +21,14 @@ export function getTestParticipant(
   battleEffects: Record<string, number | undefined> = {},
   unitUpgrades: PartialRecord<UnitType, boolean> = {},
   damagedUnits: PartialRecord<UnitType, number> = {},
+  galvanizedUnits: PartialRecord<UnitType, number> = {},
 ) {
   const p: Participant = {
     faction,
     units: getUnitMap(units),
     unitUpgrades,
     damagedUnits,
+    galvanizedUnits,
     // TODO change default to true
     riskDirectHit: false,
     side,

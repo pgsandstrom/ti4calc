@@ -17,7 +17,7 @@ import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
 import { getUnitUpgrade } from './battleeffect/unitUpgrades'
 import { Faction, Place } from './enums'
 import { getFactionBattleEffects } from './factions/faction'
-import { createUnit, UnitInstance, UnitType } from './unit'
+import { createUnit, galvanizeUnit, UnitInstance, UnitType } from './unit'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -57,6 +57,9 @@ function createBattleInstance(battle: Battle): BattleInstance {
 
   damageUnits(attacker, battle.attacker.damagedUnits)
   damageUnits(defender, battle.defender.damagedUnits)
+
+  galvanizeUnits(attacker, battle.attacker.galvanizedUnits)
+  galvanizeUnits(defender, battle.defender.galvanizedUnits)
 
   return {
     place: battle.place,
@@ -295,6 +298,7 @@ export function createParticipant(
     units: getUnitMap(),
     unitUpgrades: {},
     damagedUnits: {},
+    galvanizedUnits: {},
     battleEffects: {},
     riskDirectHit: true,
   }
@@ -337,6 +341,22 @@ function damageUnits(
       if (unit) {
         unit.takenDamage = true
         unit.takenDamageRound = 0
+      }
+    })
+  })
+}
+
+function galvanizeUnits(
+  participant: ParticipantInstance,
+  galvanizedUnits: PartialRecord<UnitType, number>,
+) {
+  objectEntries(galvanizedUnits).forEach(([unitType, n]) => {
+    _times(n, () => {
+      const unit = participant.units.find((u) => {
+        return u.type === unitType && !u.galvanized
+      })
+      if (unit) {
+        galvanizeUnit(unit)
       }
     })
   })

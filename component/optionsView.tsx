@@ -21,6 +21,7 @@ import {
 import ArrowSvg from './arrowSvg'
 import CoolButton from './coolButton'
 import DamagedUnitsView from './damagedUnitsView'
+import GalvanizedUnitsView from './galvanizedUnitsView'
 import NumberInput from './numberInput'
 import { OptionsRowView } from './optionsRowView'
 
@@ -68,7 +69,9 @@ export default function OptionsView(props: OptionsProps) {
       Object.keys(props.attacker.battleEffects).length > 0 ||
       Object.keys(props.defender.battleEffects).length > 0 ||
       Object.keys(props.attacker.damagedUnits).length > 0 ||
-      Object.keys(props.defender.damagedUnits).length > 0
+      Object.keys(props.defender.damagedUnits).length > 0 ||
+      Object.keys(props.attacker.galvanizedUnits).length > 0 ||
+      Object.keys(props.defender.galvanizedUnits).length > 0
     )
   })
 
@@ -109,6 +112,7 @@ export default function OptionsView(props: OptionsProps) {
             description="If units with SUSTAIN DAMAGE should be assigned the first hits. Direct hit can only be played in space combat, so ground combat is not affected."
           />
           <DamagedUnitsView {...props} />
+          <GalvanizedUnitsView {...props} />
           <OptionsPartView title="Tech" battleEffects={techs} {...props} />
           <OptionsPartView title="Faction specific" battleEffects={factionTechs} {...props} />
           <OptionsPartView title="Promissary note" battleEffects={promissary} {...props} />

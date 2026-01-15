@@ -82,6 +82,7 @@ export interface Participant {
   // this creates weird bugs if we attach battle effects that should be replaced when switching factions
   unitUpgrades: PartialRecord<UnitType, boolean>
   damagedUnits: PartialRecord<UnitType, number>
+  galvanizedUnits: PartialRecord<UnitType, number>
   battleEffects: Record<string, number | undefined>
 
   riskDirectHit: boolean

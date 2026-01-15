@@ -79,6 +79,7 @@ export const baronyOfLetnev: BattleEffect[] = [
             takenDamage: false,
             usedSustain: false,
             isDestroyed: false,
+            galvanized: false,
             combat: {
               ...infantry.combat!,
               hit: genericMech.combat!.hit,

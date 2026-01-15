@@ -41,6 +41,14 @@ function addParticipant(params: URLSearchParams, p: Omit<Participant, 'side'>, s
     }
   }
 
+  for (const unit of objectEntries(p.galvanizedUnits)) {
+    const ownedUnits = p.units[unit[0]]
+    const actualNumber = Math.min(unit[1], ownedUnits)
+    if (actualNumber) {
+      params.set(`${side}-galvanized-${unit[0]}`, `${actualNumber}`)
+    }
+  }
+
   if (!p.riskDirectHit) {
     params.set(`${side}-risk-direct-hit`, 'false')
   }
@@ -136,6 +144,29 @@ export function applyQueryParams(
         return
       } else if (side === participant.side) {
         participant.damagedUnits[unit] = num
+      }
+    }
+
+    const unitGalvanizedMatch = key.match(/(attacker|defender)-galvanized-(.*)/)
+    if (unitGalvanizedMatch) {
+      const side = unitGalvanizedMatch[1]
+      const unit = unitGalvanizedMatch[2] as UnitType
+      if (!isSide(side)) {
+        console.warn(`failed to identify Side: ${side}`)
+        return
+      }
+
+      if (!Object.values(UnitType).includes(unit)) {
+        console.warn(`Unknown unit found: ${unit}`)
+        return
+      }
+
+      const num = parseInt(value)
+      if (isNaN(num)) {
+        console.warn(`Unit galvanized number was not number for ${unit}: ${value}`)
+        return
+      } else if (side === participant.side) {
+        participant.galvanizedUnits[unit] = num
       }
     }
 

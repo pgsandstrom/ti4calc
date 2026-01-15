@@ -60,6 +60,7 @@ export interface UnitInstance extends Unit {
   usedSustain: boolean
   takenDamageRound?: number
   isDestroyed: boolean
+  galvanized: boolean
 }
 
 export interface UnitWithCombat extends UnitInstance {
@@ -360,8 +361,34 @@ export function createUnit(type: UnitType): UnitInstance {
     takenDamage: false,
     isDestroyed: false,
     usedSustain: false,
+    galvanized: false,
   }
   return unitInstance
+}
+
+/**
+ * Galvanize a unit, giving it +1 die for all roll types.
+ * Does nothing if the unit is already galvanized.
+ */
+export function galvanizeUnit(unit: UnitInstance): void {
+  if (unit.galvanized) {
+    return
+  }
+
+  unit.galvanized = true
+
+  if (unit.combat) {
+    unit.combat.countBonus += 1
+  }
+  if (unit.bombardment) {
+    unit.bombardment.countBonus += 1
+  }
+  if (unit.spaceCannon) {
+    unit.spaceCannon.countBonus += 1
+  }
+  if (unit.afb) {
+    unit.afb.countBonus += 1
+  }
 }
 
 /**
