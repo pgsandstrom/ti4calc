@@ -14,6 +14,7 @@ export enum Faction {
   jol_nar = 'Jol-Nar',
   keleres = 'Keleres',
   l1z1x = 'L1z1x',
+  last_bastion = 'Last Bastion',
   mahact = 'Mahact',
   mentak = 'Mentak',
   muaat = 'Muaat',

@@ -14,6 +14,7 @@ import { hacan } from './hacan'
 import { jolNar } from './jolNar'
 import { keleres } from './keleres'
 import { l1z1x } from './l1z1x'
+import { lastBastion } from './lastBastion'
 import { mahact } from './mahact'
 import { mentak } from './mentak'
 import { muaat } from './muaat'
@@ -47,6 +48,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   'Jol-Nar': jolNar,
   Keleres: keleres,
   L1z1x: l1z1x,
+  'Last Bastion': lastBastion,
   Mahact: mahact,
   Mentak: mentak,
   Muaat: muaat,
