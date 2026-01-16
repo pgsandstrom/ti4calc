@@ -11,7 +11,6 @@ import FactionPicker from '../component/factionPicker'
 import HelpView from '../component/helpView'
 import OptionsView from '../component/optionsView'
 import SwitchButton from '../component/switchButton'
-import ThundersEdgeView from '../component/thundersEdgeView'
 import UnitRow from '../component/unitRow'
 import { BattleReport } from '../core'
 import { Battle, Participant } from '../core/battle-types'
@@ -364,7 +363,6 @@ export default function Home(props: HomeProps) {
             style={{ marginTop: '10px' }}
           />
           <HelpView style={{ marginTop: '10px', marginBottom: '10px' }} />
-          <ThundersEdgeView style={{ marginTop: '10px', marginBottom: '10px' }} />
         </main>
         <FactionImage faction={defender.faction} side="right" style={{ flex: '1 0 0' }} />
       </div>

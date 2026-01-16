@@ -90,6 +90,8 @@ export default function HelpView({ style }: Props) {
                 Naaz-Rokha Breakthrough: Supposed to be immune to unit abilities, that is currently
                 not implemented.
               </li>
+              <li>Breakthrough: The Nekro Virus</li>
+              <li>Variant: Twilight&apos;s Fall</li>
             </ul>
           </div>
         </div>

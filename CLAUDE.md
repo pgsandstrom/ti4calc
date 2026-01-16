@@ -40,6 +40,7 @@ The battle simulator uses Monte Carlo simulation (thousands of battles, not stat
 - `battleSetup.ts` - Creates `BattleInstance` from `Battle`. Applies battle effects, unit upgrades, and damage.
 - `battle-types.ts` - Core types: `Battle`, `Participant`, `BattleInstance`, `ParticipantInstance`. Important effect hooks: `beforeStart`, `onStart`, `onSustain`, `onCombatRound`, `onDeath`, etc.
 - `unit.ts` - Unit definitions and `Roll` interface for dice mechanics.
+- `unitGet.ts` - **Important:** Helper functions for retrieving units. Always use these instead of manually filtering `participant.units`. Includes `getHighestWorthUnit`, `getLowestWorthUnit`, `getUnits`, etc. These handle edge cases like excluding destroyed units and `nonunit` types.
 - `webworker.ts` - Runs simulation in background with progressive updates to UI.
 
 **Battle effects system:**

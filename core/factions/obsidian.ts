@@ -1,4 +1,5 @@
 import { logWrapper } from '../../util/util-log'
+import { destroyUnit } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
@@ -58,7 +59,7 @@ export const obsidian: BattleEffect[] = [
           (u) => u.type === deadShip.type && !u.isDestroyed,
         )
         if (matchingShip) {
-          matchingShip.isDestroyed = true
+          destroyUnit(battle, matchingShip)
           logWrapper(`Obsidian Agent forces opponent to destroy an additional ${matchingShip.type}`)
           registerUse(effectName, otherParticipant)
           break

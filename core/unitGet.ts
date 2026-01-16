@@ -8,8 +8,16 @@ import { UnitInstance, UnitType } from './unit'
 // TODO several of these method could be optimized to take more stuff info account. Like how number of dices determine worth, and stuf like that.
 // Maybe we could even get rid of diePriority? And just determine that on the fly by how powerful stuff is?
 
-export function getHighestWorthUnit(p: ParticipantInstance, place: Place, includeFighter: boolean) {
-  const units = getUnits(p, place, includeFighter)
+export function getHighestWorthUnit(
+  p: ParticipantInstance,
+  place: Place,
+  includeFighter: boolean,
+  excludeGalvanized = false,
+) {
+  let units = getUnits(p, place, includeFighter)
+  if (excludeGalvanized) {
+    units = units.filter((u) => !u.galvanized)
+  }
   if (units.length === 0) {
     return undefined
   }

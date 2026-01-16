@@ -28,12 +28,16 @@ export const yin: BattleEffect[] = [
                 deadUnits: UnitInstance[],
                 participant: ParticipantInstance,
                 otherParticipant: ParticipantInstance,
-                _battle: BattleInstance,
+                battle: BattleInstance,
                 isOwnUnit: boolean,
               ) => {
                 if (isOwnUnit && deadUnits.some((u) => u.type === UnitType.flagship)) {
-                  participant.units.forEach((u) => (u.isDestroyed = true))
-                  otherParticipant.units.forEach((u) => (u.isDestroyed = true))
+                  participant.units.forEach((u) => {
+                    destroyUnit(battle, u)
+                  })
+                  otherParticipant.units.forEach((u) => {
+                    destroyUnit(battle, u)
+                  })
                 }
               },
             },

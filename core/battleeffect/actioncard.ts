@@ -114,12 +114,12 @@ export const directHit: BattleEffect = {
   onEnemySustain: (
     u: UnitInstance,
     participant: ParticipantInstance,
-    _battle: BattleInstance,
+    battle: BattleInstance,
     effectName: string,
   ) => {
     if (participant.effects[effectName] > 0) {
       if (!u.immuneToDirectHit && !u.isDestroyed) {
-        u.isDestroyed = true
+        destroyUnit(battle, u)
         logWrapper(`${participant.side} used direct hit to destroy ${u.type}`)
         participant.effects[effectName] -= 1
       }

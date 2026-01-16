@@ -1,6 +1,7 @@
 import _times from 'lodash/times'
 
 import { logWrapper } from '../../util/util-log'
+import { destroyUnit } from '../battle'
 import { BattleInstance, ParticipantInstance } from '../battle-types'
 import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
 import { Faction, Place } from '../enums'
@@ -130,7 +131,7 @@ export const argentFlight: BattleEffect[] = [
                 p.side === 'attacker' ? 'defender' : 'attacker'
               } destroyed infantry from Strike Wing Alpha II`,
             )
-            infantryToDestroy.isDestroyed = true
+            destroyUnit(battle, infantryToDestroy)
           }
         }
       }
