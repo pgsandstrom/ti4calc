@@ -1,7 +1,7 @@
 import { BattleReport, getBattleReport } from '../core'
 import { Participant, Side } from '../core/battle-types'
 import { getUnitMap } from '../core/battleSetup'
-import { TEST_NUMBER_OF_ROLLS } from '../core/constant'
+import { ROLLS_WHEN_BUILDING_TEST_DATA, TEST_NUMBER_OF_ROLLS } from '../core/constant'
 import { Faction, Place } from '../core/enums'
 import { UnitType } from '../core/unit'
 import { PartialRecord } from './util-types'
@@ -56,7 +56,8 @@ export function testBattleReport(
       try {
         const actualNumber = battleReport[check.side]
         const expectedNumber = battleReport.numberOfRolls * check.percentage
-        const failOnInvalid = fails === RETRIES_UNTIL_FAIL
+        const failOnInvalid =
+          fails === RETRIES_UNTIL_FAIL || TEST_NUMBER_OF_ROLLS === ROLLS_WHEN_BUILDING_TEST_DATA
         const valid = checkResult(actualNumber, expectedNumber, failOnInvalid)
         if (valid) {
           break // success!

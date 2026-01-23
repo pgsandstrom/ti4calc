@@ -103,25 +103,25 @@ export const heartOfIxth: BattleEffect = {
     if (unit.combat) {
       newUnit.combat = {
         ...unit.combat,
-        hitBonus: unit.combat.hitBonus + 1,
+        hitBonusTmp: unit.combat.hitBonusTmp + 1,
       }
     }
     if (unit.bombardment) {
       newUnit.bombardment = {
         ...unit.bombardment,
-        hitBonus: unit.bombardment.hitBonus + 1,
+        hitBonusTmp: unit.bombardment.hitBonusTmp + 1,
       }
     }
     if (unit.spaceCannon) {
       newUnit.spaceCannon = {
         ...unit.spaceCannon,
-        hitBonus: unit.spaceCannon.hitBonus + 1,
+        hitBonusTmp: unit.spaceCannon.hitBonusTmp + 1,
       }
     }
     if (unit.afb) {
       newUnit.afb = {
         ...unit.afb,
-        hitBonus: unit.afb.hitBonus + 1,
+        hitBonusTmp: unit.afb.hitBonusTmp + 1,
       }
     }
     return newUnit
@@ -132,25 +132,25 @@ export const heartOfIxth: BattleEffect = {
     if (unit.combat) {
       newUnit.combat = {
         ...unit.combat,
-        hitBonus: unit.combat.hitBonus - 1, // Subtracting bonus makes it harder to hit
+        hitBonusTmp: unit.combat.hitBonusTmp - 1, // Subtracting bonus makes it harder to hit
       }
     }
     if (unit.bombardment) {
       newUnit.bombardment = {
         ...unit.bombardment,
-        hitBonus: unit.bombardment.hitBonus - 1,
+        hitBonusTmp: unit.bombardment.hitBonusTmp - 1,
       }
     }
     if (unit.spaceCannon) {
       newUnit.spaceCannon = {
         ...unit.spaceCannon,
-        hitBonus: unit.spaceCannon.hitBonus - 1,
+        hitBonusTmp: unit.spaceCannon.hitBonusTmp - 1,
       }
     }
     if (unit.afb) {
       newUnit.afb = {
         ...unit.afb,
-        hitBonus: unit.afb.hitBonus - 1,
+        hitBonusTmp: unit.afb.hitBonusTmp - 1,
       }
     }
     return newUnit
