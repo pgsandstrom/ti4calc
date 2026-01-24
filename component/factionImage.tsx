@@ -2,7 +2,7 @@
 import { useLayoutEffect, useState } from 'react'
 
 import styles from '@/component/factionImage.module.scss'
-import { Faction } from '@/core/enums'
+import { Faction } from '@/core/factions/faction'
 
 interface Props {
   faction: Faction

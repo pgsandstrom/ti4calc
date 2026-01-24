@@ -1,8 +1,12 @@
 import _times from 'lodash/times'
 
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
+import {
+  BattleInstance,
+  EFFECT_HIGH_PRIORITY,
+  ParticipantInstance,
+  Place,
+} from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Place } from '@/core/enums'
 import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { getLowestWorthNonSustainUndamagedUnit } from '@/core/unitGet'
 import { logWrapper } from '@/util/util-log'
@@ -27,7 +31,7 @@ export const lightrailOrdnance: BattleEffect = {
   ) => {
     // Make sure only one Space Dock rolls for Space Cannon in ground combat
     let spacedockCount = 0
-    if (battle.place === Place.ground) {
+    if (battle.place === 'ground') {
       spacedockCount = 1
     } else {
       spacedockCount = p.effects[effectName]
@@ -52,7 +56,7 @@ export const metaliVoidShielding: BattleEffect = {
   description:
     'Each time hits are produced against 1 of your non-fighter ships, 1 of those ships may use SUSTAIN DAMAGE as if it had that ability.',
   type: 'relic',
-  place: Place.space,
+  place: 'space',
   onCombatRoundEndBeforeAssign: (
     p: ParticipantInstance,
     battle: BattleInstance,
@@ -74,7 +78,7 @@ export const metaliVoidArmaments: BattleEffect = {
   description:
     'During the "Anti Fighter Barrage" step of space combat, you may resolve ANTI-FIGHTER BARRAGE 6 (x3) against your opponent\'s units.',
   type: 'relic',
-  place: Place.space,
+  place: 'space',
   onAfb: (p: ParticipantInstance, battle: BattleInstance) => {
     const modify = (instance: UnitInstance) => {
       instance.afb = {

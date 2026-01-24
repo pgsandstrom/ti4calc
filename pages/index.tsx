@@ -14,8 +14,9 @@ import SwitchButton from '@/component/switchButton'
 import UnitRow from '@/component/unitRow'
 import { BattleReport } from '@/core'
 import { Battle, Participant } from '@/core/battle-types'
+import { Place } from '@/core/battle-types'
 import { createParticipant } from '@/core/battleSetup'
-import { Faction, Place } from '@/core/enums'
+import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
 import { UnitType } from '@/core/unit'
 import styles from '@/pages/index.module.scss'
 import { ErrorReportUnsaved } from '@/server/errorReportController'
@@ -58,7 +59,7 @@ export default function Home(props: HomeProps) {
   })
 
   const [place, setPlaceRaw] = useState<Place>(() => {
-    return props.query.place === Place.ground ? Place.ground : Place.space
+    return props.query.place === 'ground' ? 'ground' : 'space'
   })
 
   const [error, setError] = useState(false)
@@ -167,7 +168,7 @@ export default function Home(props: HomeProps) {
   useLayoutEffect(() => {
     if (!hasQueryParamForFaction(props.query, 'attacker')) {
       const attackerFaction = getLocalStorage(LS_ATTACKER_FACTION) as Faction | undefined
-      if (attackerFaction != null && Object.values(Faction).includes(attackerFaction)) {
+      if (attackerFaction != null && ALL_FACTIONS.includes(attackerFaction)) {
         const newAttacker: Participant = {
           ...attacker,
           faction: attackerFaction,
@@ -178,7 +179,7 @@ export default function Home(props: HomeProps) {
     }
     if (!hasQueryParamForFaction(props.query, 'defender')) {
       const defenderFaction = getLocalStorage(LS_DEFENDER_FACTION) as Faction | undefined
-      if (defenderFaction != null && Object.values(Faction).includes(defenderFaction)) {
+      if (defenderFaction != null && ALL_FACTIONS.includes(defenderFaction)) {
         const newDefender: Participant = {
           ...defender,
           faction: defenderFaction,
@@ -313,11 +314,11 @@ export default function Home(props: HomeProps) {
                 </CoolButton>
                 <div style={{ flex: '1 0 0' }} />
                 <SwitchButton
-                  isLeftSelected={place === Place.space}
-                  leftLabel={Place.space}
-                  rightLabel={Place.ground}
-                  onLeftClick={() => setPlace(Place.space)}
-                  onRightClick={() => setPlace(Place.ground)}
+                  isLeftSelected={place === 'space'}
+                  leftLabel="space"
+                  rightLabel="ground"
+                  onLeftClick={() => setPlace('space')}
+                  onRightClick={() => setPlace('ground')}
                 />
                 <div style={{ flex: '1 0 0' }} />
                 <CoolButton

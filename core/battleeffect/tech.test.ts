@@ -9,7 +9,6 @@ import {
   x89BacterialWeapon,
 } from '@/core/battleeffect/tech'
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Tech', () => {
@@ -29,7 +28,7 @@ describe('Tech', () => {
       dreadnought: 5,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.655 },
       { side: 'draw', percentage: 0.019 },
       { side: 'defender', percentage: 0.325 },
@@ -53,7 +52,7 @@ describe('Tech', () => {
       mech: 1,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, 100)
+    const result = getBattleReport(attacker, defender, 'space', 100)
 
     assert.strictEqual(result.attacker, 100)
   })
@@ -80,7 +79,7 @@ describe('Tech', () => {
         [plasmaScoring.name]: 1,
       },
     )
-    const result = getBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS)
     assert.ok(result.attacker < TEST_NUMBER_OF_ROLLS / 2)
   })
 
@@ -101,10 +100,10 @@ describe('Tech', () => {
       {
         mech: 1,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.33 },
       { side: 'draw', percentage: 0.33 },
       { side: 'defender', percentage: 0.33 },
@@ -127,7 +126,7 @@ describe('Tech', () => {
       infantry: 2,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.6 },
       { side: 'defender', percentage: 0.4 },

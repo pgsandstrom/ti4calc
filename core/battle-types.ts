@@ -2,7 +2,9 @@
 // the errors were enums being undefined, I guess it was dependency cycle related
 
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
+import { Faction } from '@/core/factions/faction'
+
+export type Place = 'space' | 'ground'
 import { HitInfo, RollInfo } from '@/core/roll'
 import { UnitInstance, UnitType } from '@/core/unit'
 import { PartialRecord } from '@/util/util-types'
@@ -162,11 +164,13 @@ export interface BattleResult {
   units: string
 }
 
-export enum BattleWinner {
-  attacker = 'attacker',
-  draw = 'draw',
-  defender = 'defender',
-}
+export const BattleWinner = {
+  attacker: 'attacker',
+  draw: 'draw',
+  defender: 'defender',
+} as const
+
+export type BattleWinner = (typeof BattleWinner)[keyof typeof BattleWinner]
 
 // things that set combat to an absolute value should be done early, so high priority
 // also things that add units should be high priority

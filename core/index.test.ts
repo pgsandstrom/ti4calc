@@ -2,7 +2,6 @@ import { describe, it } from 'node:test'
 
 import { duraniumArmor } from '@/core/battleeffect/tech'
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('core', () => {
@@ -23,7 +22,7 @@ describe('core', () => {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.438 },
       { side: 'draw', percentage: 0.123 },
       { side: 'defender', percentage: 0.438 },
@@ -47,7 +46,7 @@ describe('core', () => {
       mech: 2,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.033 },
       { side: 'draw', percentage: 0.017 },
       { side: 'defender', percentage: 0.949 },
@@ -64,7 +63,7 @@ describe('core', () => {
       infantry: 3,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.904 },
       { side: 'draw', percentage: 0.014 },
       { side: 'defender', percentage: 0.081 },
@@ -82,7 +81,7 @@ describe('core', () => {
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.316 },
       { side: 'draw', percentage: 0.037 },
       { side: 'defender', percentage: 0.646 },
@@ -100,7 +99,7 @@ describe('core', () => {
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.82 },
       { side: 'draw', percentage: 0.028 },
       { side: 'defender', percentage: 0.152 },
@@ -117,14 +116,14 @@ describe('core', () => {
       {
         destroyer: 1,
       },
-      Faction.argent_flight,
+      'Argent flight',
       {},
       {
         destroyer: true,
       },
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.0288 },
       { side: 'draw', percentage: 0.019 },
       { side: 'defender', percentage: 0.952 },

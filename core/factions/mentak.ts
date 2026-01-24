@@ -1,6 +1,5 @@
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { getHits } from '@/core/roll'
 import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
@@ -11,7 +10,7 @@ export const mentak: BattleEffect[] = [
     // test this ship with with assault cannon for us. It should snipe an enemy war sun
     type: 'faction',
     name: 'Mentak flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -31,7 +30,7 @@ export const mentak: BattleEffect[] = [
   {
     name: 'Mentak mech',
     type: 'faction',
-    place: Place.ground,
+    place: 'ground',
     transformUnit: (u: UnitInstance) => {
       if (u.type === UnitType.mech) {
         return {
@@ -46,7 +45,7 @@ export const mentak: BattleEffect[] = [
   {
     name: 'Ambush',
     type: 'faction',
-    place: Place.space,
+    place: 'space',
     onStart: (
       participant: ParticipantInstance,
       _battle: BattleInstance,
@@ -75,8 +74,8 @@ export const mentak: BattleEffect[] = [
     description:
       "At the start of space combat that you are participating in: You may purge this card; if you do, for each other player's ship that is destroyed during this combat, place 1 ship of that type from your reinforcements in the active system.",
     type: 'faction-ability',
-    place: Place.space,
-    faction: Faction.mentak,
+    place: 'space',
+    faction: 'Mentak',
     onDeath: (
       deadUnits: UnitInstance[],
       participant: ParticipantInstance,

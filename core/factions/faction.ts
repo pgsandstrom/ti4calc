@@ -1,6 +1,39 @@
 import { Participant } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction } from '@/core/enums'
+
+export type Faction =
+  | 'Arborec'
+  | 'Argent flight'
+  | 'Barony of Letnev'
+  | 'Clan of Saar'
+  | 'Creuss'
+  | 'Crimson Rebellion'
+  | 'Deepwrought'
+  | 'Empyrean'
+  | 'Firmament'
+  | 'Hacan'
+  | 'Jol-Nar'
+  | 'Keleres'
+  | 'L1z1x'
+  | 'Last Bastion'
+  | 'Mahact'
+  | 'Mentak'
+  | 'Muaat'
+  | 'Naalu'
+  | 'Naaz-Rokha'
+  | 'Nekro'
+  | 'Neutral'
+  | 'Nomad'
+  | 'Obsidian'
+  | 'Ral Nel Consortium'
+  | "Sardakk N'orr"
+  | 'Sol'
+  | 'Titans of Ul'
+  | "Vuil'Raith"
+  | 'Winnu'
+  | 'Xxcha'
+  | 'Yin'
+  | 'Yssaril'
 import { arborec } from '@/core/factions/arborec'
 import { argentFlight } from '@/core/factions/argentFlight'
 import { baronyOfLetnev } from '@/core/factions/baronyOfLetnev'
@@ -69,6 +102,8 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   Yssaril: yssaril,
 }
 
+export const ALL_FACTIONS = Object.keys(FACTION_MAP) as Faction[]
+
 export function getFactionBattleEffects(p: Participant | Faction): BattleEffect[] {
   if (isParticipant(p)) {
     return FACTION_MAP[p.faction]
@@ -87,50 +122,40 @@ function isParticipant(p: Participant | Faction): p is Participant {
 }
 
 export function getFactionStuffNonUnit() {
-  return Object.values(Faction)
-    .map((factionName) => {
-      const faction = FACTION_MAP[factionName]
-      return faction.filter(
-        (effect) =>
-          (effect.type === 'faction-tech' || effect.type === 'faction-ability') &&
-          effect.unit === undefined,
-      )
-    })
-    .flat()
+  return ALL_FACTIONS.map((factionName) => {
+    const faction = FACTION_MAP[factionName]
+    return faction.filter(
+      (effect) =>
+        (effect.type === 'faction-tech' || effect.type === 'faction-ability') &&
+        effect.unit === undefined,
+    )
+  }).flat()
 }
 
 export function getPromissary() {
-  return Object.values(Faction)
-    .map((factionName) => {
-      const faction = FACTION_MAP[factionName]
-      return faction.filter((effect) => effect.type === 'promissary')
-    })
-    .flat()
+  return ALL_FACTIONS.map((factionName) => {
+    const faction = FACTION_MAP[factionName]
+    return faction.filter((effect) => effect.type === 'promissary')
+  }).flat()
 }
 
 export function getAgent() {
-  return Object.values(Faction)
-    .map((factionName) => {
-      const faction = FACTION_MAP[factionName]
-      return faction.filter((effect) => effect.type === 'agent')
-    })
-    .flat()
+  return ALL_FACTIONS.map((factionName) => {
+    const faction = FACTION_MAP[factionName]
+    return faction.filter((effect) => effect.type === 'agent')
+  }).flat()
 }
 
 export function getCommanders() {
-  return Object.values(Faction)
-    .map((factionName) => {
-      const faction = FACTION_MAP[factionName]
-      return faction.filter((effect) => effect.type === 'commander')
-    })
-    .flat()
+  return ALL_FACTIONS.map((factionName) => {
+    const faction = FACTION_MAP[factionName]
+    return faction.filter((effect) => effect.type === 'commander')
+  }).flat()
 }
 
 export function getGeneralEffectFromFactions() {
-  return Object.values(Faction)
-    .map((factionName) => {
-      const faction = FACTION_MAP[factionName]
-      return faction.filter((effect) => effect.type === 'general')
-    })
-    .flat()
+  return ALL_FACTIONS.map((factionName) => {
+    const faction = FACTION_MAP[factionName]
+    return faction.filter((effect) => effect.type === 'general')
+  }).flat()
 }

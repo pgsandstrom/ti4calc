@@ -2,7 +2,6 @@ import { describe, it } from 'node:test'
 
 import { solarFlare } from '@/core/battleeffect/actioncard'
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('keleres', () => {
@@ -11,11 +10,11 @@ describe('keleres', () => {
       fighter: 1,
     })
 
-    const defender = getTestParticipant('defender', {}, Faction.keleres, {
+    const defender = getTestParticipant('defender', {}, 'Keleres', {
       'I.I.H.Q. MODERNIZATION space cannon': 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.4 },
       { side: 'draw', percentage: 0.6 },
       { side: 'defender', percentage: 0 },
@@ -34,11 +33,11 @@ describe('keleres', () => {
       },
     )
 
-    const defender = getTestParticipant('defender', {}, Faction.keleres, {
+    const defender = getTestParticipant('defender', {}, 'Keleres', {
       'I.I.H.Q. MODERNIZATION space cannon': 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },

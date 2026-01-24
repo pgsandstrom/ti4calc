@@ -2,7 +2,6 @@ import { describe, it } from 'node:test'
 
 import { BattleReport, getBattleReport } from '@/core'
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { checkResult, getTestParticipant } from '@/util/util.test'
 
 describe('Sol', () => {
@@ -12,7 +11,7 @@ describe('Sol', () => {
       {
         infantry: 1,
       },
-      Faction.sol,
+      'Sol',
     )
 
     const defender = getTestParticipant(
@@ -20,10 +19,10 @@ describe('Sol', () => {
       {
         infantry: 1,
       },
-      Faction.muaat,
+      'Muaat',
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS)
 
     check1v1InfantryResult(result, 0.4, 0.3)
   })
@@ -34,7 +33,7 @@ describe('Sol', () => {
       {
         infantry: 1,
       },
-      Faction.sol,
+      'Sol',
       {},
       {
         infantry: true,
@@ -46,14 +45,14 @@ describe('Sol', () => {
       {
         infantry: 1,
       },
-      Faction.muaat,
+      'Muaat',
       {},
       {
         infantry: true,
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS)
 
     check1v1InfantryResult(result, 0.5, 0.4)
   })
@@ -64,7 +63,7 @@ describe('Sol', () => {
       {
         infantry: 1,
       },
-      Faction.sol,
+      'Sol',
       {
         'Sol agent': 1,
       },
@@ -75,14 +74,14 @@ describe('Sol', () => {
       {
         infantry: 1,
       },
-      Faction.muaat,
+      'Muaat',
       {},
       {
         infantry: true,
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS)
 
     const attackerHitChance = 0.4
     const defenderHitChance = 0.4
@@ -124,7 +123,7 @@ describe('Sol', () => {
       {
         carrier: 1,
       },
-      Faction.sol,
+      'Sol',
       {},
       {
         carrier: true,
@@ -136,14 +135,14 @@ describe('Sol', () => {
       {
         carrier: 1,
       },
-      Faction.muaat,
+      'Muaat',
       {},
       {
         carrier: true,
       },
     )
 
-    const result = getBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS)
 
     const attackerHitChance = 0.2
     const defenderHitChance = 0.2

@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { checkResult, getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Argent flight', () => {
@@ -12,7 +11,7 @@ describe('Argent flight', () => {
         dreadnought: 3,
         destroyer: 3,
       },
-      Faction.argent_flight,
+      'Argent flight',
       {},
       {
         destroyer: true,
@@ -24,7 +23,7 @@ describe('Argent flight', () => {
       cruiser: 3,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.863 },
       { side: 'draw', percentage: 0.026 },
       { side: 'defender', percentage: 0.111 },
@@ -38,7 +37,7 @@ describe('Argent flight', () => {
         dreadnought: 10,
         infantry: 5,
       },
-      Faction.jol_nar,
+      'Jol-Nar',
       {},
       {
         dreadnought: true,
@@ -50,14 +49,14 @@ describe('Argent flight', () => {
       {
         destroyer: 1,
       },
-      Faction.argent_flight,
+      'Argent flight',
       {},
       {
         destroyer: true,
       },
     )
 
-    const result = testBattleReport(attacker, defender, Place.space, 100_000, [
+    const result = testBattleReport(attacker, defender, 'space', 100_000, [
       { side: 'attacker', percentage: 1.0 },
       { side: 'draw', percentage: 0.0 },
       { side: 'defender', percentage: 0.0 },
@@ -80,7 +79,7 @@ describe('Argent flight', () => {
         flagship: 1,
         destroyer: 2,
       },
-      Faction.argent_flight,
+      'Argent flight',
     )
 
     const defender = getTestParticipant('defender', {
@@ -88,7 +87,7 @@ describe('Argent flight', () => {
       pds: 10,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.99 },
     ])
   })
@@ -99,7 +98,7 @@ describe('Argent flight', () => {
       {
         destroyer: 2,
       },
-      Faction.argent_flight,
+      'Argent flight',
       {},
       {
         destroyer: true,
@@ -110,7 +109,7 @@ describe('Argent flight', () => {
       cruiser: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.443 },
       { side: 'draw', percentage: 0.113 },
       { side: 'defender', percentage: 0.443 },
@@ -134,7 +133,7 @@ describe('Argent flight', () => {
       destroyer: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.8 },
       { side: 'draw', percentage: 0.024 },
       { side: 'defender', percentage: 0.176 },

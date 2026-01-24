@@ -1,13 +1,12 @@
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const titansOfUl: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Titans of Ul flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -50,7 +49,7 @@ export const titansOfUl: BattleEffect[] = [
     type: 'faction-tech',
     name: 'Titans of Ul pds upgrade',
     place: 'both',
-    faction: Faction.titans_of_ul,
+    faction: 'Titans of Ul',
     unit: UnitType.pds,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.pds) {
@@ -77,8 +76,8 @@ export const titansOfUl: BattleEffect[] = [
   {
     type: 'faction-tech',
     name: 'Titans of Ul cruiser upgrade',
-    place: Place.space,
-    faction: Faction.titans_of_ul,
+    place: 'space',
+    faction: 'Titans of Ul',
     unit: UnitType.cruiser,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.cruiser) {

@@ -1,13 +1,12 @@
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType, UnitWithCombat } from '@/core/unit'
 
 export const sol: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Sol flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -26,7 +25,7 @@ export const sol: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Sol infantry',
-    place: Place.ground,
+    place: 'ground',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.infantry) {
         unit.combat!.hit = 7
@@ -37,8 +36,8 @@ export const sol: BattleEffect[] = [
   {
     type: 'faction-tech',
     name: 'Spec Ops II',
-    place: Place.ground,
-    faction: Faction.sol,
+    place: 'ground',
+    faction: 'Sol',
     unit: UnitType.infantry,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.infantry) {
@@ -50,8 +49,8 @@ export const sol: BattleEffect[] = [
   {
     type: 'faction-tech',
     name: 'Advanced Carrier II',
-    place: Place.space,
-    faction: Faction.sol,
+    place: 'space',
+    faction: 'Sol',
     unit: UnitType.carrier,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.carrier) {
@@ -70,9 +69,9 @@ export const sol: BattleEffect[] = [
     description:
       'At the start of a ground combat round: You may exhaust this card to choose 1 ground force in the active system; that ground force rolls 1 additional die during that combat round.',
     name: 'Sol agent',
-    place: Place.ground,
+    place: 'ground',
     onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
-      if (battle.place === Place.ground) {
+      if (battle.place === 'ground') {
         const infantry = participant.units.find(
           (u): u is UnitWithCombat => u.type === UnitType.infantry && u.combat !== undefined,
         )

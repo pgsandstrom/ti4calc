@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { duraniumArmor } from '@/core/battleeffect/tech'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Barony of Letnev', () => {
@@ -11,7 +10,7 @@ describe('Barony of Letnev', () => {
       {
         dreadnought: 2,
       },
-      Faction.barony_of_letnev,
+      'Barony of Letnev',
       {
         'Non-Euclidean Shielding': 1,
         [duraniumArmor.name]: 1,
@@ -22,7 +21,7 @@ describe('Barony of Letnev', () => {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, 500, [
+    testBattleReport(attacker, defender, 'space', 500, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -35,14 +34,14 @@ describe('Barony of Letnev', () => {
       {
         flagship: 1,
       },
-      Faction.barony_of_letnev,
+      'Barony of Letnev',
     )
 
     const defender = getTestParticipant('defender', {
       dreadnought: 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, 500, [
+    testBattleReport(attacker, defender, 'space', 500, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },

@@ -1,9 +1,8 @@
 import _cloneDeep from 'lodash/cloneDeep'
 import _times from 'lodash/times'
 
-import { Battle, BattleWinner, Participant } from '@/core/battle-types'
+import { Battle, BattleWinner, Participant, Place } from '@/core/battle-types'
 import { setupBattle, startBattle } from '@/core/battleSetup'
-import { Place } from '@/core/enums'
 import { PartialRecord } from '@/util/util-types'
 
 export interface BattleReport {

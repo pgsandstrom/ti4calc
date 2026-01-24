@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Obsidian', () => {
@@ -11,7 +10,7 @@ describe('Obsidian', () => {
       {
         flagship: 1,
       },
-      Faction.obsidian,
+      'Obsidian',
     )
 
     const defender = getTestParticipant('defender', {
@@ -21,7 +20,7 @@ describe('Obsidian', () => {
     // Flagship: 3 dice at 5 (50% each), has sustain
     // Cruiser: 1 die at 7 (40%)
     // Flagship almost always wins due to sustain and superior firepower
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.989 },
       { side: 'draw', percentage: 0.01 },
       { side: 'defender', percentage: 0.001 },
@@ -34,7 +33,7 @@ describe('Obsidian', () => {
       {
         destroyer: 2,
       },
-      Faction.obsidian,
+      'Obsidian',
       {
         'Obsidian Agent': 1,
       },
@@ -47,7 +46,7 @@ describe('Obsidian', () => {
     // Without agent this would be ~46.5% each side (symmetric)
     // With agent, when attacker kills a destroyer, another defender destroyer dies
     // This gives attacker a significant advantage
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.68 },
       { side: 'draw', percentage: 0.076 },
       { side: 'defender', percentage: 0.244 },
@@ -60,7 +59,7 @@ describe('Obsidian', () => {
       {
         dreadnought: 2,
       },
-      Faction.obsidian,
+      'Obsidian',
       {
         'Obsidian Agent': 1,
       },
@@ -74,7 +73,7 @@ describe('Obsidian', () => {
       cruiser: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.905 },
       { side: 'draw', percentage: 0.055 },
       { side: 'defender', percentage: 0.04 },
@@ -87,7 +86,7 @@ describe('Obsidian', () => {
       {
         infantry: 2,
       },
-      Faction.obsidian,
+      'Obsidian',
       {
         'Obsidian Agent': 1,
       },
@@ -98,7 +97,7 @@ describe('Obsidian', () => {
     })
 
     // Agent only works in space, ground combat is symmetric 2v2 infantry
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.465 },
       { side: 'draw', percentage: 0.07 },
       { side: 'defender', percentage: 0.465 },
@@ -111,7 +110,7 @@ describe('Obsidian', () => {
       {
         cruiser: 2,
       },
-      Faction.obsidian,
+      'Obsidian',
       {
         'Obsidian Commander': 1,
       },
@@ -123,7 +122,7 @@ describe('Obsidian', () => {
 
     // Commander gives +1 to combat, so cruisers hit on 6 instead of 7
     // This should favor the attacker
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.54 },
       { side: 'draw', percentage: 0.135 },
       { side: 'defender', percentage: 0.325 },
@@ -136,7 +135,7 @@ describe('Obsidian', () => {
       {
         cruiser: 2,
       },
-      Faction.obsidian,
+      'Obsidian',
       {
         'Asail (Obsidian)': 1,
       },
@@ -147,7 +146,7 @@ describe('Obsidian', () => {
     })
 
     // Asail gives +1 to combat, so cruisers hit on 6 instead of 7
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.54 },
       { side: 'draw', percentage: 0.135 },
       { side: 'defender', percentage: 0.325 },

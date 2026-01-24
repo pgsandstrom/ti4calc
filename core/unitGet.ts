@@ -1,5 +1,4 @@
-import { ParticipantInstance } from '@/core/battle-types'
-import { Place } from '@/core/enums'
+import { ParticipantInstance, Place } from '@/core/battle-types'
 import { UnitInstance, UnitType } from '@/core/unit'
 
 // INFO: Always use these helper functions instead of "manually" getting units.
@@ -39,7 +38,7 @@ export function getHighestWorthUnit(
 }
 
 export function getNonFighterShips(p: ParticipantInstance) {
-  return getUnits(p, Place.space, false)
+  return getUnits(p, 'space', false)
 }
 
 export function getHighestWorthSustainUnit(
@@ -296,10 +295,10 @@ export function getHighestDiceCountUnit(
 }
 
 export function doesUnitFitPlace(u: UnitInstance, place: Place) {
-  if (place === Place.space && !u.isShip) {
+  if (place === 'space' && !u.isShip) {
     return false
   }
-  if (place === Place.ground && !u.isGroundForce) {
+  if (place === 'ground' && !u.isGroundForce) {
     return false
   }
   return true

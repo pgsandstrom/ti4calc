@@ -2,7 +2,6 @@ import { describe, it } from 'node:test'
 
 import { heartOfIxth, metaliVoidArmaments } from '@/core/battleeffect/relic'
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Relics', () => {
@@ -12,7 +11,7 @@ describe('Relics', () => {
       {
         // no units
       },
-      Faction.argent_flight,
+      'Argent flight',
       {
         [metaliVoidArmaments.name]: 1,
         ['Strike Wing Ambuscade']: 1,
@@ -24,7 +23,7 @@ describe('Relics', () => {
       fighter: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.5 },
       { side: 'defender', percentage: 0.5 },
@@ -37,7 +36,7 @@ describe('Relics', () => {
       {
         destroyer: 2,
       },
-      Faction.xxcha,
+      'Xxcha',
       {
         [heartOfIxth.name]: 1,
       },
@@ -47,7 +46,7 @@ describe('Relics', () => {
       destroyer: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.61 },
       { side: 'draw', percentage: 0.04 },
       { side: 'defender', percentage: 0.35 },
@@ -60,7 +59,7 @@ describe('Relics', () => {
       {
         infantry: 4,
       },
-      Faction.xxcha,
+      'Xxcha',
       {
         [heartOfIxth.name]: 1,
       },
@@ -70,7 +69,7 @@ describe('Relics', () => {
       infantry: 4,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.67 },
       { side: 'draw', percentage: 0.03 },
       { side: 'defender', percentage: 0.3 },
@@ -83,7 +82,7 @@ describe('Relics', () => {
       {
         dreadnought: 1,
       },
-      Faction.xxcha,
+      'Xxcha',
       {
         [heartOfIxth.name]: 1,
       },
@@ -93,7 +92,7 @@ describe('Relics', () => {
       infantry: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.7 },
       { side: 'defender', percentage: 0.3 },

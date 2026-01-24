@@ -3,7 +3,6 @@ import _times from 'lodash/times'
 import { destroyUnit, getOtherParticipant, isParticipantAlive } from '@/core/battle'
 import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleAura, BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 import { getHighestWorthUnit, getUnits } from '@/core/unitGet'
 import { logWrapper } from '@/util/util-log'
@@ -12,13 +11,13 @@ export const sardarkkNorr: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Sardakk Norr flagship',
-    place: Place.space,
+    place: 'space',
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         const flagshipBuff: BattleAura = {
           name: 'Sardakk Norr flagship buff',
-          place: Place.space,
+          place: 'space',
           transformUnit: (auraUnit: UnitInstance) => {
             // TODO this is a minor thing, but if there are two flagships they should buff each other. Currently, they dont.
             // this could instead be implemented like the jolNar mechs. Just buff each flagship one less than number of participating flagships
@@ -48,7 +47,7 @@ export const sardarkkNorr: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Sardakk mech ability',
-    place: Place.ground,
+    place: 'ground',
     onSustain: (
       u: UnitInstance,
       participant: ParticipantInstance,
@@ -92,7 +91,7 @@ export const sardarkkNorr: BattleEffect[] = [
     type: 'faction-tech',
     name: 'Exotrireme II',
     place: 'both',
-    faction: Faction.sardakk_norr,
+    faction: "Sardakk N'orr",
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.dreadnought) {
@@ -110,8 +109,8 @@ export const sardarkkNorr: BattleEffect[] = [
     name: 'Exotrireme II should suicide',
     description:
       'If the Sardakk dreadnought is upgraded, it will activate its ability after the first combat round. The ability reads: "After a round of space combat, you may destroy this unit to destroy up to 2 ships in this system. Just enough ships will be sacrified to kill all enemy ships"',
-    place: Place.space,
-    faction: Faction.sardakk_norr,
+    place: 'space',
+    faction: "Sardakk N'orr",
     onCombatRoundEnd: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -151,8 +150,8 @@ export const sardarkkNorr: BattleEffect[] = [
     name: 'Valkyrie Particle Weave',
     description:
       'After making combat rolls during a round of ground combat, if your opponent produced 1 or more hits, you produce 1 additional hit',
-    place: Place.ground,
-    faction: Faction.sardakk_norr,
+    place: 'ground',
+    faction: "Sardakk N'orr",
     onDeath: (
       _deadUnits: UnitInstance[],
       participant: ParticipantInstance,
@@ -186,7 +185,7 @@ export const sardarkkNorr: BattleEffect[] = [
     name: 'Tekklar Legion',
     description:
       "At the start of an invasion combat: Apply +1 to the result of each of your unit's combat rolls during this combat.  If your opponent is the N'orr player, apply -1 to the result of each of his unit's combat rolls during this combat.",
-    place: Place.ground,
+    place: 'ground',
     onStart: (
       participant: ParticipantInstance,
       _battle: BattleInstance,
@@ -197,7 +196,7 @@ export const sardarkkNorr: BattleEffect[] = [
           unit.combat.hitBonus += 1
         }
       })
-      if (otherParticipant.faction === Faction.sardakk_norr) {
+      if (otherParticipant.faction === "Sardakk N'orr") {
         otherParticipant.units.forEach((unit) => {
           if (unit.combat) {
             unit.combat.hitBonus -= 1

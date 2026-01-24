@@ -1,6 +1,5 @@
 import { ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { logWrapper } from '@/util/util-log'
 
@@ -8,7 +7,7 @@ export const firmament: BattleEffect[] = [
   {
     type: 'faction',
     name: 'The Firmament flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -29,8 +28,8 @@ export const firmament: BattleEffect[] = [
     description:
       'When this unit is in a combat against a player you have puppeted, this ship is repaired at the start of each combat round.',
     type: 'faction-ability',
-    place: Place.space,
-    faction: Faction.firmament,
+    place: 'space',
+    faction: 'Firmament',
     onCombatRound: (participant: ParticipantInstance) => {
       participant.units.forEach((unit) => {
         if (unit.type === UnitType.flagship && unit.takenDamage) {
@@ -44,7 +43,7 @@ export const firmament: BattleEffect[] = [
     type: 'agent',
     name: 'Firmament Agent',
     description: 'When your ships move, other players cannot use SPACE CANNON against your ships.',
-    place: Place.space,
+    place: 'space',
     transformEnemyUnit: (unit: UnitInstance) => {
       return {
         ...unit,
@@ -58,7 +57,7 @@ export const firmament: BattleEffect[] = [
       'Plot Card: Apply +1 to the result of your combat rolls and ability rolls against the puppeted player.',
     type: 'faction-ability',
     place: 'both',
-    faction: Faction.firmament,
+    faction: 'Firmament',
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
         unit = {

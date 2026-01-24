@@ -1,5 +1,5 @@
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction } from '@/core/enums'
+import { Faction } from '@/core/factions/faction'
 import { getFactionBattleEffects } from '@/core/factions/faction'
 import { UnitInstance, UnitType } from '@/core/unit'
 

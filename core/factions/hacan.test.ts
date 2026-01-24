@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Hacan', () => {
@@ -12,7 +11,7 @@ describe('Hacan', () => {
         flagship: 1,
         cruiser: 5,
       },
-      Faction.hacan,
+      'Hacan',
       {
         'Hacan flagship trade goods': 1,
       },
@@ -24,10 +23,10 @@ describe('Hacan', () => {
         flagship: 1,
         cruiser: 5,
       },
-      Faction.muaat,
+      'Muaat',
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.386 },
       { side: 'draw', percentage: 0.106 },
       { side: 'defender', percentage: 0.507 },
@@ -35,7 +34,7 @@ describe('Hacan', () => {
 
     attacker.battleEffects['Hacan flagship trade goods'] = 100
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.469 },
       { side: 'draw', percentage: 0.117 },
       { side: 'defender', percentage: 0.413 },

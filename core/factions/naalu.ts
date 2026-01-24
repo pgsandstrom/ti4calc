@@ -1,7 +1,6 @@
 import { isBattleOngoing } from '@/core/battle'
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const naalu: BattleEffect[] = [
@@ -22,7 +21,7 @@ export const naalu: BattleEffect[] = [
             {
               name: 'Naalu flagship ability',
               type: 'other',
-              place: Place.ground,
+              place: 'ground',
               transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
                 if (unit.type === UnitType.fighter && p.side === 'attacker') {
                   return {
@@ -69,7 +68,7 @@ export const naalu: BattleEffect[] = [
     type: 'faction-tech',
     name: 'Hybrid Crystal Fighter II',
     place: 'both',
-    faction: Faction.naalu,
+    faction: 'Naalu',
     unit: UnitType.fighter,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
@@ -84,7 +83,7 @@ export const naalu: BattleEffect[] = [
     description:
       "Use Naalu's Codex III Mech: Other players cannot use ANTI-FIGHTER BARRAGE against your units in this system.",
     place: 'both',
-    faction: Faction.naalu,
+    faction: 'Naalu',
     transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
       if (unit.type === UnitType.mech) {
         return {

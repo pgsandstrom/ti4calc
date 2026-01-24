@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Galvanized', () => {
@@ -22,7 +21,7 @@ describe('Galvanized', () => {
 
     // Galvanized cruiser (2 dice at 40%) vs normal cruiser (1 die at 40%)
     // Attacker has ~64% chance to hit vs defender's ~40%
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.49 },
       { side: 'draw', percentage: 0.325 },
       { side: 'defender', percentage: 0.185 },
@@ -46,7 +45,7 @@ describe('Galvanized', () => {
 
     // Galvanized dreadnought (2 dice at 60%) vs normal dreadnought (1 die at 60%)
     // From test run: attacker wins ~71%, draw ~21%
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.71 },
       { side: 'draw', percentage: 0.21 },
       { side: 'defender', percentage: 0.08 },
@@ -72,7 +71,7 @@ describe('Galvanized', () => {
     // Galvanized dreadnought has 2 bombardment dice (84% chance of at least 1 hit)
     // This kills ~1.2 infantry on average before ground combat
     // Then 1 infantry vs ~0.8 infantry
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.57 },
       { side: 'draw', percentage: 0.09 },
       { side: 'defender', percentage: 0.34 },

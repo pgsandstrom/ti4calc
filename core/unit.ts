@@ -1,24 +1,25 @@
 import _cloneDeep from 'lodash/cloneDeep'
 
-import { OnHitEffect, ParticipantInstance } from '@/core/battle-types'
+import { OnHitEffect, ParticipantInstance, Place } from '@/core/battle-types'
 import { BattleAura, BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Place } from '@/core/enums'
 import { logWrapper } from '@/util/util-log'
 
-export enum UnitType {
-  cruiser = 'cruiser',
-  carrier = 'carrier',
-  destroyer = 'destroyer',
-  dreadnought = 'dreadnought',
-  fighter = 'fighter',
-  flagship = 'flagship',
-  infantry = 'infantry',
-  mech = 'mech',
-  pds = 'pds',
-  warsun = 'warsun',
-  other = 'other', // Used by for example experimental battle station and titans hero
-  nonunit = 'nonunit', // Used when an ability is used without being tied to a unit, for example Metali Void Armaments.
-}
+export const UnitType = {
+  cruiser: 'cruiser',
+  carrier: 'carrier',
+  destroyer: 'destroyer',
+  dreadnought: 'dreadnought',
+  fighter: 'fighter',
+  flagship: 'flagship',
+  infantry: 'infantry',
+  mech: 'mech',
+  pds: 'pds',
+  warsun: 'warsun',
+  other: 'other', // Used by for example experimental battle station and titans hero
+  nonunit: 'nonunit', // Used when an ability is used without being tied to a unit, for example Metali Void Armaments.
+} as const
+
+export type UnitType = (typeof UnitType)[keyof typeof UnitType]
 
 export interface Unit {
   type: UnitType
@@ -280,7 +281,7 @@ const warsun: Readonly<Unit> = {
     {
       name: 'warsun remove planetary shield',
       type: 'other',
-      place: Place.ground,
+      place: 'ground',
       transformEnemyUnit: (u: UnitInstance) => {
         return {
           ...u,

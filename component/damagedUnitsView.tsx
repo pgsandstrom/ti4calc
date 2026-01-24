@@ -2,7 +2,6 @@ import _times from 'lodash/times'
 
 import { OptionsRowView } from '@/component/optionsRowView'
 import { Participant } from '@/core/battle-types'
-import { Faction } from '@/core/enums'
 import { UnitType } from '@/core/unit'
 
 interface Props {
@@ -137,7 +136,7 @@ function showParticipantUnit(participant: Participant, unitType: UnitType) {
 
 function showParticipantCruiser(participant: Participant) {
   return (
-    participant.faction === Faction.titans_of_ul &&
+    participant.faction === 'Titans of Ul' &&
     participant.unitUpgrades[UnitType.cruiser] === true &&
     participant.units[UnitType.cruiser] > 0
   )
@@ -145,12 +144,12 @@ function showParticipantCruiser(participant: Participant) {
 
 function showParticipantCarrier(participant: Participant) {
   return (
-    participant.faction === Faction.sol &&
+    participant.faction === 'Sol' &&
     participant.unitUpgrades[UnitType.carrier] === true &&
     participant.units[UnitType.carrier] > 0
   )
 }
 
 function showParticipantPds(participant: Participant) {
-  return participant.faction === Faction.titans_of_ul && participant.units[UnitType.pds] > 0
+  return participant.faction === 'Titans of Ul' && participant.units[UnitType.pds] > 0
 }

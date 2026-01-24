@@ -1,14 +1,13 @@
 import { doBombardment } from '@/core/battle'
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const l1z1x: BattleEffect[] = [
   {
     type: 'faction',
     name: 'L1z1x flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -22,7 +21,7 @@ export const l1z1x: BattleEffect[] = [
           aura: [
             {
               name: 'L1z1x flagship forcing shots on non-fighters',
-              place: Place.space,
+              place: 'space',
               transformUnit: (auraUnit: UnitInstance) => {
                 if (auraUnit.type === UnitType.flagship || auraUnit.type === UnitType.dreadnought) {
                   return {
@@ -44,7 +43,7 @@ export const l1z1x: BattleEffect[] = [
   {
     type: 'faction',
     name: 'L1z1x Harrow',
-    place: Place.ground,
+    place: 'ground',
     onCombatRoundEnd: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -59,7 +58,7 @@ export const l1z1x: BattleEffect[] = [
     type: 'faction-tech',
     name: 'L1z1x dreadnought upgrade',
     place: 'both',
-    faction: Faction.l1z1x,
+    faction: 'L1z1x',
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.dreadnought) {
@@ -84,7 +83,7 @@ export const l1z1x: BattleEffect[] = [
     type: 'commander',
     description: 'Units that have PLANETARY SHIELD do not prevent you from using Bombardment.',
     name: 'L1z1x commander',
-    place: Place.ground,
+    place: 'ground',
     transformEnemyUnit: (u: UnitInstance) => {
       return {
         ...u,

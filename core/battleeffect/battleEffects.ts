@@ -10,11 +10,12 @@ import {
   UnitBattleEffect,
   UnitEffect,
 } from '@/core/battle-types'
+import { Place } from '@/core/battle-types'
 import { getActioncards } from '@/core/battleeffect/actioncard'
 import { getAgendas } from '@/core/battleeffect/agenda'
 import { getRelics } from '@/core/battleeffect/relic'
 import { getTechBattleEffects } from '@/core/battleeffect/tech'
-import { Faction, Place } from '@/core/enums'
+import { Faction } from '@/core/factions/faction'
 import {
   getAgent,
   getCommanders,
@@ -135,7 +136,7 @@ export const defendingInNebula: BattleEffect = {
     'If a space combat occurs in a nebula, the defender applies +1 to each combat roll of their ships during that combat.',
   type: 'general',
   side: 'defender',
-  place: Place.space,
+  place: 'space',
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
       return {
@@ -194,7 +195,7 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
     }
   }
   if (effect.type === 'faction-tech') {
-    if (participant.faction !== effect.faction && participant.faction !== Faction.nekro) {
+    if (participant.faction !== effect.faction && participant.faction !== 'Nekro') {
       return false
     }
   }

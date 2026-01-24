@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Last Bastion', () => {
@@ -9,12 +8,12 @@ describe('Last Bastion', () => {
     // Flagship has combat 9x2 (20% per die, ~36% at least one hit)
     // vs cruiser with combat 7 (40%)
     // Flagship sustains, so it should win most of the time
-    const attacker = getTestParticipant('attacker', { flagship: 1 }, Faction.last_bastion)
+    const attacker = getTestParticipant('attacker', { flagship: 1 }, 'Last Bastion')
     const defender = getTestParticipant('defender', { cruiser: 1 })
 
     // Flagship 9x2 with sustain vs cruiser 7
     // attacker ~73%, draw ~10%, defender ~17%
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.73 },
       { side: 'draw', percentage: 0.1 },
       { side: 'defender', percentage: 0.17 },
@@ -24,14 +23,14 @@ describe('Last Bastion', () => {
   it('flagship planet bonus should add +1 per planet to combat', () => {
     // With 3 planets, flagship has combat 6x2 instead of 9x2
     // (9 - 3 = 6 to hit, 50% per die, ~75% at least one hit)
-    const attacker = getTestParticipant('attacker', { flagship: 1 }, Faction.last_bastion, {
+    const attacker = getTestParticipant('attacker', { flagship: 1 }, 'Last Bastion', {
       'The Egeiro planet bonus': 3,
     })
     const defender = getTestParticipant('defender', { cruiser: 1 })
 
     // Flagship 6x2 with sustain vs cruiser 7
     // attacker ~94%, draw ~4%, defender ~2%
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.94 },
       { side: 'draw', percentage: 0.04 },
       { side: 'defender', percentage: 0.02 },
@@ -45,7 +44,7 @@ describe('Last Bastion', () => {
     const attacker = getTestParticipant(
       'attacker',
       { mech: 1, infantry: 2 },
-      Faction.last_bastion,
+      'Last Bastion',
       { 'A3 Valiance galvanize': 1 },
       {},
       {},
@@ -56,7 +55,7 @@ describe('Last Bastion', () => {
     // Galvanized mech (2 dice, sustain) + 2 infantry vs 3 infantry
     // Infantry get galvanized when mech dies, giving them advantage
     // attacker ~94%, draw ~2.5%, defender ~3.5%
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.94 },
       { side: 'draw', percentage: 0.025 },
       { side: 'defender', percentage: 0.035 },
@@ -67,7 +66,7 @@ describe('Last Bastion', () => {
     // Compare agent vs no agent in symmetric battle
     // 3 infantry with agent vs 3 infantry
     // When one infantry dies, agent galvanizes another (+1 die)
-    const attacker = getTestParticipant('attacker', { infantry: 3 }, Faction.last_bastion, {
+    const attacker = getTestParticipant('attacker', { infantry: 3 }, 'Last Bastion', {
       'Last Bastion agent': 1,
     })
     const defender = getTestParticipant('defender', { infantry: 3 })
@@ -75,7 +74,7 @@ describe('Last Bastion', () => {
     // 3v3 infantry is normally ~40/20/40
     // Agent provides significant advantage by galvanizing when unit dies
     // attacker ~58%, draw ~7%, defender ~35%
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.58 },
       { side: 'draw', percentage: 0.07 },
       { side: 'defender', percentage: 0.35 },
@@ -89,7 +88,7 @@ describe('Last Bastion', () => {
     const attacker = getTestParticipant(
       'attacker',
       { dreadnought: 1, fighter: 2 },
-      Faction.last_bastion,
+      'Last Bastion',
       {
         'Last Bastion agent': 1,
       },
@@ -99,7 +98,7 @@ describe('Last Bastion', () => {
     // Dreadnought 5 (60%) + 2 fighters 9x1 (20% each) vs 2 dreadnoughts 5 (60% each)
     // Agent galvanizes dreadnought when a fighter dies, giving +1 die
     // attacker ~44%, draw ~19%, defender ~37%
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.44 },
       { side: 'draw', percentage: 0.19 },
       { side: 'defender', percentage: 0.37 },
@@ -113,7 +112,7 @@ describe('Last Bastion', () => {
     const attacker = getTestParticipant(
       'attacker',
       { infantry: 2 },
-      Faction.last_bastion,
+      'Last Bastion',
       { 'Last Bastion hero': 1 },
       {},
       {},
@@ -124,7 +123,7 @@ describe('Last Bastion', () => {
     // Galvanized infantry get +1 die (60% hit vs 30%)
     // Hero can destroy enemy units when galvanized unit dies (once per fight)
     // attacker ~76%, draw ~10%, defender ~14%
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.76 },
       { side: 'draw', percentage: 0.1 },
       { side: 'defender', percentage: 0.14 },
@@ -138,7 +137,7 @@ describe('Last Bastion', () => {
     const defender = getTestParticipant(
       'defender',
       { infantry: 2 },
-      Faction.last_bastion,
+      'Last Bastion',
       { 'Proxima Targeting VI': 1 },
       {},
       {},
@@ -149,7 +148,7 @@ describe('Last Bastion', () => {
     // After bombardment, 1 infantry vs 2 galvanized infantry (with +1 die each)
     // Defender should win heavily
     // attacker ~0.1%, draw ~0.1%, defender ~99.8%
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.001 },
       { side: 'draw', percentage: 0.001 },
       { side: 'defender', percentage: 0.998 },
@@ -159,7 +158,7 @@ describe('Last Bastion', () => {
   it('faction tech bombardment should hit both sides', () => {
     // Attacker has faction tech which gives bombardment 8x3 that hits both sides
     // 3 infantry vs 3 infantry, attacker uses Proxima bombardment
-    const attacker = getTestParticipant('attacker', { infantry: 3 }, Faction.last_bastion, {
+    const attacker = getTestParticipant('attacker', { infantry: 3 }, 'Last Bastion', {
       'Proxima Targeting VI': 1,
     })
     const defender = getTestParticipant('defender', { infantry: 3 })
@@ -167,7 +166,7 @@ describe('Last Bastion', () => {
     // Bombardment 8 (x3) = 30% per die, hits both sides equally
     // This should make the battle slightly favor the defender
     // attacker ~45%, draw ~11%, defender ~44%
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.45 },
       { side: 'draw', percentage: 0.11 },
       { side: 'defender', percentage: 0.44 },

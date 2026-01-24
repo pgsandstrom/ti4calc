@@ -1,6 +1,5 @@
-import { ParticipantInstance } from '@/core/battle-types'
+import { ParticipantInstance, Place } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 import { logWrapper } from '@/util/util-log'
 
@@ -44,7 +43,7 @@ export const naazRokha: BattleEffect[] = [
     place: 'both',
     transformUnit: (unit: UnitInstance, _p: ParticipantInstance, place: Place) => {
       if (unit.type === UnitType.mech) {
-        if (place === Place.space) {
+        if (place === 'space') {
           return {
             ...unit,
             combat: {
@@ -80,7 +79,7 @@ export const naazRokha: BattleEffect[] = [
       "At the start of a combat round, you may exhaust this card to apply +1 to the result of each of your unit's combat rolls during this combat round",
     type: 'faction-tech',
     place: 'both',
-    faction: Faction.naaz_rokha,
+    faction: 'Naaz-Rokha',
     transformUnit: (unit: UnitInstance) => {
       return getUnitWithImproved(unit, 'combat', 'hit', 'temp')
     },
@@ -93,7 +92,7 @@ export const naazRokha: BattleEffect[] = [
       'Naaz-Rokha Breakthrough: This unit is both a ship and a ground force. It cannot be assigned hits from unit abilities. Repair it at the start of every combat round. WARNING: Immunity to abilities is not yet implemented',
     type: 'faction-ability',
     place: 'both',
-    faction: Faction.naaz_rokha,
+    faction: 'Naaz-Rokha',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
         return {

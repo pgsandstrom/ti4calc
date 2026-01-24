@@ -1,6 +1,5 @@
 import { EFFECT_LOW_PRIORITY } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Place } from '@/core/enums'
 import { getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 
 export function getAgendas() {
@@ -16,7 +15,7 @@ export const publicizeWeaponSchematics: BattleEffect = {
   name: 'Publicize Weapon Schematics',
   description: 'All war suns lose SUSTAIN DAMAGE.',
   type: 'agenda',
-  place: Place.space,
+  place: 'space',
   symmetrical: true,
   transformUnit: (u: UnitInstance) => {
     if (u.type === UnitType.warsun) {
@@ -34,7 +33,7 @@ export const prophecyOfIxth: BattleEffect = {
   name: 'Prophecy of Ixth',
   description: "The owner of this card applies +1 to the result of their fighter's combat rolls.",
   type: 'agenda',
-  place: Place.space,
+  place: 'space',
   transformUnit: (u: UnitInstance) => {
     if (u.type === UnitType.fighter) {
       return getUnitWithImproved(u, 'combat', 'hit', 'permanent')
@@ -57,7 +56,7 @@ export const conventionsOfWar: BattleEffect = {
   name: 'Conventions of War',
   description: 'No BOMBARDMENT.',
   type: 'agenda',
-  place: Place.ground,
+  place: 'ground',
   symmetrical: true,
   priority: EFFECT_LOW_PRIORITY,
   transformUnit: (u: UnitInstance) => {

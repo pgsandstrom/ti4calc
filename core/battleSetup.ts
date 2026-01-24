@@ -10,9 +10,10 @@ import {
   ParticipantInstance,
   Side,
 } from '@/core/battle-types'
+import { Place } from '@/core/battle-types'
 import { BattleEffect, getAllBattleEffects } from '@/core/battleeffect/battleEffects'
 import { getUnitUpgrade } from '@/core/battleeffect/unitUpgrades'
-import { Faction, Place } from '@/core/enums'
+import { Faction } from '@/core/factions/faction'
 import { getFactionBattleEffects } from '@/core/factions/faction'
 import { createUnit, galvanizeUnit, UnitInstance, UnitType } from '@/core/unit'
 import { applyQueryParams } from '@/util/query-params'
@@ -94,7 +95,7 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
     if (
       effect.faction === undefined ||
       effect.faction === participant.faction ||
-      participant.faction === Faction.nekro
+      participant.faction === 'Nekro'
     ) {
       battleEffects.push(effect)
     }
@@ -293,7 +294,7 @@ export function createParticipant(
   query?: Record<string, string | string[] | undefined>,
 ): Participant {
   const participant: Participant = {
-    faction: faction ?? Faction.barony_of_letnev,
+    faction: faction ?? 'Barony of Letnev',
     side,
     units: getUnitMap(),
     unitUpgrades: {},

@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Naalu', () => {
@@ -13,14 +12,14 @@ describe('Naalu', () => {
         fighter: 2,
         infantry: 1,
       },
-      Faction.naalu,
+      'Naalu',
     )
 
     const defender = getTestParticipant('defender', {
       infantry: 3,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.477 },
       { side: 'draw', percentage: 0.044 },
       { side: 'defender', percentage: 0.479 },
@@ -34,14 +33,14 @@ describe('Naalu', () => {
         flagship: 1,
         fighter: 2,
       },
-      Faction.naalu,
+      'Naalu',
     )
 
     const defender = getTestParticipant('defender', {
       infantry: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.908 },
       { side: 'defender', percentage: 0.092 },
@@ -56,7 +55,7 @@ describe('Naalu', () => {
         fighter: 20,
         infantry: 1,
       },
-      Faction.naalu,
+      'Naalu',
     )
 
     const defender = getTestParticipant(
@@ -64,13 +63,13 @@ describe('Naalu', () => {
       {
         infantry: 1,
       },
-      Faction.yin,
+      'Yin',
       {
         'Yin agent': 1,
       },
     )
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },

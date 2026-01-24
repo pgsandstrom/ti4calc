@@ -1,13 +1,12 @@
 import { EFFECT_LOW_PRIORITY } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 
 export const mahact: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Mahact flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -28,8 +27,8 @@ export const mahact: BattleEffect[] = [
     name: 'Mahact flagship bonus',
     description:
       "Mahact flagship bonus. Flagship text is: During combat against an opponent whose command token is not in your fleet pool, apply +2 to the results of this unit's combat rolls.",
-    place: Place.space,
-    faction: Faction.mahact,
+    place: 'space',
+    faction: 'Mahact',
     priority: EFFECT_LOW_PRIORITY,
     transformUnit: (u: UnitInstance) => {
       if (u.type === UnitType.flagship) {

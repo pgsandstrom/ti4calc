@@ -1,13 +1,12 @@
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const empyrean: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Empyrean flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {

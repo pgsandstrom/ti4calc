@@ -1,6 +1,5 @@
 import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Place } from '@/core/enums'
 import { HitInfo } from '@/core/roll'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 
@@ -8,7 +7,7 @@ export const jolNar: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Jol-Nar flagship',
-    place: Place.space,
+    place: 'space',
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
@@ -48,7 +47,7 @@ export const jolNar: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Jol-Nar mech',
-    place: Place.ground,
+    place: 'ground',
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
@@ -57,7 +56,7 @@ export const jolNar: BattleEffect[] = [
           aura: [
             {
               name: 'Jol-Nar mech aura',
-              place: Place.ground,
+              place: 'ground',
               onCombatRoundStart: (
                 auraUnits: UnitInstance[],
                 p: ParticipantInstance,

@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Sardakk', () => {
@@ -11,7 +10,7 @@ describe('Sardakk', () => {
       {
         flagship: 1,
       },
-      Faction.sardakk_norr,
+      "Sardakk N'orr",
     )
 
     const defender = getTestParticipant(
@@ -19,10 +18,10 @@ describe('Sardakk', () => {
       {
         flagship: 1,
       },
-      Faction.arborec,
+      'Arborec',
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.56 },
       { side: 'draw', percentage: 0.26 },
       { side: 'defender', percentage: 0.18 },
@@ -35,7 +34,7 @@ describe('Sardakk', () => {
       {
         mech: 1,
       },
-      Faction.sardakk_norr,
+      "Sardakk N'orr",
     )
 
     const defender = getTestParticipant(
@@ -44,10 +43,10 @@ describe('Sardakk', () => {
         infantry: 1,
         pds: 1,
       },
-      Faction.arborec,
+      'Arborec',
     )
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.792 },
       { side: 'draw', percentage: 0.125 },
       { side: 'defender', percentage: 0.083 },

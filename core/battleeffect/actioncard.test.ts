@@ -10,7 +10,6 @@ import {
 } from '@/core/battleeffect/actioncard'
 import { assaultCannon } from '@/core/battleeffect/tech'
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Action card', () => {
@@ -29,7 +28,7 @@ describe('Action card', () => {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       {
         side: 'attacker',
         percentage: 0.778,
@@ -60,7 +59,7 @@ describe('Action card', () => {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.562 },
       { side: 'draw', percentage: 0.033 },
       { side: 'defender', percentage: 0.405 },
@@ -83,7 +82,7 @@ describe('Action card', () => {
     })
 
     // solar flare should disable experimental battlestation, thus attacker should always win
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -110,7 +109,7 @@ describe('Action card', () => {
         [experimentalBattlestation.name]: 1,
       },
     )
-    const result = getBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS)
     assert.ok(result.attacker < TEST_NUMBER_OF_ROLLS / 2)
   })
 })

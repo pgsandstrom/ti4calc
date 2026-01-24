@@ -1,7 +1,6 @@
 import { destroyUnit } from '@/core/battle'
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { logWrapper } from '@/util/util-log'
 
@@ -9,7 +8,7 @@ export const obsidian: BattleEffect[] = [
   {
     type: 'faction',
     name: 'The Obsidian flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -30,7 +29,7 @@ export const obsidian: BattleEffect[] = [
     name: 'Obsidian Agent',
     description:
       "When 1 of your opponent's ships is destroyed during combat, you may exhaust this card to force that opponent to destroy 1 ship of the same type in the active system, if able.",
-    place: Place.space,
+    place: 'space',
     timesPerFight: 1,
     onDeath: (
       deadUnits: UnitInstance[],
@@ -44,7 +43,7 @@ export const obsidian: BattleEffect[] = [
       if (isOwnUnit) {
         return
       }
-      if (battle.place !== Place.space) {
+      if (battle.place !== 'space') {
         return
       }
 
@@ -71,7 +70,7 @@ export const obsidian: BattleEffect[] = [
     type: 'commander',
     name: 'Obsidian Commander',
     description: 'Aroz Hollow: Apply +1 to the result of your combat rolls in The Fracture.',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
         return {
@@ -91,7 +90,7 @@ export const obsidian: BattleEffect[] = [
       'Plot Card: Apply +1 to the result of your combat rolls and ability rolls against the puppeted player.',
     type: 'faction-ability',
     place: 'both',
-    faction: Faction.obsidian,
+    faction: 'Obsidian',
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
         unit = {

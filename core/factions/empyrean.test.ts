@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 const ENDLESS_REPAIR = 1000
@@ -13,7 +12,7 @@ describe('Empyrean', () => {
       {
         flagship: 1,
       },
-      Faction.empyrean,
+      'Empyrean',
       {
         'Empyrean flagship repair': ENDLESS_REPAIR,
       },
@@ -25,10 +24,10 @@ describe('Empyrean', () => {
         dreadnought: 1,
         pds: 1,
       },
-      Faction.muaat,
+      'Muaat',
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -42,7 +41,7 @@ describe('Empyrean', () => {
         flagship: 1,
         mech: 1,
       },
-      Faction.empyrean,
+      'Empyrean',
       {
         'Empyrean flagship repair': ENDLESS_REPAIR,
       },
@@ -54,10 +53,10 @@ describe('Empyrean', () => {
         pds: 1,
         mech: 1,
       },
-      Faction.muaat,
+      'Muaat',
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -74,7 +73,7 @@ describe('Empyrean', () => {
       {
         flagship: 1,
       },
-      Faction.empyrean,
+      'Empyrean',
       {
         'Empyrean flagship repair': ENDLESS_REPAIR,
       },
@@ -86,10 +85,10 @@ describe('Empyrean', () => {
       {
         dreadnought: 1,
       },
-      Faction.muaat,
+      'Muaat',
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -102,7 +101,7 @@ describe('Empyrean', () => {
       {
         flagship: 1,
       },
-      Faction.empyrean,
+      'Empyrean',
       {
         'Empyrean flagship repair': ENDLESS_REPAIR,
       },
@@ -113,7 +112,7 @@ describe('Empyrean', () => {
       {
         dreadnought: 1,
       },
-      Faction.muaat,
+      'Muaat',
       {
         'Direct Hit': 1,
       },
@@ -134,7 +133,7 @@ describe('Empyrean', () => {
 
     const totalChance = attackerWin + draw + defenderWinChance
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: attackerWin / totalChance },
       { side: 'draw', percentage: draw / totalChance },
       { side: 'defender', percentage: defenderWinChance / totalChance },
@@ -147,7 +146,7 @@ describe('Empyrean', () => {
       {
         flagship: 1,
       },
-      Faction.empyrean,
+      'Empyrean',
       {
         'Empyrean flagship repair': ENDLESS_REPAIR,
       },
@@ -158,10 +157,10 @@ describe('Empyrean', () => {
       {
         fighter: 20,
       },
-      Faction.sardakk_norr,
+      "Sardakk N'orr",
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 1 },

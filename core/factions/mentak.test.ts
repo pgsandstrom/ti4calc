@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Mentak', () => {
@@ -11,7 +10,7 @@ describe('Mentak', () => {
       {
         dreadnought: 1,
       },
-      Faction.mentak,
+      'Mentak',
       {
         'Mentak hero': 1,
       },
@@ -24,7 +23,7 @@ describe('Mentak', () => {
       destroyer: 4,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.642 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0.358 },
@@ -35,7 +34,7 @@ describe('Mentak', () => {
     defender.side = 'attacker'
     attacker.side = 'defender'
 
-    testBattleReport(defender, attacker, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(defender, attacker, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.358 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0.642 },
@@ -49,7 +48,7 @@ describe('Mentak', () => {
         flagship: 1,
         infantry: 2,
       },
-      Faction.mentak,
+      'Mentak',
       {
         'Mentak hero': 1,
       },
@@ -59,7 +58,7 @@ describe('Mentak', () => {
       mech: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.41 },
       { side: 'draw', percentage: 0.101 },
       { side: 'defender', percentage: 0.49 },
@@ -72,7 +71,7 @@ describe('Mentak', () => {
       {
         flagship: 2,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
     const defender = getTestParticipant(
@@ -80,10 +79,10 @@ describe('Mentak', () => {
       {
         flagship: 2,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.323 },
       { side: 'draw', percentage: 0.354 },
       { side: 'defender', percentage: 0.323 },
@@ -97,7 +96,7 @@ describe('Mentak', () => {
         mech: 1,
         dreadnought: 1,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
     const defender = getTestParticipant(
@@ -105,10 +104,10 @@ describe('Mentak', () => {
       {
         mech: 1,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.333 },
       { side: 'draw', percentage: 0.333 },
       { side: 'defender', percentage: 0.333 },
@@ -121,7 +120,7 @@ describe('Mentak', () => {
       {
         mech: 1,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
     const defender = getTestParticipant(
@@ -130,10 +129,10 @@ describe('Mentak', () => {
         mech: 1,
         pds: 1,
       },
-      Faction.mentak,
+      'Mentak',
     )
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 / 6 },
       { side: 'draw', percentage: 1 / 6 },
       { side: 'defender', percentage: 2 / 3 },

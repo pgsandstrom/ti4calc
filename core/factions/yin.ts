@@ -1,7 +1,6 @@
 import { destroyUnit, isParticipantAlive } from '@/core/battle'
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { logWrapper } from '@/util/util-log'
 
@@ -9,7 +8,7 @@ export const yin: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Yin flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -23,7 +22,7 @@ export const yin: BattleEffect[] = [
             {
               name: 'Yin flagship "kill everything" effect',
               type: 'other',
-              place: Place.space,
+              place: 'space',
               onDeath: (
                 deadUnits: UnitInstance[],
                 participant: ParticipantInstance,
@@ -53,8 +52,8 @@ export const yin: BattleEffect[] = [
     description:
       "After each space battle round, you may destroy 1 of your cruisers or destroyers in the active system to produce 1 hit and assign it to 1 of your opponent's ships in that system.",
     type: 'faction-ability',
-    place: Place.space,
-    faction: Faction.yin,
+    place: 'space',
+    faction: 'Yin',
     onCombatRoundEnd: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -88,8 +87,8 @@ export const yin: BattleEffect[] = [
     description:
       "At the start of a space combat, you may destroy 1 of your cruisers or destroyers in the active system to produce 1 hit against your opponent's ships; that hit must be assigned by your opponent to 1 of their non-fighters ships if able.",
     type: 'faction-tech',
-    place: Place.space,
-    faction: Faction.yin,
+    place: 'space',
+    faction: 'Yin',
     onStart: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -129,7 +128,7 @@ export const yin: BattleEffect[] = [
       if (!isOwnUnit) {
         return
       }
-      if (battle.place === Place.space) {
+      if (battle.place === 'space') {
         const newFigher1 = createUnitAndApplyEffects(
           UnitType.fighter,
           participant,

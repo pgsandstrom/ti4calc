@@ -1,5 +1,5 @@
 import { Participant } from '@/core/battle-types'
-import { Faction } from '@/core/enums'
+import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
 
 interface Props {
   participant: Participant
@@ -27,7 +27,7 @@ export default function FactionPicker(props: Props) {
           width: '0px',
         }}
       >
-        {Object.values(Faction).map((faction) => {
+        {ALL_FACTIONS.map((faction) => {
           return (
             <option key={faction} value={faction}>
               {faction}

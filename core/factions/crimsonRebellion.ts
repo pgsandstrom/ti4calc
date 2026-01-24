@@ -1,6 +1,5 @@
 import { ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const crimsonRebellion: BattleEffect[] = [
@@ -30,7 +29,7 @@ export const crimsonRebellion: BattleEffect[] = [
       "While this unit is in a system that contains an active breach, other players' units in systems with active breaches lose all their unit abilities.",
     type: 'faction-ability',
     place: 'both',
-    faction: Faction.crimson_rebellion,
+    faction: 'Crimson Rebellion',
     transformEnemyUnit: (unit: UnitInstance, _p: ParticipantInstance) => {
       return {
         ...unit,
@@ -45,7 +44,7 @@ export const crimsonRebellion: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Crimson Rebellion destroyers',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         unit.combat!.hit = 8
@@ -56,8 +55,8 @@ export const crimsonRebellion: BattleEffect[] = [
   {
     type: 'faction-tech',
     name: 'Exile II',
-    place: Place.space,
-    faction: Faction.crimson_rebellion,
+    place: 'space',
+    faction: 'Crimson Rebellion',
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {

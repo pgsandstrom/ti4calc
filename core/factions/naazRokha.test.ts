@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Naaz-Rokha', () => {
@@ -13,7 +12,7 @@ describe('Naaz-Rokha', () => {
         mech: 1,
         infantry: 5,
       },
-      Faction.naaz_rokha,
+      'Naaz-Rokha',
     )
 
     const defender = getTestParticipant('defender', {
@@ -21,7 +20,7 @@ describe('Naaz-Rokha', () => {
       infantry: 5,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.44 },
       { side: 'draw', percentage: 0.086 },
       { side: 'defender', percentage: 0.474 },
@@ -35,14 +34,14 @@ describe('Naaz-Rokha', () => {
         dreadnought: 2,
         mech: 1,
       },
-      Faction.naaz_rokha,
+      'Naaz-Rokha',
     )
 
     const defender = getTestParticipant('defender', {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.796 },
       { side: 'draw', percentage: 0.062 },
       { side: 'defender', percentage: 0.142 },

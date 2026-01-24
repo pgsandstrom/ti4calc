@@ -1,6 +1,5 @@
 import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, getUnitWithImproved, UNIT_MAP, UnitInstance, UnitType } from '@/core/unit'
 import { getHighestDiceCountUnit, getHighestHitUnit, getUnits } from '@/core/unitGet'
 import { logWrapper } from '@/util/util-log'
@@ -39,7 +38,7 @@ export const baronyOfLetnev: BattleEffect[] = [
             {
               name: 'Barony flagship repair',
               type: 'other',
-              place: Place.space,
+              place: 'space',
               onCombatRound: (participant: ParticipantInstance) => {
                 participant.units.forEach((unit) => {
                   if (unit.type === UnitType.flagship) {
@@ -60,8 +59,8 @@ export const baronyOfLetnev: BattleEffect[] = [
     description:
       'At the start of a round of ground combat, you may spend 2 resources to replace 1 of your infantry in that combat with 1 mech.',
     type: 'faction-ability',
-    place: Place.ground,
-    faction: Faction.barony_of_letnev,
+    place: 'ground',
+    faction: 'Barony of Letnev',
     count: true,
     onCombatRound: (
       participant: ParticipantInstance,
@@ -99,7 +98,7 @@ export const baronyOfLetnev: BattleEffect[] = [
     description: 'When 1 of your units uses SUSTAIN DAMAGE, cancel 2 hits instead of 1.',
     type: 'faction-tech',
     place: 'both',
-    faction: Faction.barony_of_letnev,
+    faction: 'Barony of Letnev',
     onSustain: (_unit: UnitInstance, participant: ParticipantInstance, _battle: BattleInstance) => {
       if (participant.hitsToAssign.hitsToNonFighters > 0) {
         participant.hitsToAssign.hitsToNonFighters -= 1
@@ -112,8 +111,8 @@ export const baronyOfLetnev: BattleEffect[] = [
     name: 'L4 Disruptors',
     description: 'During an invasion, units cannot use SPACE CANNON against your units.',
     type: 'faction-tech',
-    place: Place.ground,
-    faction: Faction.barony_of_letnev,
+    place: 'ground',
+    faction: 'Barony of Letnev',
     priority: EFFECT_LOW_PRIORITY,
     transformEnemyUnit: (unit: UnitInstance) => {
       return {
@@ -127,8 +126,8 @@ export const baronyOfLetnev: BattleEffect[] = [
     description:
       'At the start of each round of space combat, you may spend 2 trade goods;  you may re-roll any number of your dice during that combat round.',
     type: 'faction-ability',
-    place: Place.space,
-    faction: Faction.barony_of_letnev,
+    place: 'space',
+    faction: 'Barony of Letnev',
     count: true,
     onCombatRound: (
       participant: ParticipantInstance,
@@ -152,7 +151,7 @@ export const baronyOfLetnev: BattleEffect[] = [
     description:
       "After you and your opponent roll dice during space combat: You may reroll all of your opponent's dice.  You may reroll any number of your dice. In this simulation it only rerolls your dice.",
     type: 'promissary',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       return getUnitWithImproved(unit, 'combat', 'reroll', 'temp')
     },
@@ -162,14 +161,14 @@ export const baronyOfLetnev: BattleEffect[] = [
     description:
       'At the start of a Space Combat round: You may exhaust this card to choose 1 ship in the active system. That ship rolls 1 additional die during this combat round.',
     type: 'agent',
-    place: Place.space,
+    place: 'space',
     onCombatRound: (
       p: ParticipantInstance,
       _battle: BattleInstance,
       _otherParticipant: ParticipantInstance,
       effectName: string,
     ) => {
-      const highestHitUnit = getHighestHitUnit(p, 'combat', Place.space)
+      const highestHitUnit = getHighestHitUnit(p, 'combat', 'space')
       if (highestHitUnit?.combat) {
         highestHitUnit.combat.countBonusTmp += 1
         registerUse(effectName, p)
@@ -184,12 +183,12 @@ export const baronyOfLetnev: BattleEffect[] = [
     description:
       "Barony Breakthrough: Before you roll dice during space combat, apply +X to the results of 1 of your ship's rolls, where X is the number of ship types you have in the combat.",
     type: 'faction-ability',
-    place: Place.space,
-    faction: Faction.barony_of_letnev,
+    place: 'space',
+    faction: 'Barony of Letnev',
     onStart: (p: ParticipantInstance, _b: BattleInstance, _op: ParticipantInstance) => {
-      const highestDiceCountUnit = getHighestDiceCountUnit(p, 'combat', Place.space)
+      const highestDiceCountUnit = getHighestDiceCountUnit(p, 'combat', 'space')
       if (highestDiceCountUnit && highestDiceCountUnit.combat) {
-        const units = getUnits(p, Place.space, true)
+        const units = getUnits(p, 'space', true)
         const numUniqueUnits = [...new Set(units.map((unit: UnitInstance) => unit.type))].length
         highestDiceCountUnit.combat.hitBonus += numUniqueUnits
         logWrapper(

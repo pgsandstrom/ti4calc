@@ -2,7 +2,6 @@ import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
 import { getBattleReport } from '@/core'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant } from '@/util/util.test'
 
 describe('Yin', () => {
@@ -12,7 +11,7 @@ describe('Yin', () => {
       {
         destroyer: 1,
       },
-      Faction.yin,
+      'Yin',
       {
         'Impulse Core': 1,
       },
@@ -22,7 +21,7 @@ describe('Yin', () => {
       destroyer: 2,
     })
 
-    const result = getBattleReport(attacker, defender, Place.space, 100)
+    const result = getBattleReport(attacker, defender, 'space', 100)
 
     assert.strictEqual(result.defender, 100)
   })

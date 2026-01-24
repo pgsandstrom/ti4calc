@@ -1,9 +1,8 @@
 import _times from 'lodash/times'
 
 import { destroyUnit } from '@/core/battle'
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleInstance, ParticipantInstance, Place } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { getHighestHitUnit, getLowestWorthSustainUnit, getUnits } from '@/core/unitGet'
 import { logWrapper } from '@/util/util-log'
@@ -12,7 +11,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Argent Flight flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -26,13 +25,13 @@ export const argentFlight: BattleEffect[] = [
             {
               name: 'Argent Flight flagship preventing pds',
               type: 'other',
-              place: Place.space,
+              place: 'space',
               transformEnemyUnit: (
                 unit: UnitInstance,
                 _participant: ParticipantInstance,
                 place: Place,
               ) => {
-                if (place === Place.space) {
+                if (place === 'space') {
                   return {
                     ...unit,
                     spaceCannon: undefined,
@@ -52,7 +51,7 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Argent Flight destroyers',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         unit.combat!.hit = 8
@@ -82,8 +81,8 @@ export const argentFlight: BattleEffect[] = [
   {
     type: 'faction-tech',
     name: 'Strike Wing Alpha II',
-    place: Place.space,
-    faction: Faction.argent_flight,
+    place: 'space',
+    faction: 'Argent flight',
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
@@ -174,7 +173,7 @@ export const argentFlight: BattleEffect[] = [
       _otherP: ParticipantInstance,
       effectName: string,
     ) => {
-      if (p.side === 'attacker' && battle.place === Place.ground) {
+      if (p.side === 'attacker' && battle.place === 'ground') {
         const highestHitUnit = getHighestHitUnit(p, 'bombardment', undefined)
         if (highestHitUnit) {
           highestHitUnit.bombardment!.countBonusTmp += 1

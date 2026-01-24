@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Mahact', () => {
@@ -12,7 +11,7 @@ describe('Mahact', () => {
         flagship: 1,
         dreadnought: 3,
       },
-      Faction.mahact,
+      'Mahact',
       {
         'Mahact flagship bonus': 1,
       },
@@ -22,7 +21,7 @@ describe('Mahact', () => {
       dreadnought: 5,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.305 },
       { side: 'draw', percentage: 0.102 },
       { side: 'defender', percentage: 0.592 },

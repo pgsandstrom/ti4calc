@@ -1,7 +1,6 @@
 import { destroyUnit } from '@/core/battle'
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, galvanizeUnit, UnitInstance, UnitType } from '@/core/unit'
 import { getHighestWorthUnit } from '@/core/unitGet'
 import { logWrapper } from '@/util/util-log'
@@ -17,7 +16,7 @@ export const lastBastion: BattleEffect[] = [
     type: 'faction',
     name: 'Last Bastion flagship',
     description: 'The Egeiro: Combat 9x2, sustain damage.',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -38,8 +37,8 @@ export const lastBastion: BattleEffect[] = [
     name: 'The Egeiro planet bonus',
     description:
       'Flagship ability: +1 to each combat roll for each non-home system planet you control. Set count to number of planets.',
-    place: Place.space,
-    faction: Faction.last_bastion,
+    place: 'space',
+    faction: 'Last Bastion',
     count: true,
     onStart: (
       p: ParticipantInstance,
@@ -66,7 +65,7 @@ export const lastBastion: BattleEffect[] = [
     description:
       'Mech ability: When this unit is destroyed while galvanized, galvanize up to 3 friendly infantry in its system.',
     place: 'both',
-    faction: Faction.last_bastion,
+    faction: 'Last Bastion',
     onDeath: (
       deadUnits: UnitInstance[],
       participant: ParticipantInstance,
@@ -202,8 +201,8 @@ export const lastBastion: BattleEffect[] = [
     name: 'Proxima Targeting VI',
     description:
       'Faction tech: Cancel 1 bombardment hit per galvanized ground force present. You may also use Bombardment 8 (x3) against opponent ground forces, but must also roll against your own ground forces.',
-    place: Place.ground,
-    faction: Faction.last_bastion,
+    place: 'ground',
+    faction: 'Last Bastion',
     // Cancel bombardment hits based on galvanized ground forces (for defender)
     beforeStart: (
       participant: ParticipantInstance,
@@ -211,7 +210,7 @@ export const lastBastion: BattleEffect[] = [
       _otherParticipant: ParticipantInstance,
       effectName: string,
     ) => {
-      if (battle.place !== Place.ground) {
+      if (battle.place !== 'ground') {
         return
       }
       // Only defender can cancel bombardment
@@ -239,7 +238,7 @@ export const lastBastion: BattleEffect[] = [
       otherParticipant: ParticipantInstance,
       effectName: string,
     ) => {
-      if (battle.place !== Place.ground) {
+      if (battle.place !== 'ground') {
         return
       }
       // Only attacker can bombard

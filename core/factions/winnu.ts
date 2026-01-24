@@ -1,7 +1,6 @@
 import { getOtherParticipant } from '@/core/battle'
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 import { getNonFighterShips } from '@/core/unitGet'
 import { logWrapper } from '@/util/util-log'
@@ -11,7 +10,7 @@ export const winnu: BattleEffect[] = [
   {
     type: 'faction',
     name: 'Winnu flagship',
-    place: Place.space,
+    place: 'space',
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -25,7 +24,7 @@ export const winnu: BattleEffect[] = [
             {
               name: 'Winnu Flagship ability',
               type: 'other',
-              place: Place.space,
+              place: 'space',
               transformUnit: (
                 auraUnit: UnitInstance,
                 p: ParticipantInstance,
@@ -69,7 +68,7 @@ export const winnu: BattleEffect[] = [
     description:
       'Winnu Breakthrough: Apply +1 to the results of each of your unit\'s combat rolls for each "Support for the Throne" in your opponent\'s play area.',
     place: 'both',
-    faction: Faction.winnu,
+    faction: 'Winnu',
     count: true,
     onStart: (
       p: ParticipantInstance,

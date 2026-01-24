@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Firmament', () => {
@@ -11,7 +10,7 @@ describe('Firmament', () => {
       {
         flagship: 1,
       },
-      Faction.firmament,
+      'Firmament',
       {
         "Heaven's Eye": 1,
       },
@@ -22,7 +21,7 @@ describe('Firmament', () => {
     })
 
     // Flagship repairs each round, so it should almost always win against a dreadnought
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -35,7 +34,7 @@ describe('Firmament', () => {
       {
         destroyer: 1,
       },
-      Faction.firmament,
+      'Firmament',
       {
         'Firmament Agent': 1,
       },
@@ -45,7 +44,7 @@ describe('Firmament', () => {
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 1 },
       { side: 'draw', percentage: 0 },
       { side: 'defender', percentage: 0 },
@@ -58,7 +57,7 @@ describe('Firmament', () => {
       {
         cruiser: 2,
       },
-      Faction.firmament,
+      'Firmament',
       {
         'Asail (Firmament)': 1,
       },
@@ -69,7 +68,7 @@ describe('Firmament', () => {
     })
 
     // Asail gives +1 to combat, so cruisers hit on 6 instead of 7
-    testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.54 },
       { side: 'draw', percentage: 0.135 },
       { side: 'defender', percentage: 0.325 },
@@ -82,7 +81,7 @@ describe('Firmament', () => {
       {
         dreadnought: 1,
       },
-      Faction.firmament,
+      'Firmament',
       {
         'Asail (Firmament)': 1,
       },
@@ -95,7 +94,7 @@ describe('Firmament', () => {
     // Dreadnought bombardment hits on 5+ (60%), with Asail +1 hits on 4+ (70%)
     // If bombardment hits, draw (no ground forces remain)
     // If bombardment misses, defender wins
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0 },
       { side: 'draw', percentage: 0.7 },
       { side: 'defender', percentage: 0.3 },

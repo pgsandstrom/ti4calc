@@ -1,8 +1,9 @@
 import { BattleReport, getBattleReport } from '@/core'
 import { Participant, Side } from '@/core/battle-types'
+import { Place } from '@/core/battle-types'
 import { getUnitMap } from '@/core/battleSetup'
 import { ROLLS_WHEN_BUILDING_TEST_DATA, TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
+import { Faction } from '@/core/factions/faction'
 import { UnitType } from '@/core/unit'
 import { PartialRecord } from '@/util/util-types'
 
@@ -17,7 +18,7 @@ const RETRIES_UNTIL_FAIL = 10
 export function getTestParticipant(
   side: Side,
   units: PartialRecord<UnitType, number> = {},
-  faction = Faction.barony_of_letnev,
+  faction: Faction = 'Barony of Letnev',
   battleEffects: Record<string, number | undefined> = {},
   unitUpgrades: PartialRecord<UnitType, boolean> = {},
   damagedUnits: PartialRecord<UnitType, number> = {},

@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Necro', () => {
@@ -11,7 +10,7 @@ describe('Necro', () => {
       {
         infantry: 2,
       },
-      Faction.nekro,
+      'Nekro',
       { 'Nekro mech bonus': 1 },
     )
 
@@ -19,7 +18,7 @@ describe('Necro', () => {
       infantry: 2,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.463 },
       { side: 'draw', percentage: 0.072 },
       { side: 'defender', percentage: 0.463 },
@@ -33,7 +32,7 @@ describe('Necro', () => {
         infantry: 2,
         mech: 1,
       },
-      Faction.nekro,
+      'Nekro',
       { 'Nekro mech bonus': 1 },
     )
 
@@ -42,7 +41,7 @@ describe('Necro', () => {
       mech: 1,
     })
 
-    testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
       { side: 'attacker', percentage: 0.599 },
       { side: 'draw', percentage: 0.084 },
       { side: 'defender', percentage: 0.315 },

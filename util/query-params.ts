@@ -1,6 +1,7 @@
 import { isSide, Participant, Side } from '@/core/battle-types'
+import { Place } from '@/core/battle-types'
 import { getAllBattleEffects } from '@/core/battleeffect/battleEffects'
-import { Faction, Place } from '@/core/enums'
+import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
 import { UnitType } from '@/core/unit'
 import { objectEntries } from '@/util/util-object'
 
@@ -12,7 +13,7 @@ export function createQueryParams(attacker: Participant, defender: Participant, 
   addParticipant(params, attacker, 'attacker')
   addParticipant(params, defender, 'defender')
 
-  if (place !== Place.space) {
+  if (place !== 'space') {
     params.set('place', place)
   }
 
@@ -93,7 +94,7 @@ export function applyQueryParams(
 
       const faction = value as Faction
 
-      if (!Object.values(Faction).includes(faction)) {
+      if (!ALL_FACTIONS.includes(faction)) {
         console.warn(`Unknown faction found: ${faction}`)
         return
       } else if (side === participant.side) {

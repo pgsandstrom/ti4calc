@@ -1,7 +1,6 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { Faction, Place } from '@/core/enums'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Ral Nel Consortium', () => {
@@ -12,7 +11,7 @@ describe('Ral Nel Consortium', () => {
         {
           flagship: 1,
         },
-        Faction.ral_nel_consortium,
+        'Ral Nel Consortium',
       )
 
       const defender = getTestParticipant('defender', {
@@ -21,7 +20,7 @@ describe('Ral Nel Consortium', () => {
 
       // Flagship (8x2 = 30% per die, 51% to hit at least once) vs Dreadnought (5 = 60%)
       // Both have sustain damage, draws are common
-      testBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS, [
+      testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
         { side: 'attacker', percentage: 0.38 },
         { side: 'draw', percentage: 0.2 },
         { side: 'defender', percentage: 0.42 },
@@ -36,7 +35,7 @@ describe('Ral Nel Consortium', () => {
         {
           mech: 1,
         },
-        Faction.ral_nel_consortium,
+        'Ral Nel Consortium',
         {
           'Alarum reinforcements': 2, // Spawn 2 infantry per round
         },
@@ -48,7 +47,7 @@ describe('Ral Nel Consortium', () => {
 
       // Mech (combat 6, sustain) + 2 infantry spawned once vs 3 infantry
       // The reinforcements give attacker an advantage
-      testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+      testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
         { side: 'attacker', percentage: 0.64 },
         { side: 'defender', percentage: 0.33 },
       ])
@@ -60,7 +59,7 @@ describe('Ral Nel Consortium', () => {
         {
           infantry: 1,
         },
-        Faction.ral_nel_consortium,
+        'Ral Nel Consortium',
         {
           'Alarum reinforcements': 2,
         },
@@ -71,7 +70,7 @@ describe('Ral Nel Consortium', () => {
       })
 
       // Without a mech, reinforcements don't work - it's just 1v1 infantry
-      testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
+      testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
         { side: 'attacker', percentage: 0.41 },
         { side: 'draw', percentage: 0.18 },
         { side: 'defender', percentage: 0.41 },

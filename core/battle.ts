@@ -7,11 +7,11 @@ import {
   BattleWinner,
   HitsToAssign,
   ParticipantInstance,
+  Place,
 } from '@/core/battle-types'
 import { canBattleEffectBeUsed } from '@/core/battleeffect/battleEffects'
 import { getBattleResultUnitString } from '@/core/battleResult'
 import { LOG } from '@/core/constant'
-import { Place } from '@/core/enums'
 import { getHits, HitInfo } from '@/core/roll'
 import { UnitInstance, UnitType } from '@/core/unit'
 import {
@@ -155,7 +155,7 @@ function addNewUnits(p: ParticipantInstance) {
 
 export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
   const isDuringBombardment = true
-  if (battle.place !== Place.ground) {
+  if (battle.place !== 'ground') {
     return
   }
 
@@ -192,7 +192,7 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
 }
 
 function doSpaceCannon(battle: BattleInstance) {
-  if (battle.place === Place.space) {
+  if (battle.place === 'space') {
     const attackerHits = getSpaceCannonHits(battle.attacker, battle, battle.defender)
     if (LOG && battle.attacker.units.some((u) => !!u.spaceCannon)) {
       logHits(battle.attacker, attackerHits, 'spaceCannon')
@@ -249,7 +249,7 @@ function getSpaceCannonHits(
 }
 
 function doAfb(battle: BattleInstance) {
-  if (battle.place !== Place.space) {
+  if (battle.place !== 'space') {
     return
   }
 
@@ -537,7 +537,7 @@ function applyHit(
   if (
     bestSustainUnit &&
     !sustainDisabled &&
-    (battle.place === Place.ground || p.riskDirectHit || bestSustainUnit.immuneToDirectHit)
+    (battle.place === 'ground' || p.riskDirectHit || bestSustainUnit.immuneToDirectHit)
   ) {
     doSustainDamage(battle, p, bestSustainUnit, isDuringCombat)
     return true

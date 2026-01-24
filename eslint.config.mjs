@@ -110,6 +110,7 @@ export default tseslint.config(
           destructuredArrayIgnorePattern: '^_',
           varsIgnorePattern: '^_',
           ignoreRestSiblings: true,
+          enableAutofixRemoval: { imports: true },
         },
       ],
       '@typescript-eslint/no-confusing-void-expression': [
