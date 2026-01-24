@@ -295,13 +295,6 @@ export function getHighestDiceCountUnit(
   return bestUnit
 }
 
-export function hasAttackType(
-  p: ParticipantInstance,
-  type: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
-): boolean {
-  return p.units.some((u) => u[type] !== undefined)
-}
-
 export function doesUnitFitPlace(u: UnitInstance, place: Place) {
   if (place === Place.space && !u.isShip) {
     return false
