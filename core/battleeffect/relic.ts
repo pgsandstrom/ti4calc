@@ -1,11 +1,11 @@
 import _times from 'lodash/times'
 
-import { logWrapper } from '../../util/util-log'
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
-import { Place } from '../enums'
-import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getLowestWorthNonSustainUndamagedUnit } from '../unitGet'
-import { BattleEffect } from './battleEffects'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Place } from '@/core/enums'
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { getLowestWorthNonSustainUndamagedUnit } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export function getRelics() {
   return [lightrailOrdnance, metaliVoidShielding, metaliVoidArmaments, heartOfIxth]

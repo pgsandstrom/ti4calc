@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
 
-import { Participant } from '../core/battle-types'
-import { getActioncards } from '../core/battleeffect/actioncard'
-import { getAgendas } from '../core/battleeffect/agenda'
+import ArrowSvg from '@/component/arrowSvg'
+import CoolButton from '@/component/coolButton'
+import DamagedUnitsView from '@/component/damagedUnitsView'
+import GalvanizedUnitsView from '@/component/galvanizedUnitsView'
+import NumberInput from '@/component/numberInput'
+import { OptionsRowView } from '@/component/optionsRowView'
+import { Participant } from '@/core/battle-types'
+import { getActioncards } from '@/core/battleeffect/actioncard'
+import { getAgendas } from '@/core/battleeffect/agenda'
 import {
   BattleEffect,
   getOtherBattleEffects,
   isBattleEffectRelevant,
   isBattleEffectRelevantForSome,
-} from '../core/battleeffect/battleEffects'
-import { getRelics } from '../core/battleeffect/relic'
-import { getTechBattleEffects } from '../core/battleeffect/tech'
+} from '@/core/battleeffect/battleEffects'
+import { getRelics } from '@/core/battleeffect/relic'
+import { getTechBattleEffects } from '@/core/battleeffect/tech'
 import {
   getAgent,
   getCommanders,
   getFactionStuffNonUnit,
   getGeneralEffectFromFactions,
   getPromissary,
-} from '../core/factions/faction'
-import ArrowSvg from './arrowSvg'
-import CoolButton from './coolButton'
-import DamagedUnitsView from './damagedUnitsView'
-import GalvanizedUnitsView from './galvanizedUnitsView'
-import NumberInput from './numberInput'
-import { OptionsRowView } from './optionsRowView'
+} from '@/core/factions/faction'
 
 interface OptionsProps {
   attacker: Participant

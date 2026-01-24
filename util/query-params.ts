@@ -1,8 +1,8 @@
-import { isSide, Participant, Side } from '../core/battle-types'
-import { getAllBattleEffects } from '../core/battleeffect/battleEffects'
-import { Faction, Place } from '../core/enums'
-import { UnitType } from '../core/unit'
-import { objectEntries } from './util-object'
+import { isSide, Participant, Side } from '@/core/battle-types'
+import { getAllBattleEffects } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { UnitType } from '@/core/unit'
+import { objectEntries } from '@/util/util-object'
 
 const allBattleEffects = getAllBattleEffects()
 

@@ -1,10 +1,10 @@
 import _times from 'lodash/times'
 
-import { logWrapper } from '../../util/util-log'
-import { destroyUnit, getOtherParticipant } from '../battle'
-import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
-import { Place } from '../enums'
-import { getHits } from '../roll'
+import { destroyUnit, getOtherParticipant } from '@/core/battle'
+import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Place } from '@/core/enums'
+import { getHits } from '@/core/roll'
 import {
   createUnitAndApplyEffects,
   defaultRoll,
@@ -12,9 +12,9 @@ import {
   Roll,
   UnitInstance,
   UnitType,
-} from '../unit'
-import { doesUnitFitPlace, getLowestWorthUnit } from '../unitGet'
-import { BattleEffect, registerUse } from './battleEffects'
+} from '@/core/unit'
+import { doesUnitFitPlace, getLowestWorthUnit } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export function getActioncards() {
   return [

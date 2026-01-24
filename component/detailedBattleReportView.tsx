@@ -1,18 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { BattleReport } from '../core'
-import { useResize } from '../util/hooks'
+import ArrowSvg from '@/component/arrowSvg'
+import CoolButton from '@/component/coolButton'
+import styles from '@/component/detailedBattleReportView.module.scss'
+import { BattleReport } from '@/core'
+import { useResize } from '@/util/hooks'
 import {
   getLocalStorage,
   LS_SHOW_DETAILED_REPORT,
   setLocalStorage,
-} from '../util/localStorageWrapper'
-import { getColorProgress } from '../util/util-color'
-import { toPercentageNumber, toPercentageString } from '../util/util-number'
-import { objectEntries } from '../util/util-object'
-import ArrowSvg from './arrowSvg'
-import CoolButton from './coolButton'
-import styles from './detailedBattleReportView.module.scss'
+} from '@/util/localStorageWrapper'
+import { getColorProgress } from '@/util/util-color'
+import { toPercentageNumber, toPercentageString } from '@/util/util-number'
+import { objectEntries } from '@/util/util-object'
 
 interface Props {
   report: BattleReport

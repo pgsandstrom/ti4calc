@@ -1,8 +1,8 @@
-import { doBombardment } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { doBombardment } from '@/core/battle'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const l1z1x: BattleEffect[] = [
   {

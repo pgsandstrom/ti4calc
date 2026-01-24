@@ -1,9 +1,9 @@
 import React from 'react'
 
-import { Participant } from '../core/battle-types'
-import { getUnitUpgrade } from '../core/battleeffect/unitUpgrades'
-import { UnitType } from '../core/unit'
-import NumberInput from './numberInput'
+import NumberInput from '@/component/numberInput'
+import { Participant } from '@/core/battle-types'
+import { getUnitUpgrade } from '@/core/battleeffect/unitUpgrades'
+import { UnitType } from '@/core/unit'
 
 interface UnitInputProps {
   participant: Participant

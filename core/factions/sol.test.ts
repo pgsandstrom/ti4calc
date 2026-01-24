@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test'
 
-import { checkResult, getTestParticipant } from '../../util/util.test'
-import { BattleReport, getBattleReport } from '..'
-import { TEST_NUMBER_OF_ROLLS } from '../constant'
-import { Faction, Place } from '../enums'
+import { BattleReport, getBattleReport } from '@/core'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { checkResult, getTestParticipant } from '@/util/util.test'
 
 describe('Sol', () => {
   it('should have stronger infantry', () => {

@@ -1,11 +1,16 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import { getBattleReport } from '..'
-import { TEST_NUMBER_OF_ROLLS } from '../constant'
-import { Faction, Place } from '../enums'
-import { assaultCannon, duraniumArmor, plasmaScoring, x89BacterialWeapon } from './tech'
+import { getBattleReport } from '@/core'
+import {
+  assaultCannon,
+  duraniumArmor,
+  plasmaScoring,
+  x89BacterialWeapon,
+} from '@/core/battleeffect/tech'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Tech', () => {
   it('5v5 dreadnought with duranium', () => {

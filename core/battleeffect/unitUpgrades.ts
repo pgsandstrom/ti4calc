@@ -1,7 +1,7 @@
-import { Faction } from '../enums'
-import { getFactionBattleEffects } from '../factions/faction'
-import { UnitInstance, UnitType } from '../unit'
-import { BattleEffect } from './battleEffects'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction } from '@/core/enums'
+import { getFactionBattleEffects } from '@/core/factions/faction'
+import { UnitInstance, UnitType } from '@/core/unit'
 
 const destroyer: BattleEffect = {
   name: 'destroyer upgrade',

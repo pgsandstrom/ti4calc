@@ -1,9 +1,9 @@
 import _cloneDeep from 'lodash/cloneDeep'
 
-import { logWrapper } from '../util/util-log'
-import { OnHitEffect, ParticipantInstance } from './battle-types'
-import { BattleAura, BattleEffect } from './battleeffect/battleEffects'
-import { Place } from './enums'
+import { OnHitEffect, ParticipantInstance } from '@/core/battle-types'
+import { BattleAura, BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Place } from '@/core/enums'
+import { logWrapper } from '@/util/util-log'
 
 export enum UnitType {
   cruiser = 'cruiser',

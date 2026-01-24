@@ -1,11 +1,11 @@
-import { logWrapper } from '../../util/util-log'
-import { destroyUnit } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { Place } from '../enums'
-import { HitInfo } from '../roll'
-import { getUnitWithImproved, UnitInstance } from '../unit'
-import { getHighestHitUnit, getLowestWorthUnit, getNonFighterShips } from '../unitGet'
-import { BattleEffect, registerUse } from './battleEffects'
+import { destroyUnit } from '@/core/battle'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Place } from '@/core/enums'
+import { HitInfo } from '@/core/roll'
+import { getUnitWithImproved, UnitInstance } from '@/core/unit'
+import { getHighestHitUnit, getLowestWorthUnit, getNonFighterShips } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export function getTechBattleEffects() {
   return [

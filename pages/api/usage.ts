@@ -1,8 +1,8 @@
 import { isArray } from 'lodash'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import sha256 from '../../server/sha256'
-import { registerUsage } from '../../server/usageController'
+import sha256 from '@/server/sha256'
+import { registerUsage } from '@/server/usageController'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   let ip = req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? undefined

@@ -1,6 +1,6 @@
 import React, { ForwardedRef } from 'react'
 
-import styles from './neutralButton.module.scss'
+import styles from '@/component/neutralButton.module.scss'
 
 const NeutralButton = (
   props: React.ButtonHTMLAttributes<HTMLButtonElement>,

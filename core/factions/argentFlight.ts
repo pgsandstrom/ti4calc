@@ -1,12 +1,12 @@
 import _times from 'lodash/times'
 
-import { logWrapper } from '../../util/util-log'
-import { destroyUnit } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getHighestHitUnit, getLowestWorthSustainUnit, getUnits } from '../unitGet'
+import { destroyUnit } from '@/core/battle'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { getHighestHitUnit, getLowestWorthSustainUnit, getUnits } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export const argentFlight: BattleEffect[] = [
   {

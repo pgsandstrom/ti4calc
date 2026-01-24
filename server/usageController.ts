@@ -1,4 +1,4 @@
-import { query, SQL } from './db'
+import { query, SQL } from '@/server/db'
 
 export interface Usage {
   users: number

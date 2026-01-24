@@ -1,4 +1,4 @@
-import { PartialRecord } from './util-types'
+import { PartialRecord } from '@/util/util-types'
 
 /**
  * Object.keys but keeps type safety

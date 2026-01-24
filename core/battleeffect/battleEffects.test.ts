@@ -1,7 +1,7 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
-import { getAllBattleEffects } from './battleEffects'
+import { getAllBattleEffects } from '@/core/battleeffect/battleEffects'
 
 describe('Battle effects', () => {
   it('all battle effects should have unique names', () => {

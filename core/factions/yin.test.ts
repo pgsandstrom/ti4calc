@@ -1,9 +1,9 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
-import { getTestParticipant } from '../../util/util.test'
-import { getBattleReport } from '..'
-import { Faction, Place } from '../enums'
+import { getBattleReport } from '@/core'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant } from '@/util/util.test'
 
 describe('Yin', () => {
   it('suicided units should be cleaned up before they get to fire', () => {

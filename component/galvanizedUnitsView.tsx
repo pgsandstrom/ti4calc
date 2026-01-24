@@ -1,8 +1,8 @@
 import _times from 'lodash/times'
 
-import { Participant } from '../core/battle-types'
-import { UnitType } from '../core/unit'
-import { OptionsRowView } from './optionsRowView'
+import { OptionsRowView } from '@/component/optionsRowView'
+import { Participant } from '@/core/battle-types'
+import { UnitType } from '@/core/unit'
 
 interface Props {
   attacker: Participant

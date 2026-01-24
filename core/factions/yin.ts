@@ -1,9 +1,9 @@
-import { logWrapper } from '../../util/util-log'
-import { destroyUnit, isParticipantAlive } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '../unit'
+import { destroyUnit, isParticipantAlive } from '@/core/battle'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { logWrapper } from '@/util/util-log'
 
 export const yin: BattleEffect[] = [
   {

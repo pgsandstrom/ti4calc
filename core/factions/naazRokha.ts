@@ -1,8 +1,8 @@
-import { logWrapper } from '../../util/util-log'
-import { ParticipantInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
+import { ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
+import { logWrapper } from '@/util/util-log'
 
 export const naazRokha: BattleEffect[] = [
   {

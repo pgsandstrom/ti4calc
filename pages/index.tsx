@@ -3,34 +3,30 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
-import { BattleReportView } from '../component/battleReportView'
-import CoolButton from '../component/coolButton'
-import { DetailedBattleReportView } from '../component/detailedBattleReportView'
-import FactionImage from '../component/factionImage'
-import FactionPicker from '../component/factionPicker'
-import HelpView from '../component/helpView'
-import OptionsView from '../component/optionsView'
-import SwitchButton from '../component/switchButton'
-import UnitRow from '../component/unitRow'
-import { BattleReport } from '../core'
-import { Battle, Participant } from '../core/battle-types'
-import { createParticipant } from '../core/battleSetup'
-import { Faction, Place } from '../core/enums'
-import { UnitType } from '../core/unit'
-import { ErrorReportUnsaved } from '../server/errorReportController'
-import getServerUrl from '../server/serverUrl'
+import { BattleReportView } from '@/component/battleReportView'
+import CoolButton from '@/component/coolButton'
+import { DetailedBattleReportView } from '@/component/detailedBattleReportView'
+import FactionImage from '@/component/factionImage'
+import FactionPicker from '@/component/factionPicker'
+import HelpView from '@/component/helpView'
+import OptionsView from '@/component/optionsView'
+import SwitchButton from '@/component/switchButton'
+import UnitRow from '@/component/unitRow'
+import { BattleReport } from '@/core'
+import { Battle, Participant } from '@/core/battle-types'
+import { createParticipant } from '@/core/battleSetup'
+import { Faction, Place } from '@/core/enums'
+import { UnitType } from '@/core/unit'
+import styles from '@/pages/index.module.scss'
+import { ErrorReportUnsaved } from '@/server/errorReportController'
+import getServerUrl from '@/server/serverUrl'
 import {
   getLocalStorage,
   LS_ATTACKER_FACTION,
   LS_DEFENDER_FACTION,
   setLocalStorage,
-} from '../util/localStorageWrapper'
-import {
-  createQueryParams,
-  hasQueryParamForFaction,
-  hasSomeQueryParams,
-} from '../util/query-params'
-import styles from './index.module.scss'
+} from '@/util/localStorageWrapper'
+import { createQueryParams, hasQueryParamForFaction, hasSomeQueryParams } from '@/util/query-params'
 
 // TODO add resource value
 

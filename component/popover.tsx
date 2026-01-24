@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import styles from './popover.module.scss'
+import styles from '@/component/popover.module.scss'
 
 interface Props {
   text?: string

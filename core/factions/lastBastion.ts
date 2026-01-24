@@ -1,10 +1,10 @@
-import { logWrapper } from '../../util/util-log'
-import { destroyUnit } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, galvanizeUnit, UnitInstance, UnitType } from '../unit'
-import { getHighestWorthUnit } from '../unitGet'
+import { destroyUnit } from '@/core/battle'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, galvanizeUnit, UnitInstance, UnitType } from '@/core/unit'
+import { getHighestWorthUnit } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 // Roll a d10 (1-10)
 function rollD10(): number {

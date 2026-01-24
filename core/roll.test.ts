@@ -2,9 +2,9 @@ import { describe, it } from 'node:test'
 
 import _, { cloneDeep } from 'lodash'
 
-import { checkResult } from '../util/util.test'
-import { getHits } from './roll'
-import { defaultRoll, Roll } from './unit'
+import { getHits } from '@/core/roll'
+import { defaultRoll, Roll } from '@/core/unit'
+import { checkResult } from '@/util/util.test'
 
 describe('battle', () => {
   it('should calculate hits correctly', () => {

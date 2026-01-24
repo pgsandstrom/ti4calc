@@ -1,4 +1,4 @@
-import { isTest } from '../util/util-debug'
+import { isTest } from '@/util/util-debug'
 
 export const ROLLS_WHEN_BUILDING_TEST_DATA = 1_000_000 as number
 

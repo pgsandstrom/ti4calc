@@ -1,6 +1,6 @@
 import _times from 'lodash/times'
 
-import { Roll } from './unit'
+import { Roll } from '@/core/unit'
 
 export interface HitInfo {
   hits: number

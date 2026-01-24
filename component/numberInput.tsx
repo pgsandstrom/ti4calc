@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react'
 
-import usePrevious from '../util/usePrevious'
+import usePrevious from '@/util/usePrevious'
 
 interface NumberInputProps {
   currentValue: number

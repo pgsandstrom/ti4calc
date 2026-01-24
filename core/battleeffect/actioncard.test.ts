@@ -1,17 +1,17 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import { getBattleReport } from '..'
-import { TEST_NUMBER_OF_ROLLS } from '../constant'
-import { Place } from '../enums'
+import { getBattleReport } from '@/core'
 import {
   emergencyRepairs,
   experimentalBattlestation,
   shieldsHolding,
   solarFlare,
-} from './actioncard'
-import { assaultCannon } from './tech'
+} from '@/core/battleeffect/actioncard'
+import { assaultCannon } from '@/core/battleeffect/tech'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Action card', () => {
   it('Emergency Repairs', () => {

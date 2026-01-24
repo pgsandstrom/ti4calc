@@ -1,6 +1,6 @@
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { Place } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Place } from '@/core/enums'
+import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 export const yssaril: BattleEffect[] = [
   {

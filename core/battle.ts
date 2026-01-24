@@ -1,6 +1,5 @@
 import _cloneDeep from 'lodash/cloneDeep'
 
-import { logWrapper } from '../util/util-log'
 import {
   AfbHitsToAssign,
   BattleInstance,
@@ -8,20 +7,21 @@ import {
   BattleWinner,
   HitsToAssign,
   ParticipantInstance,
-} from './battle-types'
-import { canBattleEffectBeUsed } from './battleeffect/battleEffects'
-import { getBattleResultUnitString } from './battleResult'
-import { LOG } from './constant'
-import { Place } from './enums'
-import { getHits, HitInfo } from './roll'
-import { UnitInstance, UnitType } from './unit'
+} from '@/core/battle-types'
+import { canBattleEffectBeUsed } from '@/core/battleeffect/battleEffects'
+import { getBattleResultUnitString } from '@/core/battleResult'
+import { LOG } from '@/core/constant'
+import { Place } from '@/core/enums'
+import { getHits, HitInfo } from '@/core/roll'
+import { UnitInstance, UnitType } from '@/core/unit'
 import {
   doesUnitFitPlace,
   getHighestWorthNonSustainUnit,
   getHighestWorthSustainUnit,
   getLowestWorthSustainUnit,
   getLowestWorthUnit,
-} from './unitGet'
+} from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 // TODO add retreat?
 

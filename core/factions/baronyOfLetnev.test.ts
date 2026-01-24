@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import { duraniumArmor } from '../battleeffect/tech'
-import { Faction, Place } from '../enums'
+import { duraniumArmor } from '@/core/battleeffect/tech'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Barony of Letnev', () => {
   it('barony should always win with non-euclidian and duranium', () => {

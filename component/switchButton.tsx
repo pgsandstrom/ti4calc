@@ -1,5 +1,5 @@
-import NeutralButton from './neutralButton'
-import styles from './switchButton.module.scss'
+import NeutralButton from '@/component/neutralButton'
+import styles from '@/component/switchButton.module.scss'
 
 interface Props {
   isLeftSelected: boolean

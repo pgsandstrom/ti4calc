@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../util/util.test'
-import { duraniumArmor } from './battleeffect/tech'
-import { TEST_NUMBER_OF_ROLLS } from './constant'
-import { Faction, Place } from './enums'
+import { duraniumArmor } from '@/core/battleeffect/tech'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('core', () => {
   // TODO add test for damaged units

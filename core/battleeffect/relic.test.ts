@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import { TEST_NUMBER_OF_ROLLS } from '../constant'
-import { Faction, Place } from '../enums'
-import { heartOfIxth, metaliVoidArmaments } from './relic'
+import { heartOfIxth, metaliVoidArmaments } from '@/core/battleeffect/relic'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Relics', () => {
   it('Metali Void Armaments should not be buffed by argent commander or promissary note', () => {

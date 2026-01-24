@@ -1,12 +1,12 @@
 import _times from 'lodash/times'
 
-import { logWrapper } from '../../util/util-log'
-import { destroyUnit, getOtherParticipant, isParticipantAlive } from '../battle'
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '../battle-types'
-import { BattleAura, BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-import { getHighestWorthUnit, getUnits } from '../unitGet'
+import { destroyUnit, getOtherParticipant, isParticipantAlive } from '@/core/battle'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
+import { BattleAura, BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
+import { getHighestWorthUnit, getUnits } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export const sardarkkNorr: BattleEffect[] = [
   {

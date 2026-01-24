@@ -1,9 +1,9 @@
-import { logWrapper } from '../../util/util-log'
-import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '../battle-types'
-import { BattleEffect, registerUse } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, getUnitWithImproved, UNIT_MAP, UnitInstance, UnitType } from '../unit'
-import { getHighestDiceCountUnit, getHighestHitUnit, getUnits } from '../unitGet'
+import { BattleInstance, EFFECT_LOW_PRIORITY, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, getUnitWithImproved, UNIT_MAP, UnitInstance, UnitType } from '@/core/unit'
+import { getHighestDiceCountUnit, getHighestHitUnit, getUnits } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export const baronyOfLetnev: BattleEffect[] = [
   {

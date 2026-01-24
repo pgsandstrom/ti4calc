@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import { TEST_NUMBER_OF_ROLLS } from '../constant'
-import { Faction, Place } from '../enums'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Naaz-Rokha', () => {
   it('Naaz-Rokha flagship should help in ground combat', () => {

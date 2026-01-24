@@ -1,10 +1,10 @@
-import { logWrapper } from '../../util/util-log'
-import { getOtherParticipant } from '../battle'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '../unit'
-import { getNonFighterShips } from '../unitGet'
+import { getOtherParticipant } from '@/core/battle'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
+import { getNonFighterShips } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 // TODO fix test for flagship, since it has an aura...
 export const winnu: BattleEffect[] = [

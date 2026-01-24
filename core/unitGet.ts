@@ -1,6 +1,6 @@
-import { ParticipantInstance } from './battle-types'
-import { Place } from './enums'
-import { UnitInstance, UnitType } from './unit'
+import { ParticipantInstance } from '@/core/battle-types'
+import { Place } from '@/core/enums'
+import { UnitInstance, UnitType } from '@/core/unit'
 
 // INFO: Always use these helper functions instead of "manually" getting units.
 // Because these functions for example makes sure you never accidentally retrieve a unit of type "nonunit", and other stuff that is hard to keep track of

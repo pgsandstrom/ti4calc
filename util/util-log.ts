@@ -1,4 +1,4 @@
-import { LOG } from '../core/constant'
+import { LOG } from '@/core/constant'
 
 export function logWrapper(...args: Parameters<typeof console.log>) {
   if (LOG) {

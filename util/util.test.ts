@@ -1,10 +1,10 @@
-import { BattleReport, getBattleReport } from '../core'
-import { Participant, Side } from '../core/battle-types'
-import { getUnitMap } from '../core/battleSetup'
-import { ROLLS_WHEN_BUILDING_TEST_DATA, TEST_NUMBER_OF_ROLLS } from '../core/constant'
-import { Faction, Place } from '../core/enums'
-import { UnitType } from '../core/unit'
-import { PartialRecord } from './util-types'
+import { BattleReport, getBattleReport } from '@/core'
+import { Participant, Side } from '@/core/battle-types'
+import { getUnitMap } from '@/core/battleSetup'
+import { ROLLS_WHEN_BUILDING_TEST_DATA, TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { UnitType } from '@/core/unit'
+import { PartialRecord } from '@/util/util-types'
 
 type BattleReportSide = Extract<keyof BattleReport, 'attacker' | 'defender' | 'draw'>
 type BattleReportCheck = {

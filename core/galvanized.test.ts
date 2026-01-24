@@ -1,8 +1,8 @@
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../util/util.test'
-import { TEST_NUMBER_OF_ROLLS } from './constant'
-import { Place } from './enums'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Galvanized', () => {
   it('galvanized cruiser should win more often than non-galvanized', () => {

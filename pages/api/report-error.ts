@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { createErrorReport, ErrorReportUnsaved } from '../../server/errorReportController'
+import { createErrorReport, ErrorReportUnsaved } from '@/server/errorReportController'
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (process.env.NODE_ENV !== 'production') {

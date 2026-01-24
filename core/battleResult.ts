@@ -1,5 +1,5 @@
-import { ParticipantInstance } from './battle-types'
-import { UnitInstance, UnitType } from './unit'
+import { ParticipantInstance } from '@/core/battle-types'
+import { UnitInstance, UnitType } from '@/core/unit'
 
 export function getBattleResultUnitString(p: ParticipantInstance) {
   return p.units

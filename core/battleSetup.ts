@@ -1,10 +1,7 @@
 import _cloneDeep from 'lodash/cloneDeep'
 import _times from 'lodash/times'
 
-import { applyQueryParams } from '../util/query-params'
-import { objectEntries } from '../util/util-object'
-import { PartialRecord } from '../util/util-types'
-import { doBattle } from './battle'
+import { doBattle } from '@/core/battle'
 import {
   Battle,
   BattleInstance,
@@ -12,12 +9,15 @@ import {
   Participant,
   ParticipantInstance,
   Side,
-} from './battle-types'
-import { BattleEffect, getAllBattleEffects } from './battleeffect/battleEffects'
-import { getUnitUpgrade } from './battleeffect/unitUpgrades'
-import { Faction, Place } from './enums'
-import { getFactionBattleEffects } from './factions/faction'
-import { createUnit, galvanizeUnit, UnitInstance, UnitType } from './unit'
+} from '@/core/battle-types'
+import { BattleEffect, getAllBattleEffects } from '@/core/battleeffect/battleEffects'
+import { getUnitUpgrade } from '@/core/battleeffect/unitUpgrades'
+import { Faction, Place } from '@/core/enums'
+import { getFactionBattleEffects } from '@/core/factions/faction'
+import { createUnit, galvanizeUnit, UnitInstance, UnitType } from '@/core/unit'
+import { applyQueryParams } from '@/util/query-params'
+import { objectEntries } from '@/util/util-object'
+import { PartialRecord } from '@/util/util-types'
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)

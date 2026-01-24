@@ -1,6 +1,6 @@
-import { Participant } from '../core/battle-types'
-import { UnitType } from '../core/unit'
-import UnitInput from './unitInput'
+import UnitInput from '@/component/unitInput'
+import { Participant } from '@/core/battle-types'
+import { UnitType } from '@/core/unit'
 
 interface Props {
   unitType: UnitType

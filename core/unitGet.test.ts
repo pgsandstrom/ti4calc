@@ -1,11 +1,10 @@
 import assert from 'node:assert'
 import { describe, it } from 'node:test'
 
-import { getTestParticipant } from '../util/util.test'
-import { Battle, Participant } from './battle-types'
-import { setupBattle } from './battleSetup'
-import { Faction, Place } from './enums'
-import { UnitType } from './unit'
+import { Battle, Participant } from '@/core/battle-types'
+import { setupBattle } from '@/core/battleSetup'
+import { Faction, Place } from '@/core/enums'
+import { UnitType } from '@/core/unit'
 import {
   getHighestDiceCountUnit,
   getHighestWorthNonSustainUnit,
@@ -15,7 +14,8 @@ import {
   getLowestWorthUnit,
   getWeakestCombatUnit,
   isHighestHitUnit,
-} from './unitGet'
+} from '@/core/unitGet'
+import { getTestParticipant } from '@/util/util.test'
 
 describe('unitGet', () => {
   const getAttackerInstance = (attacker: Participant, defender: Participant) => {

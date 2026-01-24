@@ -1,9 +1,9 @@
-import { logWrapper } from '../../util/util-log'
-import { BattleInstance, ParticipantInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
-import { getWeakestCombatUnit } from '../unitGet'
+import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { getWeakestCombatUnit } from '@/core/unitGet'
+import { logWrapper } from '@/util/util-log'
 
 export const nomad: BattleEffect[] = [
   {

@@ -1,11 +1,11 @@
 // battle types is in their own file, because I got weird errors from jest
 // the errors were enums being undefined, I guess it was dependency cycle related
 
-import { PartialRecord } from '../util/util-types'
-import { BattleEffect } from './battleeffect/battleEffects'
-import { Faction, Place } from './enums'
-import { HitInfo, RollInfo } from './roll'
-import { UnitInstance, UnitType } from './unit'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { HitInfo, RollInfo } from '@/core/roll'
+import { UnitInstance, UnitType } from '@/core/unit'
+import { PartialRecord } from '@/util/util-types'
 
 export type Side = 'attacker' | 'defender'
 

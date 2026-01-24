@@ -1,8 +1,8 @@
-import { BattleInstance, OnHitEffect, ParticipantInstance } from '../battle-types'
-import { BattleEffect } from '../battleeffect/battleEffects'
-import { Faction, Place } from '../enums'
-import { HitInfo } from '../roll'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { BattleInstance, OnHitEffect, ParticipantInstance } from '@/core/battle-types'
+import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { Faction, Place } from '@/core/enums'
+import { HitInfo } from '@/core/roll'
+import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
 const hacanTradeGoods = 'Hacan flagship trade goods'
 

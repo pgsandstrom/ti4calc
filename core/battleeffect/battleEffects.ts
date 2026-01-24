@@ -9,20 +9,20 @@ import {
   UnitAuraGroupEffect,
   UnitBattleEffect,
   UnitEffect,
-} from '../battle-types'
-import { Faction, Place } from '../enums'
+} from '@/core/battle-types'
+import { getActioncards } from '@/core/battleeffect/actioncard'
+import { getAgendas } from '@/core/battleeffect/agenda'
+import { getRelics } from '@/core/battleeffect/relic'
+import { getTechBattleEffects } from '@/core/battleeffect/tech'
+import { Faction, Place } from '@/core/enums'
 import {
   getAgent,
   getCommanders,
   getFactionStuffNonUnit,
   getGeneralEffectFromFactions,
   getPromissary,
-} from '../factions/faction'
-import { UnitInstance, UnitType } from '../unit'
-import { getActioncards } from './actioncard'
-import { getAgendas } from './agenda'
-import { getRelics } from './relic'
-import { getTechBattleEffects } from './tech'
+} from '@/core/factions/faction'
+import { UnitInstance, UnitType } from '@/core/unit'
 
 export type BattleEffect = NormalBattleEffect | FactionBattleEffect
 

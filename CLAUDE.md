@@ -64,7 +64,7 @@ Tests use Monte Carlo simulation, so **tests may occasionally fail due to random
 **Test patterns:**
 
 ```typescript
-import { getTestParticipant, testBattleReport } from '../util/util.test'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 const attacker = getTestParticipant('attacker', { dreadnought: 2 }, Faction.barony_of_letnev, {
   'Effect Name': 1,

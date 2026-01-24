@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test'
 
-import { getTestParticipant, testBattleReport } from '../../util/util.test'
-import { solarFlare } from '../battleeffect/actioncard'
-import { TEST_NUMBER_OF_ROLLS } from '../constant'
-import { Faction, Place } from '../enums'
+import { solarFlare } from '@/core/battleeffect/actioncard'
+import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { Faction, Place } from '@/core/enums'
+import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('keleres', () => {
   it('mecatol space cannon to work', () => {

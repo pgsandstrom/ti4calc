@@ -1,5 +1,5 @@
-import { Participant } from '../core/battle-types'
-import { Faction } from '../core/enums'
+import { Participant } from '@/core/battle-types'
+import { Faction } from '@/core/enums'
 
 interface Props {
   participant: Participant
