@@ -46,9 +46,9 @@ describe('Sardakk', () => {
     )
 
     testBattleReport(attacker, defender, Place.ground, TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.8 },
-      { side: 'draw', percentage: 0.12 },
-      { side: 'defender', percentage: 0.08 },
+      { side: 'attacker', percentage: 0.792 },
+      { side: 'draw', percentage: 0.125 },
+      { side: 'defender', percentage: 0.083 },
     ])
   })
 

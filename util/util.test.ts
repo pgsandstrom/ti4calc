@@ -58,7 +58,10 @@ export function testBattleReport(
         const expectedNumber = battleReport.numberOfRolls * check.percentage
         const failOnInvalid =
           fails === RETRIES_UNTIL_FAIL || TEST_NUMBER_OF_ROLLS === ROLLS_WHEN_BUILDING_TEST_DATA
-        const valid = checkResult(actualNumber, expectedNumber, failOnInvalid)
+
+        const percentage = check.percentage >= 1 ? '100%' : `${check.percentage}%`
+        const infoString = `after ${fails} retries test failed. ~${percentage} expected, but got ${actualNumber}/${battleReport.numberOfRolls}: ${actualNumber / battleReport.numberOfRolls}`
+        const valid = checkResult(actualNumber, expectedNumber, failOnInvalid, infoString)
         if (valid) {
           break // success!
         } else {
@@ -77,7 +80,12 @@ export function testBattleReport(
   return battleReport
 }
 
-export function checkResult(result: number, expected: number, failOnInvalid = true): boolean {
+export function checkResult(
+  result: number,
+  expected: number,
+  failOnInvalid = true,
+  infoString?: string,
+): boolean {
   // the allowed diff percentage from the expected value is dependant on how small the value is
   // a very small value, like 1% win rate, must be allowed to differ with a greater percentage from the expected value
   let allowedErrorPercentage: number
@@ -109,7 +117,7 @@ export function checkResult(result: number, expected: number, failOnInvalid = tr
   if (!valid) {
     if (failOnInvalid) {
       throw new Error(
-        `test failed. Expected ${result} to be between ${lowerBound} and ${uppenBound}`,
+        `test failed. Expected ${result} to be between ${lowerBound} and ${uppenBound}. Info: ${infoString}`,
       )
     } else {
       // console.warn(`check failed, increasing number of attempts...`)
