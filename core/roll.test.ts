@@ -1,3 +1,5 @@
+import { describe, it } from 'node:test'
+
 import _, { cloneDeep } from 'lodash'
 
 import { checkResult } from '../util/util.test'

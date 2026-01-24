@@ -1,3 +1,6 @@
+import assert from 'node:assert'
+import { describe, it } from 'node:test'
+
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { getBattleReport } from '..'
 import { TEST_NUMBER_OF_ROLLS } from '../constant'
@@ -108,6 +111,6 @@ describe('Action card', () => {
       },
     )
     const result = getBattleReport(attacker, defender, Place.space, TEST_NUMBER_OF_ROLLS)
-    expect(result.attacker).toBeLessThan(TEST_NUMBER_OF_ROLLS / 2)
+    assert.ok(result.attacker < TEST_NUMBER_OF_ROLLS / 2)
   })
 })

@@ -1,3 +1,6 @@
+import assert from 'node:assert'
+import { describe, it } from 'node:test'
+
 import { getTestParticipant } from '../util/util.test'
 import { Battle, Participant } from './battle-types'
 import { setupBattle } from './battleSetup'
@@ -41,7 +44,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.warsun)
+    assert.strictEqual(unit?.type, UnitType.warsun)
   })
 
   it('getHighestWorthUnit when one is damaged', () => {
@@ -62,8 +65,11 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.dreadnought)
-    expect(unit?.takenDamage).toEqual(false)
+    if (!unit) {
+      assert.fail()
+    }
+    assert.strictEqual(unit.type, UnitType.dreadnought)
+    assert.strictEqual(unit.takenDamage, false)
   })
 
   it('getHighestWorthUnit should return an undamaged sustained', () => {
@@ -92,9 +98,12 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.dreadnought)
-    expect(unit?.takenDamage).toEqual(false)
-    expect(unit?.usedSustainThisTimingWindow).toEqual(true)
+    if (!unit) {
+      assert.fail()
+    }
+    assert.strictEqual(unit.type, UnitType.dreadnought)
+    assert.strictEqual(unit.takenDamage, false)
+    assert.strictEqual(unit.usedSustainThisTimingWindow, true)
   })
 
   it('getHighestWorthUnit should respect place', () => {
@@ -109,7 +118,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.destroyer)
+    assert.strictEqual(unit?.type, UnitType.destroyer)
   })
 
   it('getHighestWorthSustainUnit', () => {
@@ -126,7 +135,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.warsun)
+    assert.strictEqual(unit?.type, UnitType.warsun)
   })
 
   it('getHighestWorthSustainUnit returning undefined', () => {
@@ -141,7 +150,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit).toEqual(undefined)
+    assert.strictEqual(unit, undefined)
   })
 
   it('getHighestWorthSustainUnit should ignore units that just sustained', () => {
@@ -157,7 +166,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit).toBeUndefined()
+    assert.strictEqual(unit, undefined)
   })
 
   it('getLowestWorthSustainUnit', () => {
@@ -172,7 +181,7 @@ describe('unitGet', () => {
 
     const unit = getLowestWorthSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.dreadnought)
+    assert.strictEqual(unit?.type, UnitType.dreadnought)
   })
 
   it('getLowestWorthSustainUnit should ignore units that just sustained', () => {
@@ -188,7 +197,7 @@ describe('unitGet', () => {
 
     const unit = getLowestWorthSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit).toBeUndefined()
+    assert.strictEqual(unit, undefined)
   })
 
   it('getHighestWorthNonSustainUnit', () => {
@@ -203,7 +212,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.fighter)
+    assert.strictEqual(unit?.type, UnitType.fighter)
   })
 
   it('getHighestWorthNonSustainUnit should fetch damaged units', () => {
@@ -227,7 +236,7 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.flagship)
+    assert.strictEqual(unit?.type, UnitType.flagship)
   })
 
   it('getHighestWorthNonSustainUnit should fetch sustained units', () => {
@@ -243,8 +252,11 @@ describe('unitGet', () => {
 
     const unit = getHighestWorthNonSustainUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.dreadnought)
-    expect(unit?.usedSustainThisTimingWindow).toEqual(true)
+    if (!unit) {
+      assert.fail()
+    }
+    assert.strictEqual(unit.type, UnitType.dreadnought)
+    assert.strictEqual(unit.usedSustainThisTimingWindow, true)
   })
 
   it('getLowestWorthUnit', () => {
@@ -259,7 +271,7 @@ describe('unitGet', () => {
 
     const unit = getLowestWorthUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.dreadnought)
+    assert.strictEqual(unit?.type, UnitType.dreadnought)
   })
 
   it('getLowestWorthUnit should fetch damaged units before sustained', () => {
@@ -288,8 +300,11 @@ describe('unitGet', () => {
 
     const unit = getLowestWorthUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.dreadnought)
-    expect(unit?.takenDamage).toEqual(true)
+    if (!unit) {
+      assert.fail()
+    }
+    assert.strictEqual(unit.type, UnitType.dreadnought)
+    assert.strictEqual(unit.takenDamage, true)
   })
 
   it('getWeakestCombatUnit should return the unit that has the worst hit', () => {
@@ -305,7 +320,7 @@ describe('unitGet', () => {
 
     const unit = getWeakestCombatUnit(participantInstance, Place.space, true)
 
-    expect(unit?.type).toEqual(UnitType.carrier)
+    assert.strictEqual(unit?.type, UnitType.carrier)
   })
 
   it('getHighestHitUnit', () => {
@@ -321,7 +336,7 @@ describe('unitGet', () => {
 
     const cruiser = participantInstance.units.find((u) => u.type === UnitType.cruiser)!
     const isCruiserHighest = isHighestHitUnit(cruiser, participantInstance, 'combat', Place.space)
-    expect(isCruiserHighest).toEqual(true)
+    assert.strictEqual(isCruiserHighest, true)
 
     const destroyer = participantInstance.units.find((u) => u.type === UnitType.destroyer)!
     const isDestroyerHighest = isHighestHitUnit(
@@ -330,7 +345,7 @@ describe('unitGet', () => {
       'combat',
       Place.space,
     )
-    expect(isDestroyerHighest).toEqual(false)
+    assert.strictEqual(isDestroyerHighest, false)
   })
 
   it('isHighestHitUnit should work with unit upgrades', () => {
@@ -353,7 +368,7 @@ describe('unitGet', () => {
 
     const flagShip = participantInstance.units.find((u) => u.type === UnitType.flagship)!
     const isFlagshipHighest = isHighestHitUnit(flagShip, participantInstance, 'combat', Place.space)
-    expect(isFlagshipHighest).toEqual(false)
+    assert.strictEqual(isFlagshipHighest, false)
 
     const dreadnought = participantInstance.units.find((u) => u.type === UnitType.dreadnought)!
     const isDreadnoughtHighest = isHighestHitUnit(
@@ -362,7 +377,7 @@ describe('unitGet', () => {
       'combat',
       Place.space,
     )
-    expect(isDreadnoughtHighest).toEqual(true)
+    assert.strictEqual(isDreadnoughtHighest, true)
   })
 
   it('getHighestDiceCountUnit', () => {
@@ -376,11 +391,11 @@ describe('unitGet', () => {
     const participantInstance = getAttackerInstance(attacker, defender)
 
     let highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, 'combat', Place.space)
-    expect(highestDiceCountUnit?.type).toEqual('warsun')
+    assert.strictEqual(highestDiceCountUnit?.type, 'warsun')
 
     participantInstance.units.find((u) => u.type === 'cruiser')!.combat!.countBonusTmp = 10
 
     highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, 'combat', Place.space)
-    expect(highestDiceCountUnit?.type).toEqual('cruiser')
+    assert.strictEqual(highestDiceCountUnit?.type, 'cruiser')
   })
 })

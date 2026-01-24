@@ -126,6 +126,3 @@ export function checkResult(
 
   return valid
 }
-
-// workaround for the "Your test suite must contain at least one test" error
-test.skip('Workaround', () => undefined)

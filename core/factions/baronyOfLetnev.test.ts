@@ -1,3 +1,5 @@
+import { describe, it } from 'node:test'
+
 import { getTestParticipant, testBattleReport } from '../../util/util.test'
 import { duraniumArmor } from '../battleeffect/tech'
 import { Faction, Place } from '../enums'

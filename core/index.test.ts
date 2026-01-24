@@ -1,3 +1,5 @@
+import { describe, it } from 'node:test'
+
 import { getTestParticipant, testBattleReport } from '../util/util.test'
 import { duraniumArmor } from './battleeffect/tech'
 import { TEST_NUMBER_OF_ROLLS } from './constant'

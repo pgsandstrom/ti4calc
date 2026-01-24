@@ -1,3 +1,6 @@
+import assert from 'node:assert'
+import { describe, it } from 'node:test'
+
 import { getAllBattleEffects } from './battleEffects'
 
 describe('Battle effects', () => {
@@ -5,7 +8,7 @@ describe('Battle effects', () => {
     const battleEffects = getAllBattleEffects()
     const map: Record<string, boolean> = {}
     for (const effect of battleEffects) {
-      expect(map[effect.name]).toBeUndefined()
+      assert.strictEqual(map[effect.name], undefined, `Duplicate effect name: ${effect.name}`)
       map[effect.name] = true
     }
   })

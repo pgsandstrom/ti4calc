@@ -1,3 +1,5 @@
+import { describe, it } from 'node:test'
+
 import { checkResult, getTestParticipant } from '../../util/util.test'
 import { BattleReport, getBattleReport } from '..'
 import { TEST_NUMBER_OF_ROLLS } from '../constant'

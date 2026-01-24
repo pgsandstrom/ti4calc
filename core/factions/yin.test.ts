@@ -1,3 +1,6 @@
+import assert from 'node:assert'
+import { describe, it } from 'node:test'
+
 import { getTestParticipant } from '../../util/util.test'
 import { getBattleReport } from '..'
 import { Faction, Place } from '../enums'
@@ -21,6 +24,6 @@ describe('Yin', () => {
 
     const result = getBattleReport(attacker, defender, Place.space, 100)
 
-    expect(result.defender).toEqual(100)
+    assert.strictEqual(result.defender, 100)
   })
 })
