@@ -72,11 +72,11 @@ export const sol: BattleEffect[] = [
     place: 'ground',
     onStart: (participant: ParticipantInstance, battle: BattleInstance) => {
       if (battle.place === 'ground') {
-        const infantry = participant.units.find(
-          (u): u is UnitWithCombat => u.type === UnitType.infantry && u.combat !== undefined,
+        const groundUnit = participant.units.find(
+          (u): u is UnitWithCombat => u.isGroundForce && u.combat !== undefined,
         )
-        if (infantry) {
-          infantry.combat.countBonusTmp += 1
+        if (groundUnit) {
+          groundUnit.combat.countBonusTmp += 1
         }
       }
     },
