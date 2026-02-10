@@ -5,14 +5,13 @@ export function getBattleResultUnitString(p: ParticipantInstance) {
   return p.units
     .filter((u) => u.type !== UnitType.other)
     .sort((a, b) => {
-      if (a.type === b.type) {
-        if (a.takenDamage) {
-          return 1
-        } else {
-          return -1
-        }
+      if (a.diePriority !== b.diePriority) {
+        return (a.diePriority ?? 50) - (b.diePriority ?? 50)
       }
-      return (a.diePriority ?? 50) - (b.diePriority ?? 50)
+
+      const aDamaged = a.takenDamage ? 1 : 0
+      const bDamaged = b.takenDamage ? 1 : 0
+      return aDamaged - bDamaged
     })
     .map((u) => {
       if (u.takenDamage) {

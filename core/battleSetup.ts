@@ -219,12 +219,14 @@ function applyBattleEffects(
     .sort((a, b) => {
       const prioDiff =
         (b.priority ?? EFFECT_DEFAULT_PRIORITY) - (a.priority ?? EFFECT_DEFAULT_PRIORITY)
-
-      if (prioDiff === 0) {
-        // faction abilities take priority
-        return a.type === 'faction' ? -1 : 1
+      if (prioDiff !== 0) {
+        return prioDiff
       }
-      return prioDiff
+
+      // faction abilities take priority
+      const aType = a.type === 'faction' ? 1 : 0
+      const bType = b.type === 'faction' ? 1 : 0
+      return aType - bType
     })
     .forEach((battleEffect) => {
       if (battleEffect.beforeStart) {
