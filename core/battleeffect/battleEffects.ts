@@ -1,4 +1,5 @@
 import {
+  EFFECT_LOW_PRIORITY,
   OnDeathEffect,
   OnHitEffect,
   Participant,
@@ -118,6 +119,7 @@ export const entropicScar: BattleEffect = {
   type: 'general',
   place: 'both',
   symmetrical: true,
+  priority: EFFECT_LOW_PRIORITY,
   transformUnit: (unit: UnitInstance) => {
     return {
       ...unit,
