@@ -118,7 +118,7 @@ export const neutral: BattleEffect[] = [
     name: 'Neutral infantry',
     place: 'both',
     transformUnit: (unit: UnitInstance) => {
-      if (unit.type === UnitType.cruiser) {
+      if (unit.type === UnitType.infantry) {
         return {
           ...unit,
           combat: {

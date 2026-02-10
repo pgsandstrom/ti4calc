@@ -1,4 +1,4 @@
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
@@ -27,6 +27,7 @@ export const titansOfUl: BattleEffect[] = [
     type: 'faction',
     name: 'Titans of Ul pds',
     place: 'both',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.pds) {
         return {

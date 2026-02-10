@@ -1,5 +1,5 @@
 import { isBattleOngoing } from '@/core/battle'
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
@@ -57,6 +57,7 @@ export const naalu: BattleEffect[] = [
     type: 'faction',
     name: 'Naalu fighters',
     place: 'both',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
         unit.combat!.hit = 8

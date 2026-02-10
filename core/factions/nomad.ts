@@ -1,4 +1,4 @@
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { getWeakestCombatUnit } from '@/core/unitGet'
@@ -9,6 +9,7 @@ export const nomad: BattleEffect[] = [
     type: 'faction',
     name: 'Nomad flagship',
     place: 'space',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {

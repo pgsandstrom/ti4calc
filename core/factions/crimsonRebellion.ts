@@ -1,4 +1,4 @@
-import { ParticipantInstance } from '@/core/battle-types'
+import { EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 
@@ -45,6 +45,7 @@ export const crimsonRebellion: BattleEffect[] = [
     type: 'faction',
     name: 'Crimson Rebellion destroyers',
     place: 'space',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         unit.combat!.hit = 8

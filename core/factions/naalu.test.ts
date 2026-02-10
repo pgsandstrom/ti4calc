@@ -4,6 +4,34 @@ import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Naalu', () => {
+  it('Naalu upgraded fighters should be better than base fighters', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        fighter: 2,
+      },
+      'Naalu',
+      {},
+      {
+        fighter: true,
+      },
+    )
+
+    const defender = getTestParticipant(
+      'defender',
+      {
+        fighter: 2,
+      },
+      'Naalu',
+    )
+
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
+      { side: 'attacker', percentage: 0.585 },
+      { side: 'draw', percentage: 0.087 },
+      { side: 'defender', percentage: 0.328 },
+    ])
+  })
+
   it('Naalu flagship should help in ground combat', () => {
     const attacker = getTestParticipant(
       'attacker',
