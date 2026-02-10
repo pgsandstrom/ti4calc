@@ -1,4 +1,4 @@
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType, UnitWithCombat } from '@/core/unit'
 
@@ -26,6 +26,7 @@ export const sol: BattleEffect[] = [
     type: 'faction',
     name: 'Sol infantry',
     place: 'ground',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.infantry) {
         unit.combat!.hit = 7
