@@ -1,7 +1,12 @@
 import _times from 'lodash/times'
 
 import { destroyUnit } from '@/core/battle'
-import { BattleInstance, ParticipantInstance, Place } from '@/core/battle-types'
+import {
+  BattleInstance,
+  EFFECT_HIGH_PRIORITY,
+  ParticipantInstance,
+  Place,
+} from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
 import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
 import { getHighestHitUnit, getLowestWorthSustainUnit, getUnits } from '@/core/unitGet'
@@ -52,6 +57,7 @@ export const argentFlight: BattleEffect[] = [
     type: 'faction',
     name: 'Argent Flight destroyers',
     place: 'space',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         unit.combat!.hit = 8
