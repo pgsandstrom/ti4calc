@@ -1,3 +1,12 @@
-dist
 node_modules
+.next
+.git
+.gitignore
+.husky
+*.md
+LICENSE
+dist
 npm-debug.log
+docker-compose*.yml
+Dockerfile
+.dockerignore
