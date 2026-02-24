@@ -1,4 +1,4 @@
-import { ParticipantInstance, Place } from '@/core/battle-types'
+import { EFFECT_HIGH_PRIORITY, ParticipantInstance, Place } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
 import { logWrapper } from '@/util/util-log'
@@ -41,6 +41,7 @@ export const naazRokha: BattleEffect[] = [
     type: 'faction',
     name: 'Naaz-Rokha mech',
     place: 'both',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance, _p: ParticipantInstance, place: Place) => {
       if (unit.type === UnitType.mech) {
         if (place === 'space') {
