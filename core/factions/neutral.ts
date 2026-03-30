@@ -5,7 +5,7 @@ import { defaultRoll, UnitInstance, UnitType } from '../unit'
 /**
  * Neutral faction is actually tricky. Default strength is higher for the following units:
  *
- * cruiser, destroyers, fighters, infantry
+ * cruiser, destroyers, fighters
  *
  * And on the other units, we need to prevent upgrade from making them stronger.
  *
@@ -48,6 +48,17 @@ export const neutral: BattleEffect[] = [
   },
 
   // no changes needed to carrier
+
+  {
+    name: 'Neutral infantry upgrade',
+    type: 'faction-tech',
+    faction: 'Neutral',
+    place: 'both',
+    unit: UnitType.infantry,
+    transformUnit: (unit: UnitInstance) => {
+      return unit
+    },
+  },
 
   {
     type: 'faction',
@@ -123,7 +134,7 @@ export const neutral: BattleEffect[] = [
           ...unit,
           combat: {
             ...defaultRoll,
-            hit: 6,
+            hit: 8,
           },
         }
       } else {

@@ -1,26 +1,50 @@
+import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { setupBattle } from '@/core/battleSetup'
+import { UnitType } from '@/core/unit'
+import { getTestParticipant } from '@/util/util.test'
 
 describe('Neutral', () => {
-  it('Neutral infantry should be stronger than default infantry', () => {
+  it('Neutral infantry should use baseline combat (8)', () => {
     const attacker = getTestParticipant(
       'attacker',
       {
-        infantry: 2,
+        infantry: 1,
       },
       'Neutral',
     )
 
-    const defender = getTestParticipant('defender', {
-      infantry: 2,
-    })
+    const defender = getTestParticipant('defender')
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.677 },
-      { side: 'draw', percentage: 0.096 },
-      { side: 'defender', percentage: 0.227 },
-    ])
+    const battleInstance = setupBattle({ place: 'ground', attacker, defender })
+    const infantry = battleInstance.attacker.units.find((u) => u.type === UnitType.infantry)
+    if (!infantry?.combat) {
+      throw new Error('Expected attacker infantry to exist and have combat data')
+    }
+    assert.equal(infantry.combat.hit, 8)
+  })
+
+  it('Neutral infantry should ignore infantry upgrade toggle', () => {
+    const attacker = getTestParticipant(
+      'attacker',
+      {
+        infantry: 1,
+      },
+      'Neutral',
+      {},
+      {
+        infantry: true,
+      },
+    )
+
+    const defender = getTestParticipant('defender')
+
+    const battleInstance = setupBattle({ place: 'ground', attacker, defender })
+    const infantry = battleInstance.attacker.units.find((u) => u.type === UnitType.infantry)
+    if (!infantry?.combat) {
+      throw new Error('Expected attacker infantry to exist and have combat data')
+    }
+    assert.equal(infantry.combat.hit, 8)
   })
 })
