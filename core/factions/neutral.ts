@@ -1,5 +1,6 @@
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
 
+import { EFFECT_HIGH_PRIORITY } from '../battle-types'
 import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 /**
@@ -119,6 +120,7 @@ export const neutral: BattleEffect[] = [
     type: 'faction',
     name: 'Neutral infantry',
     place: 'both',
+    priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.infantry) {
         return {
@@ -131,6 +133,18 @@ export const neutral: BattleEffect[] = [
       } else {
         return unit
       }
+    },
+  },
+
+  {
+    name: 'infantry upgrade',
+    type: 'faction-tech',
+    faction: 'Neutral',
+    place: 'both',
+    unit: UnitType.infantry,
+    transformUnit: (unit: UnitInstance) => {
+      // just ensure nothing changes...
+      return unit
     },
   },
 

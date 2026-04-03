@@ -174,6 +174,8 @@ export type BattleWinner = (typeof BattleWinner)[keyof typeof BattleWinner]
 
 // things that set combat to an absolute value should be done early, so high priority
 // also things that add units should be high priority
+// also defining units needs to be high priority than unit upgrades, or the unit upgrades might not be applied...
+// TODO: we really should define more priority steps and clearly define them, or we might end up with things "accidentally" working and then breaking on small changes.
 export const EFFECT_HIGH_PRIORITY = 75
 export const EFFECT_DEFAULT_PRIORITY = 50
 // effects that removes spacecannon or bombardment should have low prio, so it happens after "+1 to spacecannon" stuff
