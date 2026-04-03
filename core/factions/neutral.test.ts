@@ -4,7 +4,7 @@ import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Neutral', () => {
-  it('Neutral infantry should be stronger than default infantry', () => {
+  it('Neutral infantry should be equal to default infantry', () => {
     const attacker = getTestParticipant(
       'attacker',
       {
@@ -18,9 +18,9 @@ describe('Neutral', () => {
     })
 
     testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.677 },
-      { side: 'draw', percentage: 0.096 },
-      { side: 'defender', percentage: 0.227 },
+      { side: 'attacker', percentage: 0.463 },
+      { side: 'draw', percentage: 0.074 },
+      { side: 'defender', percentage: 0.463 },
     ])
   })
 })

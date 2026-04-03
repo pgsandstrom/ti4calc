@@ -10,6 +10,8 @@ import { defaultRoll, UnitInstance, UnitType } from '../unit'
  * And on the other units, we need to prevent upgrade from making them stronger.
  *
  * REMEMBER: Adding an "empty" unit-upgrade does replace the default one. Just check `unitUpgrades.ts`.
+ *
+ * Reference: https://twilight-imperium.fandom.com/wiki/Thunder%27s_Edge#Neutral_Units
  */
 
 export const neutral: BattleEffect[] = [
@@ -123,7 +125,7 @@ export const neutral: BattleEffect[] = [
           ...unit,
           combat: {
             ...defaultRoll,
-            hit: 6,
+            hit: 8,
           },
         }
       } else {
