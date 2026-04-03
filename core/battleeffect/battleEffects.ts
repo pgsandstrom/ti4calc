@@ -47,7 +47,7 @@ export interface NormalBattleEffect extends SharedStuffBattleEffect {
 
 export interface FactionBattleEffect extends SharedStuffBattleEffect {
   type: // faction-tech is tech (can be stolen by nekro)
-  | 'faction-tech'
+    | 'faction-tech'
     // faction-ability is something faction-specific that is not automatically used (munitions reserves for example)
     | 'faction-ability'
   faction: Faction
