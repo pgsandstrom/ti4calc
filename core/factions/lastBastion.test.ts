@@ -29,11 +29,11 @@ describe('Last Bastion', () => {
     const defender = getTestParticipant('defender', { cruiser: 1 })
 
     // Flagship 6x2 with sustain vs cruiser 7
-    // attacker ~94%, draw ~4%, defender ~2%
+    // attacker ~94.5%, draw ~4.2%, defender ~1.4%
     testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.94 },
-      { side: 'draw', percentage: 0.04 },
-      { side: 'defender', percentage: 0.02 },
+      { side: 'attacker', percentage: 0.945 },
+      { side: 'draw', percentage: 0.042 },
+      { side: 'defender', percentage: 0.014 },
     ])
   })
 
