@@ -37,8 +37,7 @@ export default function HelpView({ style }: Props) {
         <div className={styles.helpView}>
           <div>
             This is a tool to help calculate odds for the board game Twilight Imperium 4. All
-            current expansions and codex are included, up and until codex 4 (june 2025). Right below
-            this accordion you can track the progress in implementing Thunders Edge.
+            current expansions and codex are included, including Thunders Edge (October 2025).
           </div>
           <div>Upgrade units by selecting the checkbox next to them.</div>
           <div>
@@ -92,6 +91,11 @@ export default function HelpView({ style }: Props) {
               </li>
               <li>Breakthrough: The Nekro Virus</li>
               <li>Variant: Twilight&apos;s Fall</li>
+              <li>
+                Several advanced use cases such as triggering Last Bastion hero are used in a naive
+                way. They simply trigger at the first opportunity without changing in which order
+                units are destroyed. Check the ability description for hints.
+              </li>
             </ul>
           </div>
         </div>
