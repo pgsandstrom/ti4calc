@@ -136,11 +136,13 @@ export const lastBastion: BattleEffect[] = [
       registerUse(effectName, participant)
     },
   },
+  // TODO I guess the most intelligent thing would be to sacrifice a galvanized unit first. That is currently not implemented.
   {
-    type: 'general',
+    type: 'faction-ability',
+    faction: 'Last Bastion',
     name: 'Last Bastion hero',
     description:
-      "Lyra Keen: When a galvanized unit you control is destroyed, you may purge this card. If you do, roll 1 die for each unit your opponent has in the active system; for each result that is equal to or greater than the destroyed galvanized unit's combat value, destroy that unit.",
+      "Lyra Keen: When a galvanized unit you control is destroyed, you may purge this card. If you do, roll 1 die for each unit your opponent has in the active system; for each result that is equal to or greater than the destroyed galvanized unit's combat value, destroy that unit.\n\nPLEASE NOTE: Currently this hero is not used in an intelligent way. Galvanized units death priority is not affected, but in reality it most likely would be.",
     place: 'both',
     timesPerFight: 1,
     onDeath: (
