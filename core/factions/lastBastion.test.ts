@@ -130,6 +130,32 @@ describe('Last Bastion', () => {
     ])
   })
 
+  it('hero should use dead galvanized unit combat value for rolls', () => {
+    // 1 galvanized war sun vs 3 destroyers with assault cannon
+    // Assault cannon destroys the war sun (only non-fighter ship)
+    // Hero triggers: war sun combat 3, rolls d10 per enemy, destroys on >= 3 (80% each)
+    // P(all 3 destroyed) = 0.8^3 ≈ 0.512 -> draw
+    // P(any survive) ≈ 0.488 -> defender wins
+    const attacker = getTestParticipant(
+      'attacker',
+      { warsun: 1 },
+      'Last Bastion',
+      { 'Last Bastion hero': 1 },
+      {},
+      {},
+      { warsun: 1 }, // galvanized
+    )
+    const defender = getTestParticipant('defender', { destroyer: 3 }, undefined, {
+      'Assault Cannon': 1,
+    })
+
+    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
+      { side: 'attacker', percentage: 0 },
+      { side: 'draw', percentage: 0.51 },
+      { side: 'defender', percentage: 0.49 },
+    ])
+  })
+
   it('faction tech should cancel bombardment hits based on galvanized ground forces', () => {
     // Defender has galvanized infantry which should cancel bombardment hits
     // Dreadnought bombardment 5 (60% hit) with 1 infantry vs 2 galvanized infantry

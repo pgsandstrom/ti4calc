@@ -140,7 +140,7 @@ export const lastBastion: BattleEffect[] = [
     type: 'general',
     name: 'Last Bastion hero',
     description:
-      "Lyra Keen: When a galvanized unit you control is destroyed, you may purge this card. If you do, roll 1 die for each unit your opponent has in the active system; for each result that is equal to or greater than that unit's combat value, destroy that unit.",
+      "Lyra Keen: When a galvanized unit you control is destroyed, you may purge this card. If you do, roll 1 die for each unit your opponent has in the active system; for each result that is equal to or greater than the destroyed galvanized unit's combat value, destroy that unit.",
     place: 'both',
     timesPerFight: 1,
     onDeath: (
@@ -155,11 +155,15 @@ export const lastBastion: BattleEffect[] = [
         return
       }
 
-      // Check if any dead unit was galvanized
-      const galvanizedUnitDied = deadUnits.some((u) => u.galvanized)
-      if (!galvanizedUnitDied) {
+      // Find the dead galvanized unit with the lowest combat hit value
+      const deadGalvanizedUnits = deadUnits.filter((u) => u.galvanized && u.combat !== undefined)
+      if (deadGalvanizedUnits.length === 0) {
         return
       }
+      const hitValue = deadGalvanizedUnits.reduce(
+        (lowest, u) => (u.combat!.hit < lowest ? u.combat!.hit : lowest),
+        deadGalvanizedUnits[0].combat!.hit,
+      )
 
       // Roll for each enemy unit
       let destroyedCount = 0
@@ -167,13 +171,9 @@ export const lastBastion: BattleEffect[] = [
         if (enemyUnit.isDestroyed) {
           continue
         }
-        if (!enemyUnit.combat) {
-          continue
-        }
 
         // Roll 1 d10 (values 1-10)
         const roll = rollD10()
-        const hitValue = enemyUnit.combat.hit
 
         if (roll >= hitValue) {
           destroyUnit(battle, enemyUnit)
