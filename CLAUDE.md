@@ -8,26 +8,6 @@ TI4 Battle Calculator - A Monte Carlo-based battle simulator for Twilight Imperi
 
 Live site: [ti4battle.com](https://ti4battle.com)
 
-## Commands
-
-```bash
-npm install          # Install dependencies
-npm run dev          # Start dev server (uses Turbopack)
-npm run build        # Production build
-npm run test         # Run all tests
-npm run test -- path/to/file.test.ts   # Run single test file
-npm run lint         # ESLint (zero warnings allowed)
-npm run typecheck    # TypeScript type checking
-npm run format       # Prettier formatting
-npm run pre-push     # Full CI check (lint + test + typecheck)
-```
-
-Docker deployment:
-
-```bash
-docker compose up -d --build
-```
-
 ## Architecture
 
 ### Core Simulation (`/core`)
@@ -120,3 +100,7 @@ In `core/constant.ts`:
 - Default for production: `NUMBER_OF_ROLLS = 20000`
 
 The `LOG` constant enables verbose battle logging when running single simulations (in browser console).
+
+## Development
+
+Run `npm run lint -- --fix` after changes to fix trivial issues. Then `npm run validate` to validate.

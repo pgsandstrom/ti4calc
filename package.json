@@ -13,14 +13,15 @@
     "dev-database-build": "docker compose -f docker-compose-dev.yml build",
     "docker-build": "docker compose build",
     "docker-up": "docker compose up -d",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format": "prettier --log-level warn --write .",
+    "format:check": "prettier --log-level warn --check .",
     "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx,js}\"",
     "pre-commit": "lint-staged",
-    "pre-push": "npm run lint && npm run test && npm run typecheck && npm run format:check",
+    "pre-push": "npm run validate && npm run format:check",
     "start": "next start -p 3000",
     "test": "node --import tsx --test",
     "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run lint && npm run test",
     "prepare": "husky"
   },
   "dependencies": {
