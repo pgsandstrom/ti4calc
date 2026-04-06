@@ -60,8 +60,8 @@ export function testBattleReport(
         const failOnInvalid =
           fails === RETRIES_UNTIL_FAIL || TEST_NUMBER_OF_ROLLS === ROLLS_WHEN_BUILDING_TEST_DATA
 
-        const percentage = check.percentage >= 1 ? '100%' : `${check.percentage}%`
-        const infoString = `after ${fails} retries test failed. ~${percentage} expected, but got ${actualNumber}/${battleReport.numberOfRolls}: ${actualNumber / battleReport.numberOfRolls}`
+        const percentage = `${(check.percentage * 100).toFixed(2)}%`
+        const infoString = `after ${fails} retries test failed. ${percentage} expected, but got ${actualNumber}/${battleReport.numberOfRolls}: ${actualNumber / battleReport.numberOfRolls}`
         const valid = checkResult(actualNumber, expectedNumber, failOnInvalid, infoString)
         if (valid) {
           break // success!
