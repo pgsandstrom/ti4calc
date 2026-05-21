@@ -1,7 +1,23 @@
 import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
 import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import {
+  createUnitAndApplyEffects,
+  defaultRoll,
+  galvanizeUnit,
+  UnitInstance,
+  UnitType,
+} from '@/core/unit'
 import { logWrapper } from '@/util/util-log'
+
+interface StructureInSpace {
+  effectName: string
+  unitType: UnitType
+  modify: (unit: UnitInstance) => void
+}
+
+const ralNelPdsInSpace = 'Ral Nel PDS in space'
+const ralNelGalvanizedPdsInSpace = 'Ral Nel galvanized PDS in space'
+const ralNelSpaceDockInSpace = 'Ral Nel space dock with Lightrail Ordnance in space'
 
 export const ralNelConsortium: BattleEffect[] = [
   {
@@ -22,6 +38,22 @@ export const ralNelConsortium: BattleEffect[] = [
       } else {
         return unit
       }
+    },
+  },
+  {
+    type: 'faction',
+    name: 'Ral Nel Consortium destroyer',
+    description:
+      'Each of your destroyers can use the SPACE CANNON ability of one of your structures in its space area. A structure can only be used once, unless the destroyers have the Linkship upgrade.',
+    place: 'space',
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.destroyer) {
+        return {
+          ...unit,
+          battleEffects: [...(unit.battleEffects ?? []), ralNelDestroyerStructureAbility],
+        }
+      }
+      return unit
     },
   },
   {
@@ -70,4 +102,118 @@ export const ralNelConsortium: BattleEffect[] = [
       registerUse(effectName, participant)
     },
   },
+  {
+    type: 'faction-tech',
+    name: 'Linkship',
+    description:
+      'Destroyer upgrade. Combat 8, anti-fighter barrage 6x3. Each Linkship can trigger the same structure, so a structure in your space area can fire SPACE CANNON once per Linkship.',
+    place: 'both',
+    faction: 'Ral Nel Consortium',
+    unit: UnitType.destroyer,
+    transformUnit: (unit: UnitInstance) => {
+      if (unit.type === UnitType.destroyer) {
+        return {
+          ...unit,
+          combat: {
+            ...unit.combat!,
+            hit: 8,
+          },
+          afb: {
+            ...unit.afb!,
+            hit: 6,
+            count: 3,
+          },
+        }
+      }
+      return unit
+    },
+  },
+  produceStructureFactionAbility(
+    ralNelPdsInSpace,
+    'Number of PDS in your space area. Each fires SPACE CANNON 6 when used by a destroyer.',
+  ),
+  produceStructureFactionAbility(
+    ralNelGalvanizedPdsInSpace,
+    'Number of galvanized PDS in your space area. Each fires SPACE CANNON 6 (x2) when used by a destroyer.',
+  ),
+  produceStructureFactionAbility(
+    ralNelSpaceDockInSpace,
+    'Number of space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x2) when used by a destroyer.',
+  ),
 ]
+
+// This ability is attached to every Ral Nel destroyer, so it runs once per destroyer.
+// Each destroyer uses the SPACE CANNON of the strongest structure in its space area. A normal
+// destroyer claims that structure (decreasing the pool, so it can only be used once), but with the
+// Linkship upgrade the same structure can be triggered by every destroyer, so it is not claimed.
+const ralNelDestroyerStructureAbility: BattleEffect = {
+  name: 'Ral Nel destroyer structure SPACE CANNON',
+  type: 'other',
+  place: 'space',
+  beforeStart: (participant: ParticipantInstance, battle: BattleInstance) => {
+    if (battle.place !== 'space') {
+      return
+    }
+    const isUpgraded = participant.unitUpgrades[UnitType.destroyer] === true
+    for (const structure of ralNelStructures) {
+      if ((participant.effects[structure.effectName] ?? 0) <= 0) {
+        continue
+      }
+      const unit = createUnitAndApplyEffects(
+        structure.unitType,
+        participant,
+        battle.place,
+        structure.modify,
+      )
+      participant.units.push(unit)
+      if (!isUpgraded) {
+        participant.effects[structure.effectName] -= 1
+      }
+      logWrapper(
+        `${participant.side} destroyer uses the SPACE CANNON of a structure in its space area`,
+      )
+      break
+    }
+  },
+}
+
+// These must be ordered by strength: Strongest first
+const ralNelStructures: StructureInSpace[] = [
+  {
+    // Space dock with Lightrail Ordnance: SPACE CANNON 5 (x2)
+    effectName: ralNelSpaceDockInSpace,
+    unitType: UnitType.other,
+    modify: (unit: UnitInstance) => {
+      unit.spaceCannon = {
+        ...defaultRoll,
+        hit: 5,
+        count: 2,
+      }
+    },
+  },
+  {
+    // Galvanized PDS: SPACE CANNON 6, galvanize grants the extra die (x2)
+    effectName: ralNelGalvanizedPdsInSpace,
+    unitType: UnitType.pds,
+    modify: (unit: UnitInstance) => {
+      galvanizeUnit(unit)
+    },
+  },
+  {
+    // Plain PDS: SPACE CANNON 6 (x1)
+    effectName: ralNelPdsInSpace,
+    unitType: UnitType.pds,
+    modify: () => {},
+  },
+]
+
+function produceStructureFactionAbility(name: string, description: string): BattleEffect {
+  return {
+    type: 'faction-ability',
+    name,
+    description,
+    place: 'space',
+    faction: 'Ral Nel Consortium',
+    count: true,
+  }
+}
