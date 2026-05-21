@@ -18,6 +18,8 @@ interface StructureInSpace {
 const ralNelPdsInSpace = 'Ral Nel PDS in space'
 const ralNelGalvanizedPdsInSpace = 'Ral Nel galvanized PDS in space'
 const ralNelSpaceDockInSpace = 'Ral Nel space dock with Lightrail Ordnance in space'
+const ralNelGalvanizedSpaceDockInSpace =
+  'Ral Nel galvanized space dock with Lightrail Ordnance in space'
 
 export const ralNelConsortium: BattleEffect[] = [
   {
@@ -140,6 +142,10 @@ export const ralNelConsortium: BattleEffect[] = [
     ralNelSpaceDockInSpace,
     'Number of space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x2) when used by a destroyer.',
   ),
+  produceStructureFactionAbility(
+    ralNelGalvanizedSpaceDockInSpace,
+    'Number of galvanized space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x3) when used by a destroyer.',
+  ),
 ]
 
 // This ability is attached to every Ral Nel destroyer, so it runs once per destroyer.
@@ -179,6 +185,20 @@ const ralNelDestroyerStructureAbility: BattleEffect = {
 
 // These must be ordered by strength: Strongest first
 const ralNelStructures: StructureInSpace[] = [
+  {
+    // Galvanized space dock with Lightrail Ordnance: SPACE CANNON 5 (x2), galvanize grants the
+    // extra die (x3)
+    effectName: ralNelGalvanizedSpaceDockInSpace,
+    unitType: UnitType.other,
+    modify: (unit: UnitInstance) => {
+      unit.spaceCannon = {
+        ...defaultRoll,
+        hit: 5,
+        count: 2,
+      }
+      galvanizeUnit(unit)
+    },
+  },
   {
     // Space dock with Lightrail Ordnance: SPACE CANNON 5 (x2)
     effectName: ralNelSpaceDockInSpace,

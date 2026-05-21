@@ -204,6 +204,30 @@ describe('Ral Nel Consortium', () => {
       ])
     })
 
+    it('a galvanized space dock with Lightrail Ordnance in space fires SPACE CANNON 5 (x3)', () => {
+      const attacker = getTestParticipant(
+        'attacker',
+        {
+          destroyer: 1,
+        },
+        'Ral Nel Consortium',
+        {
+          'Ral Nel galvanized space dock with Lightrail Ordnance in space': 1,
+        },
+      )
+
+      const defender = getTestParticipant('defender', {
+        destroyer: 1,
+      })
+
+      // Galvanized space dock shot at 5+ (x3) before combat, then destroyer (9+) vs destroyer (9+).
+      testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
+        { side: 'attacker', percentage: 0.965 },
+        { side: 'draw', percentage: 0.007 },
+        { side: 'defender', percentage: 0.028 },
+      ])
+    })
+
     it('a destroyer uses the strongest available structure first', () => {
       const attacker = getTestParticipant(
         'attacker',
