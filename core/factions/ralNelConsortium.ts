@@ -62,7 +62,7 @@ export const ralNelConsortium: BattleEffect[] = [
     type: 'faction-ability',
     name: 'Alarum reinforcements',
     description:
-      'Mech ability: At the end of a round of ground combat, spawn infantry (up to 2 per round, requires a mech to be alive).',
+      'Mech ability: The count is the number of infantry held in reserve. At the end of each round of ground combat, up to 2 of them are deployed, as long as a mech is alive.',
     place: 'ground',
     faction: 'Ral Nel Consortium',
     count: true,
