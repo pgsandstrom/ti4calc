@@ -308,7 +308,6 @@ export const shieldsHolding: BattleEffect = {
       participant.hitsToAssign.hitsToNonFighters -= cancelHitsToNonFighters
 
       const cancelHits = Math.min(cancel, participant.hitsToAssign.hits)
-      cancel -= cancelHits
       participant.hitsToAssign.hits -= cancelHits
 
       registerUse(effectName, participant)

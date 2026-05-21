@@ -30,7 +30,7 @@ export const lightrailOrdnance: BattleEffect = {
     effectName: string,
   ) => {
     // Make sure only one Space Dock rolls for Space Cannon in ground combat
-    let spacedockCount = 0
+    let spacedockCount: number
     if (battle.place === 'ground') {
       spacedockCount = 1
     } else {

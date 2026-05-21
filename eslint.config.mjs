@@ -1,9 +1,10 @@
 // TODO add "@ts-check" when we have properly migrated to esm modules
 
+import eslintReact from '@eslint-react/eslint-plugin'
 import eslint from '@eslint/js'
+import nextPlugin from '@next/eslint-plugin-next'
+import stylistic from '@stylistic/eslint-plugin'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
-import reactPlugin from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
 import simpleImportSort from 'eslint-plugin-simple-import-sort'
 import tseslint from 'typescript-eslint'
 
@@ -13,24 +14,17 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
-  reactPlugin.configs.flat.recommended,
-  reactPlugin.configs.flat['jsx-runtime'],
-  reactHooks.configs.flat.recommended,
+  eslintReact.configs['recommended-type-checked'],
+  nextPlugin.configs['core-web-vitals'],
   {
-    settings: {
-      react: {
-        version: 'detect',
-      },
-    },
     languageOptions: {
-      ...reactPlugin.configs.flat.recommended.languageOptions,
       parserOptions: {
-        ...reactPlugin.configs.flat.recommended.languageOptions.parserOptions,
         projectService: true,
         tsconfigRootDir: import.meta.dirname,
       },
     },
     plugins: {
+      '@stylistic': stylistic,
       'no-only-tests': noOnlyTests,
       'simple-import-sort': simpleImportSort,
     },
@@ -45,12 +39,13 @@ export default tseslint.config(
 
       // turn off unwanted rules:
       '@typescript-eslint/no-non-null-assertion': 'off', // too strict
-      'react/prop-types': 'off', // very buggy and unnecessary with TypeScript
       '@typescript-eslint/restrict-template-expressions': 'off', // too strict
       '@typescript-eslint/no-unsafe-enum-comparison': 'off', // we shouldnt be using enum either way
       '@typescript-eslint/no-unnecessary-boolean-literal-compare': 'off', // this is just stylistic and unnecessary
       '@typescript-eslint/no-deprecated': 'off', // too strict
       '@typescript-eslint/restrict-plus-operands': 'off', // too strict
+      '@eslint-react/use-state': 'off', // the setter-naming part clashes with our intentional `setXRaw` + wrapper pattern
+      '@eslint-react/no-array-index-key': 'off', // index keys are fine for our use cases
 
       // these rules are perfect for small simply projects that can avoid `any` type. But not for this project.
       '@typescript-eslint/no-explicit-any': 'off',
@@ -93,7 +88,7 @@ export default tseslint.config(
         },
       ],
       '@typescript-eslint/prefer-enum-initializers': ['error'],
-      'react/jsx-curly-brace-presence': [
+      '@stylistic/jsx-curly-brace-presence': [
         'error',
         {
           propElementValues: 'always',
@@ -147,7 +142,7 @@ export default tseslint.config(
   // in this object we fix so files not included in tsconfig can still be linted. We skip rules that require typechecking.
   {
     files: ['*.js', '*.mjs', '*.ts'],
-    extends: [tseslint.configs.disableTypeChecked],
+    extends: [tseslint.configs.disableTypeChecked, eslintReact.configs['disable-type-checked']],
     rules: {
       'no-undef': 'off',
     },

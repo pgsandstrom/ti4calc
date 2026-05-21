@@ -71,7 +71,7 @@ export function testBattleReport(
         }
       } catch (e) {
         if (e instanceof Error) {
-          throw new Error(`Failed checking ${check.side}: ${e.message}`)
+          throw new Error(`Failed checking ${check.side}: ${e.message}`, { cause: e })
         } else {
           throw e
         }

@@ -131,7 +131,7 @@ export default function Home(props: HomeProps) {
       const worker = new Worker(new URL('../core/webworker.ts', import.meta.url))
       workerRef.current = worker
 
-      worker.addEventListener('message', (event) => {
+      const onMessage = (event: MessageEvent) => {
         if (event.data.error === true) {
           if (!error) {
             const workerError = event.data as ErrorReportUnsaved
@@ -141,7 +141,8 @@ export default function Home(props: HomeProps) {
         } else {
           setBattleReport(event.data as BattleReport)
         }
-      })
+      }
+      worker.addEventListener('message', onMessage)
 
       const battle: Battle = {
         attacker,
@@ -149,6 +150,11 @@ export default function Home(props: HomeProps) {
         place,
       }
       worker.postMessage(battle)
+
+      return () => {
+        worker.removeEventListener('message', onMessage)
+        worker.terminate()
+      }
     }
   }, [touched, attacker, defender, place, error])
 
@@ -173,7 +179,7 @@ export default function Home(props: HomeProps) {
           ...attacker,
           faction: attackerFaction,
         }
-        // eslint-disable-next-line react-hooks/set-state-in-effect
+        // eslint-disable-next-line @eslint-react/set-state-in-effect
         setAttackerRaw(newAttacker)
       }
     }
@@ -184,6 +190,7 @@ export default function Home(props: HomeProps) {
           ...defender,
           faction: defenderFaction,
         }
+        // eslint-disable-next-line @eslint-react/set-state-in-effect
         setDefenderRaw(newDefender)
       }
     }

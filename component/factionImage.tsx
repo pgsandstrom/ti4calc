@@ -19,7 +19,7 @@ export default function FactionImage(props: Props) {
   // the faction is retrieved from localstorage. Showing the faction before that would result in an ugly flash.
   // So here we make sure no image is set in ssr.
   useLayoutEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    // eslint-disable-next-line @eslint-react/set-state-in-effect
     setUrl(
       `/factions/small/${props.faction
         .replaceAll(' ', '_')
@@ -36,7 +36,8 @@ export default function FactionImage(props: Props) {
         width={640}
         height={828}
       /> */}
-      {/* this row should require this rule when we re-add next eslint plugin: @next/next/no-img-element */}
+      {/* intentionally a plain <img> (see note above) rather than next/image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={url}
         alt=""
