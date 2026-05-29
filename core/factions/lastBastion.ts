@@ -24,7 +24,7 @@ export const lastBastion: BattleEffect[] = [
           combat: {
             ...defaultRoll,
             hit: 9,
-            count: 2,
+            count: 1,
           },
         }
       } else {

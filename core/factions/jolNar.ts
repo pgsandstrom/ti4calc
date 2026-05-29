@@ -25,7 +25,7 @@ export const jolNar: BattleEffect[] = [
             hitInfo: HitInfo,
           ) => {
             hitInfo.rollInfoList.forEach((rollInfo) => {
-              if (rollInfo.roll > 9) {
+              if (rollInfo.roll >= 9) {
                 hitInfo.hits += 2
               }
             })

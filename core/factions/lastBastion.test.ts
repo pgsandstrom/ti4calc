@@ -4,36 +4,20 @@ import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
 import { getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Last Bastion', () => {
-  it('flagship should have combat 9x2', () => {
-    // Flagship has combat 9x2 (20% per die, ~36% at least one hit)
-    // vs cruiser with combat 7 (40%)
-    // Flagship sustains, so it should win most of the time
-    const attacker = getTestParticipant('attacker', { flagship: 1 }, 'Last Bastion')
-    const defender = getTestParticipant('defender', { cruiser: 1 })
-
-    // Flagship 9x2 with sustain vs cruiser 7
-    // attacker ~73%, draw ~10%, defender ~17%
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.73 },
-      { side: 'draw', percentage: 0.1 },
-      { side: 'defender', percentage: 0.17 },
-    ])
-  })
-
   it('flagship planet bonus should add +1 per planet to combat', () => {
-    // With 3 planets, flagship has combat 6x2 instead of 9x2
-    // (9 - 3 = 6 to hit, 50% per die, ~75% at least one hit)
+    // With 3 planets, flagship has combat 6x1 instead of 9x1
+    // (9 - 3 = 6 to hit, 50% per die)
     const attacker = getTestParticipant('attacker', { flagship: 1 }, 'Last Bastion', {
       'The Egeiro planet bonus': 3,
     })
     const defender = getTestParticipant('defender', { cruiser: 1 })
 
-    // Flagship 6x2 with sustain vs cruiser 7
-    // attacker ~94.5%, draw ~4.2%, defender ~1.4%
+    // Flagship 6x1 with sustain vs cruiser 7
+    // attacker ~83.7%, draw ~8.2%, defender ~8.1%
     testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.945 },
-      { side: 'draw', percentage: 0.042 },
-      { side: 'defender', percentage: 0.014 },
+      { side: 'attacker', percentage: 0.837 },
+      { side: 'draw', percentage: 0.082 },
+      { side: 'defender', percentage: 0.081 },
     ])
   })
 
