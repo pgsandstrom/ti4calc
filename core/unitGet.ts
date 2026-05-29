@@ -136,8 +136,12 @@ export function getLowestWorthUnit(p: ParticipantInstance, place: Place, include
     if (a.galvanized !== b.galvanized) {
       return a.galvanized ? b : a
     }
-    if (a.usedSustainThisTimingWindow !== b.usedSustainThisTimingWindow) {
-      return a.usedSustainThisTimingWindow ? b : a
+    // Among equally damaged units, sacrifice the one damaged most recently (higher
+    // takenDamageRound). The unit damaged in an earlier round is the one Duranium Armor
+    // can repair this round (it only repairs units whose damage is not from this round),
+    // so we keep it alive.
+    if ((a.takenDamageRound ?? 0) !== (b.takenDamageRound ?? 0)) {
+      return (a.takenDamageRound ?? 0) > (b.takenDamageRound ?? 0) ? a : b
     }
     return a
   })

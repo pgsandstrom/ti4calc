@@ -29,9 +29,9 @@ describe('Tech', () => {
     })
 
     testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.655 },
-      { side: 'draw', percentage: 0.019 },
-      { side: 'defender', percentage: 0.325 },
+      { side: 'attacker', percentage: 0.69 },
+      { side: 'draw', percentage: 0.0136 },
+      { side: 'defender', percentage: 0.2966 },
     ])
   })
 

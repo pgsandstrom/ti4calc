@@ -306,6 +306,30 @@ describe('unitGet', () => {
     assert.strictEqual(unit.takenDamage, true)
   })
 
+  it('getLowestWorthUnit should sacrifice the most recently damaged of two damaged units', () => {
+    // Relevant for Duranium Armor: the unit damaged in an earlier round can be repaired
+    // this round, so the unit damaged this round should die instead, keeping the other alive.
+    const attacker = getTestParticipant('attacker', {
+      dreadnought: 2,
+    })
+
+    const defender = getTestParticipant('defender')
+
+    const participantInstance = getAttackerInstance(attacker, defender)
+
+    participantInstance.units.forEach((u, index) => {
+      u.takenDamage = true
+      u.takenDamageRound = index === 0 ? 1 : 2
+    })
+
+    const unit = getLowestWorthUnit(participantInstance, 'space', true)
+
+    if (!unit) {
+      assert.fail()
+    }
+    assert.strictEqual(unit.takenDamageRound, 2)
+  })
+
   it('getWeakestCombatUnit should return the unit that has the worst hit', () => {
     const attacker = getTestParticipant('attacker', {
       carrier: 1,

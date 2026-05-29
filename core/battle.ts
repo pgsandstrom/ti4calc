@@ -63,6 +63,7 @@ export function doBattle(battle: BattleInstance): BattleResult {
 
   let battleResult: BattleResult | undefined = undefined
   while (!battleResult) {
+    logWrapper(`starting battle round`)
     doBattleRolls(battle)
 
     battle.attacker.onCombatRoundEndBeforeAssign.forEach((effect) => {
