@@ -16,9 +16,10 @@
     "docker-up": "docker compose up -d",
     "format": "prettier --log-level warn --write .",
     "format:check": "prettier --log-level warn --check .",
-    "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx,js}\"",
+    "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx,js,mjs}\"",
     "pre-commit": "lint-staged",
     "pre-push": "pnpm run validate && pnpm run format:check",
+    "release": "node scripts/docker-release.mjs",
     "start": "next start -p 3000",
     "test": "node --import tsx --test",
     "typecheck": "tsc --noEmit",
@@ -52,7 +53,7 @@
     "typescript-eslint": "8.59.4"
   },
   "lint-staged": {
-    "*.{js,json,md,css,scss,html}": [
+    "*.{js,mjs,json,md,css,scss,html}": [
       "prettier --write"
     ],
     "*.{ts,tsx}": [

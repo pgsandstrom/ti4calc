@@ -19,6 +19,10 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 WORKDIR /app
 
+# .git is not in the build context, so the commit is baked in from the outside
+ARG GIT_HASH=unknown
+ENV GIT_HASH=$GIT_HASH
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 

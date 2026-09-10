@@ -1,7 +1,7 @@
 // TODO add "@ts-check" when we have properly migrated to esm modules
 
-import eslintReact from '@eslint-react/eslint-plugin'
 import eslint from '@eslint/js'
+import eslintReact from '@eslint-react/eslint-plugin'
 import nextPlugin from '@next/eslint-plugin-next'
 import stylistic from '@stylistic/eslint-plugin'
 import noOnlyTests from 'eslint-plugin-no-only-tests'
@@ -141,10 +141,17 @@ export default tseslint.config(
   },
   // in this object we fix so files not included in tsconfig can still be linted. We skip rules that require typechecking.
   {
-    files: ['*.js', '*.mjs', '*.ts'],
+    files: ['*.js', '**/*.mjs', '*.ts'],
     extends: [tseslint.configs.disableTypeChecked, eslintReact.configs['disable-type-checked']],
     rules: {
       'no-undef': 'off',
+    },
+  },
+  // command line scripts talk to the developer through stdout
+  {
+    files: ['scripts/**/*.mjs'],
+    rules: {
+      'no-console': 'off',
     },
   },
 )
