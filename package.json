@@ -2,9 +2,10 @@
   "name": "ti4-calc",
   "version": "0.1.0",
   "private": false,
+  "packageManager": "pnpm@12.3.4",
   "engines": {
     "node": ">=20",
-    "npm": ">=10"
+    "pnpm": ">=12"
   },
   "scripts": {
     "build": "next build",
@@ -17,11 +18,11 @@
     "format:check": "prettier --log-level warn --check .",
     "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx,js}\"",
     "pre-commit": "lint-staged",
-    "pre-push": "npm run validate && npm run format:check",
+    "pre-push": "pnpm run validate && pnpm run format:check",
     "start": "next start -p 3000",
     "test": "node --import tsx --test",
     "typecheck": "tsc --noEmit",
-    "validate": "npm run typecheck && npm run lint && npm run test",
+    "validate": "pnpm run typecheck && pnpm run lint && pnpm run test",
     "prepare": "husky"
   },
   "dependencies": {

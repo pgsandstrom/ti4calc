@@ -21,13 +21,13 @@ This is a [Next.js](https://nextjs.org/) project written in Typescript. The root
 To run the project, first install all dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Then start the development server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) and hopefully everything is working :)
