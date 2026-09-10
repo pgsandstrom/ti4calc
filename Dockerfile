@@ -19,8 +19,10 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 WORKDIR /app
 
-# .git is not in the build context, so the commit is baked in from the outside
-ARG GIT_HASH=unknown
+# .git is not in the build context, so the commit is baked in from the outside.
+# No default: a wrong-but-plausible hash is worse than a failed build.
+ARG GIT_HASH
+RUN test -n "$GIT_HASH" || { echo "GIT_HASH build arg is required"; exit 1; }
 ENV GIT_HASH=$GIT_HASH
 
 COPY --from=deps /app/node_modules ./node_modules
