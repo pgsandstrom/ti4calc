@@ -84,7 +84,7 @@ export const nomad: BattleEffect[] = [
       }
       worstNonFighterShip.afb = {
         ...defaultRoll,
-        hit: 5,
+        hit: 8,
         count: 3,
       }
       worstNonFighterShip.sustainDamage = true
