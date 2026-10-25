@@ -3,7 +3,8 @@ services:
     build:
       context: .
       args:
-        GIT_HASH: '${GIT_HASH:?missing - run "pnpm release" instead, or set GIT_HASH=dev for a throwaway build}'
+        # Optional here so restart/logs/down work without it, the Dockerfile fails a build that lacks it
+        GIT_HASH: ${GIT_HASH:-}
     ports:
       - "8200:3000"
     restart: always

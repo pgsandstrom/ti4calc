@@ -22,7 +22,7 @@ WORKDIR /app
 # .git is not in the build context, so the commit is baked in from the outside.
 # No default: a wrong-but-plausible hash is worse than a failed build.
 ARG GIT_HASH
-RUN test -n "$GIT_HASH" || { echo "GIT_HASH build arg is required"; exit 1; }
+RUN test -n "$GIT_HASH" || { echo 'GIT_HASH is missing - run "pnpm release" instead, or set GIT_HASH=dev for a throwaway build'; exit 1; }
 ENV GIT_HASH=$GIT_HASH
 
 COPY --from=deps /app/node_modules ./node_modules
