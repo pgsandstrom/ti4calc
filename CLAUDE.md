@@ -104,3 +104,5 @@ The `LOG` constant enables verbose battle logging when running single simulation
 ## Development
 
 Run `pnpm lint --fix` after changes to fix trivial issues. Then `pnpm validate` to validate.
+Lint is oxlint (`oxlint.config.ts`) and formatting is oxfmt, which also sorts imports. `eslint-disable`
+comments are ignored; write `oxlint-disable-next-line rule -- reason`.

@@ -2,10 +2,6 @@
   "name": "ti4-calc",
   "version": "1.0.0",
   "private": false,
-  "packageManager": "pnpm@12.15.0",
-  "engines": {
-    "node": ">=24.22.1"
-  },
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -13,17 +9,17 @@
     "dev-database-build": "docker compose -f docker-compose-dev.yml build",
     "docker-build": "docker compose build",
     "docker-up": "docker compose up -d",
-    "format": "prettier --log-level warn --write .",
-    "format:check": "prettier --log-level warn --check .",
-    "lint": "eslint --max-warnings 0 \"**/*.{ts,tsx,js,mjs}\"",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "lint": "oxlint",
     "pre-commit": "lint-staged",
     "pre-push": "pnpm run validate && pnpm run format:check",
+    "prepare": "husky",
     "release": "node scripts/docker-release.mjs",
     "start": "next start -p 3000",
     "test": "node --import tsx --test",
     "typecheck": "tsc --noEmit",
-    "validate": "pnpm run typecheck && pnpm run lint && pnpm run test",
-    "prepare": "husky"
+    "validate": "pnpm run typecheck && pnpm run lint && pnpm run test"
   },
   "dependencies": {
     "@types/lodash": "4.17.24",
@@ -38,26 +34,26 @@
     "typescript": "6.0.3"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.8.3",
-    "@eslint/js": "10.0.1",
-    "tsx": "4.22.3",
-    "@next/eslint-plugin-next": "16.2.6",
-    "@stylistic/eslint-plugin": "5.10.0",
-    "eslint": "10.4.0",
+    "@oxlint/plugins": "1.89.0",
     "eslint-plugin-no-only-tests": "3.4.0",
-    "eslint-plugin-simple-import-sort": "13.0.0",
     "lint-staged": "17.0.5",
-    "prettier": "3.8.3",
+    "oxfmt": "0.74.0",
+    "oxlint": "1.89.0",
+    "oxlint-tsgolint": "7.0.2005",
     "sass": "1.99.0",
-    "typescript-eslint": "8.59.4"
+    "tsx": "4.22.3"
   },
   "lint-staged": {
-    "*.{js,mjs,json,md,css,scss,html}": [
-      "prettier --write"
+    "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": [
+      "oxlint --fix --no-error-on-unmatched-pattern",
+      "oxfmt --no-error-on-unmatched-pattern"
     ],
-    "*.{ts,tsx}": [
-      "eslint --fix --max-warnings 0 --no-warn-ignored",
-      "prettier --write"
+    "!(*.{js,jsx,ts,tsx,mjs,cjs,mts,cts})": [
+      "oxfmt --no-error-on-unmatched-pattern"
     ]
-  }
+  },
+  "engines": {
+    "node": ">=24.22.1"
+  },
+  "packageManager": "pnpm@12.15.0"
 }

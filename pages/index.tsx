@@ -18,7 +18,6 @@ import { Place } from '@/core/battle-types'
 import { createParticipant } from '@/core/battleSetup'
 import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
 import { UnitType } from '@/core/unit'
-import styles from '@/pages/index.module.scss'
 import { ErrorReportUnsaved } from '@/server/errorReportController'
 import getServerUrl from '@/server/serverUrl'
 import {
@@ -29,9 +28,11 @@ import {
 } from '@/util/localStorageWrapper'
 import { createQueryParams, hasQueryParamForFaction, hasSomeQueryParams } from '@/util/query-params'
 
+import styles from '@/pages/index.module.scss'
+
 // TODO add resource value
 
-// eslint-disable-next-line @typescript-eslint/require-await
+// oxlint-disable-next-line typescript/require-await
 export const getServerSideProps: GetServerSideProps<HomeProps> = async (_context) => {
   const query = _context.query
 
@@ -179,7 +180,6 @@ export default function Home(props: HomeProps) {
           ...attacker,
           faction: attackerFaction,
         }
-        // eslint-disable-next-line @eslint-react/set-state-in-effect
         setAttackerRaw(newAttacker)
       }
     }
@@ -190,11 +190,10 @@ export default function Home(props: HomeProps) {
           ...defender,
           faction: defenderFaction,
         }
-        // eslint-disable-next-line @eslint-react/set-state-in-effect
         setDefenderRaw(newDefender)
       }
     }
-    // eslint-disable-next-line
+    // oxlint-disable-next-line react-hooks/exhaustive-deps -- restores the saved factions once, on mount
   }, [])
 
   if (error) {

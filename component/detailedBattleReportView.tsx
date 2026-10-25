@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import ArrowSvg from '@/component/arrowSvg'
 import CoolButton from '@/component/coolButton'
-import styles from '@/component/detailedBattleReportView.module.scss'
 import { BattleReport } from '@/core'
 import { useResize } from '@/util/hooks'
 import {
@@ -13,6 +12,8 @@ import {
 import { getColorProgress } from '@/util/util-color'
 import { toPercentageNumber, toPercentageString } from '@/util/util-number'
 import { objectEntries } from '@/util/util-object'
+
+import styles from '@/component/detailedBattleReportView.module.scss'
 
 interface Props {
   report: BattleReport
@@ -119,7 +120,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
   useEffect(() => {
     if (getLocalStorage(LS_SHOW_DETAILED_REPORT) === 'true') {
-      // eslint-disable-next-line @eslint-react/set-state-in-effect
+      // oxlint-disable-next-line react/set-state-in-effect
       setShowRaw(true)
     }
   }, [])

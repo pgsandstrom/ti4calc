@@ -24,6 +24,7 @@ import {
   getGeneralEffectFromFactions,
   getPromissary,
 } from '@/core/factions/faction'
+import { objectKeys } from '@/util/util-object'
 
 interface OptionsProps {
   attacker: Participant
@@ -66,12 +67,12 @@ export default function OptionsView(props: OptionsProps) {
     return (
       !props.attacker.riskDirectHit ||
       !props.defender.riskDirectHit ||
-      Object.keys(props.attacker.battleEffects).length > 0 ||
-      Object.keys(props.defender.battleEffects).length > 0 ||
-      Object.keys(props.attacker.damagedUnits).length > 0 ||
-      Object.keys(props.defender.damagedUnits).length > 0 ||
-      Object.keys(props.attacker.galvanizedUnits).length > 0 ||
-      Object.keys(props.defender.galvanizedUnits).length > 0
+      objectKeys(props.attacker.battleEffects).length > 0 ||
+      objectKeys(props.defender.battleEffects).length > 0 ||
+      objectKeys(props.attacker.damagedUnits).length > 0 ||
+      objectKeys(props.defender.damagedUnits).length > 0 ||
+      objectKeys(props.attacker.galvanizedUnits).length > 0 ||
+      objectKeys(props.defender.galvanizedUnits).length > 0
     )
   })
 

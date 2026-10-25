@@ -52,7 +52,7 @@ export function testBattleReport(
   let battleReport = getBattleReport(attacker, defender, place, times, undefined)
 
   checks.forEach((check) => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    // oxlint-disable-next-line typescript/no-unnecessary-condition
     while (true) {
       try {
         const actualNumber = battleReport[check.side]

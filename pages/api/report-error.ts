@@ -4,7 +4,7 @@ import { createErrorReport, ErrorReportUnsaved } from '@/server/errorReportContr
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.log(`skipping error report due to this not being production: ${process.env.NODE_ENV}`)
     return
   }

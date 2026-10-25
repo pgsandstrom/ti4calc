@@ -1,6 +1,7 @@
 import { describe, it } from 'node:test'
 
 import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
+import { objectEntries } from '@/util/util-object'
 import { checkResult, getTestParticipant, testBattleReport } from '@/util/util.test'
 
 describe('Argent flight', () => {
@@ -63,8 +64,8 @@ describe('Argent flight', () => {
     ])
 
     let noInfantryDestroyed = 0
-    for (const [survivors, count] of Object.entries(result.attackerSurvivers)) {
-      if (survivors.endsWith('iiiii') && count !== undefined) {
+    for (const [survivors, count] of objectEntries(result.attackerSurvivers)) {
+      if (survivors.endsWith('iiiii')) {
         noInfantryDestroyed += count
       }
     }

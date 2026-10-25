@@ -1,8 +1,9 @@
 // import Image from 'next/image'
 import { useLayoutEffect, useState } from 'react'
 
-import styles from '@/component/factionImage.module.scss'
 import { Faction } from '@/core/factions/faction'
+
+import styles from '@/component/factionImage.module.scss'
 
 interface Props {
   faction: Faction
@@ -19,7 +20,7 @@ export default function FactionImage(props: Props) {
   // the faction is retrieved from localstorage. Showing the faction before that would result in an ugly flash.
   // So here we make sure no image is set in ssr.
   useLayoutEffect(() => {
-    // eslint-disable-next-line @eslint-react/set-state-in-effect
+    // oxlint-disable-next-line react/set-state-in-effect
     setUrl(
       `/factions/small/${props.faction
         .replaceAll(' ', '_')
@@ -37,7 +38,7 @@ export default function FactionImage(props: Props) {
         height={828}
       /> */}
       {/* intentionally a plain <img> (see note above) rather than next/image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
+      {/* oxlint-disable-next-line nextjs/no-img-element */}
       <img
         src={url}
         alt=""

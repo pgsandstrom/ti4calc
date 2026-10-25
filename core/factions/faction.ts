@@ -1,5 +1,6 @@
 import { Participant } from '@/core/battle-types'
 import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { objectKeys } from '@/util/util-object'
 
 export type Faction =
   | 'Arborec'
@@ -102,7 +103,7 @@ const FACTION_MAP: Record<Faction, BattleEffect[]> = {
   Yssaril: yssaril,
 }
 
-export const ALL_FACTIONS = Object.keys(FACTION_MAP) as Faction[]
+export const ALL_FACTIONS = objectKeys(FACTION_MAP)
 
 export function getFactionBattleEffects(p: Participant | Faction): BattleEffect[] {
   if (isParticipant(p)) {
@@ -113,12 +114,7 @@ export function getFactionBattleEffects(p: Participant | Faction): BattleEffect[
 }
 
 function isParticipant(p: Participant | Faction): p is Participant {
-  // eslint-disable-next-line
-  if ((p as Participant).battleEffects !== undefined) {
-    return true
-  } else {
-    return false
-  }
+  return typeof p !== 'string'
 }
 
 export function getFactionStuffNonUnit() {

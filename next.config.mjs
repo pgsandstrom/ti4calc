@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process'
 // In Docker the .git directory is excluded from the build context, so the hash
 // is passed in as a build arg instead of being read from git.
 function resolveGitHash() {
-  if (process.env.GIT_HASH) {
+  if (process.env.GIT_HASH !== undefined && process.env.GIT_HASH !== '') {
     return process.env.GIT_HASH
   }
   try {

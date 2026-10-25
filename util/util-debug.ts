@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 
 export const startDebugTimer = (taskName = 'The task') => {
   const timer = {

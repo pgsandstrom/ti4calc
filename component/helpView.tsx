@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 
 import ArrowSvg from '@/component/arrowSvg'
 import CoolButton from '@/component/coolButton'
-import styles from '@/component/helpView.module.scss'
 import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE } from '@/core/constant'
+
+import styles from '@/component/helpView.module.scss'
 
 interface Props {
   style?: React.CSSProperties

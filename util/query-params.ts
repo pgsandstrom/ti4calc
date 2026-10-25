@@ -3,7 +3,7 @@ import { Place } from '@/core/battle-types'
 import { getAllBattleEffects } from '@/core/battleeffect/battleEffects'
 import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
 import { UnitType } from '@/core/unit'
-import { objectEntries } from '@/util/util-object'
+import { objectEntries, objectKeys } from '@/util/util-object'
 
 const allBattleEffects = getAllBattleEffects()
 
@@ -230,12 +230,12 @@ function hasUnits(p: Participant) {
 }
 
 export function hasSomeQueryParams(query: Record<string, string | string[] | undefined>) {
-  return Object.entries(query).length > 0
+  return objectKeys(query).length > 0
 }
 
 export function hasQueryParamForFaction(
   query: Record<string, string | string[] | undefined>,
   side: Side,
 ) {
-  return Object.keys(query).some((key) => key === `${side}-faction`)
+  return objectKeys(query).some((key) => key === `${side}-faction`)
 }

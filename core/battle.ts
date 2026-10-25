@@ -649,7 +649,7 @@ export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstan
   return p.side === 'attacker' ? battle.defender : battle.attacker
 }
 
-/* eslint-disable no-console */
+/* oxlint-disable no-console */
 function logAttack(
   p: ParticipantInstance,
   unit: UnitInstance,
