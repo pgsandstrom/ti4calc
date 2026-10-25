@@ -1,11 +1,11 @@
-import { isArray } from 'lodash'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { isArray } from "lodash"
+import { NextApiRequest, NextApiResponse } from "next"
 
-import sha256 from '@/server/sha256'
-import { registerUsage } from '@/server/usageController'
+import sha256 from "@/server/sha256"
+import { registerUsage } from "@/server/usageController"
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  let ip = req.headers['x-forwarded-for'] ?? req.socket.remoteAddress ?? undefined
+  let ip = req.headers["x-forwarded-for"] ?? req.socket.remoteAddress ?? undefined
   if (isArray(ip)) {
     ip = ip[0]
   }
@@ -17,5 +17,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   await registerUsage(hash)
 
   res.statusCode = 200
-  res.json({ status: 'ok' })
+  res.json({ status: "ok" })
 }

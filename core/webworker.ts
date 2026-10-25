@@ -1,23 +1,23 @@
-import _cloneDeep from 'lodash/cloneDeep'
-import _times from 'lodash/times'
+import _cloneDeep from "lodash/cloneDeep"
+import _times from "lodash/times"
 
-import { BattleReport } from '@/core'
-import { Battle, BattleInstance, BattleWinner } from '@/core/battle-types'
-import { setupBattle, startBattle } from '@/core/battleSetup'
+import { BattleReport } from "@/core"
+import { Battle, BattleInstance, BattleWinner } from "@/core/battle-types"
+import { setupBattle, startBattle } from "@/core/battleSetup"
 import {
   NUMBER_OF_ROLLS,
   ROLLS_BETWEEN_UI_UPDATE,
   ROLLS_WHEN_BUILDING_TEST_DATA,
-} from '@/core/constant'
-import { ErrorReportUnsaved } from '@/server/errorReportController'
-import { objectEntries } from '@/util/util-object'
+} from "@/core/constant"
+import { ErrorReportUnsaved } from "@/server/errorReportController"
+import { objectEntries } from "@/util/util-object"
 
 //! To avoid isolatedModules error
 export default {}
 
 const MIN_TIME_BETWEEN_SENDING_UPDATES = 250
 
-self.addEventListener('message', (e) => {
+self.addEventListener("message", (e) => {
   const battle = e.data as Battle
 
   try {
@@ -112,14 +112,14 @@ function reportError(battle: Battle, e: any) {
     workerError = {
       error: true,
       message: e.message,
-      stack: e.stack ?? '',
+      stack: e.stack ?? "",
       battle,
     }
   } else {
     workerError = {
       error: true,
-      message: 'unknown error',
-      stack: '',
+      message: "unknown error",
+      stack: "",
       battle,
     }
   }

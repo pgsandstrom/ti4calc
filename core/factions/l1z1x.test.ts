@@ -1,49 +1,49 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('L1z1x', () => {
-  it('ground combat with l1z1x harrow ability', () => {
+describe("L1z1x", () => {
+  it("ground combat with l1z1x harrow ability", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 3,
         infantry: 5,
       },
-      'L1z1x',
+      "L1z1x",
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       infantry: 8,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.803 },
-      { side: 'draw', percentage: 0.063 },
-      { side: 'defender', percentage: 0.132 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.803 },
+      { side: "draw", percentage: 0.063 },
+      { side: "defender", percentage: 0.132 },
     ])
   })
 
-  it('L1z1x flagship makes flagship and dreadnoughts target non-fighter ships', () => {
+  it("L1z1x flagship makes flagship and dreadnoughts target non-fighter ships", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
         dreadnought: 4,
       },
-      'L1z1x',
+      "L1z1x",
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       dreadnought: 5,
       fighter: 3,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.296 },
-      { side: 'draw', percentage: 0.021 },
-      { side: 'defender', percentage: 0.682 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.296 },
+      { side: "draw", percentage: 0.021 },
+      { side: "defender", percentage: 0.682 },
     ])
   })
 })

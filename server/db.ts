@@ -1,4 +1,4 @@
-import { Pool, PoolClient, QueryConfig, QueryResult, QueryResultRow, types } from 'pg'
+import { Pool, PoolClient, QueryConfig, QueryResult, QueryResultRow, types } from "pg"
 
 // warning: null returning instead of undefined from database might screw us. Can we transform all null to undefined?
 
@@ -12,20 +12,20 @@ let dbPool: Pool | undefined
 
 const getDbPool = () => {
   if (dbPool === undefined) {
-    const dev = process.env.NODE_ENV !== 'production'
+    const dev = process.env.NODE_ENV !== "production"
     if (dev) {
       dbPool = new Pool({
-        host: 'localhost',
-        database: 'ti4calc',
-        user: 'postgres',
-        password: 'postgres',
+        host: "localhost",
+        database: "ti4calc",
+        user: "postgres",
+        password: "postgres",
       })
     } else {
       dbPool = new Pool({
-        host: 'db',
-        database: 'ti4calc',
-        user: 'postgres',
-        password: 'postgres',
+        host: "db",
+        database: "ti4calc",
+        user: "postgres",
+        password: "postgres",
       })
     }
   }
@@ -67,6 +67,6 @@ export const getClient = (): Promise<PoolClient> => {
 }
 
 export const SQL = (parts: TemplateStringsArray, ...values: any[]): QueryConfig => ({
-  text: parts.reduce((prev, curr, i) => prev + '$' + i + curr),
+  text: parts.reduce((prev, curr, i) => prev + "$" + i + curr),
   values,
 })

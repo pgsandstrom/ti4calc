@@ -1,32 +1,32 @@
-import { isSide, Participant, Side } from '@/core/battle-types'
-import { Place } from '@/core/battle-types'
-import { getAllBattleEffects } from '@/core/battleeffect/battleEffects'
-import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
-import { UnitType } from '@/core/unit'
-import { objectEntries, objectKeys } from '@/util/util-object'
+import { isSide, Participant, Side } from "@/core/battle-types"
+import { Place } from "@/core/battle-types"
+import { getAllBattleEffects } from "@/core/battleeffect/battleEffects"
+import { ALL_FACTIONS, Faction } from "@/core/factions/faction"
+import { UnitType } from "@/core/unit"
+import { objectEntries, objectKeys } from "@/util/util-object"
 
 const allBattleEffects = getAllBattleEffects()
 
 export function createQueryParams(attacker: Participant, defender: Participant, place: Place) {
   const params = new URLSearchParams()
 
-  addParticipant(params, attacker, 'attacker')
-  addParticipant(params, defender, 'defender')
+  addParticipant(params, attacker, "attacker")
+  addParticipant(params, defender, "defender")
 
-  if (place !== 'space') {
-    params.set('place', place)
+  if (place !== "space") {
+    params.set("place", place)
   }
 
   if (hasUnits(attacker) || hasUnits(defender)) {
     const paramsNonEmpty = params.toString().length > 0
-    window.history.replaceState({}, '', `${location.pathname}${paramsNonEmpty ? '?' : ''}${params}`)
+    window.history.replaceState({}, "", `${location.pathname}${paramsNonEmpty ? "?" : ""}${params}`)
   } else {
-    window.history.replaceState({}, '', location.pathname)
+    window.history.replaceState({}, "", location.pathname)
   }
 }
 
-function addParticipant(params: URLSearchParams, p: Omit<Participant, 'side'>, side: Side) {
-  params.set(side + '-faction', p.faction)
+function addParticipant(params: URLSearchParams, p: Omit<Participant, "side">, side: Side) {
+  params.set(side + "-faction", p.faction)
 
   for (const unit of objectEntries(p.units)) {
     if (unit[1] > 0) {
@@ -51,12 +51,12 @@ function addParticipant(params: URLSearchParams, p: Omit<Participant, 'side'>, s
   }
 
   if (!p.riskDirectHit) {
-    params.set(`${side}-risk-direct-hit`, 'false')
+    params.set(`${side}-risk-direct-hit`, "false")
   }
 
   for (const unitUpgrades of objectEntries(p.unitUpgrades)) {
     if (unitUpgrades[1]) {
-      params.set(`${side}-upgrade-${unitUpgrades[0]}`, 'true')
+      params.set(`${side}-upgrade-${unitUpgrades[0]}`, "true")
     }
   }
 
@@ -179,7 +179,7 @@ export function applyQueryParams(
         return
       }
 
-      const bool = value === 'true'
+      const bool = value === "true"
       if (side === participant.side) {
         participant.riskDirectHit = bool
       }
@@ -199,7 +199,7 @@ export function applyQueryParams(
         return
       }
 
-      const bool = value === 'true'
+      const bool = value === "true"
       if (side === participant.side) {
         participant.unitUpgrades[unit] = bool
       }
@@ -209,7 +209,7 @@ export function applyQueryParams(
     if (effectMatch) {
       const side = effectMatch[1]
       const effect = effectMatch[2]
-      if (!isSide(side) && side !== '') {
+      if (!isSide(side) && side !== "") {
         console.warn(`failed to identify Side: ${side}`)
         return
       }
@@ -218,7 +218,7 @@ export function applyQueryParams(
       if (isNaN(num)) {
         console.warn(`Effect number was not number for ${effect}: ${value}`)
         return
-      } else if (side === participant.side || side === '') {
+      } else if (side === participant.side || side === "") {
         participant.battleEffects[effect] = num
       }
     }

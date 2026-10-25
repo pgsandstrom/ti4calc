@@ -1,16 +1,16 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('Nomad', () => {
-  it('Nomad upgraded flagship should be better than base flagship', () => {
+describe("Nomad", () => {
+  it("Nomad upgraded flagship should be better than base flagship", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
       },
-      'Nomad',
+      "Nomad",
       {},
       {
         flagship: true,
@@ -18,17 +18,17 @@ describe('Nomad', () => {
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         flagship: 1,
       },
-      'Nomad',
+      "Nomad",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.558 },
-      { side: 'draw', percentage: 0.263 },
-      { side: 'defender', percentage: 0.179 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.558 },
+      { side: "draw", percentage: 0.263 },
+      { side: "defender", percentage: 0.179 },
     ])
   })
 })

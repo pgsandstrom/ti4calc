@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react"
 
-import Popover from '@/component/popover'
+import Popover from "@/component/popover"
 
-import styles from '@/component/optionsRowView.module.scss'
+import styles from "@/component/optionsRowView.module.scss"
 
 interface OptionsRowProps {
   left: React.ReactNode
@@ -21,14 +21,14 @@ export function OptionsRowView({ left, right, name, description, namePadding }: 
       <div className={styles.descriptionContainer}>
         <span
           style={{
-            flex: '1 0 0',
+            flex: "1 0 0",
             paddingTop: namePadding !== undefined ? `${namePadding}px` : undefined,
           }}
         >
           {name}
         </span>
-        <div style={{ flex: '0 0 auto' }}>
-          <Popover text={description} style={{ marginTop: '2px' }} />
+        <div style={{ flex: "0 0 auto" }}>
+          <Popover text={description} style={{ marginTop: "2px" }} />
         </div>
       </div>
       <div className={styles.spaceTaker} />

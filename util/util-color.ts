@@ -1,4 +1,4 @@
-import _times from 'lodash/times'
+import _times from "lodash/times"
 function hexStringToDec(s: string) {
   return parseInt(s, 16)
 }

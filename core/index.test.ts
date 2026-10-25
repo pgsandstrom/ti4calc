@@ -1,14 +1,14 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { duraniumArmor } from '@/core/battleeffect/tech'
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { duraniumArmor } from "@/core/battleeffect/tech"
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('core', () => {
+describe("core", () => {
   // TODO add test for damaged units
-  it('Make sure battle effect isnt used if set to 0', () => {
+  it("Make sure battle effect isnt used if set to 0", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 2,
       },
@@ -18,20 +18,20 @@ describe('core', () => {
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.438 },
-      { side: 'draw', percentage: 0.123 },
-      { side: 'defender', percentage: 0.438 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.438 },
+      { side: "draw", percentage: 0.123 },
+      { side: "defender", percentage: 0.438 },
     ])
   })
 
-  it('basic ground combat', () => {
+  it("basic ground combat", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         infantry: 2,
       },
@@ -42,91 +42,91 @@ describe('core', () => {
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       mech: 2,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.033 },
-      { side: 'draw', percentage: 0.017 },
-      { side: 'defender', percentage: 0.949 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.033 },
+      { side: "draw", percentage: 0.017 },
+      { side: "defender", percentage: 0.949 },
     ])
   })
 
-  it('ground combat with bombardment', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("ground combat with bombardment", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 3,
       infantry: 3,
     })
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       infantry: 3,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.904 },
-      { side: 'draw', percentage: 0.014 },
-      { side: 'defender', percentage: 0.081 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.904 },
+      { side: "draw", percentage: 0.014 },
+      { side: "defender", percentage: 0.081 },
     ])
   })
 
-  it('ground combat with bombardment but also planetary shield', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("ground combat with bombardment but also planetary shield", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 3,
       infantry: 3,
     })
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       infantry: 3,
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.316 },
-      { side: 'draw', percentage: 0.037 },
-      { side: 'defender', percentage: 0.646 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.316 },
+      { side: "draw", percentage: 0.037 },
+      { side: "defender", percentage: 0.646 },
     ])
   })
 
-  it('ground combat with bombardment but also planetary shield... but the planetary shield is DISABLED', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("ground combat with bombardment but also planetary shield... but the planetary shield is DISABLED", () => {
+    const attacker = getTestParticipant("attacker", {
       flagship: 1,
       infantry: 3,
     })
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       infantry: 3,
       pds: 1,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.82 },
-      { side: 'draw', percentage: 0.028 },
-      { side: 'defender', percentage: 0.152 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.82 },
+      { side: "draw", percentage: 0.028 },
+      { side: "defender", percentage: 0.152 },
     ])
   })
 
-  it('Make sure units killed by anti fighter barrage does not get to shoot', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("Make sure units killed by anti fighter barrage does not get to shoot", () => {
+    const attacker = getTestParticipant("attacker", {
       fighter: 1,
     })
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         destroyer: 1,
       },
-      'Argent flight',
+      "Argent flight",
       {},
       {
         destroyer: true,
       },
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.0288 },
-      { side: 'draw', percentage: 0.019 },
-      { side: 'defender', percentage: 0.952 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.0288 },
+      { side: "draw", percentage: 0.019 },
+      { side: "defender", percentage: 0.952 },
     ])
   })
 })

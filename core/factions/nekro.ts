@@ -1,12 +1,12 @@
-import { ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
+import { ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from "@/core/unit"
 
 export const nekro: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Nekro flagship',
-    place: 'space',
+    type: "faction",
+    name: "Nekro flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -18,9 +18,9 @@ export const nekro: BattleEffect[] = [
           },
           battleEffects: [
             {
-              type: 'other',
-              name: 'Nekro flagship ability',
-              place: 'space',
+              type: "other",
+              name: "Nekro flagship ability",
+              place: "space",
               transformUnit: (unit: UnitInstance) => {
                 if (unit.isGroundForce) {
                   return {
@@ -40,15 +40,15 @@ export const nekro: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
+    type: "faction-ability",
     description:
       'Nekro mech text is: During combat against an opponent who has an "X" or "Y" token on 1 or more of their technologies, apply +2 to the result of each of this unit\'s combat rolls.',
-    place: 'both',
-    faction: 'Nekro',
-    name: 'Nekro mech bonus',
+    place: "both",
+    faction: "Nekro",
+    name: "Nekro mech bonus",
     transformUnit: (unit: UnitInstance, _p: ParticipantInstance) => {
       if (unit.type === UnitType.mech) {
-        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent', 2)
+        return getUnitWithImproved(unit, "combat", "hit", "permanent", 2)
       } else {
         return unit
       }

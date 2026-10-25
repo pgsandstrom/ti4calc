@@ -1,39 +1,39 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { BattleReport, getBattleReport } from '@/core'
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { checkResult, getTestParticipant } from '@/util/util.test'
+import { BattleReport, getBattleReport } from "@/core"
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { checkResult, getTestParticipant } from "@/util/util.test"
 
-describe('Sol', () => {
-  it('should have stronger infantry', () => {
+describe("Sol", () => {
+  it("should have stronger infantry", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         infantry: 1,
       },
-      'Sol',
+      "Sol",
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         infantry: 1,
       },
-      'Muaat',
+      "Muaat",
     )
 
-    const result = getBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS)
 
     check1v1InfantryResult(result, 0.4, 0.3)
   })
 
-  it('should have stronger upgraded infantry', () => {
+  it("should have stronger upgraded infantry", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         infantry: 1,
       },
-      'Sol',
+      "Sol",
       {},
       {
         infantry: true,
@@ -41,47 +41,47 @@ describe('Sol', () => {
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         infantry: 1,
       },
-      'Muaat',
+      "Muaat",
       {},
       {
         infantry: true,
       },
     )
 
-    const result = getBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS)
 
     check1v1InfantryResult(result, 0.5, 0.4)
   })
 
-  it('should have better ground combat odds with its agent', () => {
+  it("should have better ground combat odds with its agent", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         infantry: 1,
       },
-      'Sol',
+      "Sol",
       {
-        'Sol agent': 1,
+        "Sol agent": 1,
       },
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         infantry: 1,
       },
-      'Muaat',
+      "Muaat",
       {},
       {
         infantry: true,
       },
     )
 
-    const result = getBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS)
 
     const attackerHitChance = 0.4
     const defenderHitChance = 0.4
@@ -117,13 +117,13 @@ describe('Sol', () => {
     checkResult(result.defender, TEST_NUMBER_OF_ROLLS * defenderWinChance)
   })
 
-  it('should have better space combat odds with its upgraded carrier', () => {
+  it("should have better space combat odds with its upgraded carrier", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         carrier: 1,
       },
-      'Sol',
+      "Sol",
       {},
       {
         carrier: true,
@@ -131,18 +131,18 @@ describe('Sol', () => {
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         carrier: 1,
       },
-      'Muaat',
+      "Muaat",
       {},
       {
         carrier: true,
       },
     )
 
-    const result = getBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS)
 
     const attackerHitChance = 0.2
     const defenderHitChance = 0.2

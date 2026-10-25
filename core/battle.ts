@@ -1,4 +1,4 @@
-import _cloneDeep from 'lodash/cloneDeep'
+import _cloneDeep from "lodash/cloneDeep"
 
 import {
   AfbHitsToAssign,
@@ -8,20 +8,20 @@ import {
   HitsToAssign,
   ParticipantInstance,
   Place,
-} from '@/core/battle-types'
-import { canBattleEffectBeUsed } from '@/core/battleeffect/battleEffects'
-import { getBattleResultUnitString } from '@/core/battleResult'
-import { LOG } from '@/core/constant'
-import { getHits, HitInfo } from '@/core/roll'
-import { UnitInstance, UnitType } from '@/core/unit'
+} from "@/core/battle-types"
+import { canBattleEffectBeUsed } from "@/core/battleeffect/battleEffects"
+import { getBattleResultUnitString } from "@/core/battleResult"
+import { LOG } from "@/core/constant"
+import { getHits, HitInfo } from "@/core/roll"
+import { UnitInstance, UnitType } from "@/core/unit"
 import {
   doesUnitFitPlace,
   getHighestWorthNonSustainUnit,
   getHighestWorthSustainUnit,
   getLowestWorthSustainUnit,
   getLowestWorthUnit,
-} from '@/core/unitGet'
-import { logWrapper } from '@/util/util-log'
+} from "@/core/unitGet"
+import { logWrapper } from "@/util/util-log"
 
 // TODO add retreat?
 
@@ -100,10 +100,10 @@ export function doBattle(battle: BattleInstance): BattleResult {
 
     if (battle.roundNumber === 400) {
       // I guess an infinite fight should be won by the defender, right? But who cares.
-      console.warn('Infinite fight detected')
+      console.warn("Infinite fight detected")
       return {
         winner: BattleWinner.draw,
-        units: '',
+        units: "",
       }
     }
 
@@ -126,18 +126,18 @@ export function doBattle(battle: BattleInstance): BattleResult {
     } else if (!attackerAlive && !defenderAlive) {
       battleResult = {
         winner: BattleWinner.draw,
-        units: '',
+        units: "",
       }
     }
   }
 
   logWrapper(`Battle resolved after ${battle.roundNumber - 1} rounds`)
   if (battleResult.winner === BattleWinner.attacker) {
-    logWrapper('Attacker won')
+    logWrapper("Attacker won")
   } else if (battleResult.winner === BattleWinner.defender) {
-    logWrapper('Defender won')
+    logWrapper("Defender won")
   } else {
-    logWrapper('Battle ended in a draw')
+    logWrapper("Battle ended in a draw")
   }
 
   return battleResult
@@ -156,7 +156,7 @@ function addNewUnits(p: ParticipantInstance) {
 
 export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
   const isDuringBombardment = true
-  if (battle.place !== 'ground') {
+  if (battle.place !== "ground") {
     return
   }
 
@@ -173,7 +173,7 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
   const hits = battle.attacker.units
     .filter((u) => u.bombardment !== undefined)
     .map((u) => {
-      logAttack(battle.attacker, u, 'bombardment')
+      logAttack(battle.attacker, u, "bombardment")
       return getHits(u.bombardment!)
     })
   battle.attacker.onBombardmentHit.forEach((effect) => {
@@ -193,16 +193,16 @@ export function doBombardment(battle: BattleInstance, isDuringCombat: boolean) {
 }
 
 function doSpaceCannon(battle: BattleInstance) {
-  if (battle.place === 'space') {
+  if (battle.place === "space") {
     const attackerHits = getSpaceCannonHits(battle.attacker, battle, battle.defender)
     if (LOG && battle.attacker.units.some((u) => !!u.spaceCannon)) {
-      logHits(battle.attacker, attackerHits, 'spaceCannon')
+      logHits(battle.attacker, attackerHits, "spaceCannon")
     }
     battle.defender.hitsToAssign = attackerHits
   }
   const defenderHits = getSpaceCannonHits(battle.defender, battle, battle.attacker)
   if (LOG && battle.defender.units.some((u) => !!u.spaceCannon)) {
-    logHits(battle.defender, defenderHits, 'spaceCannon')
+    logHits(battle.defender, defenderHits, "spaceCannon")
   }
   battle.attacker.hitsToAssign = defenderHits
 }
@@ -220,7 +220,7 @@ function getSpaceCannonHits(
 
   return p.units
     .map((u) => {
-      logAttack(p, u, 'spaceCannon')
+      logAttack(p, u, "spaceCannon")
 
       const hitInfo: HitInfo = u.spaceCannon
         ? getHits(u.spaceCannon)
@@ -250,7 +250,7 @@ function getSpaceCannonHits(
 }
 
 function doAfb(battle: BattleInstance) {
-  if (battle.place !== 'space') {
+  if (battle.place !== "space") {
     return
   }
 
@@ -287,7 +287,7 @@ function getAfbHits(
   })
 
   const hits = p.units.flatMap((u) => {
-    logAttack(p, u, 'afb')
+    logAttack(p, u, "afb")
     return u.afb ? [getHits(u.afb)] : []
   })
   const fighterHits = hits.reduce((a, b) => {
@@ -327,7 +327,7 @@ function doParticipantBattleRolls(
     .filter((unit) => !!unit.aura && unit.aura.length > 0)
     .map((unit) => unit.aura!)
     .flat()
-    .filter((aura) => aura.place === battle.place || aura.place === 'both')
+    .filter((aura) => aura.place === battle.place || aura.place === "both")
 
   const friendlyAuras = friendlyUnitTransformEffects.filter((effect) => !!effect.transformUnit)
   const onCombatRoundStartAura = friendlyUnitTransformEffects.filter(
@@ -339,7 +339,7 @@ function doParticipantBattleRolls(
     .map((unit) => unit.aura!)
     .flat()
     .filter((effect) => !!effect.transformEnemyUnit)
-    .filter((aura) => aura.place === battle.place || aura.place === 'both')
+    .filter((aura) => aura.place === battle.place || aura.place === "both")
 
   p.onCombatRound.forEach((effect) => {
     if (canBattleEffectBeUsed(effect, p)) {
@@ -370,7 +370,7 @@ function doParticipantBattleRolls(
         unit = effect.transformEnemyUnit!(unit, p, battle)
       })
 
-      logAttack(p, unit, 'combat')
+      logAttack(p, unit, "combat")
 
       const hitInfo: HitInfo = unit.combat ? getHits(unit.combat) : { hits: 0, rollInfoList: [] }
 
@@ -405,7 +405,7 @@ function doParticipantBattleRolls(
       },
     )
 
-  logHits(p, hits, 'combat')
+  logHits(p, hits, "combat")
   otherParticipant.hitsToAssign = hits
 }
 
@@ -448,7 +448,7 @@ function resolveParticipantHits(
       if (p.hitsToAssign.hitsAssignedByEnemy > 1) {
         // This currently cant happen, so lets not bother to implement it
         console.warn(
-          'hitsAssignedByEnemy is larger than one, we should assign them to best sustain unit! But that aint implemented!',
+          "hitsAssignedByEnemy is larger than one, we should assign them to best sustain unit! But that aint implemented!",
         )
       }
       const highestWorthNonSustainUnit = getHighestWorthNonSustainUnit(p, battle.place, true)
@@ -514,7 +514,7 @@ function soakHit(p: ParticipantInstance) {
   } else if (p.hitsToAssign.hits > 0) {
     p.hitsToAssign.hits -= 1
   } else {
-    throw new Error('soak hits called without reason')
+    throw new Error("soak hits called without reason")
   }
   logWrapper(`${p.side} soaked a hit. ${p.soakHits} soaks remaining.`)
 }
@@ -538,7 +538,7 @@ function applyHit(
   if (
     bestSustainUnit &&
     !sustainDisabled &&
-    (battle.place === 'ground' || p.riskDirectHit || bestSustainUnit.immuneToDirectHit)
+    (battle.place === "ground" || p.riskDirectHit || bestSustainUnit.immuneToDirectHit)
   ) {
     doSustainDamage(battle, p, bestSustainUnit, isDuringCombat)
     return true
@@ -646,14 +646,14 @@ export function isSustainDisabled(
 }
 
 export function getOtherParticipant(battle: BattleInstance, p: ParticipantInstance) {
-  return p.side === 'attacker' ? battle.defender : battle.attacker
+  return p.side === "attacker" ? battle.defender : battle.attacker
 }
 
 /* oxlint-disable no-console */
 function logAttack(
   p: ParticipantInstance,
   unit: UnitInstance,
-  rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  rollType: "combat" | "bombardment" | "spaceCannon" | "afb",
 ) {
   const roll = unit[rollType]
   if (LOG && roll) {
@@ -677,7 +677,7 @@ function logAttack(
 function logHits(
   p: ParticipantInstance,
   hits: HitsToAssign,
-  rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  rollType: "combat" | "bombardment" | "spaceCannon" | "afb",
 ) {
   if (LOG) {
     if (hits.hits === 0 && hits.hitsToNonFighters === 0) {

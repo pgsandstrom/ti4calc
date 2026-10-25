@@ -1,14 +1,14 @@
-import { destroyUnit, isParticipantAlive } from '@/core/battle'
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
-import { logWrapper } from '@/util/util-log'
+import { destroyUnit, isParticipantAlive } from "@/core/battle"
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from "@/core/unit"
+import { logWrapper } from "@/util/util-log"
 
 export const yin: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Yin flagship',
-    place: 'space',
+    type: "faction",
+    name: "Yin flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -21,8 +21,8 @@ export const yin: BattleEffect[] = [
           battleEffects: [
             {
               name: 'Yin flagship "kill everything" effect',
-              type: 'other',
-              place: 'space',
+              type: "other",
+              place: "space",
               onDeath: (
                 deadUnits: UnitInstance[],
                 participant: ParticipantInstance,
@@ -48,12 +48,12 @@ export const yin: BattleEffect[] = [
     },
   },
   {
-    name: 'Devotion',
+    name: "Devotion",
     description:
       "After each space battle round, you may destroy 1 of your cruisers or destroyers in the active system to produce 1 hit and assign it to 1 of your opponent's ships in that system.",
-    type: 'faction-ability',
-    place: 'space',
-    faction: 'Yin',
+    type: "faction-ability",
+    place: "space",
+    faction: "Yin",
     onCombatRoundEnd: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -83,12 +83,12 @@ export const yin: BattleEffect[] = [
     },
   },
   {
-    name: 'Impulse Core',
+    name: "Impulse Core",
     description:
       "At the start of a space combat, you may destroy 1 of your cruisers or destroyers in the active system to produce 1 hit against your opponent's ships; that hit must be assigned by your opponent to 1 of their non-fighters ships if able.",
-    type: 'faction-tech',
-    place: 'space',
-    faction: 'Yin',
+    type: "faction-tech",
+    place: "space",
+    faction: "Yin",
     onStart: (
       participant: ParticipantInstance,
       battle: BattleInstance,
@@ -112,11 +112,11 @@ export const yin: BattleEffect[] = [
     },
   },
   {
-    name: 'Yin agent',
+    name: "Yin agent",
     description:
       "After a player's unit is destroyed: You may exhaust this card to allow that player to place 2 fighters in the destroyed unit's system if it was a ship, or 2 infantry on its planet if it was a ground force.",
-    type: 'agent',
-    place: 'both',
+    type: "agent",
+    place: "both",
     onDeath: (
       _deadUnits: UnitInstance[],
       participant: ParticipantInstance,
@@ -128,7 +128,7 @@ export const yin: BattleEffect[] = [
       if (!isOwnUnit) {
         return
       }
-      if (battle.place === 'space') {
+      if (battle.place === "space") {
         const newFigher1 = createUnitAndApplyEffects(
           UnitType.fighter,
           participant,

@@ -1,13 +1,13 @@
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { HitInfo } from '@/core/roll'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
+import { HitInfo } from "@/core/roll"
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from "@/core/unit"
 
 export const jolNar: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Jol-Nar flagship',
-    place: 'space',
+    type: "faction",
+    name: "Jol-Nar flagship",
+    place: "space",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
@@ -37,17 +37,17 @@ export const jolNar: BattleEffect[] = [
     },
   },
   {
-    name: 'Jol-Nar Fragile ability',
-    type: 'faction',
-    place: 'both',
+    name: "Jol-Nar Fragile ability",
+    type: "faction",
+    place: "both",
     transformUnit: (u: UnitInstance) => {
-      return getUnitWithImproved(u, 'combat', 'hit', 'permanent', -1)
+      return getUnitWithImproved(u, "combat", "hit", "permanent", -1)
     },
   },
   {
-    type: 'faction',
-    name: 'Jol-Nar mech',
-    place: 'ground',
+    type: "faction",
+    name: "Jol-Nar mech",
+    place: "ground",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
@@ -55,8 +55,8 @@ export const jolNar: BattleEffect[] = [
           ...unit,
           aura: [
             {
-              name: 'Jol-Nar mech aura',
-              place: 'ground',
+              name: "Jol-Nar mech aura",
+              place: "ground",
               onCombatRoundStart: (
                 auraUnits: UnitInstance[],
                 p: ParticipantInstance,
@@ -80,19 +80,19 @@ export const jolNar: BattleEffect[] = [
     },
   },
   {
-    name: 'Jol-Nar commander',
-    description: 'After you roll dice for a unit ability: You may reroll any of those dice.',
-    type: 'commander',
-    place: 'both',
+    name: "Jol-Nar commander",
+    description: "After you roll dice for a unit ability: You may reroll any of those dice.",
+    type: "commander",
+    place: "both",
     transformUnit: (unit) => {
       if (unit.spaceCannon) {
-        unit = getUnitWithImproved(unit, 'spaceCannon', 'reroll', 'permanent')
+        unit = getUnitWithImproved(unit, "spaceCannon", "reroll", "permanent")
       }
       if (unit.afb) {
-        unit = getUnitWithImproved(unit, 'afb', 'reroll', 'permanent')
+        unit = getUnitWithImproved(unit, "afb", "reroll", "permanent")
       }
       if (unit.bombardment) {
-        unit = getUnitWithImproved(unit, 'bombardment', 'reroll', 'permanent')
+        unit = getUnitWithImproved(unit, "bombardment", "reroll", "permanent")
       }
       return unit
     },

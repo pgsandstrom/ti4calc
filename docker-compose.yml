@@ -5,7 +5,7 @@ services:
       args:
         GIT_HASH: '${GIT_HASH:?missing - run "pnpm release" instead, or set GIT_HASH=dev for a throwaway build}'
     ports:
-      - '8200:3000'
+      - "8200:3000"
     restart: always
   db:
     image: postgres:16

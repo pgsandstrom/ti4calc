@@ -1,28 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react"
 
-import ArrowSvg from '@/component/arrowSvg'
-import CoolButton from '@/component/coolButton'
-import { BattleReport } from '@/core'
-import { useResize } from '@/util/hooks'
+import ArrowSvg from "@/component/arrowSvg"
+import CoolButton from "@/component/coolButton"
+import { BattleReport } from "@/core"
+import { useResize } from "@/util/hooks"
 import {
   getLocalStorage,
   LS_SHOW_DETAILED_REPORT,
   setLocalStorage,
-} from '@/util/localStorageWrapper'
-import { getColorProgress } from '@/util/util-color'
-import { toPercentageNumber, toPercentageString } from '@/util/util-number'
-import { objectEntries } from '@/util/util-object'
+} from "@/util/localStorageWrapper"
+import { getColorProgress } from "@/util/util-color"
+import { toPercentageNumber, toPercentageString } from "@/util/util-number"
+import { objectEntries } from "@/util/util-object"
 
-import styles from '@/component/detailedBattleReportView.module.scss'
+import styles from "@/component/detailedBattleReportView.module.scss"
 
 interface Props {
   report: BattleReport
   style?: React.CSSProperties
 }
 
-const PREFERRED_SORT_ORDER_OF_UNITS = ['F', 'W', 'D', 'C', 'c', 'd', 'f', 'M', 'i', 'p']
+const PREFERRED_SORT_ORDER_OF_UNITS = ["F", "W", "D", "C", "c", "d", "f", "M", "i", "p"]
 
-const getUnitCount = (s: string) => s.replace(/-/g, '').length
+const getUnitCount = (s: string) => s.replace(/-/g, "").length
 const getDamagedCount = (s: string) => s.match(/-/g)?.length ?? 0
 
 const sortUnitStrings = (list: Array<[string, number]>) => {
@@ -44,8 +44,8 @@ const sortUnitStrings = (list: Array<[string, number]>) => {
     let i = -1
     while (i < length) {
       i++
-      const a = aString[i] === '-' ? aString[i + 1] : (aString[i] as string | undefined)
-      const b = bString[i] === '-' ? bString[i + 1] : (bString[i] as string | undefined)
+      const a = aString[i] === "-" ? aString[i + 1] : (aString[i] as string | undefined)
+      const b = bString[i] === "-" ? bString[i + 1] : (bString[i] as string | undefined)
 
       if (a === undefined && b !== undefined) {
         return 1
@@ -54,8 +54,8 @@ const sortUnitStrings = (list: Array<[string, number]>) => {
       }
 
       if (a === b) {
-        const aDamaged = aString[i + 1] === '-'
-        const bDamaged = bString[i + 1] === '-'
+        const aDamaged = aString[i + 1] === "-"
+        const bDamaged = bString[i + 1] === "-"
         if (!aDamaged && bDamaged) {
           return -1
         } else if (aDamaged && !bDamaged) {
@@ -86,11 +86,11 @@ const sortUnitStrings = (list: Array<[string, number]>) => {
 // ]
 
 const formatUnitString = (unitString: string) => {
-  let result = ''
+  let result = ""
   Array.from(unitString).forEach((u, index) => {
-    if (u === '-') {
+    if (u === "-") {
       // do nothing
-    } else if (unitString[index + 1] === '-') {
+    } else if (unitString[index + 1] === "-") {
       result = `${result}\n${u}-`
     } else {
       result = `${result}\n${u}`
@@ -114,12 +114,12 @@ export function DetailedBattleReportView({ report, style }: Props) {
 
   useEffect(() => {
     if (touched) {
-      setLocalStorage(LS_SHOW_DETAILED_REPORT, show ? 'true' : 'false')
+      setLocalStorage(LS_SHOW_DETAILED_REPORT, show ? "true" : "false")
     }
   }, [show, touched])
 
   useEffect(() => {
-    if (getLocalStorage(LS_SHOW_DETAILED_REPORT) === 'true') {
+    if (getLocalStorage(LS_SHOW_DETAILED_REPORT) === "true") {
       // oxlint-disable-next-line react/set-state-in-effect
       setShowRaw(true)
     }
@@ -133,9 +133,9 @@ export function DetailedBattleReportView({ report, style }: Props) {
         const windowWidth =
           window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth
         if (ref.current.offsetWidth > windowWidth) {
-          ref.current.style.alignSelf = 'start'
+          ref.current.style.alignSelf = "start"
         } else {
-          ref.current.style.alignSelf = ''
+          ref.current.style.alignSelf = ""
         }
       }
     },
@@ -145,38 +145,38 @@ export function DetailedBattleReportView({ report, style }: Props) {
   )
 
   const attackerCount = objectEntries(report.attackerSurvivers).length
-  const attackerColors = getColorProgress('#B1B1FF', '#8383FF', attackerCount)
+  const attackerColors = getColorProgress("#B1B1FF", "#8383FF", attackerCount)
 
   const defenderCount = objectEntries(report.defenderSurvivers).length
-  const defenderColors = getColorProgress('#FFB1B1', '#FF8383', defenderCount).reverse()
+  const defenderColors = getColorProgress("#FFB1B1", "#FF8383", defenderCount).reverse()
 
   return (
     <div
       ref={ref}
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        marginBottom: '5px',
-        minWidth: '100%',
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: "5px",
+        minWidth: "100%",
         ...style,
       }}
     >
       <div
         style={{
-          display: 'flex',
-          textAlign: 'center',
-          border: '1px solid black',
-          borderBottom: 'none',
-          alignSelf: 'center',
-          borderRadius: '5px 5px 0 0',
-          background: '#E5ECF7',
+          display: "flex",
+          textAlign: "center",
+          border: "1px solid black",
+          borderBottom: "none",
+          alignSelf: "center",
+          borderRadius: "5px 5px 0 0",
+          background: "#E5ECF7",
         }}
       >
         <h3
           style={{
-            marginBottom: '0px',
-            marginTop: '0px',
-            padding: '0 10px',
+            marginBottom: "0px",
+            marginTop: "0px",
+            padding: "0 10px",
           }}
         >
           Detailed result
@@ -184,21 +184,21 @@ export function DetailedBattleReportView({ report, style }: Props) {
         <CoolButton
           onClick={() => setShow(!show)}
           style={{
-            height: '24px',
-            marginTop: '3px',
-            marginBottom: '3px',
-            marginRight: '5px',
-            padding: '2px 5px',
+            height: "24px",
+            marginTop: "3px",
+            marginBottom: "3px",
+            marginRight: "5px",
+            padding: "2px 5px",
           }}
         >
-          <div style={{ display: 'flex' }}>
-            <span style={{ width: '30px' }}>{show ? 'hide' : 'show'}</span>
+          <div style={{ display: "flex" }}>
+            <span style={{ width: "30px" }}>{show ? "hide" : "show"}</span>
             <ArrowSvg
               style={{
-                width: '16px',
-                height: '16px',
-                marginLeft: '5px',
-                transform: show ? 'scaleY(-1)' : undefined,
+                width: "16px",
+                height: "16px",
+                marginLeft: "5px",
+                transform: show ? "scaleY(-1)" : undefined,
               }}
             />
           </div>
@@ -230,7 +230,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
               className={styles.percentage}
               style={{
                 flex: `${toPercentageNumber(total, report.draw)} 0 0`,
-                background: '#CFCFCF',
+                background: "#CFCFCF",
               }}
             >
               <div className={styles.unitString}>-</div>
@@ -254,12 +254,12 @@ export function DetailedBattleReportView({ report, style }: Props) {
                 )
               })}
           </div>
-          <div style={{ background: 'white', padding: '10px' }}>
+          <div style={{ background: "white", padding: "10px" }}>
             <div>
               Here you can see the probability of individual units surviving combat. The units are
               represented by individual characters according to this list:
             </div>
-            <div className={styles.explanationTable} style={{ marginTop: '10px' }}>
+            <div className={styles.explanationTable} style={{ marginTop: "10px" }}>
               <div>
                 <div>F</div>
                 <div>Flagship</div>
@@ -301,7 +301,7 @@ export function DetailedBattleReportView({ report, style }: Props) {
                 <div>pds</div>
               </div>
             </div>
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: "20px" }}>
               A hyphen next to the character, such as F-, means that the unit has sustained damage.
             </div>
           </div>

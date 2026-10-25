@@ -1,13 +1,13 @@
-import { doBombardment } from '@/core/battle'
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { doBombardment } from "@/core/battle"
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const l1z1x: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'L1z1x flagship',
-    place: 'space',
+    type: "faction",
+    name: "L1z1x flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -20,8 +20,8 @@ export const l1z1x: BattleEffect[] = [
 
           aura: [
             {
-              name: 'L1z1x flagship forcing shots on non-fighters',
-              place: 'space',
+              name: "L1z1x flagship forcing shots on non-fighters",
+              place: "space",
               transformUnit: (auraUnit: UnitInstance) => {
                 if (auraUnit.type === UnitType.flagship || auraUnit.type === UnitType.dreadnought) {
                   return {
@@ -41,24 +41,24 @@ export const l1z1x: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'L1z1x Harrow',
-    place: 'ground',
+    type: "faction",
+    name: "L1z1x Harrow",
+    place: "ground",
     onCombatRoundEnd: (
       participant: ParticipantInstance,
       battle: BattleInstance,
       _otherParticipant: ParticipantInstance,
     ) => {
-      if (participant.side === 'attacker') {
+      if (participant.side === "attacker") {
         doBombardment(battle, true)
       }
     },
   },
   {
-    type: 'faction-tech',
-    name: 'L1z1x dreadnought upgrade',
-    place: 'both',
-    faction: 'L1z1x',
+    type: "faction-tech",
+    name: "L1z1x dreadnought upgrade",
+    place: "both",
+    faction: "L1z1x",
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.dreadnought) {
@@ -80,10 +80,10 @@ export const l1z1x: BattleEffect[] = [
   },
   // TODO add mech
   {
-    type: 'commander',
-    description: 'Units that have PLANETARY SHIELD do not prevent you from using Bombardment.',
-    name: 'L1z1x commander',
-    place: 'ground',
+    type: "commander",
+    description: "Units that have PLANETARY SHIELD do not prevent you from using Bombardment.",
+    name: "L1z1x commander",
+    place: "ground",
     transformEnemyUnit: (u: UnitInstance) => {
       return {
         ...u,

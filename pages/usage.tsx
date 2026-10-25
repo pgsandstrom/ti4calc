@@ -1,7 +1,7 @@
-import { GetServerSideProps } from 'next'
-import Head from 'next/head'
+import { GetServerSideProps } from "next"
+import Head from "next/head"
 
-import { getUsage, Usage } from '@/server/usageController'
+import { getUsage, Usage } from "@/server/usageController"
 
 interface ErrorProps {
   usage: Usage[]
@@ -20,15 +20,15 @@ export const getServerSideProps: GetServerSideProps<ErrorProps> = async () => {
 
 export default function UsageView(props: ErrorProps) {
   return (
-    <div style={{ color: 'white' }}>
+    <div style={{ color: "white" }}>
       <Head>
         <title>TI4 usage</title>
       </Head>
       <div>
         {props.usage.map((usage) => {
           return (
-            <div key={usage.usage_date} style={{ display: 'flex' }}>
-              <span style={{ flex: '1 0 0', maxWidth: '700px' }}>{usage.usage_date}</span>
+            <div key={usage.usage_date} style={{ display: "flex" }}>
+              <span style={{ flex: "1 0 0", maxWidth: "700px" }}>{usage.usage_date}</span>
               <span>{usage.users}</span>
             </div>
           )

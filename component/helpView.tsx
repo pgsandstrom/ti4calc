@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
-import ArrowSvg from '@/component/arrowSvg'
-import CoolButton from '@/component/coolButton'
-import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE } from '@/core/constant'
+import ArrowSvg from "@/component/arrowSvg"
+import CoolButton from "@/component/coolButton"
+import { NUMBER_OF_ROLLS, ROLLS_BETWEEN_UI_UPDATE } from "@/core/constant"
 
-import styles from '@/component/helpView.module.scss'
+import styles from "@/component/helpView.module.scss"
 
 interface Props {
   style?: React.CSSProperties
@@ -16,20 +16,20 @@ export default function HelpView({ style }: Props) {
     <div
       style={{
         ...style,
-        background: 'white',
-        borderRadius: '5px',
-        padding: '5px',
+        background: "white",
+        borderRadius: "5px",
+        padding: "5px",
       }}
     >
-      <CoolButton onClick={() => setShow(!show)} style={{ padding: '10px' }}>
-        <div style={{ display: 'flex' }}>
+      <CoolButton onClick={() => setShow(!show)} style={{ padding: "10px" }}>
+        <div style={{ display: "flex" }}>
           <span>Help</span>
           <ArrowSvg
             style={{
-              width: '16px',
-              height: '16px',
-              marginLeft: '5px',
-              transform: show ? 'scaleY(-1)' : undefined,
+              width: "16px",
+              height: "16px",
+              marginLeft: "5px",
+              transform: show ? "scaleY(-1)" : undefined,
             }}
           />
         </div>
@@ -47,7 +47,7 @@ export default function HelpView({ style }: Props) {
             change slightly from the initial value.
           </div>
           <div>
-            Source code is available at{' '}
+            Source code is available at{" "}
             <a
               href="https://github.com/pgsandstrom/ti4calc"
               target="_blank"
@@ -55,11 +55,11 @@ export default function HelpView({ style }: Props) {
             >
               Github
             </a>
-            . I welcome suggestions and bug reports! I can also be reached on{' '}
+            . I welcome suggestions and bug reports! I can also be reached on{" "}
             <a href="https://twitter.com/pgsandstrom" target="_blank" rel="noopener noreferrer">
               Twitter
-            </a>{' '}
-            or via mail at{' '}
+            </a>{" "}
+            or via mail at{" "}
             <a href="mailto:ti4battle@persandstrom.com">ti4battle@persandstrom.com</a>.
           </div>
           <div>

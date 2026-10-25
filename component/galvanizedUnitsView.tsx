@@ -1,8 +1,8 @@
-import _times from 'lodash/times'
+import _times from "lodash/times"
 
-import { OptionsRowView } from '@/component/optionsRowView'
-import { Participant } from '@/core/battle-types'
-import { UnitType } from '@/core/unit'
+import { OptionsRowView } from "@/component/optionsRowView"
+import { Participant } from "@/core/battle-types"
+import { UnitType } from "@/core/unit"
 
 interface Props {
   attacker: Participant
@@ -33,9 +33,9 @@ export default function GalvanizedUnitsView(props: Props) {
   const anyRowsShown = visibleUnits.length > 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ textAlign: 'center' }}>Galvanized units</h2>
-      {!anyRowsShown && <div style={{ textAlign: 'center' }}>No units in battle</div>}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <h2 style={{ textAlign: "center" }}>Galvanized units</h2>
+      {!anyRowsShown && <div style={{ textAlign: "center" }}>No units in battle</div>}
       {visibleUnits.map((unitType) => (
         <GalvanizedUnitsRow key={unitType} unitType={unitType} {...props} />
       ))}
@@ -80,7 +80,7 @@ interface GalvanizedUnitSelectorProps {
   unitType: UnitType
   participant: Participant
   onUpdate: (participant: Participant) => void
-  'aria-labelledby'?: string
+  "aria-labelledby"?: string
 }
 
 function GalvanizedUnitSelector(props: GalvanizedUnitSelectorProps) {
@@ -103,14 +103,14 @@ function GalvanizedUnitSelector(props: GalvanizedUnitSelectorProps) {
         onUpdate(newParticipant)
       }}
       value={participant.galvanizedUnits[unitType] ?? 0}
-      aria-labelledby={props['aria-labelledby']}
+      aria-labelledby={props["aria-labelledby"]}
       style={{
-        width: '100%',
-        height: '32px',
-        marginTop: '8px',
-        fontSize: '1.2rem',
-        visibility: visible ? undefined : 'hidden',
-        textAlign: 'center',
+        width: "100%",
+        height: "32px",
+        marginTop: "8px",
+        fontSize: "1.2rem",
+        visibility: visible ? undefined : "hidden",
+        textAlign: "center",
       }}
     >
       {_times(

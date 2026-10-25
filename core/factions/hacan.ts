@@ -1,15 +1,15 @@
-import { BattleInstance, OnHitEffect, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { HitInfo } from '@/core/roll'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { BattleInstance, OnHitEffect, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { HitInfo } from "@/core/roll"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
-const hacanTradeGoods = 'Hacan flagship trade goods'
+const hacanTradeGoods = "Hacan flagship trade goods"
 
 export const hacan: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Hacan flagship',
-    place: 'space',
+    type: "faction",
+    name: "Hacan flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         const getNewOnHit = (oldOnHit?: OnHitEffect) => {
@@ -45,8 +45,8 @@ export const hacan: BattleEffect[] = [
           },
           aura: [
             {
-              name: 'Hacan flagship aura',
-              place: 'space',
+              name: "Hacan flagship aura",
+              place: "space",
               transformUnit: (auraUnit: UnitInstance, _participant: ParticipantInstance) => {
                 // our aura gives all friendly units an onHit-listener. Neat solution, right?
                 const newOnHit = getNewOnHit(auraUnit.onHit)
@@ -63,10 +63,10 @@ export const hacan: BattleEffect[] = [
   {
     name: hacanTradeGoods,
     description:
-      'Trade goods to be used by flagship. Hacan flagship text: After you roll a die during a space combat in this system, you may spend 1 trade good to apply +1 to the result.',
-    type: 'faction-ability',
-    place: 'space',
-    faction: 'Hacan',
+      "Trade goods to be used by flagship. Hacan flagship text: After you roll a die during a space combat in this system, you may spend 1 trade good to apply +1 to the result.",
+    type: "faction-ability",
+    place: "space",
+    faction: "Hacan",
     count: true,
   },
 ]

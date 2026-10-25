@@ -1,10 +1,10 @@
-import assert from 'node:assert'
-import { describe, it } from 'node:test'
+import assert from "node:assert"
+import { describe, it } from "node:test"
 
-import { getAllBattleEffects } from '@/core/battleeffect/battleEffects'
+import { getAllBattleEffects } from "@/core/battleeffect/battleEffects"
 
-describe('Battle effects', () => {
-  it('all battle effects should have unique names', () => {
+describe("Battle effects", () => {
+  it("all battle effects should have unique names", () => {
     const battleEffects = getAllBattleEffects()
     const map: Record<string, boolean> = {}
     for (const effect of battleEffects) {

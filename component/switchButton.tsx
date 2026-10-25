@@ -1,6 +1,6 @@
-import NeutralButton from '@/component/neutralButton'
+import NeutralButton from "@/component/neutralButton"
 
-import styles from '@/component/switchButton.module.scss'
+import styles from "@/component/switchButton.module.scss"
 
 interface Props {
   isLeftSelected: boolean
@@ -22,14 +22,14 @@ export default function SwitchSideButton({
       <NeutralButton
         onClick={onLeftClick}
         className={`${styles.neutralButton} ${isLeftSelected ? styles.selected : undefined}`}
-        style={{ border: '1px solid black', borderRadius: '5px 0 0 5px' }}
+        style={{ border: "1px solid black", borderRadius: "5px 0 0 5px" }}
       >
         {leftLabel}
       </NeutralButton>
       <NeutralButton
         onClick={onRightClick}
         className={`${styles.neutralButton} ${!isLeftSelected ? styles.selected : undefined}`}
-        style={{ border: '1px solid black', borderLeft: 'none', borderRadius: '0 5px 5px 0' }}
+        style={{ border: "1px solid black", borderLeft: "none", borderRadius: "0 5px 5px 0" }}
       >
         {rightLabel}
       </NeutralButton>

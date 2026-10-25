@@ -1,6 +1,6 @@
-import UnitInput from '@/component/unitInput'
-import { Participant } from '@/core/battle-types'
-import { UnitType } from '@/core/unit'
+import UnitInput from "@/component/unitInput"
+import { Participant } from "@/core/battle-types"
+import { UnitType } from "@/core/unit"
 
 interface Props {
   unitType: UnitType
@@ -18,21 +18,21 @@ export default function UnitRow({
   onChangeDefender,
 }: Props) {
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: "flex" }}>
       <UnitInput
         participant={attacker}
         unitType={unitType}
         onUpdate={onChangeAttacker}
-        style={{ flex: '1 0 0' }}
+        style={{ flex: "1 0 0" }}
       />
-      <div id={unitType} style={{ flex: '1 0 0', textAlign: 'center', paddingTop: '10px' }}>
+      <div id={unitType} style={{ flex: "1 0 0", textAlign: "center", paddingTop: "10px" }}>
         {unitType}
       </div>
       <UnitInput
         participant={defender}
         unitType={unitType}
         onUpdate={onChangeDefender}
-        style={{ flex: '1 0 0' }}
+        style={{ flex: "1 0 0" }}
       />
     </div>
   )

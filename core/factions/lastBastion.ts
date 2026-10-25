@@ -1,9 +1,9 @@
-import { destroyUnit } from '@/core/battle'
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, galvanizeUnit, UnitInstance, UnitType } from '@/core/unit'
-import { getHighestWorthUnit } from '@/core/unitGet'
-import { logWrapper } from '@/util/util-log'
+import { destroyUnit } from "@/core/battle"
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, galvanizeUnit, UnitInstance, UnitType } from "@/core/unit"
+import { getHighestWorthUnit } from "@/core/unitGet"
+import { logWrapper } from "@/util/util-log"
 
 // Roll a d10 (1-10)
 function rollD10(): number {
@@ -13,10 +13,10 @@ function rollD10(): number {
 // TODO There are certain abilities that trigger when a galvanized unit triggers. Realistically we would want the galvanized unit to die first when they are present, but currently they will die last.
 export const lastBastion: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Last Bastion flagship',
-    description: 'The Egeiro: Combat 9x2, sustain damage.',
-    place: 'space',
+    type: "faction",
+    name: "Last Bastion flagship",
+    description: "The Egeiro: Combat 9x2, sustain damage.",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -33,12 +33,12 @@ export const lastBastion: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
-    name: 'The Egeiro planet bonus',
+    type: "faction-ability",
+    name: "The Egeiro planet bonus",
     description:
-      'Flagship ability: +1 to each combat roll for each non-home system planet you control. Set count to number of planets.',
-    place: 'space',
-    faction: 'Last Bastion',
+      "Flagship ability: +1 to each combat roll for each non-home system planet you control. Set count to number of planets.",
+    place: "space",
+    faction: "Last Bastion",
     count: true,
     onStart: (
       p: ParticipantInstance,
@@ -60,12 +60,12 @@ export const lastBastion: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
-    name: 'A3 Valiance galvanize',
+    type: "faction-ability",
+    name: "A3 Valiance galvanize",
     description:
-      'Mech ability: When this unit is destroyed while galvanized, galvanize up to 3 friendly infantry in its system.',
-    place: 'both',
-    faction: 'Last Bastion',
+      "Mech ability: When this unit is destroyed while galvanized, galvanize up to 3 friendly infantry in its system.",
+    place: "both",
+    faction: "Last Bastion",
     onDeath: (
       deadUnits: UnitInstance[],
       participant: ParticipantInstance,
@@ -104,11 +104,11 @@ export const lastBastion: BattleEffect[] = [
     },
   },
   {
-    type: 'agent',
-    name: 'Last Bastion agent',
+    type: "agent",
+    name: "Last Bastion agent",
     description:
       "Dame Briar: When a player's unit is destroyed, exhaust to galvanize another of that player's units in the destroyed unit's system.",
-    place: 'both',
+    place: "both",
     timesPerFight: 1,
     onDeath: (
       _deadUnits: UnitInstance[],
@@ -138,12 +138,12 @@ export const lastBastion: BattleEffect[] = [
   },
   // TODO I guess the most intelligent thing would be to sacrifice a galvanized unit first. That is currently not implemented.
   {
-    type: 'faction-ability',
-    faction: 'Last Bastion',
-    name: 'Last Bastion hero',
+    type: "faction-ability",
+    faction: "Last Bastion",
+    name: "Last Bastion hero",
     description:
       "Lyra Keen: When a galvanized unit you control is destroyed, you may purge this card. If you do, roll 1 die for each unit your opponent has in the active system; for each result that is equal to or greater than the destroyed galvanized unit's combat value, destroy that unit.\n\nPLEASE NOTE: Currently this hero is not used in an intelligent way. Galvanized units death priority is not affected, but in reality it most likely would be.",
-    place: 'both',
+    place: "both",
     timesPerFight: 1,
     onDeath: (
       deadUnits: UnitInstance[],
@@ -199,12 +199,12 @@ export const lastBastion: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Proxima Targeting VI',
+    type: "faction-tech",
+    name: "Proxima Targeting VI",
     description:
-      'Faction tech: Cancel 1 bombardment hit per galvanized ground force present. You may also use Bombardment 8 (x3) against opponent ground forces, but must also roll against your own ground forces.',
-    place: 'ground',
-    faction: 'Last Bastion',
+      "Faction tech: Cancel 1 bombardment hit per galvanized ground force present. You may also use Bombardment 8 (x3) against opponent ground forces, but must also roll against your own ground forces.",
+    place: "ground",
+    faction: "Last Bastion",
     // Cancel bombardment hits based on galvanized ground forces (for defender)
     beforeStart: (
       participant: ParticipantInstance,
@@ -212,11 +212,11 @@ export const lastBastion: BattleEffect[] = [
       _otherParticipant: ParticipantInstance,
       effectName: string,
     ) => {
-      if (battle.place !== 'ground') {
+      if (battle.place !== "ground") {
         return
       }
       // Only defender can cancel bombardment
-      if (participant.side !== 'defender') {
+      if (participant.side !== "defender") {
         return
       }
 
@@ -240,11 +240,11 @@ export const lastBastion: BattleEffect[] = [
       otherParticipant: ParticipantInstance,
       effectName: string,
     ) => {
-      if (battle.place !== 'ground') {
+      if (battle.place !== "ground") {
         return
       }
       // Only attacker can bombard
-      if (participant.side !== 'attacker') {
+      if (participant.side !== "attacker") {
         return
       }
 
@@ -260,7 +260,7 @@ export const lastBastion: BattleEffect[] = [
         // Apply hits to opponent
         otherParticipant.hitsToAssign.hits += hits
         logWrapper(
-          `${participant.side}'s Proxima Targeting VI bombardment rolled ${bombardmentRolls.join(', ')}, ${hits} hits to enemy`,
+          `${participant.side}'s Proxima Targeting VI bombardment rolled ${bombardmentRolls.join(", ")}, ${hits} hits to enemy`,
         )
 
         // Also apply hits to own ground forces
@@ -273,7 +273,7 @@ export const lastBastion: BattleEffect[] = [
         registerUse(effectName, participant)
       } else {
         logWrapper(
-          `${participant.side}'s Proxima Targeting VI bombardment rolled ${bombardmentRolls.join(', ')}, no hits`,
+          `${participant.side}'s Proxima Targeting VI bombardment rolled ${bombardmentRolls.join(", ")}, no hits`,
         )
       }
     },

@@ -1,29 +1,29 @@
-import _times from 'lodash/times'
+import _times from "lodash/times"
 
-import { destroyUnit, getOtherParticipant, isParticipantAlive } from '@/core/battle'
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
-import { BattleAura, BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
-import { getHighestWorthUnit, getUnits } from '@/core/unitGet'
-import { logWrapper } from '@/util/util-log'
+import { destroyUnit, getOtherParticipant, isParticipantAlive } from "@/core/battle"
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from "@/core/battle-types"
+import { BattleAura, BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from "@/core/unit"
+import { getHighestWorthUnit, getUnits } from "@/core/unitGet"
+import { logWrapper } from "@/util/util-log"
 
 export const sardarkkNorr: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Sardakk Norr flagship',
-    place: 'space',
+    type: "faction",
+    name: "Sardakk Norr flagship",
+    place: "space",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         const flagshipBuff: BattleAura = {
-          name: 'Sardakk Norr flagship buff',
-          place: 'space',
+          name: "Sardakk Norr flagship buff",
+          place: "space",
           transformUnit: (auraUnit: UnitInstance) => {
             // TODO this is a minor thing, but if there are two flagships they should buff each other. Currently, they dont.
             // this could instead be implemented like the jolNar mechs. Just buff each flagship one less than number of participating flagships
             if (auraUnit.combat && auraUnit.type !== UnitType.flagship) {
               // lol, it doesnt matter if  we have temp or permanent here, because how auras work
-              return getUnitWithImproved(auraUnit, 'combat', 'hit', 'temp')
+              return getUnitWithImproved(auraUnit, "combat", "hit", "temp")
             } else {
               return auraUnit
             }
@@ -45,9 +45,9 @@ export const sardarkkNorr: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Sardakk mech ability',
-    place: 'ground',
+    type: "faction",
+    name: "Sardakk mech ability",
+    place: "ground",
     onSustain: (
       u: UnitInstance,
       participant: ParticipantInstance,
@@ -63,21 +63,21 @@ export const sardarkkNorr: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Sardakk Norr buff',
-    place: 'both',
+    type: "faction",
+    name: "Sardakk Norr buff",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.combat) {
-        return getUnitWithImproved(unit, 'combat', 'hit', 'permanent')
+        return getUnitWithImproved(unit, "combat", "hit", "permanent")
       } else {
         return unit
       }
     },
   },
   {
-    type: 'faction',
-    name: 'Sardakk Norr dreadnoughts',
-    place: 'both',
+    type: "faction",
+    name: "Sardakk Norr dreadnoughts",
+    place: "both",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.dreadnought) {
@@ -88,9 +88,9 @@ export const sardarkkNorr: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Exotrireme II',
-    place: 'both',
+    type: "faction-tech",
+    name: "Exotrireme II",
+    place: "both",
     faction: "Sardakk N'orr",
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
@@ -105,11 +105,11 @@ export const sardarkkNorr: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
-    name: 'Exotrireme II should suicide',
+    type: "faction-ability",
+    name: "Exotrireme II should suicide",
     description:
       'If the Sardakk dreadnought is upgraded, it will activate its ability after the first combat round. The ability reads: "After a round of space combat, you may destroy this unit to destroy up to 2 ships in this system. Just enough ships will be sacrified to kill all enemy ships"',
-    place: 'space',
+    place: "space",
     faction: "Sardakk N'orr",
     onCombatRoundEnd: (
       participant: ParticipantInstance,
@@ -146,11 +146,11 @@ export const sardarkkNorr: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Valkyrie Particle Weave',
+    type: "faction-tech",
+    name: "Valkyrie Particle Weave",
     description:
-      'After making combat rolls during a round of ground combat, if your opponent produced 1 or more hits, you produce 1 additional hit',
-    place: 'ground',
+      "After making combat rolls during a round of ground combat, if your opponent produced 1 or more hits, you produce 1 additional hit",
+    place: "ground",
     faction: "Sardakk N'orr",
     onDeath: (
       _deadUnits: UnitInstance[],
@@ -181,11 +181,11 @@ export const sardarkkNorr: BattleEffect[] = [
     timesPerRound: 1,
   },
   {
-    type: 'promissary',
-    name: 'Tekklar Legion',
+    type: "promissary",
+    name: "Tekklar Legion",
     description:
       "At the start of an invasion combat: Apply +1 to the result of each of your unit's combat rolls during this combat.  If your opponent is the N'orr player, apply -1 to the result of each of his unit's combat rolls during this combat.",
-    place: 'ground',
+    place: "ground",
     onStart: (
       participant: ParticipantInstance,
       _battle: BattleInstance,

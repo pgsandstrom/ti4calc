@@ -1,44 +1,44 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { objectEntries } from '@/util/util-object'
-import { checkResult, getTestParticipant, testBattleReport } from '@/util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { objectEntries } from "@/util/util-object"
+import { checkResult, getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('Argent flight', () => {
-  it('Argent flight destroyers should destroy sustain', () => {
+describe("Argent flight", () => {
+  it("Argent flight destroyers should destroy sustain", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 3,
         destroyer: 3,
       },
-      'Argent flight',
+      "Argent flight",
       {},
       {
         destroyer: true,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       dreadnought: 3,
       cruiser: 3,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.863 },
-      { side: 'draw', percentage: 0.026 },
-      { side: 'defender', percentage: 0.111 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.863 },
+      { side: "draw", percentage: 0.026 },
+      { side: "defender", percentage: 0.111 },
     ])
   })
 
-  it('Argent flight upgraded destroyers should destroy infantry', () => {
+  it("Argent flight upgraded destroyers should destroy infantry", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 10,
         infantry: 5,
       },
-      'Jol-Nar',
+      "Jol-Nar",
       {},
       {
         dreadnought: true,
@@ -46,26 +46,26 @@ describe('Argent flight', () => {
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         destroyer: 1,
       },
-      'Argent flight',
+      "Argent flight",
       {},
       {
         destroyer: true,
       },
     )
 
-    const result = testBattleReport(attacker, defender, 'space', 100_000, [
-      { side: 'attacker', percentage: 1.0 },
-      { side: 'draw', percentage: 0.0 },
-      { side: 'defender', percentage: 0.0 },
+    const result = testBattleReport(attacker, defender, "space", 100_000, [
+      { side: "attacker", percentage: 1.0 },
+      { side: "draw", percentage: 0.0 },
+      { side: "defender", percentage: 0.0 },
     ])
 
     let noInfantryDestroyed = 0
     for (const [survivors, count] of objectEntries(result.attackerSurvivers)) {
-      if (survivors.endsWith('iiiii')) {
+      if (survivors.endsWith("iiiii")) {
         noInfantryDestroyed += count
       }
     }
@@ -73,71 +73,71 @@ describe('Argent flight', () => {
     checkResult(noInfantryDestroyed, result.numberOfRolls * 0.512, true)
   })
 
-  it('Argent flight flagship prevents pds fire in space', () => {
+  it("Argent flight flagship prevents pds fire in space", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
         destroyer: 2,
       },
-      'Argent flight',
+      "Argent flight",
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       destroyer: 2,
       pds: 10,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.99 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.99 },
     ])
   })
 
-  it('argent flight upgraded destroyers should perform like cruisers', () => {
+  it("argent flight upgraded destroyers should perform like cruisers", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         destroyer: 2,
       },
-      'Argent flight',
+      "Argent flight",
       {},
       {
         destroyer: true,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       cruiser: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.443 },
-      { side: 'draw', percentage: 0.113 },
-      { side: 'defender', percentage: 0.443 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.443 },
+      { side: "draw", percentage: 0.113 },
+      { side: "defender", percentage: 0.443 },
     ])
   })
 
-  it('Using Strike Wing ambuscade', () => {
+  it("Using Strike Wing ambuscade", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         destroyer: 2,
         pds: 1,
       },
       undefined,
       {
-        'Strike Wing Ambuscade': 1,
+        "Strike Wing Ambuscade": 1,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       destroyer: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.8 },
-      { side: 'draw', percentage: 0.024 },
-      { side: 'defender', percentage: 0.176 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.8 },
+      { side: "draw", percentage: 0.024 },
+      { side: "defender", percentage: 0.176 },
     ])
   })
 })

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react"
 
-import NumberInput from '@/component/numberInput'
-import { Participant } from '@/core/battle-types'
-import { getUnitUpgrade } from '@/core/battleeffect/unitUpgrades'
-import { UnitType } from '@/core/unit'
+import NumberInput from "@/component/numberInput"
+import { Participant } from "@/core/battle-types"
+import { getUnitUpgrade } from "@/core/battleeffect/unitUpgrades"
+import { UnitType } from "@/core/unit"
 
 interface UnitInputProps {
   participant: Participant
@@ -33,7 +33,7 @@ export default function UnitInput({ participant, unitType, onUpdate, style }: Un
       currentValue={participant.units[unitType]}
       onUpdate={updateUnitCount}
       aria-labelledby={unitType}
-      style={{ flex: '1 0 auto', width: '0px' }}
+      style={{ flex: "1 0 auto", width: "0px" }}
     />
   )
 
@@ -41,12 +41,12 @@ export default function UnitInput({ participant, unitType, onUpdate, style }: Un
     <div
       style={{
         ...style,
-        display: 'flex',
-        height: '48px',
+        display: "flex",
+        height: "48px",
       }}
     >
       {/* We insert numberInput like this instead of using flex row-reverse due to tab index order */}
-      {participant.side === 'defender' && numberInput}
+      {participant.side === "defender" && numberInput}
       <input
         autoComplete="off"
         title="Upgrade"
@@ -64,15 +64,15 @@ export default function UnitInput({ participant, unitType, onUpdate, style }: Un
         }}
         aria-labelledby={unitType}
         style={{
-          width: '24px',
-          height: '24px',
-          marginTop: '12px',
-          marginLeft: participant.side === 'defender' ? '10px' : undefined,
-          marginRight: participant.side === 'attacker' ? '10px' : undefined,
-          visibility: unitUpgrade ? undefined : 'hidden',
+          width: "24px",
+          height: "24px",
+          marginTop: "12px",
+          marginLeft: participant.side === "defender" ? "10px" : undefined,
+          marginRight: participant.side === "attacker" ? "10px" : undefined,
+          visibility: unitUpgrade ? undefined : "hidden",
         }}
       />
-      {participant.side === 'attacker' && numberInput}
+      {participant.side === "attacker" && numberInput}
     </div>
   )
 }

@@ -1,11 +1,11 @@
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const arborec: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Arborec flagship',
-    place: 'space',
+    type: "faction",
+    name: "Arborec flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -22,9 +22,9 @@ export const arborec: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Arborec mech',
-    place: 'both',
+    type: "faction",
+    name: "Arborec mech",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
         return {

@@ -1,12 +1,12 @@
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction } from '@/core/factions/faction'
-import { getFactionBattleEffects } from '@/core/factions/faction'
-import { UnitInstance, UnitType } from '@/core/unit'
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { Faction } from "@/core/factions/faction"
+import { getFactionBattleEffects } from "@/core/factions/faction"
+import { UnitInstance, UnitType } from "@/core/unit"
 
 const destroyer: BattleEffect = {
-  name: 'destroyer upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "destroyer upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.destroyer,
   transformUnit: (unit: UnitInstance) => {
     if (unit.type === UnitType.destroyer) {
@@ -29,9 +29,9 @@ const destroyer: BattleEffect = {
 }
 
 const cruiser: BattleEffect = {
-  name: 'cruiser upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "cruiser upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.cruiser,
   transformUnit: (unit: UnitInstance) => {
     if (unit.type === UnitType.cruiser) {
@@ -49,9 +49,9 @@ const cruiser: BattleEffect = {
 }
 
 const carrier: BattleEffect = {
-  name: 'carrier upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "carrier upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.carrier,
   transformUnit: (unit: UnitInstance) => {
     return unit
@@ -59,9 +59,9 @@ const carrier: BattleEffect = {
 }
 
 const dreadnought: BattleEffect = {
-  name: 'dreadnought upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "dreadnought upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.dreadnought,
   transformUnit: (unit: UnitInstance) => {
     if (unit.type === UnitType.dreadnought) {
@@ -76,9 +76,9 @@ const dreadnought: BattleEffect = {
 }
 
 const fighter: BattleEffect = {
-  name: 'fighter upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "fighter upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.fighter,
   transformUnit: (unit: UnitInstance) => {
     if (unit.type === UnitType.fighter) {
@@ -96,9 +96,9 @@ const fighter: BattleEffect = {
 }
 
 const infantry: BattleEffect = {
-  name: 'infantry upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "infantry upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.infantry,
   transformUnit: (unit: UnitInstance) => {
     if (unit.type === UnitType.infantry) {
@@ -116,9 +116,9 @@ const infantry: BattleEffect = {
 }
 
 const pds: BattleEffect = {
-  name: 'pds upgrade',
-  type: 'unit-upgrade',
-  place: 'both',
+  name: "pds upgrade",
+  type: "unit-upgrade",
+  place: "both",
   unit: UnitType.pds,
   transformUnit: (unit: UnitInstance) => {
     if (unit.type === UnitType.pds) {
@@ -147,7 +147,7 @@ export const getAllUnitUpgrades = () => [
 
 export function getUnitUpgrade(faction: Faction, unitType: UnitType) {
   const factionTechs = getFactionBattleEffects(faction).filter(
-    (effect) => effect.type === 'faction-tech',
+    (effect) => effect.type === "faction-tech",
   )
 
   const factionTech = factionTechs.find((tech) => tech.unit === unitType)

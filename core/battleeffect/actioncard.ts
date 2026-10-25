@@ -1,14 +1,14 @@
-import _times from 'lodash/times'
+import _times from "lodash/times"
 
-import { destroyUnit, getOtherParticipant } from '@/core/battle'
+import { destroyUnit, getOtherParticipant } from "@/core/battle"
 import {
   BattleInstance,
   EFFECT_LOW_PRIORITY,
   ParticipantInstance,
   Place,
-} from '@/core/battle-types'
-import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
-import { getHits } from '@/core/roll'
+} from "@/core/battle-types"
+import { BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
+import { getHits } from "@/core/roll"
 import {
   createUnitAndApplyEffects,
   defaultRoll,
@@ -16,9 +16,9 @@ import {
   Roll,
   UnitInstance,
   UnitType,
-} from '@/core/unit'
-import { doesUnitFitPlace, getLowestWorthUnit } from '@/core/unitGet'
-import { logWrapper } from '@/util/util-log'
+} from "@/core/unit"
+import { doesUnitFitPlace, getLowestWorthUnit } from "@/core/unitGet"
+import { logWrapper } from "@/util/util-log"
 
 export function getActioncards() {
   return [
@@ -42,15 +42,15 @@ export function getActioncards() {
 }
 
 export const bunker: BattleEffect = {
-  name: 'Bunker',
+  name: "Bunker",
   description:
-    'During this invasion, apply -4 to the result of each BOMBARDMENT roll against planets you control.',
-  type: 'action-card',
-  side: 'defender',
-  place: 'ground',
+    "During this invasion, apply -4 to the result of each BOMBARDMENT roll against planets you control.",
+  type: "action-card",
+  side: "defender",
+  place: "ground",
   transformEnemyUnit: (u: UnitInstance) => {
     if (u.bombardment) {
-      return getUnitWithImproved(u, 'bombardment', 'hit', 'permanent', -4)
+      return getUnitWithImproved(u, "bombardment", "hit", "permanent", -4)
     } else {
       return u
     }
@@ -58,11 +58,11 @@ export const bunker: BattleEffect = {
 }
 
 export const courageousToTheEnd: BattleEffect = {
-  name: 'Courageous to the End',
+  name: "Courageous to the End",
   description:
     "After 1 of your ships is destroyed during a space combat: Roll 2 dice. For each result equal to or greater than that ship's combat value, your opponent must choose and destroy 1 of their ships. It will be played as soon as possible, even if it is just a fighter that is destroyed.",
-  type: 'action-card',
-  place: 'space',
+  type: "action-card",
+  place: "space",
   onDeath: (
     deadUnits: UnitInstance[],
     participant: ParticipantInstance,
@@ -109,11 +109,11 @@ export const courageousToTheEnd: BattleEffect = {
 // TODO maybe add a test to direct hit
 // TODO also test riskDirectHit and that stuff there
 export const directHit: BattleEffect = {
-  name: 'Direct Hit',
+  name: "Direct Hit",
   description:
     "After another player's ship uses SUSTAIN DAMAGE to cancel a hit produced by your units or abilities: Destroy that ship.",
-  type: 'action-card',
-  place: 'space',
+  type: "action-card",
+  place: "space",
   count: true,
   onEnemySustain: (
     u: UnitInstance,
@@ -132,12 +132,12 @@ export const directHit: BattleEffect = {
 }
 
 export const disable: BattleEffect = {
-  name: 'Disable',
+  name: "Disable",
   description:
     "Your opponents' PDS units lose Planetary Shield and Space Cannon during this invasion.",
-  type: 'action-card',
-  place: 'ground',
-  side: 'attacker',
+  type: "action-card",
+  place: "ground",
+  side: "attacker",
   priority: EFFECT_LOW_PRIORITY,
   transformEnemyUnit: (u: UnitInstance) => {
     if (u.type === UnitType.pds) {
@@ -153,11 +153,11 @@ export const disable: BattleEffect = {
 }
 
 export const emergencyRepairs: BattleEffect = {
-  name: 'Emergency Repairs',
+  name: "Emergency Repairs",
   description:
-    'At the start or end of a combat round: Repair all of your units that have SUSTAIN DAMAGE in the active system.',
-  type: 'action-card',
-  place: 'both',
+    "At the start or end of a combat round: Repair all of your units that have SUSTAIN DAMAGE in the active system.",
+  type: "action-card",
+  place: "both",
   onCombatRound: (
     participant: ParticipantInstance,
     _battle: BattleInstance,
@@ -190,11 +190,11 @@ export const emergencyRepairs: BattleEffect = {
 }
 
 export const experimentalBattlestation: BattleEffect = {
-  name: 'Experimental Battlestation',
+  name: "Experimental Battlestation",
   description:
-    'After another player moves ships into a system during a tactical action: Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.',
-  type: 'action-card',
-  place: 'space',
+    "After another player moves ships into a system during a tactical action: Choose 1 of your space docks that is either in or adjacent to that system. That space dock uses Space Cannon 5 (x3) against ships in the active system.",
+  type: "action-card",
+  place: "space",
   beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
     const modify = (instance: UnitInstance) => {
       instance.spaceCannon = {
@@ -210,14 +210,14 @@ export const experimentalBattlestation: BattleEffect = {
 }
 
 export const fighterPrototype: BattleEffect = {
-  name: 'Fighter Prototype',
+  name: "Fighter Prototype",
   description:
     "At the start of the first round of a space combat: Apply +2 to the result of each of your fighters' combat rolls during this combat round.",
-  type: 'action-card',
-  place: 'space',
+  type: "action-card",
+  place: "space",
   transformUnit: (u: UnitInstance) => {
     if (u.type === UnitType.fighter) {
-      return getUnitWithImproved(u, 'combat', 'hit', 'temp', 2)
+      return getUnitWithImproved(u, "combat", "hit", "temp", 2)
     } else {
       return u
     }
@@ -225,14 +225,14 @@ export const fighterPrototype: BattleEffect = {
 }
 
 export const fireTeam: BattleEffect = {
-  name: 'Fire Team',
+  name: "Fire Team",
   description:
-    'After your ground forces make combat rolls during a round of ground combat: Reroll any number of your dice.',
-  type: 'action-card',
-  place: 'ground',
+    "After your ground forces make combat rolls during a round of ground combat: Reroll any number of your dice.",
+  type: "action-card",
+  place: "ground",
   transformUnit: (u: UnitInstance) => {
     if (u.type === UnitType.infantry || u.type === UnitType.mech) {
-      return getUnitWithImproved(u, 'combat', 'reroll', 'temp', 1)
+      return getUnitWithImproved(u, "combat", "reroll", "temp", 1)
     } else {
       return u
     }
@@ -240,20 +240,20 @@ export const fireTeam: BattleEffect = {
 }
 
 export const maneuveringJets: BattleEffect = {
-  name: 'Maneuvering Jets',
+  name: "Maneuvering Jets",
   description:
     "Before you assign hits produced by another player's Space Cannon roll: Cancel 1 hit.",
-  type: 'action-card',
-  place: 'both',
+  type: "action-card",
+  place: "both",
   // TODO
 }
 
 export const moraleBoost: BattleEffect = {
-  name: 'Morale Boost',
+  name: "Morale Boost",
   description:
     "At the start of a combat round: Apply +1 to the result of each of your unit's combat rolls during this combat round.",
-  type: 'action-card',
-  place: 'both',
+  type: "action-card",
+  place: "both",
   count: true,
   onCombatRound: (
     participant: ParticipantInstance,
@@ -273,10 +273,10 @@ export const moraleBoost: BattleEffect = {
 }
 
 export const shieldsHolding: BattleEffect = {
-  name: 'Shields Holding',
-  description: 'Before you assign hits to your ships during a space combat: Cancel up to 2 hits.',
-  type: 'action-card',
-  place: 'space',
+  name: "Shields Holding",
+  description: "Before you assign hits to your ships during a space combat: Cancel up to 2 hits.",
+  type: "action-card",
+  place: "space",
   count: true,
   timesPerRound: 1,
   onCombatRoundEndBeforeAssign: (
@@ -318,12 +318,12 @@ export const shieldsHolding: BattleEffect = {
 }
 
 export const blitz: BattleEffect = {
-  name: 'Blitz',
+  name: "Blitz",
   description:
-    'At the start of an invasion: Each of your non-fighter ships in the active system that do not have BOMBARDMENT gain BOMBARDMENT 6 until the end of the invasion.',
-  type: 'action-card',
-  place: 'ground',
-  side: 'attacker',
+    "At the start of an invasion: Each of your non-fighter ships in the active system that do not have BOMBARDMENT gain BOMBARDMENT 6 until the end of the invasion.",
+  type: "action-card",
+  place: "ground",
+  side: "attacker",
   transformUnit: (u: UnitInstance, _p: ParticipantInstance, place: Place) => {
     if (!doesUnitFitPlace(u, place) && u.type !== UnitType.fighter && !u.bombardment) {
       return {
@@ -340,11 +340,11 @@ export const blitz: BattleEffect = {
 }
 
 export const reflectiveShielding: BattleEffect = {
-  name: 'Reflective Shielding',
+  name: "Reflective Shielding",
   description:
     "When one of your ships uses SUSTAIN DAMAGE during combat: Produce 2 hits against your opponent's ships in the active system.",
-  type: 'action-card',
-  place: 'space',
+  type: "action-card",
+  place: "space",
   onSustain: (
     u: UnitInstance,
     participant: ParticipantInstance,
@@ -360,20 +360,20 @@ export const reflectiveShielding: BattleEffect = {
 }
 
 export const scrambleFrequency: BattleEffect = {
-  name: 'Scramble Frequency',
+  name: "Scramble Frequency",
   description:
-    'After another player makes a BOMBARDMENT, SPACE CANNON, or ANTI-FIGHTER BARRAGE roll: That player rerolls all of their dice.',
-  type: 'action-card',
-  place: 'both',
+    "After another player makes a BOMBARDMENT, SPACE CANNON, or ANTI-FIGHTER BARRAGE roll: That player rerolls all of their dice.",
+  type: "action-card",
+  place: "both",
   // TODO another thing that would require "worse than average" detection
 }
 
 export const solarFlare: BattleEffect = {
-  name: 'Solar Flare',
+  name: "Solar Flare",
   description:
-    'After you activate a system: During this movement, other players cannot use SPACE CANNON against your ships.',
-  type: 'action-card',
-  place: 'space',
+    "After you activate a system: During this movement, other players cannot use SPACE CANNON against your ships.",
+  type: "action-card",
+  place: "space",
   priority: EFFECT_LOW_PRIORITY,
   transformEnemyUnit: (u) => {
     if (u.spaceCannon) {
@@ -388,10 +388,10 @@ export const solarFlare: BattleEffect = {
 }
 
 export const waylay: BattleEffect = {
-  name: 'Waylay',
+  name: "Waylay",
   description:
-    'Before you roll dice for ANTI-FIGHTER BARRAGE: Hits from this roll are produced against all ships (not just fighters).',
-  type: 'action-card',
-  place: 'space',
+    "Before you roll dice for ANTI-FIGHTER BARRAGE: Hits from this roll are produced against all ships (not just fighters).",
+  type: "action-card",
+  place: "space",
   // TODO
 }

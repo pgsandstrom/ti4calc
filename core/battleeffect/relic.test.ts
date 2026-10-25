@@ -1,101 +1,101 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { heartOfIxth, metaliVoidArmaments } from '@/core/battleeffect/relic'
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { heartOfIxth, metaliVoidArmaments } from "@/core/battleeffect/relic"
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('Relics', () => {
-  it('Metali Void Armaments should not be buffed by argent commander or promissary note', () => {
+describe("Relics", () => {
+  it("Metali Void Armaments should not be buffed by argent commander or promissary note", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         // no units
       },
-      'Argent flight',
+      "Argent flight",
       {
         [metaliVoidArmaments.name]: 1,
-        ['Strike Wing Ambuscade']: 1,
-        ['Argent Flight Commander']: 1,
+        ["Strike Wing Ambuscade"]: 1,
+        ["Argent Flight Commander"]: 1,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       fighter: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0 },
-      { side: 'draw', percentage: 0.5 },
-      { side: 'defender', percentage: 0.5 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0 },
+      { side: "draw", percentage: 0.5 },
+      { side: "defender", percentage: 0.5 },
     ])
   })
 
-  it('Heart of Ixth should improve attacker rolls and worsen defender rolls', () => {
+  it("Heart of Ixth should improve attacker rolls and worsen defender rolls", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         destroyer: 2,
       },
-      'Xxcha',
+      "Xxcha",
       {
         [heartOfIxth.name]: 1,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       destroyer: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.61 },
-      { side: 'draw', percentage: 0.04 },
-      { side: 'defender', percentage: 0.35 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.61 },
+      { side: "draw", percentage: 0.04 },
+      { side: "defender", percentage: 0.35 },
     ])
   })
 
-  it('Heart of Ixth should work in ground combat', () => {
+  it("Heart of Ixth should work in ground combat", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         infantry: 4,
       },
-      'Xxcha',
+      "Xxcha",
       {
         [heartOfIxth.name]: 1,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       infantry: 4,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.67 },
-      { side: 'draw', percentage: 0.03 },
-      { side: 'defender', percentage: 0.3 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.67 },
+      { side: "draw", percentage: 0.03 },
+      { side: "defender", percentage: 0.3 },
     ])
   })
 
-  it('Heart of Ixth should improve bombardment', () => {
+  it("Heart of Ixth should improve bombardment", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 1,
       },
-      'Xxcha',
+      "Xxcha",
       {
         [heartOfIxth.name]: 1,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       infantry: 1,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0 },
-      { side: 'draw', percentage: 0.7 },
-      { side: 'defender', percentage: 0.3 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0 },
+      { side: "draw", percentage: 0.7 },
+      { side: "defender", percentage: 0.3 },
     ])
   })
 })

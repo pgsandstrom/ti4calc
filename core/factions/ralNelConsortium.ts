@@ -1,13 +1,13 @@
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect, registerUse } from '@/core/battleeffect/battleEffects'
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
 import {
   createUnitAndApplyEffects,
   defaultRoll,
   galvanizeUnit,
   UnitInstance,
   UnitType,
-} from '@/core/unit'
-import { logWrapper } from '@/util/util-log'
+} from "@/core/unit"
+import { logWrapper } from "@/util/util-log"
 
 interface StructureInSpace {
   effectName: string
@@ -15,18 +15,18 @@ interface StructureInSpace {
   modify: (unit: UnitInstance) => void
 }
 
-const ralNelPdsInSpace = 'Ral Nel PDS in space'
-const ralNelGalvanizedPdsInSpace = 'Ral Nel galvanized PDS in space'
-const ralNelSpaceDockInSpace = 'Ral Nel space dock with Lightrail Ordnance in space'
+const ralNelPdsInSpace = "Ral Nel PDS in space"
+const ralNelGalvanizedPdsInSpace = "Ral Nel galvanized PDS in space"
+const ralNelSpaceDockInSpace = "Ral Nel space dock with Lightrail Ordnance in space"
 const ralNelGalvanizedSpaceDockInSpace =
-  'Ral Nel galvanized space dock with Lightrail Ordnance in space'
+  "Ral Nel galvanized space dock with Lightrail Ordnance in space"
 
 export const ralNelConsortium: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Ral Nel Consortium flagship',
-    description: 'Last Dispatch: Combat 8x2, sustain damage.',
-    place: 'space',
+    type: "faction",
+    name: "Ral Nel Consortium flagship",
+    description: "Last Dispatch: Combat 8x2, sustain damage.",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -43,11 +43,11 @@ export const ralNelConsortium: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Ral Nel Consortium destroyer',
+    type: "faction",
+    name: "Ral Nel Consortium destroyer",
     description:
-      'Each of your destroyers can use the SPACE CANNON ability of one of your structures in its space area. A structure can only be used once, unless the destroyers have the Linkship upgrade.',
-    place: 'space',
+      "Each of your destroyers can use the SPACE CANNON ability of one of your structures in its space area. A structure can only be used once, unless the destroyers have the Linkship upgrade.",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         return {
@@ -59,12 +59,12 @@ export const ralNelConsortium: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
-    name: 'Alarum reinforcements',
+    type: "faction-ability",
+    name: "Alarum reinforcements",
     description:
-      'Mech ability: The count is the number of infantry held in reserve. At the end of each round of ground combat, up to 2 of them are deployed, as long as a mech is alive.',
-    place: 'ground',
-    faction: 'Ral Nel Consortium',
+      "Mech ability: The count is the number of infantry held in reserve. At the end of each round of ground combat, up to 2 of them are deployed, as long as a mech is alive.",
+    place: "ground",
+    faction: "Ral Nel Consortium",
     count: true,
     onCombatRoundEnd: (
       participant: ParticipantInstance,
@@ -105,12 +105,12 @@ export const ralNelConsortium: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Linkship',
+    type: "faction-tech",
+    name: "Linkship",
     description:
-      'Destroyer upgrade. Combat 8, anti-fighter barrage 6x3. Each Linkship can trigger the same structure, so a structure in your space area can fire SPACE CANNON once per Linkship.',
-    place: 'both',
-    faction: 'Ral Nel Consortium',
+      "Destroyer upgrade. Combat 8, anti-fighter barrage 6x3. Each Linkship can trigger the same structure, so a structure in your space area can fire SPACE CANNON once per Linkship.",
+    place: "both",
+    faction: "Ral Nel Consortium",
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
@@ -132,19 +132,19 @@ export const ralNelConsortium: BattleEffect[] = [
   },
   produceStructureFactionAbility(
     ralNelPdsInSpace,
-    'Number of PDS in your space area. Each fires SPACE CANNON 6 when used by a destroyer.',
+    "Number of PDS in your space area. Each fires SPACE CANNON 6 when used by a destroyer.",
   ),
   produceStructureFactionAbility(
     ralNelGalvanizedPdsInSpace,
-    'Number of galvanized PDS in your space area. Each fires SPACE CANNON 6 (x2) when used by a destroyer.',
+    "Number of galvanized PDS in your space area. Each fires SPACE CANNON 6 (x2) when used by a destroyer.",
   ),
   produceStructureFactionAbility(
     ralNelSpaceDockInSpace,
-    'Number of space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x2) when used by a destroyer.',
+    "Number of space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x2) when used by a destroyer.",
   ),
   produceStructureFactionAbility(
     ralNelGalvanizedSpaceDockInSpace,
-    'Number of galvanized space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x3) when used by a destroyer.',
+    "Number of galvanized space docks with Lightrail Ordnance in your space area. Each fires SPACE CANNON 5 (x3) when used by a destroyer.",
   ),
 ]
 
@@ -153,11 +153,11 @@ export const ralNelConsortium: BattleEffect[] = [
 // destroyer claims that structure (decreasing the pool, so it can only be used once), but with the
 // Linkship upgrade the same structure can be triggered by every destroyer, so it is not claimed.
 const ralNelDestroyerStructureAbility: BattleEffect = {
-  name: 'Ral Nel destroyer structure SPACE CANNON',
-  type: 'other',
-  place: 'space',
+  name: "Ral Nel destroyer structure SPACE CANNON",
+  type: "other",
+  place: "space",
   beforeStart: (participant: ParticipantInstance, battle: BattleInstance) => {
-    if (battle.place !== 'space') {
+    if (battle.place !== "space") {
       return
     }
     const isUpgraded = participant.unitUpgrades[UnitType.destroyer] === true
@@ -229,11 +229,11 @@ const ralNelStructures: StructureInSpace[] = [
 
 function produceStructureFactionAbility(name: string, description: string): BattleEffect {
   return {
-    type: 'faction-ability',
+    type: "faction-ability",
     name,
     description,
-    place: 'space',
-    faction: 'Ral Nel Consortium',
+    place: "space",
+    faction: "Ral Nel Consortium",
     count: true,
   }
 }

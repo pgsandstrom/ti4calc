@@ -1,30 +1,30 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 
-import ArrowSvg from '@/component/arrowSvg'
-import CoolButton from '@/component/coolButton'
-import DamagedUnitsView from '@/component/damagedUnitsView'
-import GalvanizedUnitsView from '@/component/galvanizedUnitsView'
-import NumberInput from '@/component/numberInput'
-import { OptionsRowView } from '@/component/optionsRowView'
-import { Participant } from '@/core/battle-types'
-import { getActioncards } from '@/core/battleeffect/actioncard'
-import { getAgendas } from '@/core/battleeffect/agenda'
+import ArrowSvg from "@/component/arrowSvg"
+import CoolButton from "@/component/coolButton"
+import DamagedUnitsView from "@/component/damagedUnitsView"
+import GalvanizedUnitsView from "@/component/galvanizedUnitsView"
+import NumberInput from "@/component/numberInput"
+import { OptionsRowView } from "@/component/optionsRowView"
+import { Participant } from "@/core/battle-types"
+import { getActioncards } from "@/core/battleeffect/actioncard"
+import { getAgendas } from "@/core/battleeffect/agenda"
 import {
   BattleEffect,
   getOtherBattleEffects,
   isBattleEffectRelevant,
   isBattleEffectRelevantForSome,
-} from '@/core/battleeffect/battleEffects'
-import { getRelics } from '@/core/battleeffect/relic'
-import { getTechBattleEffects } from '@/core/battleeffect/tech'
+} from "@/core/battleeffect/battleEffects"
+import { getRelics } from "@/core/battleeffect/relic"
+import { getTechBattleEffects } from "@/core/battleeffect/tech"
 import {
   getAgent,
   getCommanders,
   getFactionStuffNonUnit,
   getGeneralEffectFromFactions,
   getPromissary,
-} from '@/core/factions/faction'
-import { objectKeys } from '@/util/util-object'
+} from "@/core/factions/faction"
+import { objectKeys } from "@/util/util-object"
 
 interface OptionsProps {
   attacker: Participant
@@ -80,20 +80,20 @@ export default function OptionsView(props: OptionsProps) {
     <div
       style={{
         ...props.style,
-        background: 'white',
-        borderRadius: '5px',
-        padding: '5px',
+        background: "white",
+        borderRadius: "5px",
+        padding: "5px",
       }}
     >
-      <CoolButton onClick={() => setShow(!show)} style={{ padding: '10px' }}>
-        <div style={{ display: 'flex' }}>
+      <CoolButton onClick={() => setShow(!show)} style={{ padding: "10px" }}>
+        <div style={{ display: "flex" }}>
           <span>Options</span>
           <ArrowSvg
             style={{
-              width: '16px',
-              height: '16px',
-              marginLeft: '5px',
-              transform: show ? 'scaleY(-1)' : undefined,
+              width: "16px",
+              height: "16px",
+              marginLeft: "5px",
+              transform: show ? "scaleY(-1)" : undefined,
             }}
           />
         </div>
@@ -101,9 +101,9 @@ export default function OptionsView(props: OptionsProps) {
       {show && (
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            marginTop: '20px',
+            display: "flex",
+            flexDirection: "column",
+            marginTop: "20px",
           }}
         >
           <OptionsRowView
@@ -147,8 +147,8 @@ function OptionsPartView({
   defenderOnChange,
 }: OptionsPartProps) {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {title !== undefined && <h2 style={{ textAlign: 'center' }}>{title}</h2>}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      {title !== undefined && <h2 style={{ textAlign: "center" }}>{title}</h2>}
       {battleEffects.map((effect) => {
         const attackerView = (
           <BattleEffectInput
@@ -196,8 +196,8 @@ const getDirectHitCheckbox = (participant: Participant, onChange: (p: Participan
         onChange(newParticipant)
       }}
       style={{
-        height: '24px',
-        width: '24px',
+        height: "24px",
+        width: "24px",
       }}
     />
   )
@@ -236,7 +236,7 @@ const BattleEffectInput = ({
       <NumberInput
         currentValue={participant.battleEffects[effect.name] ?? 0}
         onUpdate={updateEffectCount}
-        style={{ width: '100%', visibility: disabled ? 'hidden' : undefined }}
+        style={{ width: "100%", visibility: disabled ? "hidden" : undefined }}
       />
     )
   }
@@ -270,9 +270,9 @@ const BattleEffectInput = ({
         }
       }}
       style={{
-        visibility: disabled ? 'hidden' : undefined,
-        height: '24px',
-        width: '24px',
+        visibility: disabled ? "hidden" : undefined,
+        height: "24px",
+        width: "24px",
       }}
     />
   )

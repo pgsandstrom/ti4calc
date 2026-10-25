@@ -1,7 +1,7 @@
-import { BattleReport } from '@/core'
-import { toPercentageNumber, toPercentageString } from '@/util/util-number'
+import { BattleReport } from "@/core"
+import { toPercentageNumber, toPercentageString } from "@/util/util-number"
 
-import styles from '@/component/battleReportView.module.scss'
+import styles from "@/component/battleReportView.module.scss"
 
 interface Props {
   report: BattleReport
@@ -14,26 +14,26 @@ export function BattleReportView({ report, style }: Props) {
   return (
     <div
       style={{
-        position: 'sticky',
+        position: "sticky",
         top: 0,
         bottom: 0,
-        display: 'flex',
-        flexDirection: 'column',
-        marginBottom: '5px',
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: "5px",
         ...style,
       }}
     >
       <h3
         style={{
-          textAlign: 'center',
-          marginBottom: '0px',
-          marginTop: '0px',
-          border: '1px solid black',
-          borderBottom: 'none',
-          alignSelf: 'center',
-          padding: '0 10px',
-          borderRadius: '5px 5px 0 0',
-          background: '#E5ECF7',
+          textAlign: "center",
+          marginBottom: "0px",
+          marginTop: "0px",
+          border: "1px solid black",
+          borderBottom: "none",
+          alignSelf: "center",
+          padding: "0 10px",
+          borderRadius: "5px 5px 0 0",
+          background: "#E5ECF7",
         }}
       >
         Result
@@ -44,7 +44,7 @@ export function BattleReportView({ report, style }: Props) {
           className={styles.percentage}
           style={{
             flex: `${toPercentageNumber(total, report.attacker)} 0 0`,
-            background: '#B1B1FF',
+            background: "#B1B1FF",
           }}
         >
           {report.attacker !== 0 && (
@@ -58,7 +58,7 @@ export function BattleReportView({ report, style }: Props) {
           className={styles.percentage}
           style={{
             flex: `${toPercentageNumber(total, report.draw)} 0 0`,
-            background: '#CFCFCF',
+            background: "#CFCFCF",
           }}
         >
           {report.draw !== 0 && (
@@ -72,7 +72,7 @@ export function BattleReportView({ report, style }: Props) {
           className={styles.percentage}
           style={{
             flex: `${toPercentageNumber(total, report.defender)} 0 0`,
-            background: '#FFB1B1',
+            background: "#FFB1B1",
           }}
         >
           {report.defender !== 0 && (

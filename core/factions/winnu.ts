@@ -1,16 +1,16 @@
-import { getOtherParticipant } from '@/core/battle'
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from '@/core/unit'
-import { getNonFighterShips } from '@/core/unitGet'
-import { logWrapper } from '@/util/util-log'
+import { getOtherParticipant } from "@/core/battle"
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, getUnitWithImproved, UnitInstance, UnitType } from "@/core/unit"
+import { getNonFighterShips } from "@/core/unitGet"
+import { logWrapper } from "@/util/util-log"
 
 // TODO fix test for flagship, since it has an aura...
 export const winnu: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Winnu flagship',
-    place: 'space',
+    type: "faction",
+    name: "Winnu flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -22,9 +22,9 @@ export const winnu: BattleEffect[] = [
           },
           aura: [
             {
-              name: 'Winnu Flagship ability',
-              type: 'other',
-              place: 'space',
+              name: "Winnu Flagship ability",
+              type: "other",
+              place: "space",
               transformUnit: (
                 auraUnit: UnitInstance,
                 p: ParticipantInstance,
@@ -52,23 +52,23 @@ export const winnu: BattleEffect[] = [
     },
   },
   {
-    type: 'commander',
+    type: "commander",
     description:
       "During combat: Apply +2 to the result of each of your unit's combat rolls in the Mecatol Rex system, your home system, and each system that contains a legendary planet.",
-    name: 'Winnu commander',
-    place: 'both',
+    name: "Winnu commander",
+    place: "both",
     transformUnit: (u: UnitInstance) => {
-      return getUnitWithImproved(u, 'combat', 'hit', 'permanent', 2)
+      return getUnitWithImproved(u, "combat", "hit", "permanent", 2)
     },
   },
 
   {
-    name: 'Imperator',
-    type: 'faction-ability',
+    name: "Imperator",
+    type: "faction-ability",
     description:
-      'Winnu Breakthrough: Apply +1 to the results of each of your unit\'s combat rolls for each "Support for the Throne" in your opponent\'s play area.',
-    place: 'both',
-    faction: 'Winnu',
+      "Winnu Breakthrough: Apply +1 to the results of each of your unit's combat rolls for each \"Support for the Throne\" in your opponent's play area.",
+    place: "both",
+    faction: "Winnu",
     count: true,
     onStart: (
       p: ParticipantInstance,

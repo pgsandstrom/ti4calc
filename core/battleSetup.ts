@@ -1,7 +1,7 @@
-import _cloneDeep from 'lodash/cloneDeep'
-import _times from 'lodash/times'
+import _cloneDeep from "lodash/cloneDeep"
+import _times from "lodash/times"
 
-import { doBattle } from '@/core/battle'
+import { doBattle } from "@/core/battle"
 import {
   Battle,
   BattleInstance,
@@ -9,16 +9,16 @@ import {
   Participant,
   ParticipantInstance,
   Side,
-} from '@/core/battle-types'
-import { Place } from '@/core/battle-types'
-import { BattleEffect, getAllBattleEffects } from '@/core/battleeffect/battleEffects'
-import { getUnitUpgrade } from '@/core/battleeffect/unitUpgrades'
-import { Faction } from '@/core/factions/faction'
-import { getFactionBattleEffects } from '@/core/factions/faction'
-import { createUnit, galvanizeUnit, UnitInstance, UnitType } from '@/core/unit'
-import { applyQueryParams } from '@/util/query-params'
-import { objectEntries } from '@/util/util-object'
-import { PartialRecord } from '@/util/util-types'
+} from "@/core/battle-types"
+import { Place } from "@/core/battle-types"
+import { BattleEffect, getAllBattleEffects } from "@/core/battleeffect/battleEffects"
+import { getUnitUpgrade } from "@/core/battleeffect/unitUpgrades"
+import { Faction } from "@/core/factions/faction"
+import { getFactionBattleEffects } from "@/core/factions/faction"
+import { createUnit, galvanizeUnit, UnitInstance, UnitType } from "@/core/unit"
+import { applyQueryParams } from "@/util/query-params"
+import { objectEntries } from "@/util/util-object"
+import { PartialRecord } from "@/util/util-types"
 
 export function setupBattle(battle: Battle): BattleInstance {
   battle = _cloneDeep(battle)
@@ -39,14 +39,14 @@ function createBattleInstance(battle: Battle): BattleInstance {
   const attacker = createParticipantInstance(
     battle.attacker,
     attackerBattleEffects,
-    'attacker',
+    "attacker",
     battle.place,
   )
   const defenderBattleEffects = getParticipantBattleEffects(battle.defender, battle.place)
   const defender = createParticipantInstance(
     battle.defender,
     defenderBattleEffects,
-    'defender',
+    "defender",
     battle.place,
   )
 
@@ -95,14 +95,14 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
     if (
       effect.faction === undefined ||
       effect.faction === participant.faction ||
-      participant.faction === 'Nekro'
+      participant.faction === "Nekro"
     ) {
       battleEffects.push(effect)
     }
   }
 
   const factionAbilities = getFactionBattleEffects(participant).filter(
-    (effect) => effect.type === 'faction',
+    (effect) => effect.type === "faction",
   )
   battleEffects.push(...factionAbilities)
 
@@ -116,7 +116,7 @@ function getParticipantBattleEffects(participant: Participant, place: Place): Ba
   })
 
   return battleEffects.filter((effect) => {
-    return effect.place === 'both' || effect.place === place
+    return effect.place === "both" || effect.place === place
   })
 }
 
@@ -224,8 +224,8 @@ function applyBattleEffects(
       }
 
       // faction abilities take priority
-      const aType = a.type === 'faction' ? 1 : 0
-      const bType = b.type === 'faction' ? 1 : 0
+      const aType = a.type === "faction" ? 1 : 0
+      const bType = b.type === "faction" ? 1 : 0
       return aType - bType
     })
     .forEach((battleEffect) => {
@@ -296,7 +296,7 @@ export function createParticipant(
   query?: Record<string, string | string[] | undefined>,
 ): Participant {
   const participant: Participant = {
-    faction: faction ?? 'Barony of Letnev',
+    faction: faction ?? "Barony of Letnev",
     side,
     units: getUnitMap(),
     unitUpgrades: {},

@@ -1,65 +1,65 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
 const ENDLESS_REPAIR = 1000
 
-describe('Empyrean', () => {
-  it('Empyrean flagship with endless repairs should always win vs a dread and PDS', () => {
+describe("Empyrean", () => {
+  it("Empyrean flagship with endless repairs should always win vs a dread and PDS", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
       },
-      'Empyrean',
+      "Empyrean",
       {
-        'Empyrean flagship repair': ENDLESS_REPAIR,
+        "Empyrean flagship repair": ENDLESS_REPAIR,
       },
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         dreadnought: 1,
         pds: 1,
       },
-      'Muaat',
+      "Muaat",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 1 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 0 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 1 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 0 },
     ])
   })
 
-  it('Empyrean flagship with endless repairs and mech should always win vs a mech and PDS', () => {
+  it("Empyrean flagship with endless repairs and mech should always win vs a mech and PDS", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
         mech: 1,
       },
-      'Empyrean',
+      "Empyrean",
       {
-        'Empyrean flagship repair': ENDLESS_REPAIR,
+        "Empyrean flagship repair": ENDLESS_REPAIR,
       },
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         pds: 1,
         mech: 1,
       },
-      'Muaat',
+      "Muaat",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 1 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 0 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 1 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 0 },
     ])
   })
 
@@ -67,54 +67,54 @@ describe('Empyrean', () => {
   // Also I am pretty sure this is a bug. See this rule:
   // 1.18 Each ability can be resolved once for each occurrence of that ability’s timing event. For example, if an ability is resolved “At the start of combat,” it can be resolved at the start of each combat.
   // But it might be difficult to fix...
-  it('Empyrean flagship and dread risking direct hit with endless repairs should always beat 2 dread', () => {
+  it("Empyrean flagship and dread risking direct hit with endless repairs should always beat 2 dread", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
       },
-      'Empyrean',
+      "Empyrean",
       {
-        'Empyrean flagship repair': ENDLESS_REPAIR,
+        "Empyrean flagship repair": ENDLESS_REPAIR,
       },
     )
     attacker.riskDirectHit = true
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         dreadnought: 1,
       },
-      'Muaat',
+      "Muaat",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 1 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 0 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 1 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 0 },
     ])
   })
 
-  it('Empyrean flagship with endless repairs should lose more times than it wins vs 1 dread with direct hit', () => {
+  it("Empyrean flagship with endless repairs should lose more times than it wins vs 1 dread with direct hit", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
       },
-      'Empyrean',
+      "Empyrean",
       {
-        'Empyrean flagship repair': ENDLESS_REPAIR,
+        "Empyrean flagship repair": ENDLESS_REPAIR,
       },
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         dreadnought: 1,
       },
-      'Muaat',
+      "Muaat",
       {
-        'Direct Hit': 1,
+        "Direct Hit": 1,
       },
     )
 
@@ -133,37 +133,37 @@ describe('Empyrean', () => {
 
     const totalChance = attackerWin + draw + defenderWinChance
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: attackerWin / totalChance },
-      { side: 'draw', percentage: draw / totalChance },
-      { side: 'defender', percentage: defenderWinChance / totalChance },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: attackerWin / totalChance },
+      { side: "draw", percentage: draw / totalChance },
+      { side: "defender", percentage: defenderWinChance / totalChance },
     ])
   })
 
   it("Empyrean flagship with endless repairs should lose a 1v20 fighters, since it can't use sustain multiple times in the same combat round", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
       },
-      'Empyrean',
+      "Empyrean",
       {
-        'Empyrean flagship repair': ENDLESS_REPAIR,
+        "Empyrean flagship repair": ENDLESS_REPAIR,
       },
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         fighter: 20,
       },
       "Sardakk N'orr",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 1 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 1 },
     ])
   })
 })

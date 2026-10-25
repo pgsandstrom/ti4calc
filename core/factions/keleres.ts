@@ -1,12 +1,12 @@
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const keleres: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Keleres flagship',
-    place: 'space',
+    type: "faction",
+    name: "Keleres flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -23,12 +23,12 @@ export const keleres: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
+    type: "faction-ability",
     description:
-      'The faction tech I.I.H.Q. MODERNIZATION gives Mecatol Rex a space cannon that hits on 5.',
-    name: 'I.I.H.Q. MODERNIZATION space cannon',
-    place: 'both',
-    faction: 'Keleres',
+      "The faction tech I.I.H.Q. MODERNIZATION gives Mecatol Rex a space cannon that hits on 5.",
+    name: "I.I.H.Q. MODERNIZATION space cannon",
+    place: "both",
+    faction: "Keleres",
     beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
       const modify = (instance: UnitInstance) => {
         instance.spaceCannon = {

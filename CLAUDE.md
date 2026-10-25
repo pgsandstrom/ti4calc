@@ -44,17 +44,17 @@ Tests use Monte Carlo simulation, so **tests may occasionally fail due to random
 **Test patterns:**
 
 ```typescript
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-const attacker = getTestParticipant('attacker', { dreadnought: 2 }, Faction.barony_of_letnev, {
-  'Effect Name': 1,
+const attacker = getTestParticipant("attacker", { dreadnought: 2 }, Faction.barony_of_letnev, {
+  "Effect Name": 1,
 })
-const defender = getTestParticipant('defender', { dreadnought: 2 })
+const defender = getTestParticipant("defender", { dreadnought: 2 })
 
 testBattleReport(attacker, defender, Place.space, 500, [
-  { side: 'attacker', percentage: 0.5 },
-  { side: 'draw', percentage: 0.1 },
-  { side: 'defender', percentage: 0.4 },
+  { side: "attacker", percentage: 0.5 },
+  { side: "draw", percentage: 0.1 },
+  { side: "defender", percentage: 0.4 },
 ])
 ```
 

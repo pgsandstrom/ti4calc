@@ -1,9 +1,9 @@
-import assert from 'node:assert'
-import { describe, it } from 'node:test'
+import assert from "node:assert"
+import { describe, it } from "node:test"
 
-import { Battle, Participant } from '@/core/battle-types'
-import { setupBattle } from '@/core/battleSetup'
-import { UnitType } from '@/core/unit'
+import { Battle, Participant } from "@/core/battle-types"
+import { setupBattle } from "@/core/battleSetup"
+import { UnitType } from "@/core/unit"
 import {
   getHighestDiceCountUnit,
   getHighestWorthNonSustainUnit,
@@ -13,23 +13,23 @@ import {
   getLowestWorthUnit,
   getWeakestCombatUnit,
   isHighestHitUnit,
-} from '@/core/unitGet'
-import { getTestParticipant } from '@/util/util.test'
+} from "@/core/unitGet"
+import { getTestParticipant } from "@/util/util.test"
 
-describe('unitGet', () => {
+describe("unitGet", () => {
   const getAttackerInstance = (attacker: Participant, defender: Participant) => {
     const battle: Battle = {
       attacker,
       defender,
-      place: 'space',
+      place: "space",
     }
     const battleInstance = setupBattle(battle)
 
     return battleInstance.attacker
   }
 
-  it('getHighestWorthUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       warsun: 1,
       flagship: 1,
       dreadnought: 2,
@@ -37,21 +37,21 @@ describe('unitGet', () => {
       pds: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.warsun)
   })
 
-  it('getHighestWorthUnit when one is damaged', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthUnit when one is damaged", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 5,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
@@ -62,7 +62,7 @@ describe('unitGet', () => {
       }
     })
 
-    const unit = getHighestWorthUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthUnit(participantInstance, "space", true)
 
     if (!unit) {
       assert.fail()
@@ -71,12 +71,12 @@ describe('unitGet', () => {
     assert.strictEqual(unit.takenDamage, false)
   })
 
-  it('getHighestWorthUnit should return an undamaged sustained', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthUnit should return an undamaged sustained", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 5,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
@@ -95,7 +95,7 @@ describe('unitGet', () => {
       }
     })
 
-    const unit = getHighestWorthUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthUnit(participantInstance, "space", true)
 
     if (!unit) {
       assert.fail()
@@ -105,123 +105,123 @@ describe('unitGet', () => {
     assert.strictEqual(unit.usedSustainThisTimingWindow, true)
   })
 
-  it('getHighestWorthUnit should respect place', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthUnit should respect place", () => {
+    const attacker = getTestParticipant("attacker", {
       destroyer: 1,
       mech: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.destroyer)
   })
 
-  it('getHighestWorthSustainUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthSustainUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       warsun: 1,
       dreadnought: 1,
       destroyer: 1,
       mech: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthSustainUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.warsun)
   })
 
-  it('getHighestWorthSustainUnit returning undefined', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthSustainUnit returning undefined", () => {
+    const attacker = getTestParticipant("attacker", {
       destroyer: 1,
       mech: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthSustainUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit, undefined)
   })
 
-  it('getHighestWorthSustainUnit should ignore units that just sustained', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthSustainUnit should ignore units that just sustained", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
     participantInstance.units[0].usedSustainThisTimingWindow = true
 
-    const unit = getHighestWorthSustainUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit, undefined)
   })
 
-  it('getLowestWorthSustainUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getLowestWorthSustainUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       flagship: 1,
       dreadnought: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getLowestWorthSustainUnit(participantInstance, 'space', true)
+    const unit = getLowestWorthSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.dreadnought)
   })
 
-  it('getLowestWorthSustainUnit should ignore units that just sustained', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getLowestWorthSustainUnit should ignore units that just sustained", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
     participantInstance.units[0].usedSustainThisTimingWindow = true
 
-    const unit = getLowestWorthSustainUnit(participantInstance, 'space', true)
+    const unit = getLowestWorthSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit, undefined)
   })
 
-  it('getHighestWorthNonSustainUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthNonSustainUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       flagship: 1,
       fighter: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthNonSustainUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthNonSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.fighter)
   })
 
-  it('getHighestWorthNonSustainUnit should fetch damaged units', () => {
+  it("getHighestWorthNonSustainUnit should fetch damaged units", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
         fighter: 1,
       },
-      'Barony of Letnev',
+      "Barony of Letnev",
       {},
       {},
       {
@@ -229,27 +229,27 @@ describe('unitGet', () => {
       },
     )
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getHighestWorthNonSustainUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthNonSustainUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.flagship)
   })
 
-  it('getHighestWorthNonSustainUnit should fetch sustained units', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestWorthNonSustainUnit should fetch sustained units", () => {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
     participantInstance.units[0].usedSustainThisTimingWindow = true
 
-    const unit = getHighestWorthNonSustainUnit(participantInstance, 'space', true)
+    const unit = getHighestWorthNonSustainUnit(participantInstance, "space", true)
 
     if (!unit) {
       assert.fail()
@@ -258,28 +258,28 @@ describe('unitGet', () => {
     assert.strictEqual(unit.usedSustainThisTimingWindow, true)
   })
 
-  it('getLowestWorthUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getLowestWorthUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       flagship: 1,
       dreadnought: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getLowestWorthUnit(participantInstance, 'space', true)
+    const unit = getLowestWorthUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.dreadnought)
   })
 
-  it('getLowestWorthUnit should fetch damaged units before sustained', () => {
+  it("getLowestWorthUnit should fetch damaged units before sustained", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 2,
       },
-      'Barony of Letnev',
+      "Barony of Letnev",
       {},
       {},
       {
@@ -287,7 +287,7 @@ describe('unitGet', () => {
       },
     )
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
@@ -297,7 +297,7 @@ describe('unitGet', () => {
       }
     })
 
-    const unit = getLowestWorthUnit(participantInstance, 'space', true)
+    const unit = getLowestWorthUnit(participantInstance, "space", true)
 
     if (!unit) {
       assert.fail()
@@ -306,14 +306,14 @@ describe('unitGet', () => {
     assert.strictEqual(unit.takenDamage, true)
   })
 
-  it('getLowestWorthUnit should sacrifice the most recently damaged of two damaged units', () => {
+  it("getLowestWorthUnit should sacrifice the most recently damaged of two damaged units", () => {
     // Relevant for Duranium Armor: the unit damaged in an earlier round can be repaired
     // this round, so the unit damaged this round should die instead, keeping the other alive.
-    const attacker = getTestParticipant('attacker', {
+    const attacker = getTestParticipant("attacker", {
       dreadnought: 2,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
@@ -322,7 +322,7 @@ describe('unitGet', () => {
       u.takenDamageRound = index === 0 ? 1 : 2
     })
 
-    const unit = getLowestWorthUnit(participantInstance, 'space', true)
+    const unit = getLowestWorthUnit(participantInstance, "space", true)
 
     if (!unit) {
       assert.fail()
@@ -330,90 +330,90 @@ describe('unitGet', () => {
     assert.strictEqual(unit.takenDamageRound, 2)
   })
 
-  it('getWeakestCombatUnit should return the unit that has the worst hit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getWeakestCombatUnit should return the unit that has the worst hit", () => {
+    const attacker = getTestParticipant("attacker", {
       carrier: 1,
       cruiser: 1,
       mech: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    const unit = getWeakestCombatUnit(participantInstance, 'space', true)
+    const unit = getWeakestCombatUnit(participantInstance, "space", true)
 
     assert.strictEqual(unit?.type, UnitType.carrier)
   })
 
-  it('getHighestHitUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestHitUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       cruiser: 1,
       destroyer: 1,
       mech: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
     const cruiser = participantInstance.units.find((u) => u.type === UnitType.cruiser)!
-    const isCruiserHighest = isHighestHitUnit(cruiser, participantInstance, 'combat', 'space')
+    const isCruiserHighest = isHighestHitUnit(cruiser, participantInstance, "combat", "space")
     assert.strictEqual(isCruiserHighest, true)
 
     const destroyer = participantInstance.units.find((u) => u.type === UnitType.destroyer)!
-    const isDestroyerHighest = isHighestHitUnit(destroyer, participantInstance, 'combat', 'space')
+    const isDestroyerHighest = isHighestHitUnit(destroyer, participantInstance, "combat", "space")
     assert.strictEqual(isDestroyerHighest, false)
   })
 
-  it('isHighestHitUnit should work with unit upgrades', () => {
+  it("isHighestHitUnit should work with unit upgrades", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
         dreadnought: 1,
       },
-      'L1z1x',
+      "L1z1x",
       {},
       {
         dreadnought: true,
       },
     )
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
 
     const participantInstance = getAttackerInstance(attacker, defender)
 
     const flagShip = participantInstance.units.find((u) => u.type === UnitType.flagship)!
-    const isFlagshipHighest = isHighestHitUnit(flagShip, participantInstance, 'combat', 'space')
+    const isFlagshipHighest = isHighestHitUnit(flagShip, participantInstance, "combat", "space")
     assert.strictEqual(isFlagshipHighest, false)
 
     const dreadnought = participantInstance.units.find((u) => u.type === UnitType.dreadnought)!
     const isDreadnoughtHighest = isHighestHitUnit(
       dreadnought,
       participantInstance,
-      'combat',
-      'space',
+      "combat",
+      "space",
     )
     assert.strictEqual(isDreadnoughtHighest, true)
   })
 
-  it('getHighestDiceCountUnit', () => {
-    const attacker = getTestParticipant('attacker', {
+  it("getHighestDiceCountUnit", () => {
+    const attacker = getTestParticipant("attacker", {
       warsun: 1,
       cruiser: 1,
       destroyer: 1,
     })
 
-    const defender = getTestParticipant('defender')
+    const defender = getTestParticipant("defender")
     const participantInstance = getAttackerInstance(attacker, defender)
 
-    let highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, 'combat', 'space')
-    assert.strictEqual(highestDiceCountUnit?.type, 'warsun')
+    let highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, "combat", "space")
+    assert.strictEqual(highestDiceCountUnit?.type, "warsun")
 
-    participantInstance.units.find((u) => u.type === 'cruiser')!.combat!.countBonusTmp = 10
+    participantInstance.units.find((u) => u.type === "cruiser")!.combat!.countBonusTmp = 10
 
-    highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, 'combat', 'space')
-    assert.strictEqual(highestDiceCountUnit?.type, 'cruiser')
+    highestDiceCountUnit = getHighestDiceCountUnit(participantInstance, "combat", "space")
+    assert.strictEqual(highestDiceCountUnit?.type, "cruiser")
   })
 })

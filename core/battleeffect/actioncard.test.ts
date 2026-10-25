@@ -1,21 +1,21 @@
-import assert from 'node:assert'
-import { describe, it } from 'node:test'
+import assert from "node:assert"
+import { describe, it } from "node:test"
 
-import { getBattleReport } from '@/core'
+import { getBattleReport } from "@/core"
 import {
   emergencyRepairs,
   experimentalBattlestation,
   shieldsHolding,
   solarFlare,
-} from '@/core/battleeffect/actioncard'
-import { assaultCannon } from '@/core/battleeffect/tech'
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+} from "@/core/battleeffect/actioncard"
+import { assaultCannon } from "@/core/battleeffect/tech"
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('Action card', () => {
-  it('Emergency Repairs', () => {
+describe("Action card", () => {
+  it("Emergency Repairs", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 2,
       },
@@ -24,29 +24,29 @@ describe('Action card', () => {
         [emergencyRepairs.name]: 1,
       },
     )
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
       {
-        side: 'attacker',
+        side: "attacker",
         percentage: 0.778,
       },
       {
-        side: 'draw',
+        side: "draw",
         percentage: 0.07,
       },
       {
-        side: 'defender',
+        side: "defender",
         percentage: 0.152,
       },
     ])
   })
 
-  it('Shields holding', () => {
+  it("Shields holding", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         destroyer: 1,
       },
@@ -55,20 +55,20 @@ describe('Action card', () => {
         [shieldsHolding.name]: 15,
       },
     )
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       dreadnought: 2,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.562 },
-      { side: 'draw', percentage: 0.033 },
-      { side: 'defender', percentage: 0.405 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.562 },
+      { side: "draw", percentage: 0.033 },
+      { side: "defender", percentage: 0.405 },
     ])
   })
 
-  it('Experimental battlestation and solar flare', () => {
+  it("Experimental battlestation and solar flare", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         destroyer: 1,
       },
@@ -77,20 +77,20 @@ describe('Action card', () => {
         [solarFlare.name]: 1,
       },
     )
-    const defender = getTestParticipant('defender', {}, undefined, {
+    const defender = getTestParticipant("defender", {}, undefined, {
       [experimentalBattlestation.name]: 1,
     })
 
     // solar flare should disable experimental battlestation, thus attacker should always win
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 1 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 0 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 1 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 0 },
     ])
   })
-  it('Experimental battlestation can prevent assault cannon', () => {
+  it("Experimental battlestation can prevent assault cannon", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         destroyer: 3,
       },
@@ -100,7 +100,7 @@ describe('Action card', () => {
       },
     )
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         warsun: 1,
       },
@@ -109,7 +109,7 @@ describe('Action card', () => {
         [experimentalBattlestation.name]: 1,
       },
     )
-    const result = getBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS)
+    const result = getBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS)
     assert.ok(result.attacker < TEST_NUMBER_OF_ROLLS / 2)
   })
 })

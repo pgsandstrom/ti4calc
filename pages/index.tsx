@@ -1,34 +1,34 @@
-import { GetServerSideProps } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { GetServerSideProps } from "next"
+import Head from "next/head"
+import Image from "next/image"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
-import { BattleReportView } from '@/component/battleReportView'
-import CoolButton from '@/component/coolButton'
-import { DetailedBattleReportView } from '@/component/detailedBattleReportView'
-import FactionImage from '@/component/factionImage'
-import FactionPicker from '@/component/factionPicker'
-import HelpView from '@/component/helpView'
-import OptionsView from '@/component/optionsView'
-import SwitchButton from '@/component/switchButton'
-import UnitRow from '@/component/unitRow'
-import { BattleReport } from '@/core'
-import { Battle, Participant } from '@/core/battle-types'
-import { Place } from '@/core/battle-types'
-import { createParticipant } from '@/core/battleSetup'
-import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
-import { UnitType } from '@/core/unit'
-import { ErrorReportUnsaved } from '@/server/errorReportController'
-import getServerUrl from '@/server/serverUrl'
+import { BattleReportView } from "@/component/battleReportView"
+import CoolButton from "@/component/coolButton"
+import { DetailedBattleReportView } from "@/component/detailedBattleReportView"
+import FactionImage from "@/component/factionImage"
+import FactionPicker from "@/component/factionPicker"
+import HelpView from "@/component/helpView"
+import OptionsView from "@/component/optionsView"
+import SwitchButton from "@/component/switchButton"
+import UnitRow from "@/component/unitRow"
+import { BattleReport } from "@/core"
+import { Battle, Participant } from "@/core/battle-types"
+import { Place } from "@/core/battle-types"
+import { createParticipant } from "@/core/battleSetup"
+import { ALL_FACTIONS, Faction } from "@/core/factions/faction"
+import { UnitType } from "@/core/unit"
+import { ErrorReportUnsaved } from "@/server/errorReportController"
+import getServerUrl from "@/server/serverUrl"
 import {
   getLocalStorage,
   LS_ATTACKER_FACTION,
   LS_DEFENDER_FACTION,
   setLocalStorage,
-} from '@/util/localStorageWrapper'
-import { createQueryParams, hasQueryParamForFaction, hasSomeQueryParams } from '@/util/query-params'
+} from "@/util/localStorageWrapper"
+import { createQueryParams, hasQueryParamForFaction, hasSomeQueryParams } from "@/util/query-params"
 
-import styles from '@/pages/index.module.scss'
+import styles from "@/pages/index.module.scss"
 
 // TODO add resource value
 
@@ -45,10 +45,10 @@ interface HomeProps {
 
 export default function Home(props: HomeProps) {
   const [attacker, setAttackerRaw] = useState<Participant>(() => {
-    return createParticipant('attacker', undefined, props.query)
+    return createParticipant("attacker", undefined, props.query)
   })
   const [defender, setDefenderRaw] = useState<Participant>(() => {
-    return createParticipant('defender', undefined, props.query)
+    return createParticipant("defender", undefined, props.query)
   })
   const [battleReport, setBattleReport] = useState<BattleReport>({
     attacker: 0,
@@ -60,7 +60,7 @@ export default function Home(props: HomeProps) {
   })
 
   const [place, setPlaceRaw] = useState<Place>(() => {
-    return props.query.place === 'ground' ? 'ground' : 'space'
+    return props.query.place === "ground" ? "ground" : "space"
   })
 
   const [error, setError] = useState(false)
@@ -70,16 +70,16 @@ export default function Home(props: HomeProps) {
 
   const registerUsage = () => {
     void fetch(`${getServerUrl()}/api/usage`, {
-      method: 'POST',
-      credentials: 'same-origin',
+      method: "POST",
+      credentials: "same-origin",
     })
   }
 
   const sendErrorReport = (workerError: ErrorReportUnsaved) => {
     void fetch(`${getServerUrl()}/api/report-error`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(workerError),
-      credentials: 'same-origin',
+      credentials: "same-origin",
     })
   }
 
@@ -109,8 +109,8 @@ export default function Home(props: HomeProps) {
     if (!touched) {
       setTouched(true)
     }
-    const newDefender: Participant = { ...attacker, side: 'defender' }
-    const newAttacker: Participant = { ...defender, side: 'attacker' }
+    const newDefender: Participant = { ...attacker, side: "defender" }
+    const newAttacker: Participant = { ...defender, side: "attacker" }
     setAttackerRaw(newAttacker)
     setDefenderRaw(newDefender)
     createQueryParams(newAttacker, newDefender, place)
@@ -119,7 +119,7 @@ export default function Home(props: HomeProps) {
   // Load the worker only to cache it
   useEffect(() => {
     if (!touched) {
-      new Worker(new URL('../core/webworker.ts', import.meta.url))
+      new Worker(new URL("../core/webworker.ts", import.meta.url))
     }
   }, [touched])
 
@@ -129,7 +129,7 @@ export default function Home(props: HomeProps) {
         workerRef.current.terminate()
       }
 
-      const worker = new Worker(new URL('../core/webworker.ts', import.meta.url))
+      const worker = new Worker(new URL("../core/webworker.ts", import.meta.url))
       workerRef.current = worker
 
       const onMessage = (event: MessageEvent) => {
@@ -143,7 +143,7 @@ export default function Home(props: HomeProps) {
           setBattleReport(event.data as BattleReport)
         }
       }
-      worker.addEventListener('message', onMessage)
+      worker.addEventListener("message", onMessage)
 
       const battle: Battle = {
         attacker,
@@ -153,7 +153,7 @@ export default function Home(props: HomeProps) {
       worker.postMessage(battle)
 
       return () => {
-        worker.removeEventListener('message', onMessage)
+        worker.removeEventListener("message", onMessage)
         worker.terminate()
       }
     }
@@ -173,7 +173,7 @@ export default function Home(props: HomeProps) {
 
   // TODO should we use useEffect instead? We currently get a warning in the nextjs console
   useLayoutEffect(() => {
-    if (!hasQueryParamForFaction(props.query, 'attacker')) {
+    if (!hasQueryParamForFaction(props.query, "attacker")) {
       const attackerFaction = getLocalStorage(LS_ATTACKER_FACTION) as Faction | undefined
       if (attackerFaction != null && ALL_FACTIONS.includes(attackerFaction)) {
         const newAttacker: Participant = {
@@ -183,7 +183,7 @@ export default function Home(props: HomeProps) {
         setAttackerRaw(newAttacker)
       }
     }
-    if (!hasQueryParamForFaction(props.query, 'defender')) {
+    if (!hasQueryParamForFaction(props.query, "defender")) {
       const defenderFaction = getLocalStorage(LS_DEFENDER_FACTION) as Faction | undefined
       if (defenderFaction != null && ALL_FACTIONS.includes(defenderFaction)) {
         const newDefender: Participant = {
@@ -203,11 +203,11 @@ export default function Home(props: HomeProps) {
       place,
     }
     return (
-      <div style={{ padding: '20px' }}>
+      <div style={{ padding: "20px" }}>
         <div>A critical error has occurred!</div>
-        <div style={{ marginTop: '10px' }}>
+        <div style={{ marginTop: "10px" }}>
           I apologize for the inconvenience. The crash has been logged and hopefully I will soon fix
-          it. If you have a github account, please submit a bug report{' '}
+          it. If you have a github account, please submit a bug report{" "}
           <a
             href="https://github.com/pgsandstrom/ti4calc/issues/new"
             target="_blank"
@@ -215,11 +215,11 @@ export default function Home(props: HomeProps) {
           >
             here
           </a>
-          , otherwise send me a mail at{' '}
+          , otherwise send me a mail at{" "}
           <a href="mailto:ti4battle@persandstrom.com">ti4battle@persandstrom.com</a>
         </div>
-        <div style={{ marginTop: '10px' }}>Please include the data below.</div>
-        <div style={{ marginTop: '10px', border: '1px solid black', padding: '10px' }}>
+        <div style={{ marginTop: "10px" }}>Please include the data below.</div>
+        <div style={{ marginTop: "10px", border: "1px solid black", padding: "10px" }}>
           {JSON.stringify(battle)}
         </div>
       </div>
@@ -236,10 +236,10 @@ export default function Home(props: HomeProps) {
   return (
     <div
       style={{
-        display: 'flex',
-        width: '100vw',
-        maxWidth: '100%',
-        height: '100%',
+        display: "flex",
+        width: "100vw",
+        maxWidth: "100%",
+        height: "100%",
       }}
     >
       <Head>
@@ -251,33 +251,33 @@ export default function Home(props: HomeProps) {
       </Head>
 
       <div className={styles.holder}>
-        <FactionImage faction={attacker.faction} side="left" style={{ flex: '1 0 0' }} />
+        <FactionImage faction={attacker.faction} side="left" style={{ flex: "1 0 0" }} />
         <main className={styles.main}>
           <div className={styles.mainController}>
-            <h1 style={{ textAlign: 'center', margin: '2px 0 10px' }}>TI4 calculator</h1>
+            <h1 style={{ textAlign: "center", margin: "2px 0 10px" }}>TI4 calculator</h1>
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'column',
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               <div
                 style={{
-                  display: 'flex',
-                  height: '48px',
+                  display: "flex",
+                  height: "48px",
                 }}
               >
                 <FactionPicker
                   participant={attacker}
                   onChange={setAttacker}
-                  style={{ flex: '1 0 0' }}
+                  style={{ flex: "1 0 0" }}
                 />
                 <div
                   style={{
-                    display: 'flex',
-                    flex: '1 0 0',
-                    placeContent: 'center',
-                    padding: '5px 0',
+                    display: "flex",
+                    flex: "1 0 0",
+                    placeContent: "center",
+                    padding: "5px 0",
                   }}
                 >
                   <button onClick={switchParticipants}>
@@ -287,7 +287,7 @@ export default function Home(props: HomeProps) {
                 <FactionPicker
                   participant={defender}
                   onChange={setDefender}
-                  style={{ flex: '1 0 0' }}
+                  style={{ flex: "1 0 0" }}
                 />
               </div>
               <UnitRow unitType={UnitType.flagship} {...participantsObject} />
@@ -302,59 +302,59 @@ export default function Home(props: HomeProps) {
               <UnitRow unitType={UnitType.pds} {...participantsObject} />
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '20px',
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "20px",
                 }}
               >
-                <div style={{ flex: '1 0 0' }} />
+                <div style={{ flex: "1 0 0" }} />
                 <CoolButton
                   className={styles.clearButton}
                   onClick={() => {
-                    const newAttacker = createParticipant('attacker', attacker.faction)
+                    const newAttacker = createParticipant("attacker", attacker.faction)
                     setAttacker(newAttacker)
                   }}
                 >
                   <span className={styles.shortText}>Clear</span>
                   <span className={styles.longText}>Clear attacker</span>
                 </CoolButton>
-                <div style={{ flex: '1 0 0' }} />
+                <div style={{ flex: "1 0 0" }} />
                 <SwitchButton
-                  isLeftSelected={place === 'space'}
+                  isLeftSelected={place === "space"}
                   leftLabel="space"
                   rightLabel="ground"
-                  onLeftClick={() => setPlace('space')}
-                  onRightClick={() => setPlace('ground')}
+                  onLeftClick={() => setPlace("space")}
+                  onRightClick={() => setPlace("ground")}
                 />
-                <div style={{ flex: '1 0 0' }} />
+                <div style={{ flex: "1 0 0" }} />
                 <CoolButton
                   className={styles.clearButton}
                   onClick={() => {
-                    const newDefender = createParticipant('defender', defender.faction)
+                    const newDefender = createParticipant("defender", defender.faction)
                     setDefender(newDefender)
                   }}
                 >
                   <span className={styles.shortText}>Clear</span>
                   <span className={styles.longText}>Clear defender</span>
                 </CoolButton>
-                <div style={{ flex: '1 0 0' }} />
+                <div style={{ flex: "1 0 0" }} />
               </div>
             </div>
           </div>
           <BattleReportView
             report={battleReport}
             style={{
-              marginTop: '-120px',
-              marginBottom: '55px',
+              marginTop: "-120px",
+              marginBottom: "55px",
               zIndex: 200,
             }}
           />
           <DetailedBattleReportView
             report={battleReport}
             style={{
-              marginTop: '20px',
-              marginBottom: '20px',
-              width: 'unset',
+              marginTop: "20px",
+              marginBottom: "20px",
+              width: "unset",
               // zIndex: 300,
             }}
           />
@@ -363,11 +363,11 @@ export default function Home(props: HomeProps) {
             attackerOnChange={setAttacker}
             defender={defender}
             defenderOnChange={setDefender}
-            style={{ marginTop: '10px' }}
+            style={{ marginTop: "10px" }}
           />
-          <HelpView style={{ marginTop: '10px', marginBottom: '10px' }} />
+          <HelpView style={{ marginTop: "10px", marginBottom: "10px" }} />
         </main>
-        <FactionImage faction={defender.faction} side="right" style={{ flex: '1 0 0' }} />
+        <FactionImage faction={defender.faction} side="right" style={{ flex: "1 0 0" }} />
       </div>
     </div>
   )

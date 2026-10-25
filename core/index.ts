@@ -1,9 +1,9 @@
-import _cloneDeep from 'lodash/cloneDeep'
-import _times from 'lodash/times'
+import _cloneDeep from "lodash/cloneDeep"
+import _times from "lodash/times"
 
-import { Battle, BattleWinner, Participant, Place } from '@/core/battle-types'
-import { setupBattle, startBattle } from '@/core/battleSetup'
-import { PartialRecord } from '@/util/util-types'
+import { Battle, BattleWinner, Participant, Place } from "@/core/battle-types"
+import { setupBattle, startBattle } from "@/core/battleSetup"
+import { PartialRecord } from "@/util/util-types"
 
 export interface BattleReport {
   attacker: number
@@ -21,7 +21,7 @@ export function getBattleReport(
   times: number,
   addToBattleReport?: BattleReport,
 ): BattleReport {
-  if (attacker.side !== 'attacker' || defender.side !== 'defender') {
+  if (attacker.side !== "attacker" || defender.side !== "defender") {
     throw new Error(`side error: ${attacker.side}, ${defender.side}`)
   }
 

@@ -1,13 +1,13 @@
-import { isBattleOngoing } from '@/core/battle'
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { isBattleOngoing } from "@/core/battle"
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const naalu: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Naalu flagship',
-    place: 'both',
+    type: "faction",
+    name: "Naalu flagship",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -19,11 +19,11 @@ export const naalu: BattleEffect[] = [
           },
           battleEffects: [
             {
-              name: 'Naalu flagship ability',
-              type: 'other',
-              place: 'ground',
+              name: "Naalu flagship ability",
+              type: "other",
+              place: "ground",
               transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
-                if (unit.type === UnitType.fighter && p.side === 'attacker') {
+                if (unit.type === UnitType.fighter && p.side === "attacker") {
                   return {
                     ...unit,
                     isGroundForce: true,
@@ -54,9 +54,9 @@ export const naalu: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Naalu fighters',
-    place: 'both',
+    type: "faction",
+    name: "Naalu fighters",
+    place: "both",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
@@ -66,10 +66,10 @@ export const naalu: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Hybrid Crystal Fighter II',
-    place: 'both',
-    faction: 'Naalu',
+    type: "faction-tech",
+    name: "Hybrid Crystal Fighter II",
+    place: "both",
+    faction: "Naalu",
     unit: UnitType.fighter,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
@@ -79,21 +79,21 @@ export const naalu: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-ability',
-    name: 'Codex mech',
+    type: "faction-ability",
+    name: "Codex mech",
     description:
       "Use Naalu's Codex III Mech: Other players cannot use ANTI-FIGHTER BARRAGE against your units in this system.",
-    place: 'both',
-    faction: 'Naalu',
+    place: "both",
+    faction: "Naalu",
     transformUnit: (unit: UnitInstance, p: ParticipantInstance) => {
       if (unit.type === UnitType.mech) {
         return {
           ...unit,
           battleEffects: [
             {
-              name: 'Naalu mech remove afb',
-              type: 'other',
-              place: 'both',
+              name: "Naalu mech remove afb",
+              type: "other",
+              place: "both",
               transformEnemyUnit: (u: UnitInstance) => {
                 return {
                   ...u,

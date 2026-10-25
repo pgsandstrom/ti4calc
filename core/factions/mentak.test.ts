@@ -1,141 +1,141 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('Mentak', () => {
-  it('Mentak hero should resurrect upgraded units if mentak has the upgrade', () => {
+describe("Mentak", () => {
+  it("Mentak hero should resurrect upgraded units if mentak has the upgrade", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         dreadnought: 1,
       },
-      'Mentak',
+      "Mentak",
       {
-        'Mentak hero': 1,
+        "Mentak hero": 1,
       },
       {
         destroyer: true,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       destroyer: 4,
     })
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.642 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 0.358 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.642 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 0.358 },
     ])
 
     // and the results should be equal even with attacker/defender flipped:
 
-    defender.side = 'attacker'
-    attacker.side = 'defender'
+    defender.side = "attacker"
+    attacker.side = "defender"
 
-    testBattleReport(defender, attacker, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.358 },
-      { side: 'draw', percentage: 0 },
-      { side: 'defender', percentage: 0.642 },
+    testBattleReport(defender, attacker, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.358 },
+      { side: "draw", percentage: 0 },
+      { side: "defender", percentage: 0.642 },
     ])
   })
 
-  it('Mentak flagship should not affect ground combat', () => {
+  it("Mentak flagship should not affect ground combat", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
         infantry: 2,
       },
-      'Mentak',
+      "Mentak",
       {
-        'Mentak hero': 1,
+        "Mentak hero": 1,
       },
     )
 
-    const defender = getTestParticipant('defender', {
+    const defender = getTestParticipant("defender", {
       mech: 1,
     })
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.41 },
-      { side: 'draw', percentage: 0.101 },
-      { side: 'defender', percentage: 0.49 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.41 },
+      { side: "draw", percentage: 0.101 },
+      { side: "defender", percentage: 0.49 },
     ])
   })
 
-  it('Check so preventEnemySustain works symmetrically', () => {
+  it("Check so preventEnemySustain works symmetrically", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 2,
       },
-      'Mentak',
+      "Mentak",
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         flagship: 2,
       },
-      'Mentak',
+      "Mentak",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.323 },
-      { side: 'draw', percentage: 0.354 },
-      { side: 'defender', percentage: 0.323 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.323 },
+      { side: "draw", percentage: 0.354 },
+      { side: "defender", percentage: 0.323 },
     ])
   })
 
-  it('Mentak mech should not affect sustain during bombardment', () => {
+  it("Mentak mech should not affect sustain during bombardment", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         mech: 1,
         dreadnought: 1,
       },
-      'Mentak',
+      "Mentak",
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         mech: 1,
       },
-      'Mentak',
+      "Mentak",
     )
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.333 },
-      { side: 'draw', percentage: 0.333 },
-      { side: 'defender', percentage: 0.333 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.333 },
+      { side: "draw", percentage: 0.333 },
+      { side: "defender", percentage: 0.333 },
     ])
   })
 
-  it('Mentak mech should affect sustain during PDS defence', () => {
+  it("Mentak mech should affect sustain during PDS defence", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         mech: 1,
       },
-      'Mentak',
+      "Mentak",
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         mech: 1,
         pds: 1,
       },
-      'Mentak',
+      "Mentak",
     )
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 1 / 6 },
-      { side: 'draw', percentage: 1 / 6 },
-      { side: 'defender', percentage: 2 / 3 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 1 / 6 },
+      { side: "draw", percentage: 1 / 6 },
+      { side: "defender", percentage: 2 / 3 },
     ])
   })
 })

@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState } from "react"
 
-import styles from '@/component/popover.module.scss'
+import styles from "@/component/popover.module.scss"
 
 interface Props {
   text?: string
@@ -17,7 +17,7 @@ export default function Popover({ text, style }: Props) {
   return (
     <div
       className={styles.container}
-      style={{ ...style, visibility: text === undefined ? 'hidden' : undefined }}
+      style={{ ...style, visibility: text === undefined ? "hidden" : undefined }}
     >
       <div
         className={styles.hoverIcon}

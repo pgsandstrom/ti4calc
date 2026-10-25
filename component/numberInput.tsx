@@ -1,12 +1,12 @@
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from "react"
 
-import usePrevious from '@/util/usePrevious'
+import usePrevious from "@/util/usePrevious"
 
 interface NumberInputProps {
   currentValue: number
   onUpdate: (newVal: number) => void
   disabled?: boolean
-  'aria-labelledby'?: string
+  "aria-labelledby"?: string
   style?: React.CSSProperties
 }
 
@@ -19,7 +19,7 @@ export default function NumberInput(props: NumberInputProps) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     // remember: input with type number just get value "" on invalid input
     // so we use the valid flag to figure out if it is empty
-    setEmpty(e.currentTarget.value === '' && e.target.validity.valid)
+    setEmpty(e.currentTarget.value === "" && e.target.validity.valid)
     setVal(e.target.value)
     const newVal = parseInt(e.target.value, 10)
     if (Number.isFinite(newVal)) {
@@ -48,8 +48,8 @@ export default function NumberInput(props: NumberInputProps) {
       }}
       onChange={onChange}
       onBlur={() => {
-        if (val === '' && empty) {
-          setVal('0')
+        if (val === "" && empty) {
+          setVal("0")
           onUpdate(0)
           return
         }
@@ -61,8 +61,8 @@ export default function NumberInput(props: NumberInputProps) {
         }
       }}
       disabled={disabled}
-      aria-labelledby={props['aria-labelledby']}
-      style={{ ...style, fontSize: '1.5rem', textAlign: 'center' }}
+      aria-labelledby={props["aria-labelledby"]}
+      style={{ ...style, fontSize: "1.5rem", textAlign: "center" }}
     />
   )
 }

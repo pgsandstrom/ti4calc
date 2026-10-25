@@ -1,5 +1,5 @@
-import { ParticipantInstance, Place } from '@/core/battle-types'
-import { UnitInstance, UnitType } from '@/core/unit'
+import { ParticipantInstance, Place } from "@/core/battle-types"
+import { UnitInstance, UnitType } from "@/core/unit"
 
 // INFO: Always use these helper functions instead of "manually" getting units.
 // Because these functions for example makes sure you never accidentally retrieve a unit of type "nonunit", and other stuff that is hard to keep track of
@@ -38,7 +38,7 @@ export function getHighestWorthUnit(
 }
 
 export function getNonFighterShips(p: ParticipantInstance) {
-  return getUnits(p, 'space', false)
+  return getUnits(p, "space", false)
 }
 
 export function getHighestWorthSustainUnit(
@@ -191,7 +191,7 @@ export function getUndamagedUnits(
       return false
     }
 
-    if (u.type === 'nonunit') {
+    if (u.type === "nonunit") {
       return false
     }
 
@@ -222,7 +222,7 @@ export function getUnits(
       return false
     }
 
-    if (u.type === 'nonunit') {
+    if (u.type === "nonunit") {
       return false
     }
 
@@ -239,7 +239,7 @@ export function getUnits(
 export function isHighestHitUnit(
   unit: UnitInstance,
   p: ParticipantInstance,
-  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  attackType: "combat" | "bombardment" | "spaceCannon" | "afb",
   place: Place | undefined,
 ) {
   const highestHitUnit = getHighestHitUnit(p, attackType, place)
@@ -256,7 +256,7 @@ export function isHighestHitUnit(
 
 export function getHighestHitUnit(
   p: ParticipantInstance,
-  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  attackType: "combat" | "bombardment" | "spaceCannon" | "afb",
   place: Place | undefined,
 ) {
   const units = getUnits(p, place, true).filter((u) => !!u[attackType])
@@ -278,7 +278,7 @@ export function getHighestHitUnit(
 
 export function getHighestDiceCountUnit(
   p: ParticipantInstance,
-  attackType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
+  attackType: "combat" | "bombardment" | "spaceCannon" | "afb",
   place: Place | undefined,
 ) {
   const units = getUnits(p, place, true).filter((u) => !!u[attackType])
@@ -299,10 +299,10 @@ export function getHighestDiceCountUnit(
 }
 
 export function doesUnitFitPlace(u: UnitInstance, place: Place) {
-  if (place === 'space' && !u.isShip) {
+  if (place === "space" && !u.isShip) {
     return false
   }
-  if (place === 'ground' && !u.isGroundForce) {
+  if (place === "ground" && !u.isGroundForce) {
     return false
   }
   return true

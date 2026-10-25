@@ -1,12 +1,12 @@
-import { EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { EFFECT_HIGH_PRIORITY, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const crimsonRebellion: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Crimson Rebellion flagship',
-    place: 'both',
+    type: "faction",
+    name: "Crimson Rebellion flagship",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -24,12 +24,12 @@ export const crimsonRebellion: BattleEffect[] = [
   },
   {
     // TODO units should regain abilities when the flagship is destroyed. Currently they do not. If we fix so "battle aura" can affect all abilites, it should be used instead.
-    name: 'Flagship active',
+    name: "Flagship active",
     description:
       "While this unit is in a system that contains an active breach, other players' units in systems with active breaches lose all their unit abilities.",
-    type: 'faction-ability',
-    place: 'both',
-    faction: 'Crimson Rebellion',
+    type: "faction-ability",
+    place: "both",
+    faction: "Crimson Rebellion",
     transformEnemyUnit: (unit: UnitInstance, _p: ParticipantInstance) => {
       return {
         ...unit,
@@ -42,9 +42,9 @@ export const crimsonRebellion: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Crimson Rebellion destroyers',
-    place: 'space',
+    type: "faction",
+    name: "Crimson Rebellion destroyers",
+    place: "space",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
@@ -54,10 +54,10 @@ export const crimsonRebellion: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Exile II',
-    place: 'space',
-    faction: 'Crimson Rebellion',
+    type: "faction-tech",
+    name: "Exile II",
+    place: "space",
+    faction: "Crimson Rebellion",
     unit: UnitType.destroyer,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {

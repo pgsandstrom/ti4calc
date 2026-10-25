@@ -1,12 +1,12 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import { TEST_NUMBER_OF_ROLLS } from '@/core/constant'
-import { getTestParticipant, testBattleReport } from '@/util/util.test'
+import { TEST_NUMBER_OF_ROLLS } from "@/core/constant"
+import { getTestParticipant, testBattleReport } from "@/util/util.test"
 
-describe('Sardakk', () => {
-  it('Sardakk vs arborec flagship', () => {
+describe("Sardakk", () => {
+  it("Sardakk vs arborec flagship", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         flagship: 1,
       },
@@ -14,23 +14,23 @@ describe('Sardakk', () => {
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         flagship: 1,
       },
-      'Arborec',
+      "Arborec",
     )
 
-    testBattleReport(attacker, defender, 'space', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.56 },
-      { side: 'draw', percentage: 0.26 },
-      { side: 'defender', percentage: 0.18 },
+    testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.56 },
+      { side: "draw", percentage: 0.26 },
+      { side: "defender", percentage: 0.18 },
     ])
   })
 
-  it('Sardakk mech ability should not trigger during space cannon phase', () => {
+  it("Sardakk mech ability should not trigger during space cannon phase", () => {
     const attacker = getTestParticipant(
-      'attacker',
+      "attacker",
       {
         mech: 1,
       },
@@ -38,18 +38,18 @@ describe('Sardakk', () => {
     )
 
     const defender = getTestParticipant(
-      'defender',
+      "defender",
       {
         infantry: 1,
         pds: 1,
       },
-      'Arborec',
+      "Arborec",
     )
 
-    testBattleReport(attacker, defender, 'ground', TEST_NUMBER_OF_ROLLS, [
-      { side: 'attacker', percentage: 0.792 },
-      { side: 'draw', percentage: 0.125 },
-      { side: 'defender', percentage: 0.083 },
+    testBattleReport(attacker, defender, "ground", TEST_NUMBER_OF_ROLLS, [
+      { side: "attacker", percentage: 0.792 },
+      { side: "draw", percentage: 0.125 },
+      { side: "defender", percentage: 0.083 },
     ])
   })
 

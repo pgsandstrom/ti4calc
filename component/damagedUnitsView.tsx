@@ -1,8 +1,8 @@
-import _times from 'lodash/times'
+import _times from "lodash/times"
 
-import { OptionsRowView } from '@/component/optionsRowView'
-import { Participant } from '@/core/battle-types'
-import { UnitType } from '@/core/unit'
+import { OptionsRowView } from "@/component/optionsRowView"
+import { Participant } from "@/core/battle-types"
+import { UnitType } from "@/core/unit"
 
 interface Props {
   attacker: Participant
@@ -27,9 +27,9 @@ export default function DamagedUnitsView(props: Props) {
   const anyRowsShown = showFlagships || showWarsuns || showDreadnoughts || showCruisers || showMechs
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <h2 style={{ textAlign: 'center' }}>Damaged units</h2>
-      {!anyRowsShown && <div style={{ textAlign: 'center' }}>No sustain units in battle</div>}
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <h2 style={{ textAlign: "center" }}>Damaged units</h2>
+      {!anyRowsShown && <div style={{ textAlign: "center" }}>No sustain units in battle</div>}
       {showFlagships && <DamagedUnitsRow unitType={UnitType.flagship} {...props} />}
       {showWarsuns && <DamagedUnitsRow unitType={UnitType.warsun} {...props} />}
       {showDreadnoughts && <DamagedUnitsRow unitType={UnitType.dreadnought} {...props} />}
@@ -70,7 +70,7 @@ interface DamagedUnitSelectorProps {
   unitType: UnitType
   participant: Participant
   onUpdate: (participant: Participant) => void
-  'aria-labelledby'?: string
+  "aria-labelledby"?: string
 }
 
 function DamagedUnitSelector(props: DamagedUnitSelectorProps) {
@@ -93,14 +93,14 @@ function DamagedUnitSelector(props: DamagedUnitSelectorProps) {
         onUpdate(newParticipant)
       }}
       value={participant.damagedUnits[unitType]}
-      aria-labelledby={props['aria-labelledby']}
+      aria-labelledby={props["aria-labelledby"]}
       style={{
-        width: '100%',
-        height: '32px',
-        marginTop: '8px',
-        fontSize: '1.2rem',
-        visibility: visible ? undefined : 'hidden',
-        textAlign: 'center',
+        width: "100%",
+        height: "32px",
+        marginTop: "8px",
+        fontSize: "1.2rem",
+        visibility: visible ? undefined : "hidden",
+        textAlign: "center",
       }}
     >
       {_times(
@@ -136,7 +136,7 @@ function showParticipantUnit(participant: Participant, unitType: UnitType) {
 
 function showParticipantCruiser(participant: Participant) {
   return (
-    participant.faction === 'Titans of Ul' &&
+    participant.faction === "Titans of Ul" &&
     participant.unitUpgrades[UnitType.cruiser] === true &&
     participant.units[UnitType.cruiser] > 0
   )
@@ -144,12 +144,12 @@ function showParticipantCruiser(participant: Participant) {
 
 function showParticipantCarrier(participant: Participant) {
   return (
-    participant.faction === 'Sol' &&
+    participant.faction === "Sol" &&
     participant.unitUpgrades[UnitType.carrier] === true &&
     participant.units[UnitType.carrier] > 0
   )
 }
 
 function showParticipantPds(participant: Participant) {
-  return participant.faction === 'Titans of Ul' && participant.units[UnitType.pds] > 0
+  return participant.faction === "Titans of Ul" && participant.units[UnitType.pds] > 0
 }

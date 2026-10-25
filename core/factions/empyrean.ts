@@ -1,12 +1,12 @@
-import { BattleInstance, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const empyrean: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Empyrean flagship',
-    place: 'space',
+    type: "faction",
+    name: "Empyrean flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -23,11 +23,11 @@ export const empyrean: BattleEffect[] = [
     },
   },
   {
-    type: 'general',
-    name: 'Empyrean flagship repair',
+    type: "general",
+    name: "Empyrean flagship repair",
     description:
       "Empyrean flagship text: After any player's unit in this system or an adjacent system uses SUSTAIN DAMAGE, you may spend 2 influence to repair that unit.",
-    place: 'both',
+    place: "both",
     count: true,
     onSustain: (
       u: UnitInstance,

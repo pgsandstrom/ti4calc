@@ -1,18 +1,18 @@
 // battle types is in their own file, because I got weird errors from jest
 // the errors were enums being undefined, I guess it was dependency cycle related
 
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { Faction } from '@/core/factions/faction'
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { Faction } from "@/core/factions/faction"
 
-export type Place = 'space' | 'ground'
-import { HitInfo, RollInfo } from '@/core/roll'
-import { UnitInstance, UnitType } from '@/core/unit'
-import { PartialRecord } from '@/util/util-types'
+export type Place = "space" | "ground"
+import { HitInfo, RollInfo } from "@/core/roll"
+import { UnitInstance, UnitType } from "@/core/unit"
+import { PartialRecord } from "@/util/util-types"
 
-export type Side = 'attacker' | 'defender'
+export type Side = "attacker" | "defender"
 
 export function isSide(value: unknown): value is Side {
-  return value === 'attacker' || value === 'defender'
+  return value === "attacker" || value === "defender"
 }
 
 // UnitEffect and UnitAuraEffect returns a new unit instead of modify, since their changes can be temporary
@@ -165,9 +165,9 @@ export interface BattleResult {
 }
 
 export const BattleWinner = {
-  attacker: 'attacker',
-  draw: 'draw',
-  defender: 'defender',
+  attacker: "attacker",
+  draw: "draw",
+  defender: "defender",
 } as const
 
 export type BattleWinner = (typeof BattleWinner)[keyof typeof BattleWinner]

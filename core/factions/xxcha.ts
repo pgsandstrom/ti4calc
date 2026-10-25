@@ -1,11 +1,11 @@
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const xxcha: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Xxcha flagship',
-    place: 'space',
+    type: "faction",
+    name: "Xxcha flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -27,9 +27,9 @@ export const xxcha: BattleEffect[] = [
     },
   },
   {
-    type: 'faction',
-    name: 'Xxcha mech',
-    place: 'both',
+    type: "faction",
+    name: "Xxcha mech",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.mech) {
         return {

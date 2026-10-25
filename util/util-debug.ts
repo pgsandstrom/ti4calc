@@ -1,6 +1,6 @@
 /* oxlint-disable no-console */
 
-export const startDebugTimer = (taskName = 'The task') => {
+export const startDebugTimer = (taskName = "The task") => {
   const timer = {
     startTime: new Date(),
 

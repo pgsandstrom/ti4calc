@@ -1,13 +1,13 @@
-import { describe, it } from 'node:test'
+import { describe, it } from "node:test"
 
-import _, { cloneDeep } from 'lodash'
+import _, { cloneDeep } from "lodash"
 
-import { getHits } from '@/core/roll'
-import { defaultRoll, Roll } from '@/core/unit'
-import { checkResult } from '@/util/util.test'
+import { getHits } from "@/core/roll"
+import { defaultRoll, Roll } from "@/core/unit"
+import { checkResult } from "@/util/util.test"
 
-describe('battle', () => {
-  it('should calculate hits correctly', () => {
+describe("battle", () => {
+  it("should calculate hits correctly", () => {
     const roll: Roll = {
       ...defaultRoll,
       count: 1,
@@ -25,7 +25,7 @@ describe('battle', () => {
     checkResult(hits, 3000)
   })
 
-  it('should calculate hit bonus correctly', () => {
+  it("should calculate hit bonus correctly", () => {
     const roll: Roll = {
       ...defaultRoll,
       count: 1,
@@ -43,7 +43,7 @@ describe('battle', () => {
     checkResult(hits, 5000)
   })
 
-  it('should calculate temporary hit bonus correctly', () => {
+  it("should calculate temporary hit bonus correctly", () => {
     const originalRoll: Roll = {
       ...defaultRoll,
       hit: 6,
@@ -66,7 +66,7 @@ describe('battle', () => {
     checkResult(hits, 6000)
   })
 
-  it('should calculate count correctly', () => {
+  it("should calculate count correctly", () => {
     const roll: Roll = {
       ...defaultRoll,
       count: 2,
@@ -84,7 +84,7 @@ describe('battle', () => {
     checkResult(hits, 10000)
   })
 
-  it('should calculate count bonus correctly', () => {
+  it("should calculate count bonus correctly", () => {
     const roll: Roll = {
       ...defaultRoll,
       count: 2,
@@ -102,7 +102,7 @@ describe('battle', () => {
     checkResult(hits, 15000)
   })
 
-  it('should calculate reroll correctly', () => {
+  it("should calculate reroll correctly", () => {
     const roll: Roll = {
       ...defaultRoll,
       count: 1,
@@ -120,7 +120,7 @@ describe('battle', () => {
     checkResult(hits, 7500)
   })
 
-  it('should calculate reroll bonus correctly', () => {
+  it("should calculate reroll bonus correctly", () => {
     const roll: Roll = {
       ...defaultRoll,
       count: 1,

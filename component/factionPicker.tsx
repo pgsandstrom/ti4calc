@@ -1,5 +1,5 @@
-import { Participant } from '@/core/battle-types'
-import { ALL_FACTIONS, Faction } from '@/core/factions/faction'
+import { Participant } from "@/core/battle-types"
+import { ALL_FACTIONS, Faction } from "@/core/factions/faction"
 
 interface Props {
   participant: Participant
@@ -10,7 +10,7 @@ interface Props {
 export default function FactionPicker(props: Props) {
   const { participant, onChange, style } = props
   return (
-    <div style={{ ...style, display: 'flex' }}>
+    <div style={{ ...style, display: "flex" }}>
       <select
         autoComplete="off"
         onChange={(e) => {
@@ -23,8 +23,8 @@ export default function FactionPicker(props: Props) {
         }}
         value={participant.faction}
         style={{
-          flex: '1 0 auto',
-          width: '0px',
+          flex: "1 0 auto",
+          width: "0px",
         }}
       >
         {ALL_FACTIONS.map((faction) => {

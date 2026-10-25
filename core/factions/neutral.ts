@@ -1,7 +1,7 @@
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
 
-import { EFFECT_HIGH_PRIORITY } from '../battle-types'
-import { defaultRoll, UnitInstance, UnitType } from '../unit'
+import { EFFECT_HIGH_PRIORITY } from "../battle-types"
+import { defaultRoll, UnitInstance, UnitType } from "../unit"
 
 /**
  * Neutral faction is actually tricky. Default strength is higher for the following units:
@@ -17,9 +17,9 @@ import { defaultRoll, UnitInstance, UnitType } from '../unit'
 
 export const neutral: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Neutral flagship',
-    place: 'both',
+    type: "faction",
+    name: "Neutral flagship",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -39,10 +39,10 @@ export const neutral: BattleEffect[] = [
   // no changes to war sun needed
 
   {
-    name: 'dreadnaught upgrade',
-    type: 'faction-tech',
-    faction: 'Neutral',
-    place: 'both',
+    name: "dreadnaught upgrade",
+    type: "faction-tech",
+    faction: "Neutral",
+    place: "both",
     unit: UnitType.dreadnought,
     transformUnit: (unit: UnitInstance) => {
       // just ensure nothing changes...
@@ -53,9 +53,9 @@ export const neutral: BattleEffect[] = [
   // no changes needed to carrier
 
   {
-    type: 'faction',
-    name: 'Neutral cruiser',
-    place: 'both',
+    type: "faction",
+    name: "Neutral cruiser",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.cruiser) {
         return {
@@ -72,9 +72,9 @@ export const neutral: BattleEffect[] = [
   },
 
   {
-    type: 'faction',
-    name: 'Neutral destroyers',
-    place: 'both',
+    type: "faction",
+    name: "Neutral destroyers",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.destroyer) {
         return {
@@ -96,9 +96,9 @@ export const neutral: BattleEffect[] = [
   },
 
   {
-    type: 'faction',
-    name: 'Neutral fighter',
-    place: 'both',
+    type: "faction",
+    name: "Neutral fighter",
+    place: "both",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.fighter) {
         return {
@@ -117,9 +117,9 @@ export const neutral: BattleEffect[] = [
   // no changes to mech needed
 
   {
-    type: 'faction',
-    name: 'Neutral infantry',
-    place: 'both',
+    type: "faction",
+    name: "Neutral infantry",
+    place: "both",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.infantry) {
@@ -137,10 +137,10 @@ export const neutral: BattleEffect[] = [
   },
 
   {
-    name: 'infantry upgrade',
-    type: 'faction-tech',
-    faction: 'Neutral',
-    place: 'both',
+    name: "infantry upgrade",
+    type: "faction-tech",
+    faction: "Neutral",
+    place: "both",
     unit: UnitType.infantry,
     transformUnit: (unit: UnitInstance) => {
       // just ensure nothing changes...
@@ -149,10 +149,10 @@ export const neutral: BattleEffect[] = [
   },
 
   {
-    name: 'pds upgrade',
-    type: 'faction-tech',
-    faction: 'Neutral',
-    place: 'both',
+    name: "pds upgrade",
+    type: "faction-tech",
+    faction: "Neutral",
+    place: "both",
     unit: UnitType.pds,
     transformUnit: (unit: UnitInstance) => {
       // just ensure nothing changes...

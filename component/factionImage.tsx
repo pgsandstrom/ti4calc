@@ -1,13 +1,13 @@
 // import Image from 'next/image'
-import { useLayoutEffect, useState } from 'react'
+import { useLayoutEffect, useState } from "react"
 
-import { Faction } from '@/core/factions/faction'
+import { Faction } from "@/core/factions/faction"
 
-import styles from '@/component/factionImage.module.scss'
+import styles from "@/component/factionImage.module.scss"
 
 interface Props {
   faction: Faction
-  side: 'left' | 'right'
+  side: "left" | "right"
   style?: React.CSSProperties
 }
 
@@ -23,8 +23,8 @@ export default function FactionImage(props: Props) {
     // oxlint-disable-next-line react/set-state-in-effect
     setUrl(
       `/factions/small/${props.faction
-        .replaceAll(' ', '_')
-        .replaceAll("'", '')
+        .replaceAll(" ", "_")
+        .replaceAll("'", "")
         .toLowerCase()}.webp`,
     )
   }, [props.faction])
@@ -44,8 +44,8 @@ export default function FactionImage(props: Props) {
         alt=""
         width={640}
         height={828}
-        className={props.side === 'left' ? styles.left : styles.right}
-        style={{ float: props.side === 'left' ? 'right' : 'left' }}
+        className={props.side === "left" ? styles.left : styles.right}
+        style={{ float: props.side === "left" ? "right" : "left" }}
       />
     </div>
   )

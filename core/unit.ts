@@ -1,22 +1,22 @@
-import _cloneDeep from 'lodash/cloneDeep'
+import _cloneDeep from "lodash/cloneDeep"
 
-import { OnHitEffect, ParticipantInstance, Place } from '@/core/battle-types'
-import { BattleAura, BattleEffect } from '@/core/battleeffect/battleEffects'
-import { logWrapper } from '@/util/util-log'
+import { OnHitEffect, ParticipantInstance, Place } from "@/core/battle-types"
+import { BattleAura, BattleEffect } from "@/core/battleeffect/battleEffects"
+import { logWrapper } from "@/util/util-log"
 
 export const UnitType = {
-  cruiser: 'cruiser',
-  carrier: 'carrier',
-  destroyer: 'destroyer',
-  dreadnought: 'dreadnought',
-  fighter: 'fighter',
-  flagship: 'flagship',
-  infantry: 'infantry',
-  mech: 'mech',
-  pds: 'pds',
-  warsun: 'warsun',
-  other: 'other', // Used by for example experimental battle station and titans hero
-  nonunit: 'nonunit', // Used when an ability is used without being tied to a unit, for example Metali Void Armaments.
+  cruiser: "cruiser",
+  carrier: "carrier",
+  destroyer: "destroyer",
+  dreadnought: "dreadnought",
+  fighter: "fighter",
+  flagship: "flagship",
+  infantry: "infantry",
+  mech: "mech",
+  pds: "pds",
+  warsun: "warsun",
+  other: "other", // Used by for example experimental battle station and titans hero
+  nonunit: "nonunit", // Used when an ability is used without being tied to a unit, for example Metali Void Armaments.
 } as const
 
 export type UnitType = (typeof UnitType)[keyof typeof UnitType]
@@ -279,9 +279,9 @@ const warsun: Readonly<Unit> = {
 
   battleEffects: [
     {
-      name: 'warsun remove planetary shield',
-      type: 'other',
-      place: 'ground',
+      name: "warsun remove planetary shield",
+      type: "other",
+      place: "ground",
       transformEnemyUnit: (u: UnitInstance) => {
         return {
           ...u,
@@ -329,9 +329,9 @@ export const UNIT_MAP: Record<UnitType, Readonly<Unit>> = {
 
 export function getUnitWithImproved(
   unit: UnitInstance,
-  rollType: 'combat' | 'bombardment' | 'spaceCannon' | 'afb',
-  how: 'hit' | 'count' | 'reroll',
-  duration: 'permanent' | 'temp',
+  rollType: "combat" | "bombardment" | "spaceCannon" | "afb",
+  how: "hit" | "count" | "reroll",
+  duration: "permanent" | "temp",
   value = 1,
 ): UnitInstance {
   if (unit[rollType] === undefined) {
@@ -339,12 +339,12 @@ export function getUnitWithImproved(
     return unit
   }
   const bonus:
-    | 'hitBonus'
-    | 'hitBonusTmp'
-    | 'countBonus'
-    | 'countBonusTmp'
-    | 'rerollBonus'
-    | 'rerollBonusTmp' = `${how}Bonus${duration === 'temp' ? 'Tmp' : ''}` as const
+    | "hitBonus"
+    | "hitBonusTmp"
+    | "countBonus"
+    | "countBonusTmp"
+    | "rerollBonus"
+    | "rerollBonusTmp" = `${how}Bonus${duration === "temp" ? "Tmp" : ""}` as const
 
   return {
     ...unit,

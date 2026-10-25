@@ -10,46 +10,46 @@ import {
   UnitAuraGroupEffect,
   UnitBattleEffect,
   UnitEffect,
-} from '@/core/battle-types'
-import { Place } from '@/core/battle-types'
-import { getActioncards } from '@/core/battleeffect/actioncard'
-import { getAgendas } from '@/core/battleeffect/agenda'
-import { getRelics } from '@/core/battleeffect/relic'
-import { getTechBattleEffects } from '@/core/battleeffect/tech'
-import { Faction } from '@/core/factions/faction'
+} from "@/core/battle-types"
+import { Place } from "@/core/battle-types"
+import { getActioncards } from "@/core/battleeffect/actioncard"
+import { getAgendas } from "@/core/battleeffect/agenda"
+import { getRelics } from "@/core/battleeffect/relic"
+import { getTechBattleEffects } from "@/core/battleeffect/tech"
+import { Faction } from "@/core/factions/faction"
 import {
   getAgent,
   getCommanders,
   getFactionStuffNonUnit,
   getGeneralEffectFromFactions,
   getPromissary,
-} from '@/core/factions/faction'
-import { UnitInstance, UnitType } from '@/core/unit'
+} from "@/core/factions/faction"
+import { UnitInstance, UnitType } from "@/core/unit"
 
 export type BattleEffect = NormalBattleEffect | FactionBattleEffect
 
 export interface NormalBattleEffect extends SharedStuffBattleEffect {
   type:
-    | 'general'
-    | 'promissary'
-    | 'commander'
-    | 'agent'
-    | 'tech'
-    | 'agenda'
-    | 'action-card'
-    | 'relic'
-    | 'unit-upgrade'
-    | 'other'
+    | "general"
+    | "promissary"
+    | "commander"
+    | "agent"
+    | "tech"
+    | "agenda"
+    | "action-card"
+    | "relic"
+    | "unit-upgrade"
+    | "other"
     // 'faction' is faction-stuff that is automatically used
-    | 'faction'
+    | "faction"
   faction?: undefined
 }
 
 export interface FactionBattleEffect extends SharedStuffBattleEffect {
   type: // faction-tech is tech (can be stolen by nekro)
-    | 'faction-tech'
+    | "faction-tech"
     // faction-ability is something faction-specific that is not automatically used (munitions reserves for example)
-    | 'faction-ability'
+    | "faction-ability"
   faction: Faction
 }
 
@@ -57,7 +57,7 @@ interface SharedStuffBattleEffect {
   name: string
   description?: string
   side?: Side
-  place: Place | 'both'
+  place: Place | "both"
   // "unit" signals where it should be placed in the ui. 'faction-tech' will replace 'unit-upgrade' in the ui
   unit?: UnitType
 
@@ -99,7 +99,7 @@ interface SharedStuffBattleEffect {
 
 export interface BattleAura {
   name: string
-  place: Place | 'both'
+  place: Place | "both"
   transformUnit?: UnitAuraEffect
   transformEnemyUnit?: UnitAuraEffect
 
@@ -113,11 +113,11 @@ export interface BattleAura {
 //A symmetrical effect that disables every text ability on units: AFB, bombard, space cannon, sustain, and planetary shield. Deploy needs to be done manually
 //TODO: Write tests
 export const entropicScar: BattleEffect = {
-  name: 'Entropic Scar',
+  name: "Entropic Scar",
   description:
-    'All unit abilities (AFB, Bombardment, Space Cannon, Planetary Shield, Sustain Damage, Deploy) cannot be used by or against units inside of an entropic scar. Text abilities are unaffected.',
-  type: 'general',
-  place: 'both',
+    "All unit abilities (AFB, Bombardment, Space Cannon, Planetary Shield, Sustain Damage, Deploy) cannot be used by or against units inside of an entropic scar. Text abilities are unaffected.",
+  type: "general",
+  place: "both",
   symmetrical: true,
   priority: EFFECT_LOW_PRIORITY,
   transformUnit: (unit: UnitInstance) => {
@@ -133,12 +133,12 @@ export const entropicScar: BattleEffect = {
 }
 
 export const defendingInNebula: BattleEffect = {
-  name: 'Defending in nebula',
+  name: "Defending in nebula",
   description:
-    'If a space combat occurs in a nebula, the defender applies +1 to each combat roll of their ships during that combat.',
-  type: 'general',
-  side: 'defender',
-  place: 'space',
+    "If a space combat occurs in a nebula, the defender applies +1 to each combat roll of their ships during that combat.",
+  type: "general",
+  side: "defender",
+  place: "space",
   transformUnit: (unit: UnitInstance) => {
     if (unit.combat) {
       return {
@@ -191,13 +191,13 @@ export function isBattleEffectRelevant(effect: BattleEffect, participant: Partic
   if (effect.side !== undefined && effect.side !== participant.side) {
     return false
   }
-  if (effect.type === 'faction' || effect.type === 'faction-ability') {
+  if (effect.type === "faction" || effect.type === "faction-ability") {
     if (participant.faction !== effect.faction) {
       return false
     }
   }
-  if (effect.type === 'faction-tech') {
-    if (participant.faction !== effect.faction && participant.faction !== 'Nekro') {
+  if (effect.type === "faction-tech") {
+    if (participant.faction !== effect.faction && participant.faction !== "Nekro") {
       return false
     }
   }

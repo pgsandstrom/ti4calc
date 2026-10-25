@@ -1,5 +1,5 @@
-import { ParticipantInstance } from '@/core/battle-types'
-import { UnitInstance, UnitType } from '@/core/unit'
+import { ParticipantInstance } from "@/core/battle-types"
+import { UnitInstance, UnitType } from "@/core/unit"
 
 export function getBattleResultUnitString(p: ParticipantInstance) {
   return p.units
@@ -20,34 +20,34 @@ export function getBattleResultUnitString(p: ParticipantInstance) {
         return getChar(u)
       }
     })
-    .join('')
+    .join("")
 }
 
 function getChar(u: UnitInstance): string {
   switch (u.type) {
     case UnitType.flagship:
-      return 'F'
+      return "F"
     case UnitType.warsun:
-      return 'W'
+      return "W"
     case UnitType.dreadnought:
-      return 'D'
+      return "D"
     case UnitType.carrier:
-      return 'C'
+      return "C"
     case UnitType.cruiser:
-      return 'c'
+      return "c"
     case UnitType.destroyer:
-      return 'd'
+      return "d"
     case UnitType.fighter:
-      return 'f'
+      return "f"
     case UnitType.mech:
-      return 'M'
+      return "M"
     case UnitType.infantry:
-      return 'i'
+      return "i"
     case UnitType.pds:
-      return 'p'
+      return "p"
     case UnitType.other:
-      return 'o' // should never happen
+      return "o" // should never happen
     case UnitType.nonunit:
-      return 'n' // should never happen
+      return "n" // should never happen
   }
 }

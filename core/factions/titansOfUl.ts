@@ -1,12 +1,12 @@
-import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from '@/core/battle-types'
-import { BattleEffect } from '@/core/battleeffect/battleEffects'
-import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from '@/core/unit'
+import { BattleInstance, EFFECT_HIGH_PRIORITY, ParticipantInstance } from "@/core/battle-types"
+import { BattleEffect } from "@/core/battleeffect/battleEffects"
+import { createUnitAndApplyEffects, defaultRoll, UnitInstance, UnitType } from "@/core/unit"
 
 export const titansOfUl: BattleEffect[] = [
   {
-    type: 'faction',
-    name: 'Titans of Ul flagship',
-    place: 'space',
+    type: "faction",
+    name: "Titans of Ul flagship",
+    place: "space",
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.flagship) {
         return {
@@ -24,9 +24,9 @@ export const titansOfUl: BattleEffect[] = [
   },
   // TODO add some tests...
   {
-    type: 'faction',
-    name: 'Titans of Ul pds',
-    place: 'both',
+    type: "faction",
+    name: "Titans of Ul pds",
+    place: "both",
     priority: EFFECT_HIGH_PRIORITY,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.pds) {
@@ -47,10 +47,10 @@ export const titansOfUl: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Titans of Ul pds upgrade',
-    place: 'both',
-    faction: 'Titans of Ul',
+    type: "faction-tech",
+    name: "Titans of Ul pds upgrade",
+    place: "both",
+    faction: "Titans of Ul",
     unit: UnitType.pds,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.pds) {
@@ -75,10 +75,10 @@ export const titansOfUl: BattleEffect[] = [
     },
   },
   {
-    type: 'faction-tech',
-    name: 'Titans of Ul cruiser upgrade',
-    place: 'space',
-    faction: 'Titans of Ul',
+    type: "faction-tech",
+    name: "Titans of Ul cruiser upgrade",
+    place: "space",
+    faction: "Titans of Ul",
     unit: UnitType.cruiser,
     transformUnit: (unit: UnitInstance) => {
       if (unit.type === UnitType.cruiser) {
@@ -97,21 +97,21 @@ export const titansOfUl: BattleEffect[] = [
     },
   },
   {
-    type: 'agent',
+    type: "agent",
     description:
-      'When a hit is produced against a unit: You may exhaust this card to cancel that hit.',
-    name: 'Titans agent',
-    place: 'both',
+      "When a hit is produced against a unit: You may exhaust this card to cancel that hit.",
+    name: "Titans agent",
+    place: "both",
     beforeStart: (p: ParticipantInstance) => {
       p.soakHits += 1
     },
   },
   {
-    type: 'general',
+    type: "general",
     description:
-      'The Titans hero gives their home system planet SPACE CANNON 5 (x3) ability as if it were a unit.',
-    name: 'Titans hero',
-    place: 'both',
+      "The Titans hero gives their home system planet SPACE CANNON 5 (x3) ability as if it were a unit.",
+    name: "Titans hero",
+    place: "both",
     beforeStart: (p: ParticipantInstance, battle: BattleInstance) => {
       const modify = (instance: UnitInstance) => {
         instance.spaceCannon = {
