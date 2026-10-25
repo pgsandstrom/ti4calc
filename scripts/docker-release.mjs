@@ -16,7 +16,7 @@ if (dirty) {
 
 console.log(`Releasing git_hash: ${gitHash}`)
 
-execSync('docker compose up -d --build', {
-  stdio: 'inherit',
-  env: { ...process.env, GIT_HASH: gitHash },
-})
+// --pull so the node base image is fetched fresh instead of reusing a cached, possibly unpatched one
+const options = { stdio: 'inherit', env: { ...process.env, GIT_HASH: gitHash } }
+execSync('docker compose build --pull', options)
+execSync('docker compose up -d', options)

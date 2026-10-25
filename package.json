@@ -1,11 +1,10 @@
 {
   "name": "ti4-calc",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": false,
-  "packageManager": "pnpm@12.3.4",
+  "packageManager": "pnpm@12.15.0",
   "engines": {
-    "node": ">=20",
-    "pnpm": ">=12"
+    "node": ">=24.22.1"
   },
   "scripts": {
     "build": "next build",
