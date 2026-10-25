@@ -20,6 +20,4 @@ services:
       - db18:/var/lib/postgresql
       - ./db/:/docker-entrypoint-initdb.d/
 volumes:
-  # The Postgres 16 data, no longer mounted. Kept as the rollback until 18 has proven itself.
-  db:
   db18:
