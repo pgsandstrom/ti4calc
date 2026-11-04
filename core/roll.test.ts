@@ -1,6 +1,7 @@
 import { describe, it } from "node:test"
 
-import _, { cloneDeep } from "lodash"
+import _cloneDeep from "lodash/cloneDeep"
+import _times from "lodash/times"
 
 import { getHits } from "@/core/roll"
 import { defaultRoll, Roll } from "@/core/unit"
@@ -18,7 +19,7 @@ describe("battle", () => {
       rerollBonus: 0,
     }
     let hits = 0
-    _.times(10000, () => {
+    _times(10000, () => {
       const result = getHits(roll)
       hits += result.hits
     })
@@ -36,7 +37,7 @@ describe("battle", () => {
       rerollBonus: 0,
     }
     let hits = 0
-    _.times(10000, () => {
+    _times(10000, () => {
       const result = getHits(roll)
       hits += result.hits
     })
@@ -50,16 +51,16 @@ describe("battle", () => {
       hitBonusTmp: 1,
     }
     let hits = 0
-    const rollUsingUpTemporary = cloneDeep(originalRoll)
-    _.times(10000, () => {
+    const rollUsingUpTemporary = _cloneDeep(originalRoll)
+    _times(10000, () => {
       const result = getHits(rollUsingUpTemporary)
       hits += result.hits
     })
     checkResult(hits, 5000)
 
     hits = 0
-    _.times(10000, () => {
-      const rollKeepingTemporary = cloneDeep(originalRoll)
+    _times(10000, () => {
+      const rollKeepingTemporary = _cloneDeep(originalRoll)
       const result = getHits(rollKeepingTemporary)
       hits += result.hits
     })
@@ -77,7 +78,7 @@ describe("battle", () => {
       rerollBonus: 0,
     }
     let hits = 0
-    _.times(10000, () => {
+    _times(10000, () => {
       const result = getHits(roll)
       hits += result.hits
     })
@@ -95,7 +96,7 @@ describe("battle", () => {
       rerollBonus: 0,
     }
     let hits = 0
-    _.times(10000, () => {
+    _times(10000, () => {
       const result = getHits(roll)
       hits += result.hits
     })
@@ -113,7 +114,7 @@ describe("battle", () => {
       rerollBonus: 0,
     }
     let hits = 0
-    _.times(10000, () => {
+    _times(10000, () => {
       const result = getHits(roll)
       hits += result.hits
     })
@@ -131,7 +132,7 @@ describe("battle", () => {
       rerollBonus: 1,
     }
     let hits = 0
-    _.times(10000, () => {
+    _times(10000, () => {
       const result = getHits(roll)
       hits += result.hits
     })

@@ -2,6 +2,7 @@
   "name": "ti4-calc",
   "version": "1.0.0",
   "private": false,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
