@@ -27,7 +27,7 @@ describe("Obsidian", () => {
     ])
   })
 
-  it("Obsidian Agent should destroy an additional ship of the same type", () => {
+  it("Obsidian Agent should force opponent to destroy a ship of the same type when own ship dies", () => {
     const attacker = getTestParticipant(
       "attacker",
       {
@@ -44,20 +44,19 @@ describe("Obsidian", () => {
     })
 
     // Without agent this would be ~46.5% each side (symmetric)
-    // With agent, when attacker kills a destroyer, another defender destroyer dies
-    // This gives attacker a significant advantage
+    // With agent, when an attacker destroyer dies, a defender destroyer is also destroyed
     testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
-      { side: "attacker", percentage: 0.68 },
-      { side: "draw", percentage: 0.076 },
-      { side: "defender", percentage: 0.244 },
+      { side: "attacker", percentage: 0.74 },
+      { side: "draw", percentage: 0.063 },
+      { side: "defender", percentage: 0.197 },
     ])
   })
 
-  it("Obsidian Agent should try other dead ship types if first has no match", () => {
+  it("Obsidian Agent should only be used once per battle", () => {
     const attacker = getTestParticipant(
       "attacker",
       {
-        dreadnought: 2,
+        destroyer: 3,
       },
       "Obsidian",
       {
@@ -65,19 +64,43 @@ describe("Obsidian", () => {
       },
     )
 
-    // Defender has 1 destroyer and 2 cruisers
-    // If dreadnoughts kill the destroyer first round but there's no other destroyer,
-    // agent should find and destroy a cruiser instead if a cruiser also died
     const defender = getTestParticipant("defender", {
-      destroyer: 1,
-      cruiser: 2,
+      destroyer: 3,
     })
 
+    // If the agent could be used more than once, the attacker would win almost every battle
     testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
-      { side: "attacker", percentage: 0.905 },
-      { side: "draw", percentage: 0.055 },
-      { side: "defender", percentage: 0.04 },
+      { side: "attacker", percentage: 0.72 },
+      { side: "draw", percentage: 0.028 },
+      { side: "defender", percentage: 0.252 },
     ])
+  })
+
+  it("Obsidian Agent should not trigger when opponent ships are destroyed", () => {
+    // Defender has no ships matching the attacker's dreadnoughts, so the agent can never be used.
+    // Result should be identical to a battle without the agent.
+    const units = { dreadnought: 2 }
+    const defenderUnits = { destroyer: 1, cruiser: 2 }
+    const expected = [
+      { side: "attacker", percentage: 0.845 },
+      { side: "draw", percentage: 0.047 },
+      { side: "defender", percentage: 0.108 },
+    ] as const
+
+    testBattleReport(
+      getTestParticipant("attacker", units, "Obsidian", { "Obsidian Agent": 1 }),
+      getTestParticipant("defender", defenderUnits),
+      "space",
+      TEST_NUMBER_OF_ROLLS,
+      [...expected],
+    )
+    testBattleReport(
+      getTestParticipant("attacker", units, "Obsidian"),
+      getTestParticipant("defender", defenderUnits),
+      "space",
+      TEST_NUMBER_OF_ROLLS,
+      [...expected],
+    )
   })
 
   it("Obsidian Agent should not trigger in ground combat", () => {

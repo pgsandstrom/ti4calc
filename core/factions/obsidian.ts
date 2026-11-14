@@ -2,6 +2,7 @@ import { destroyUnit } from "@/core/battle"
 import { BattleInstance, ParticipantInstance } from "@/core/battle-types"
 import { BattleEffect, registerUse } from "@/core/battleeffect/battleEffects"
 import { defaultRoll, UnitInstance, UnitType } from "@/core/unit"
+import { getUnits } from "@/core/unitGet"
 import { logWrapper } from "@/util/util-log"
 
 export const obsidian: BattleEffect[] = [
@@ -28,39 +29,36 @@ export const obsidian: BattleEffect[] = [
     type: "agent",
     name: "Obsidian Agent",
     description:
-      "When 1 of your opponent's ships is destroyed during combat, you may exhaust this card to force that opponent to destroy 1 ship of the same type in the active system, if able.",
+      "When a player's ship is destroyed during any combat: You may exhaust this card; if you do, that player's opponent must destroy 1 of their ships of the same type in the active system.",
     place: "space",
     timesPerFight: 1,
     onDeath: (
       deadUnits: UnitInstance[],
-      _participant: ParticipantInstance,
+      participant: ParticipantInstance,
       otherParticipant: ParticipantInstance,
       battle: BattleInstance,
       isOwnUnit: boolean,
       effectName: string,
     ) => {
-      // Only trigger when enemy ships are destroyed (not own units)
-      if (isOwnUnit) {
-        return
-      }
-      if (battle.place !== "space") {
+      if (!isOwnUnit) {
         return
       }
 
-      // Try each dead ship type until we find one with a matching ship in the enemy fleet
-      for (const deadShip of deadUnits) {
-        if (!deadShip.isShip) {
-          continue
-        }
+      // Try the most valuable dead ship type first
+      const deadShips = deadUnits
+        .filter((u) => u.isShip)
+        .toSorted((a, b) => (a.diePriority ?? 0) - (b.diePriority ?? 0))
 
-        // Find another ship of the same type in the enemy fleet
-        const matchingShip = otherParticipant.units.find(
-          (u) => u.type === deadShip.type && !u.isDestroyed,
+      for (const deadShip of deadShips) {
+        // The opponent chooses which ship to destroy, so they will pick a damaged one if possible
+        const matchingShips = getUnits(otherParticipant, "space", true).filter(
+          (u) => u.type === deadShip.type,
         )
+        const matchingShip = matchingShips.find((u) => u.takenDamage) ?? matchingShips.at(0)
         if (matchingShip) {
+          registerUse(effectName, participant)
+          logWrapper(`Obsidian Agent forces opponent to destroy a ${matchingShip.type}`)
           destroyUnit(battle, matchingShip)
-          logWrapper(`Obsidian Agent forces opponent to destroy an additional ${matchingShip.type}`)
-          registerUse(effectName, otherParticipant)
           break
         }
       }
