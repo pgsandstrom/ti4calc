@@ -79,6 +79,32 @@ describe("Ral Nel Consortium", () => {
       ])
     })
 
+    // due to https://github.com/pgsandstrom/ti4calc/issues/47
+    it("Plasma Scoring gives a PDS in space used by a destroyer an extra die", () => {
+      const attacker = getTestParticipant(
+        "attacker",
+        {
+          destroyer: 1,
+        },
+        "Ral Nel Consortium",
+        {
+          "Ral Nel PDS in space": 1,
+          "Plasma Scoring": 1,
+        },
+      )
+
+      const defender = getTestParticipant("defender", {
+        destroyer: 1,
+      })
+
+      // 2 PDS shots at 6+ (75% to hit at least once) before combat, then destroyer (9+) vs destroyer (9+)
+      testBattleReport(attacker, defender, "space", TEST_NUMBER_OF_ROLLS, [
+        { side: "attacker", percentage: 0.861 },
+        { side: "draw", percentage: 0.028 },
+        { side: "defender", percentage: 0.111 },
+      ])
+    })
+
     it("a PDS in space does not fire without a destroyer to use it", () => {
       const attacker = getTestParticipant(
         "attacker",

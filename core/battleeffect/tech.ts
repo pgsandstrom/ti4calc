@@ -24,16 +24,18 @@ export const plasmaScoring: BattleEffect = {
     "When 1 or more of your units use BOMBARDMENT or SPACE CANNON, 1 of those units may roll 1 additional die.",
   type: "tech",
   place: "both",
-  beforeStart: (participant: ParticipantInstance) => {
-    // TODO doing this on beforeStart might not be correct... maybe this unit is destroyed by some other effect before the relevant step.
-    // It would be more correct to do it at the appropriate time. Like onBombard and onSpaceCannon
+  // Applied when the abilities are actually used (rather than in beforeStart), so units that only
+  // appear during beforeStart (such as Ral Nel structures used by destroyers) are included.
+  onBombardment: (participant: ParticipantInstance) => {
     const bestBomber = getHighestHitUnit(participant, "bombardment", undefined)
     if (bestBomber?.bombardment) {
-      bestBomber.bombardment.countBonus += 1
+      bestBomber.bombardment.countBonusTmp += 1
     }
+  },
+  onSpaceCannon: (participant: ParticipantInstance) => {
     const bestSpacecannon = getHighestHitUnit(participant, "spaceCannon", undefined)
     if (bestSpacecannon?.spaceCannon) {
-      bestSpacecannon.spaceCannon.countBonus += 1
+      bestSpacecannon.spaceCannon.countBonusTmp += 1
     }
   },
 }
